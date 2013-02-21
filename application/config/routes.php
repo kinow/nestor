@@ -38,9 +38,12 @@
 |
 */
 
+$route['projects'] = 'projects/index';
+$route['manage'] = 'manage/index';
+$route['configure'] = 'configure/index';
+$route['themeManager'] = 'themeManager/index';
 $route['default_controller'] = "welcome";
 $route['404_override'] = '';
-
 
 /* End of file routes.php */
 /* Location: ./application/config/routes.php */

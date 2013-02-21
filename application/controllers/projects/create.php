@@ -4,7 +4,7 @@ class Create extends CI_Controller {
 
 	public function __construct() {
 		parent::__construct();
-		$this->model->load('projects');
+		$this->load->model('projects');
 	}
 	
 	public function index() {

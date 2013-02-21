@@ -19,4 +19,41 @@ if (!function_exists('bootstrap_messages'))
 	}
 }
 
+if (!function_exists('bootstrap_menus')) {
+	function bootstrap_menus($active = 'home') {
+		$items = array(
+			'home' => anchor('/', 'Home'),
+			'projects' => anchor('/projects/', 'Projects'),
+			'manage' => anchor('/manage/', 'Manage Nestor')
+		);
+		$menuitems = '';
+		foreach ($items as $key => $item) {
+			if (strcmp($active, $key) == 0)
+				$menuitems .= '<li class="active">'.$item.'</li>';
+			else
+				$menuitems .= '<li>'.$item.'</li>';
+		} 
+		$menu = <<<EOM
+<div class="navbar navbar-fixed-top">
+	<div class="navbar-inner">
+		<div class="container">
+			<a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+			<span class="icon-bar"></span>
+			<span class="icon-bar"></span>
+			<span class="icon-bar"></span>
+			</a>
+			<span class="brand">Nestor QA</span>
+			<div class="nav-collapse">
+				<ul class="nav">
+					$menuitems
+			    </ul>
+			</div><!--/.nav-collapse -->
+		</div>
+	</div>
+</div>
+EOM;
+		echo $menu;
+	}
+}
+
 ?>
