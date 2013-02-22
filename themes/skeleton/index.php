@@ -8,9 +8,9 @@
 	<!-- Basic Page Needs
   ================================================== -->
 	<meta charset="utf-8">
-	<title><?php echo $this->get('page_title', 'Codeigniter Theme default title');?></title>
-	<meta name="description" content="">
-	<meta name="author" content="">
+	<title><?php echo $this->get('page_title', 'Nestor QA');?></title>
+	<meta name="description" content="Nestor QA - Test Management">
+    <meta name="author" content="Nestor QA">
 
 	<!-- Mobile Specific Metas
   ================================================== -->
