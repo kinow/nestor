@@ -20,6 +20,7 @@
     <!-- Le jQuery and bootstrap JS -->
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.js"></script>
     <script src="js/bootstrap.min.js"></script>
+    <script src="js/bootstrap-alert.js"></script>
 
     <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
     <!--[if lt IE 9]>
@@ -37,7 +38,7 @@
       <div class="row">
       	<div class="span12">
       	  <?php //display messages ?>
-		  <?php bootstrap_messages( $this->messages(FALSE) ); ?>
+		  <?php bootstrap_messages( array_merge($this->messages(FALSE)) ); ?>
 
 		  <?php //display content (the view) ?>
       	  <?php echo $this->content(); ?>

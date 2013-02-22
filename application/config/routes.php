@@ -38,7 +38,7 @@
 |
 */
 
-$route['projects'] = 'projects/index';
+$route['projects'] = 'projects/all';
 $route['manage'] = 'manage/index';
 $route['configure'] = 'configure/index';
 $route['themeManager'] = 'themeManager/index';

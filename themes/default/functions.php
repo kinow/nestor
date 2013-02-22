@@ -12,7 +12,7 @@ if (!function_exists('bootstrap_messages'))
 	{
 		foreach($messages as $message)
 		{
-			echo '<div class="alert alert-' .$message['type'] . '">';
+			echo '<div class="alert alert-block alert-' .$message['type'] . ' fade in" data-dismiss="alert"><button type="button" class="close" data-dismiss="alert">×</button>';
 			echo htmlspecialchars($message['message']);
 			echo '</div>';
 		}

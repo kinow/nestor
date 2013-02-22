@@ -1,6 +1,6 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-class Create extends CI_Controller {
+class Create extends MY_Controller {
 
 	public function __construct() {
 		parent::__construct();
@@ -8,14 +8,18 @@ class Create extends CI_Controller {
 	}
 	
 	public function index() {
+		$this->theme->set('active', 'projects');
 		$this->form_validation->set_rules('name', 'Name', 'required');
+		$this->form_validation->set_rules('description', 'Description', 'required');
 		if ($this->form_validation->run()) {
-			$name = $this->form_validation->set_value('name');
 			$project = new stdClass();
-			$project->name = $name;
+			$project->name = $this->form_validation->set_value('name');
+			$project->description = $this->form_validation->set_value('description');
 			$this->projects->create($project);
+			$this->add_flashdata_message('Project created successfully.', 'success');
+			redirect('/projects/');
 		} else {
-			$this->load->view('projects/create');
+			$this->theme->view('projects/create');
 		}
 	}
 }
