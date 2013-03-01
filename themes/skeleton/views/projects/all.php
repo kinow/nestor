@@ -1,19 +1,20 @@
-<div class='page-header'>
+<div>
 	<h1>Projects</h1>
 </div>
 
 <div class='row'>
-	<div class='span2'>
-		<ul class="nav nav-tabs nav-stacked">
+	<div class='two columns'>
+		<br/>
+		<ul>
 			<li>
 				<?php echo anchor('/projects/create', 'New Project') ?>
 			</li>
 		</ul>
 	</div>
-	<div class='span10'>
+	<div class='ten columns'>
 		<div id="projects">
 			<?php echo $pagination->create_links(); ?>
-			<table class='table table-bordered table-hover'>
+			<table>
 				<thead>
 					<tr>
 						<th>ID</th>
