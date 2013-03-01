@@ -283,7 +283,7 @@ class Theme
 
                 if(!file_exists($theme))
                 {
-                    show_error('Make sure you configurate your theme <small>(did you copy the <u>themes</u> folder to your root?)</small><br><br>Requested Theme: '.$theme_requested.' not found.<br />Default Theme: '.$theme.' not found.');
+                    show_error('Make sure you configured your theme <small>(did you copy the <u>themes</u> folder to your root?)</small><br><br>Requested Theme: '.$theme_requested.' not found.<br />Default Theme: '.$theme.' not found.');
                 }
                 else
                 {

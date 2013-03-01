@@ -12,7 +12,7 @@
 	</div>
 	<div class='span10'>
 		<div id="projects">
-			<?php echo $this->pagination->create_links(); ?>
+			<?php echo $pagination->create_links(); ?>
 			<table class='table table-bordered table-hover'>
 				<thead>
 					<tr>
@@ -33,7 +33,7 @@
 				</tbody>
 				<?php endif; ?>
 			</table>
-			<?php echo $this->pagination->create_links(); ?>
+			<?php echo $pagination->create_links(); ?>
 		</div>
 	</div>
 </div>

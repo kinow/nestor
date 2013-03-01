@@ -58,6 +58,7 @@ class All extends MY_Controller {
 		
 		$this->theme->set('active', 'projects');
 		$this->theme->set('projects', $projects);
+		$this->theme->set('pagination', $this->pagination);
 		$this->theme->view('projects/all');
 	}
 }
