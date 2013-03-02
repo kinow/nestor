@@ -48,6 +48,9 @@ if (!function_exists('bootstrap_menus')) {
 					$menuitems
 			    </ul>
 			</div><!--/.nav-collapse -->
+			<div class='text-right'>
+				<select></select>				
+			</div>
 		</div>
 	</div>
 </div>

@@ -4,6 +4,7 @@
 
 <div class='row'>
 	<div class='span2'>
+		<br />
 		<ul class="nav nav-tabs nav-stacked">
 			<li>
 				<?php echo anchor('/projects/create', 'New Project') ?>
@@ -16,7 +17,6 @@
 			<table class='table table-bordered table-hover'>
 				<thead>
 					<tr>
-						<th>ID</th>
 						<th>Name</th>
 						<th>Description</th>
 					</tr>
@@ -25,8 +25,7 @@
 				<tbody>
 				<?php foreach ($projects as $project): ?>
 					<tr>
-						<td><?php echo $project->id ?></td>
-						<td><?php echo $project->name ?></td>
+						<td><?php echo anchor('projects/' . $project->id, $project->name); ?></td>
 						<td><?php echo $project->description ?></td>
 					</tr>
 				<?php endforeach; ?>

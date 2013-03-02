@@ -38,6 +38,7 @@
 |
 */
 
+$route['projects/(:num)'] = 'projects/view/index/$1';
 $route['projects'] = 'projects/all';
 $route['manage'] = 'manage/index';
 $route['configure'] = 'configure/index';
