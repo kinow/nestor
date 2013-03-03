@@ -30,7 +30,7 @@
   </head>
 
   <body>
-  	<?php bootstrap_menus( isset($active) ? $active : 'home' ); ?>
+  	<?php bootstrap_menus( isset($active) ? $active : 'home', $projects ); ?>
   
     <div class="container">
 

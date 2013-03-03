@@ -20,7 +20,7 @@ if (!function_exists('bootstrap_messages'))
 }
 
 if (!function_exists('bootstrap_menus')) {
-	function bootstrap_menus($active = 'home') {
+	function bootstrap_menus($active = 'home', $projects = array()) {
 		$items = array(
 			'home' => anchor('/', 'Home'),
 			'projects' => anchor('/projects/', 'Projects'),
@@ -32,7 +32,11 @@ if (!function_exists('bootstrap_menus')) {
 				$menuitems .= '<li class="active">'.$item.'</li>';
 			else
 				$menuitems .= '<li>'.$item.'</li>';
-		} 
+		}
+		$projectitems = '';
+		foreach ($projects as $project) {
+			$projectitems .= "<option value='$project->id'>$project->name</option>";
+		}
 		$menu = <<<EOM
 <div class="navbar navbar-fixed-top">
 	<div class="navbar-inner">
@@ -48,8 +52,10 @@ if (!function_exists('bootstrap_menus')) {
 					$menuitems
 			    </ul>
 			</div><!--/.nav-collapse -->
-			<div class='text-right'>
-				<select></select>				
+			<div class='nav-collapse text-right'>
+				<select>
+					$projectitems
+				</select>
 			</div>
 		</div>
 	</div>

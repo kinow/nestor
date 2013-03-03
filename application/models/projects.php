@@ -2,7 +2,8 @@
 class Projects extends CI_Model {
 	
 	public function all($left_limit = 0, $right_limit = 0) {
-		$this->db->limit($left_limit, $right_limit);
+		if ($left_limit > 0)
+			$this->db->limit($left_limit, $right_limit);
 		return $this->db->get('projects')->result();
 	}
 	
