@@ -37,6 +37,8 @@ CREATE TABLE IF NOT EXISTS `projects`(
 /* -- constraints -- */
 ALTER TABLE `projects` ADD CONSTRAINT `project_fk_project_status_id`
  FOREIGN KEY(`project_status_id`) REFERENCES `project_statuses`(`id`);
+ 
+ALTER TABLE `projects` ADD CONSTRAINT `project_name_is_unique` UNIQUE(`name`);
 
 /*
  * Test suites table.
