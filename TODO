@@ -1,0 +1,12 @@
+* Migrate to FuelPHP or Laravel (due to nested folders, better routing, rest resources and composer)
+* Add localization
+* Enable delete project feature
+* Requirement
+* Specification
+* Execution
+* Planning
+* Test tree (hierarchy structure)
+* Update database model
+* Add Travis-CI
+* Composer
+* Unit tests
