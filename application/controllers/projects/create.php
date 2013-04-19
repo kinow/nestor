@@ -8,6 +8,8 @@ class Create extends MY_Controller {
 	}
 	
 	public function index() {
+		$projects = $this->projects->all();
+		$this->theme->set('projects', $projects);
 		$this->theme->set('active', 'projects');
 		$this->form_validation->set_rules('name', 'Name', 'required');
 		$this->form_validation->set_rules('description', 'Description', 'required');
@@ -15,7 +17,12 @@ class Create extends MY_Controller {
 			$project = new stdClass();
 			$project->name = $this->form_validation->set_value('name');
 			$project->description = $this->form_validation->set_value('description');
-			$this->projects->create($project);
+			try {
+				$this->projects->create($project);
+			} catch(Exception $exception) {
+				$this->add_flashdata_message('Duplicated project name.', 'error');
+				redirect('/projects/');
+			}
 			$this->add_flashdata_message('Project created successfully.', 'success');
 			redirect('/projects/');
 		} else {
