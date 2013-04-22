@@ -65,7 +65,6 @@ if (!function_exists('bootstrap_menus')) {
 			<span class="icon-bar"></span>
 			<span class="icon-bar"></span>
 			</a>
-			<span class="brand">Nestor QA</span>
 			<div class="nav-collapse">
 				<ul class="nav">
 					$menuitems
