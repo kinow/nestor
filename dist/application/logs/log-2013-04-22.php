@@ -1,0 +1,79 @@
+<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed'); ?>
+
+ERROR - 2013-04-22 10:07:17 --> 404 Page Not Found --> css
+ERROR - 2013-04-22 10:07:17 --> 404 Page Not Found --> js
+ERROR - 2013-04-22 10:07:17 --> 404 Page Not Found --> css
+ERROR - 2013-04-22 10:07:17 --> 404 Page Not Found --> js
+ERROR - 2013-04-22 10:07:17 --> 404 Page Not Found --> js
+ERROR - 2013-04-22 10:07:19 --> 404 Page Not Found --> css
+ERROR - 2013-04-22 10:07:19 --> 404 Page Not Found --> css
+ERROR - 2013-04-22 10:07:19 --> 404 Page Not Found --> js
+ERROR - 2013-04-22 10:07:19 --> 404 Page Not Found --> js
+ERROR - 2013-04-22 10:07:19 --> 404 Page Not Found --> js
+ERROR - 2013-04-22 10:07:30 --> 404 Page Not Found --> js
+ERROR - 2013-04-22 10:07:30 --> 404 Page Not Found --> css
+ERROR - 2013-04-22 10:07:30 --> 404 Page Not Found --> js
+ERROR - 2013-04-22 10:07:30 --> 404 Page Not Found --> js
+ERROR - 2013-04-22 10:07:30 --> 404 Page Not Found --> css
+ERROR - 2013-04-22 10:07:41 --> 404 Page Not Found --> css
+ERROR - 2013-04-22 10:07:41 --> 404 Page Not Found --> css
+ERROR - 2013-04-22 10:07:41 --> 404 Page Not Found --> js
+ERROR - 2013-04-22 10:07:41 --> 404 Page Not Found --> js
+ERROR - 2013-04-22 10:07:41 --> 404 Page Not Found --> js
+ERROR - 2013-04-22 10:07:56 --> 404 Page Not Found --> css
+ERROR - 2013-04-22 10:07:56 --> 404 Page Not Found --> css
+ERROR - 2013-04-22 10:07:56 --> 404 Page Not Found --> js
+ERROR - 2013-04-22 10:07:56 --> 404 Page Not Found --> js
+ERROR - 2013-04-22 10:07:56 --> 404 Page Not Found --> js
+ERROR - 2013-04-22 10:07:57 --> 404 Page Not Found --> css
+ERROR - 2013-04-22 10:07:57 --> 404 Page Not Found --> css
+ERROR - 2013-04-22 10:07:57 --> 404 Page Not Found --> js
+ERROR - 2013-04-22 10:07:57 --> 404 Page Not Found --> js
+ERROR - 2013-04-22 10:07:57 --> 404 Page Not Found --> js
+ERROR - 2013-04-22 10:07:59 --> 404 Page Not Found --> css
+ERROR - 2013-04-22 10:07:59 --> 404 Page Not Found --> js
+ERROR - 2013-04-22 10:07:59 --> 404 Page Not Found --> css
+ERROR - 2013-04-22 10:07:59 --> 404 Page Not Found --> js
+ERROR - 2013-04-22 10:07:59 --> 404 Page Not Found --> js
+ERROR - 2013-04-22 10:08:00 --> 404 Page Not Found --> css
+ERROR - 2013-04-22 10:08:00 --> 404 Page Not Found --> js
+ERROR - 2013-04-22 10:08:00 --> 404 Page Not Found --> js
+ERROR - 2013-04-22 10:08:00 --> 404 Page Not Found --> js
+ERROR - 2013-04-22 10:08:00 --> 404 Page Not Found --> css
+ERROR - 2013-04-22 10:08:02 --> 404 Page Not Found --> js
+ERROR - 2013-04-22 10:08:02 --> 404 Page Not Found --> js
+ERROR - 2013-04-22 10:08:02 --> 404 Page Not Found --> css
+ERROR - 2013-04-22 10:08:02 --> 404 Page Not Found --> css
+ERROR - 2013-04-22 10:08:02 --> 404 Page Not Found --> js
+ERROR - 2013-04-22 10:08:22 --> 404 Page Not Found --> css
+ERROR - 2013-04-22 10:08:22 --> 404 Page Not Found --> js
+ERROR - 2013-04-22 10:08:43 --> 404 Page Not Found --> css
+ERROR - 2013-04-22 10:08:43 --> 404 Page Not Found --> css
+ERROR - 2013-04-22 10:08:43 --> 404 Page Not Found --> js
+ERROR - 2013-04-22 10:08:43 --> 404 Page Not Found --> js
+ERROR - 2013-04-22 10:08:43 --> 404 Page Not Found --> js
+ERROR - 2013-04-22 10:09:24 --> Severity: Notice  --> Undefined variable: config /home/kinow/php/workspace/nestor/application/helpers/nestor_helper.php 40
+ERROR - 2013-04-22 10:11:05 --> Severity: Notice  --> Undefined property: CI_Config::$item /home/kinow/php/workspace/nestor/application/helpers/nestor_helper.php 41
+ERROR - 2013-04-22 10:11:15 --> 404 Page Not Found --> css
+ERROR - 2013-04-22 10:11:15 --> 404 Page Not Found --> css
+ERROR - 2013-04-22 10:11:15 --> 404 Page Not Found --> js
+ERROR - 2013-04-22 10:11:15 --> 404 Page Not Found --> js
+ERROR - 2013-04-22 10:11:15 --> 404 Page Not Found --> js
+ERROR - 2013-04-22 10:11:16 --> 404 Page Not Found --> css
+ERROR - 2013-04-22 10:11:16 --> 404 Page Not Found --> js
+ERROR - 2013-04-22 10:11:16 --> 404 Page Not Found --> js
+ERROR - 2013-04-22 10:11:16 --> 404 Page Not Found --> js
+ERROR - 2013-04-22 10:11:16 --> 404 Page Not Found --> css
+ERROR - 2013-04-22 10:11:40 --> Severity: Notice  --> Undefined variable: config /home/kinow/php/workspace/nestor/application/helpers/nestor_helper.php 41
+ERROR - 2013-04-22 10:11:40 --> Severity: Notice  --> Trying to get property of non-object /home/kinow/php/workspace/nestor/application/helpers/nestor_helper.php 41
+ERROR - 2013-04-22 10:12:12 --> 404 Page Not Found --> css
+ERROR - 2013-04-22 10:12:12 --> 404 Page Not Found --> css
+ERROR - 2013-04-22 10:12:12 --> 404 Page Not Found --> js
+ERROR - 2013-04-22 10:12:12 --> 404 Page Not Found --> js
+ERROR - 2013-04-22 10:12:12 --> 404 Page Not Found --> js
+ERROR - 2013-04-22 10:12:57 --> Severity: Notice  --> Undefined property: CI_Config::$item /home/kinow/php/workspace/nestor/application/helpers/nestor_helper.php 42
+ERROR - 2013-04-22 10:15:46 --> 404 Page Not Found --> requirements
+ERROR - 2013-04-22 10:19:41 --> 404 Page Not Found --> requirements
+ERROR - 2013-04-22 11:18:47 --> 404 Page Not Found --> specification/all
+ERROR - 2013-04-22 11:18:49 --> 404 Page Not Found --> specification/all
+ERROR - 2013-04-22 12:19:18 --> Severity: Warning  --> Missing argument 1 for Index::index() /home/kinow/php/workspace/nestor/application/controllers/specification/index.php 9

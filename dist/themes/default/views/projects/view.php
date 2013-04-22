@@ -20,7 +20,9 @@
 	</div>
 	<div class="control-group">
 		<div class='controls'>
-			<?php echo form_submit('', 'Update', 'class="btn"'); ?>
+			<?php echo form_submit('', 'Update', 'class="btn btn-primary"'); ?>
+			&nbsp;<a href="" class='btn btn-danger'>Delete</a>
+			&nbsp;<a href="javascript:history.go(-1);" class="btn">Cancel</a>
 		</div>
 	</div>
 <?php echo form_close(); ?>
