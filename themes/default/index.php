@@ -49,7 +49,7 @@
       <hr>
 
       <footer class='text-right'>
-        <p>Page rendered in <strong>{elapsed_time}</strong> seconds <a href="http://www.nestor-qa.org">Nestor ver. 0.1</a></p>
+        <p>Page rendered in <strong>{elapsed_time}</strong> seconds <a href="http://www.nestor-qa.org">Nestor ver. <?php echo nestor_version(); ?></a></p>
       </footer>
 
     </div> <!-- /container -->
