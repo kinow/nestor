@@ -40,6 +40,11 @@
 
 $route['projects/(:num)'] = 'projects/view/index/$1';
 $route['projects'] = 'projects/all';
+$route['requirements'] = 'requirements/index';
+$route['specification'] = 'specification/index';
+$route['planning'] = 'planning/index';
+$route['execution'] = 'execution/index';
+$route['reports'] = 'reports/index';
 $route['manage'] = 'manage/index';
 $route['configure'] = 'configure/index';
 $route['themeManager'] = 'themeManager/index';
