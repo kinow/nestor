@@ -64,7 +64,7 @@ $autoload['libraries'] = array('database', 'session', 'form_validation');
 |	$autoload['helper'] = array('url', 'file');
 */
 
-$autoload['helper'] = array('url', 'html', 'form', 'cookie');
+$autoload['helper'] = array('url', 'html', 'form', 'cookie', 'nestor');
 
 
 /*
@@ -80,7 +80,7 @@ $autoload['helper'] = array('url', 'html', 'form', 'cookie');
 |
 */
 
-$autoload['config'] = array();
+$autoload['config'] = array('nestor');
 
 
 /*

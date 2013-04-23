@@ -40,6 +40,7 @@
            <!-- .htaccess and index.php -->
            <fileset dir="${basedir}/build">
               <include name="**/**" />
+              <exclude name="*.jar"/>
            </fileset>
         </copy>
     </target>
@@ -68,5 +69,33 @@
     <target name="clean" description="Cleans dist directory">
         <delete dir="${basedir}/dist" failonerror="false" />
     </target>
+    
+    <!-- ================================= 
+          target: database-model              
+         ================================= -->
+    <target name="database-model" description="Creates database model">
+        <!-- TODO: parameterize and write docs -->
+        <!-- You must have graphviz (dot) installed -->
+        <exec executable="java" dir="${basedir}" failonerror="true">
+            <arg value="-jar" />
+            <arg value="${basedir}/build/schemaSpy_5.0.0.jar" />
+            <arg value="-cp" />
+            <arg value="build/mysql-connector-java-5.1.24-bin.jar" />
+            <arg value="-t" />
+            <arg value="mysql" />
+            <arg value="-host" />
+            <arg value="localhost" />
+            <arg value="-port" />
+            <arg value="3306" />
+            <arg value="-db" />
+            <arg value="nestor" />
+            <arg value="-u" />
+            <arg value="root" />
+            <arg value="-p" />
+            <arg value="admin" />
+            <arg value="-o" />
+            <arg value="dist/database-model" />
+        </exec>
+    </target>   
 
 </project>

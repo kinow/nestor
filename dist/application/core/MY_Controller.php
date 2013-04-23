@@ -29,6 +29,8 @@ class MY_Controller extends CI_Controller {
 				$this->theme->add_message($message_user['message'], $message_user['type']);
 			}
 		}
+		
+		$this->theme->set('project', $this->session->userdata('project'));
     }
     
     protected function add_flashdata_message($message, $type = 'info') {

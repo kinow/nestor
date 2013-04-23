@@ -20,12 +20,17 @@ if (!function_exists('bootstrap_messages'))
 }
 
 if (!function_exists('bootstrap_menus')) {
-	function bootstrap_menus($active = 'home', $projects = array()) {
-		$items = array(
-			'home' => anchor('/', 'Home'),
-			'projects' => anchor('/projects/', 'Projects'),
-			'manage' => anchor('/manage/', 'Manage Nestor')
-		);
+	function bootstrap_menus($active = 'home', $projects = array(), $session_project = null) {
+		$items = array();
+		$items['home'] = anchor('/', 'Home');
+		$items['projects'] = anchor('/projects/', 'Projects');
+		$action_links_attribute = (!isset($session_project) || $session_project != null) ? '' : 'style="color: red; display: none;"'; 
+		$items['requirements'] = anchor('/requirements/', 'Requirements', $action_links_attribute);
+		$items['specification'] = anchor('/specification/', 'Specification', $action_links_attribute);
+		$items['planning'] = anchor('/planning/', 'Planning', $action_links_attribute);
+		$items['execution'] = anchor('/execution/', 'Execution', $action_links_attribute);
+		$items['reports'] = anchor('/reports/', 'Reports', $action_links_attribute);
+		$items['manage'] = anchor('/manage/', 'Manage Nestor');
 		$menuitems = '';
 		foreach ($items as $key => $item) {
 			if (strcmp($active, $key) == 0)
@@ -34,9 +39,23 @@ if (!function_exists('bootstrap_menus')) {
 				$menuitems .= '<li>'.$item.'</li>';
 		}
 		$projectitems = '';
-		foreach ($projects as $project) {
-			$projectitems .= "<option value='$project->id'>$project->name</option>";
+		if (strcmp('manage', $active) == 0) {
+			$projectitems = '';
+		} else if (!isset($projects) || !is_array($projects) || count($projects) <= 0) {
+			$projectitems .= '<ul class="nav" style="float: right;"><li><a href="' . site_url('/projects/create') . '">Create a new project</a></li></ul>';
+		} else {
+			$projectitems .= '<select name="project_id" style="margin: 5px 0px 0px 0px;" onchange="javascript:position_project(this);">';
+			$projectitems .= '<option></option>';
+			foreach ($projects as $project) {
+				if (isset($session_project) && $session_project != null && strcmp($session_project->name, $project->name) == 0) {
+					$projectitems .= "<option value='$project->id' selected='selected'>$project->name</option>";
+				} else {
+					$projectitems .= "<option value='$project->id'>$project->name</option>";
+				}
+			}
+			$projectitems .= '</select>';
 		}
+		$base_url = base_url('/');
 		$menu = <<<EOM
 <div class="navbar navbar-fixed-top">
 	<div class="navbar-inner">
@@ -46,16 +65,15 @@ if (!function_exists('bootstrap_menus')) {
 			<span class="icon-bar"></span>
 			<span class="icon-bar"></span>
 			</a>
-			<span class="brand">Nestor QA</span>
 			<div class="nav-collapse">
 				<ul class="nav">
 					$menuitems
 			    </ul>
 			</div><!--/.nav-collapse -->
 			<div class='nav-collapse text-right'>
-				<select>
+				<form method="get" action="{$base_url}projects/position" style="margin: 0px;">
 					$projectitems
-				</select>
+				</form>
 			</div>
 		</div>
 	</div>

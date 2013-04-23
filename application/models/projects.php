@@ -13,12 +13,14 @@ class Projects extends CI_Model {
 	
 	public function create($project) {
 		// TODO validate fields
-		$this->db->insert('projects', $project);
+		if (!$this->db->insert('projects', $project) ){
+			throw new Exception('Failed to create project');
+		}
 	}
 	
 	public function get($id) {
 		$this->db->where('id', $id);
-		return $this->db->get('projects')->result()[0];
+		return $this->db->get('projects')->row();
 	}
 	
 	public function update($project) {

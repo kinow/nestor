@@ -10,6 +10,8 @@ class Welcome extends MY_Controller {
 	public function index() {
 		$projects = $this->projects->all();
 		$this->theme->set('projects', $projects);
+		$project = $this->session->userdata('project');
+		$this->theme->set('project', $project);
 		$this->theme->view('welcome');
 	}
 }

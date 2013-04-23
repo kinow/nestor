@@ -21,6 +21,7 @@
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.js"></script>
     <script src="js/bootstrap.min.js"></script>
     <script src="js/bootstrap-alert.js"></script>
+    <script src="js/script.js"></script>
 
     <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
     <!--[if lt IE 9]>
@@ -30,7 +31,7 @@
   </head>
 
   <body>
-  	<?php bootstrap_menus( isset($active) ? $active : 'home', isset($projects) ? $projects : array() ); ?>
+  	<?php bootstrap_menus( isset($active) ? $active : 'home', isset($projects) ? $projects : array() , isset($project) ? $project : null ); ?>
   
     <div class="container">
 
@@ -48,7 +49,7 @@
       <hr>
 
       <footer class='text-right'>
-        <p>Page rendered in <strong>{elapsed_time}</strong> seconds <a href="http://www.nestor-qa.org">Nestor ver. 0.1</a></p>
+        <p>Page rendered in <strong>{elapsed_time}</strong> seconds <a href="http://www.nestor-qa.org">Nestor ver. <?php echo nestor_version(); ?></a></p>
       </footer>
 
     </div> <!-- /container -->

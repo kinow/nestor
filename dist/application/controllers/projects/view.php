@@ -8,6 +8,8 @@ class View extends MY_Controller {
 	}
 	
 	public function index($id) {
+		$projects = $this->projects->all();
+		$this->theme->set('projects', $projects);
 		$this->theme->set('active', 'projects');
 		$this->form_validation->set_rules('id', 'ID', 'required');
 		$this->form_validation->set_rules('name', 'Name', 'required');

@@ -8,18 +8,18 @@
 	<div class="control-group">
 		<?php echo form_label('Name', 'name', array('class' => 'control-label')); ?>
 		<div class="controls">
-			<?php echo form_input('name', '', 'id="name" class="span10"'); ?>
+			<?php echo form_input('name', set_value('name', ''), 'id="name" class="span10"'); ?>
 		</div>
 	</div>
 	<div class="control-group">
 		<?php echo form_label('Description', 'description', array('class' => 'control-label')); ?>
 		<div class="controls">
-			<?php echo form_textarea('description', '', 'id="description" rows="3" class="span10"'); ?>
+			<?php echo form_textarea('description', set_value('description', ''), 'id="description" rows="3" class="span10"'); ?>
 		</div>
 	</div>
 	<div class="control-group">
 		<div class='controls'>
-			<?php echo form_submit('', 'Add', 'class="btn"'); ?>
+			<?php echo form_submit('', 'Add', 'class="btn btn-primary"'); ?>&nbsp;<a href="<?php echo site_url('/'); ?>" class="btn">Cancel</a>
 		</div>
 	</div>
 <?php echo form_close(); ?>
