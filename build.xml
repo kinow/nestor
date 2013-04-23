@@ -56,7 +56,7 @@
     	<exec executable="rsync" dir="${basedir}/dist" failonerror="true">
 	      <arg value="-r"/>
 	      <arg value="."/>
-	      <arg value="${ssh.username}@66.228.62.211:/var/www/nestor-qa.org/demo/"/>
+	      <arg value="${ssh.username}@66.228.62.211:/var/www/nestor-qa.org/"/>
 	      <arg value="--exclude-from=${basedir}/rsync.excludes"/>
 	      <arg value="-v"/>
 	    </exec>

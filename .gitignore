@@ -3,6 +3,7 @@
 .settings
 .project
 cache
+dist
 tmp
 user_guide
 application/logs
