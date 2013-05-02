@@ -20,7 +20,7 @@ class Create extends MY_Controller {
 			try {
 				$this->projects->create($project);
 			} catch(Exception $exception) {
-				$this->add_flashdata_message('Duplicated project name.', 'error');
+				$this->add_flashdata_message($exception->getMessage(), 'error');
 				redirect('/projects/');
 			}
 			$this->add_flashdata_message('Project created successfully.', 'success');

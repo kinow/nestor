@@ -16,11 +16,13 @@
       }
     </style>
     <link href="css/bootstrap-responsive.css" rel="stylesheet">
+    <link href="css/sitemapstyler.css" rel="stylesheet">
 
     <!-- Le jQuery and bootstrap JS -->
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.js"></script>
     <script src="js/bootstrap.min.js"></script>
     <script src="js/bootstrap-alert.js"></script>
+    <script src="js/sitemapstyler.js"></script>
     <script src="js/script.js"></script>
 
     <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->

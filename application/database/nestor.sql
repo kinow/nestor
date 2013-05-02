@@ -2,6 +2,8 @@
 /*
  * Cleaning tables.
  */
+DROP TABLE IF EXISTS `navigation_tree`;
+DROP TABLE IF EXISTS `navigation_tree_node_types`;
 DROP TABLE IF EXISTS `test_plans_test_cases`;
 DROP TABLE IF EXISTS `test_cases`;
 DROP TABLE IF EXISTS `test_plans`;
@@ -92,12 +94,12 @@ ALTER TABLE `test_cases` ADD CONSTRAINT `test_case_fk_execution_type`
 ALTER TABLE `test_cases` ADD CONSTRAINT `test_case_fk_project` 
   FOREIGN KEY(`project_id`) REFERENCES `projects`(`id`);
   
-  ALTER TABLE `test_cases` ADD CONSTRAINT `test_case_fk_test_suite` 
+ALTER TABLE `test_cases` ADD CONSTRAINT `test_case_fk_test_suite` 
   FOREIGN KEY(`test_suite_id`) REFERENCES `test_suites`(`id`);
 
- /*
-  * Test plan table. 
-  */
+/*
+ * Test plan table. 
+ */
 CREATE TABLE IF NOT EXISTS `test_plans`(
   `id` INT(11) NOT NULL AUTO_INCREMENT, 
   `project_id` INT(11) NOT NULL,
@@ -109,7 +111,6 @@ CREATE TABLE IF NOT EXISTS `test_plans`(
 /* -- constraints -- */
 ALTER TABLE `test_plans` ADD CONSTRAINT `test_plan_fk_project` 
   FOREIGN KEY(`project_id`) REFERENCES `projects`(`id`);
-
 
  /*
   * Test plan x Test cases table. 
@@ -126,3 +127,34 @@ ALTER TABLE `test_plans_test_cases` ADD CONSTRAINT `test_plans_test_cases_fk_tes
 
 ALTER TABLE `test_plans_test_cases` ADD CONSTRAINT `test_plans_test_cases_fk_test_case` 
   FOREIGN KEY(`test_case_id`) REFERENCES `test_cases`(`id`);
+
+/*
+ * Navigation tree node types table.
+ */
+CREATE TABLE IF NOT EXISTS `navigation_tree_node_types`(
+  `id` INT(11) NOT NULL, 
+  `name` VARCHAR(255) NOT NULL,
+  PRIMARY KEY(`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+/* -- default values -- */
+INSERT INTO `navigation_tree_node_types`(`id`, `name`) VALUES 
+(1, 'project'), 
+(2, 'test_suite'),
+(3, 'test_case');
+
+/*
+ * Navigation tree table.
+ */
+CREATE TABLE IF NOT EXISTS `navigation_tree`(
+  `id` INT(11) NOT NULL AUTO_INCREMENT, 
+  `node_id` INT(11) NOT NULL,
+  `node_type_id` INT(11) NOT NULL, 
+  `parent_id` INT(11) NOT NULL,
+  PRIMARY KEY(`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+/* -- constraints -- */
+ALTER TABLE `navigation_tree` ADD CONSTRAINT `navigation_tree_fk_navigation_tree_node_types` 
+  FOREIGN KEY(`node_type_id`) REFERENCES `navigation_tree_node_types`(`id`);
+
