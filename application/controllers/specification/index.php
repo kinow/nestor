@@ -5,6 +5,7 @@ class Index extends MY_Controller {
 	public function __construct() {
 		parent::__construct();
 		$this->load->model('projects');
+		$this->load->model('navigation_tree');
 	}
 	
 	public function index() {
@@ -13,6 +14,8 @@ class Index extends MY_Controller {
 		$project = $this->session->userdata('project');
 		$this->theme->set('project', $project);
 		$this->theme->set('active', 'specification');
+		$navigation_tree_nodes = $this->navigation_tree->all();
+		$this->theme->set('navigation_tree_nodes', $navigation_tree_nodes);
 		$this->theme->view('specification/index');
 	}
 }

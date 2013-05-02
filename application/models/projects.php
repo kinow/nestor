@@ -25,6 +25,7 @@ class Projects extends CI_Model {
 		$navigation_tree_node->node_id = $this->db->insert_id();
 		$navigation_tree_node->node_type_id = 1; // FIXME: constants
 		$navigation_tree_node->parent_id = 0; // TBD: constants
+		$navigation_tree_node->display_name = $project->name;
 		try {
 			$CI->navigation_tree->create($navigation_tree_node);
 			$this->db->trans_commit();

@@ -151,6 +151,7 @@ CREATE TABLE IF NOT EXISTS `navigation_tree`(
   `node_id` INT(11) NOT NULL,
   `node_type_id` INT(11) NOT NULL, 
   `parent_id` INT(11) NOT NULL,
+  `display_name` VARCHAR(255) NOT NULL, 
   PRIMARY KEY(`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
