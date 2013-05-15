@@ -1,4 +1,10 @@
-<?php  if (! defined('BASEPATH')) exit('No direct script access allowed');
+<?php  
+require_once NESTOR_HOME . 'Nestor.class.php';
+
+use Nestor\Nestor;
+
+if (! defined('BASEPATH')) exit('No direct script access allowed');
+
 /**
  * Controller for themes. 
  */
@@ -54,6 +60,11 @@ class MY_Controller extends CI_Controller {
     		$this->session->set_userdata('messages', $messages);
     	}
     }
+    
+    protected function get_nestor() {
+    	return Nestor::get_instance();
+    }
+
 }
 
 /* End of file MY_Controller.php */

@@ -1,6 +1,6 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-class Welcome extends MY_Controller {
+class Index extends MY_Controller {
 
 	public function __construct() {
 		parent::__construct();
@@ -16,5 +16,5 @@ class Welcome extends MY_Controller {
 	}
 }
 
-/* End of file welcome.php */
-/* Location: ./application/controllers/welcome.php */
+/* End of file index.php */
+/* Location: ./application/controllers/index.php */

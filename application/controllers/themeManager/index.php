@@ -13,4 +13,4 @@ class Index extends MY_Controller {
 }
 
 /* End of file index.php */
-/* Location: ./application/controllers/themes/index.php */
+/* Location: ./application/controllers/themeManager/index.php */

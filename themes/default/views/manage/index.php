@@ -11,5 +11,9 @@
 		<p class='muted'><?php echo anchor('/themeManager', 'Manage Themes'); ?>
 		<br/>
 		<small>Add, remove, disable or enable themes that change the UI of Nestor.</small></p>
+		
+		<p class='muted'><?php echo anchor('/pluginManager', 'Manage Plug-ins'); ?>
+		<br/>
+		<small>Install or uninstall plug-ins to extend Nestor behaviour.</small></p>
 	</div>
 </div>

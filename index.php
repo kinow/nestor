@@ -199,7 +199,12 @@ if (defined('ENVIRONMENT'))
  * And away we go...
  *
  */
+// Path to the system folder
+define('NESTOR_HOME', str_replace("\\", "/", 'core/'));
+
 require_once BASEPATH.'core/CodeIgniter.php';
+
+require_once NESTOR_HOME.'Nestor.class.php';
 
 /* End of file index.php */
 /* Location: ./index.php */
