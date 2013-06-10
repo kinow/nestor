@@ -7,6 +7,10 @@
  */
 class Themes_Model extends CI_Model {
 	
+	public function __construct() {
+		parent::__construct();
+	}
+	
 	function all($left_limit = 0, $right_limit = 0) {
 		if ($left_limit > 0)
 			$this->db->limit($left_limit, $right_limit);
@@ -23,6 +27,11 @@ class Themes_Model extends CI_Model {
 	
 	public function get($id) {
 		$this->db->where('id', $id);
+		return $this->db->get('themes')->row();
+	}
+	
+	public function get_by_name($name) {
+		$this->db->where('name', $name);
 		return $this->db->get('themes')->row();
 	}
 	

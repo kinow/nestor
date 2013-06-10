@@ -1,6 +1,4 @@
 <?php  
-require_once NESTOR_HOME . 'Nestor.class.php';
-
 use Nestor\Nestor;
 
 if (! defined('BASEPATH')) exit('No direct script access allowed');
@@ -11,6 +9,10 @@ if (! defined('BASEPATH')) exit('No direct script access allowed');
 class MY_Controller extends CI_Controller {
     public function __construct() {
         parent::__construct();
+        
+        $ci = & get_instance();
+        $this->nestor = new Nestor($ci);
+        
     	//load theme spark
 		$this->load->spark('theme/1.0.0');
 		

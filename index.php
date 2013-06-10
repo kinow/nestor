@@ -1,5 +1,6 @@
 <?php
 
+use Nestor\Nestor;
 /*
  *---------------------------------------------------------------
  * APPLICATION ENVIRONMENT
@@ -199,12 +200,14 @@ if (defined('ENVIRONMENT'))
  * And away we go...
  *
  */
+require_once('vendor/autoload.php');
+
 // Path to the system folder
-define('NESTOR_HOME', str_replace("\\", "/", 'core/'));
+define('NESTORPATH', str_replace("\\", "/", 'core/'));
+
+require_once NESTORPATH.'Nestor.class.php';
 
 require_once BASEPATH.'core/CodeIgniter.php';
-
-require_once NESTOR_HOME.'Nestor.class.php';
 
 /* End of file index.php */
 /* Location: ./index.php */

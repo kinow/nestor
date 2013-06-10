@@ -2,6 +2,7 @@
 /*
  * Cleaning tables.
  */
+DROP TABLE IF EXISTS `themes`;
 DROP TABLE IF EXISTS `navigation_tree`;
 DROP TABLE IF EXISTS `navigation_tree_node_types`;
 DROP TABLE IF EXISTS `test_plans_test_cases`;
@@ -159,3 +160,20 @@ CREATE TABLE IF NOT EXISTS `navigation_tree`(
 ALTER TABLE `navigation_tree` ADD CONSTRAINT `navigation_tree_fk_navigation_tree_node_types` 
   FOREIGN KEY(`node_type_id`) REFERENCES `navigation_tree_node_types`(`id`);
 
+/*
+ * Themes table.
+ */
+CREATE TABLE `themes`(
+  `id` INT(11) NOT NULL AUTO_INCREMENT, 
+  `name` VARCHAR(50) NOT NULL, 
+  `description` VARCHAR(255) NOT NULL, 
+  `url` VARCHAR(255), 
+  `author` VARCHAR(100) NOT NULL, 
+  `author_url` VARCHAR(255), 
+  `version` VARCHAR(10), 
+  `status` TINYINT(1) NOT NULL, 
+  PRIMARY KEY(`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+INSERT INTO `themes`(`name`, `description`, `url`, `author`, `author_url`, `version`, `status`) 
+VALUES('default', 'Default theme, based on Bootstrap', 'http://nestor-qa.org', 'Bruno P. Kinoshita', 'http://kinoshita.eti.br', '0.1', 0);
