@@ -22,20 +22,17 @@ class Theme
      * Theme::__construct()
      * @return void
      */
-    function __construct()
-    {
-
+    function __construct() {
     	//get the CI instance
     	$this->_ci = &get_instance();
 
-	//get the config
+		//get the config
         $this->_config = config_item('theme');
 
         //set the theme
         $this->set_theme($this->_config['theme']);
 
-        if (method_exists( $this->_ci->router, 'fetch_module' ))
-        {
+        if (method_exists( $this->_ci->router, 'fetch_module' )) {
             $this->_module 	= $this->_ci->router->fetch_module();
         }
 
@@ -43,15 +40,13 @@ class Theme
         $this->_controller	= $this->_ci->router->fetch_class();
         $this->_method 		= $this->_ci->router->fetch_method();
 
-        $this->_template_locations = array( $this->config('path') . $this->config('theme') . '/views/modules/' . $this->_module .'/',
-                                            $this->config('path') . $this->config('theme') . '/views/',
-                                            $this->config('path') . 'default/views/modules/' . $this->_module .'/',
-                                            $this->config('path') . 'default/views/',
-                                            APPPATH . 'modules/' . $this->_module . '/views/'
-                                     );
-
-
-
+        $this->_template_locations = 
+        	array( $this->config('path') . $this->config('theme') . '/views/modules/' . $this->_module .'/',
+                   $this->config('path') . $this->config('theme') . '/views/',
+                   $this->config('path') . 'default/views/modules/' . $this->_module .'/',
+                   $this->config('path') . 'default/views/',
+                   APPPATH . 'modules/' . $this->_module . '/views/'
+            );
     }
 
 	/**
@@ -62,8 +57,7 @@ class Theme
      * @param string $theme The theme
      * @return void
      */
-    function set_theme($theme = 'default')
-    {
+    function set_theme($theme = 'default') {
     	$this->set_config('theme', $theme);
 
     	$functions = $this->config('path').$this->config('theme').'/functions.php';

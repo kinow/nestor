@@ -17,12 +17,12 @@ class MY_Controller extends CI_Controller {
 		$this->load->spark('theme/1.0.0');
 		
 		//try to get the theme from the cookie
-		$theme = get_cookie('theme');
-		if (in_array($theme, array('default', 'skeleton')))
-		{
-			//got a valid theme... set it
-			$this->theme->set_theme($theme);
+		$ci->load->model('themes_model');
+		$theme = $ci->themes_model->get_active();
+		if (is_null($theme) || !$theme) {
+			$theme = 'default';
 		}
+		$this->theme->set_theme($theme->name);
 		
 		$messages_flash = $this->session->flashdata('messages');
 		if (isset($messages_flash) && is_array($messages_flash)) {
@@ -64,7 +64,7 @@ class MY_Controller extends CI_Controller {
     }
     
     protected function get_nestor() {
-    	return Nestor::get_instance();
+    	return $this->nestor;
     }
 
 }

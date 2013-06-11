@@ -25,6 +25,40 @@
 							<th>URL</th>
 							<th>Author</th>
 							<th>Version</th>
+							<th>Install</th>
+						</tr>
+					</thead>
+					<?php if (isset($available)): ?>
+					<tbody>
+				  	<?php foreach($available as $theme): ?>
+				  		<tr>
+							<td><?php echo $theme->name; ?></td>
+							<td><?php echo $theme->description; ?></td>
+							<td><?php echo $theme->url; ?></td>
+							<td><?php echo $theme->author; ?></td>
+							<td><?php echo $theme->version; ?></td>
+							<?php if ($theme->installed) :?>
+							<td>Installed</td>
+							<?php else: ?>
+							<td><?php echo anchor('themeManager/install_theme/' . $theme->name, 'Install');?></td>
+							<?php endif; ?>
+						</tr>
+				  	<?php endforeach; ?>
+				  	</tbody>
+				  	<?php endif; ?>
+			  	</table>
+			  </div>
+			  <div class="tab-pane" id="installed">
+			  	<h2>Themes installed</h2>
+			  	<table class='table table-bordered table-hover'>
+					<thead>
+						<tr>
+							<th>Name</th>
+							<th>Description</th>
+							<th>URL</th>
+							<th>Author</th>
+							<th>Version</th>
+							<th>Activate</th>
 						</tr>
 					</thead>
 					<?php if (isset($themes)): ?>
@@ -36,14 +70,12 @@
 							<td><?php echo $theme->url; ?></td>
 							<td><?php echo $theme->author; ?></td>
 							<td><?php echo $theme->version; ?></td>
+							<td><?php echo anchor('themeManager/switch_theme/' . $theme->name, 'Activate');?></td>
 						</tr>
 				  	<?php endforeach; ?>
 				  	</tbody>
 				  	<?php endif; ?>
 			  	</table>
-			  </div>
-			  <div class="tab-pane" id="installed">
-			  	<h2>Themes installed</h2>
 			  </div>
 			  <div class="tab-pane" id="advanced">
 			  	<h2>Advanced</h2>
@@ -54,18 +86,5 @@
 			  </div>
 			</div>
 		</div>
-	</div>
-</div>
-
-<div class='row'>
-	<div class='span12'>
-		<p>The first one (the default) is based on:
-			<?php echo anchor('theme_example/switch_theme/default', 'Bootstrap', 'class="button btn"'); ?>
-		</p>
-		<p>
-			The second one is based on:
-			<?php echo anchor('theme_example/switch_theme/skeleton', 'Skeleton', 'class="button btn"'); ?>
-		</p>
-	
 	</div>
 </div>

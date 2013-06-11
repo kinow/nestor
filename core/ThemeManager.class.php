@@ -38,15 +38,17 @@ interface ThemeManager {
 	 * @return multitype:array of Nestor\Theme
 	 */
 	public function get_installed_themes();
+	
+	public function set_active($theme);
+	
+	public function get_available_themes();
 }
 
 final class DefaultThemeManager implements ThemeManager {
 
-	private $themes_cache;
-	
 	private $logger;
 	
-	private $themes_dao = null;
+	private $themes_cache = array();
 	
 	/**
 	 * 
@@ -55,7 +57,14 @@ final class DefaultThemeManager implements ThemeManager {
 	public function __construct(&$ci) {
 		$this->logger = new Logger('nestor.theme');
 		$this->ci = $ci;
-		// TODO: create themes cache
+		// file cache
+		// FIXME: use composer
+		$this->ci->load->library('jg_cache', array('cache'), 'cache');
+		$this->themes_cache = $this->ci->cache->get('themes_cache');
+		if (!$this->themes_cache) {
+			$this->themes_cache = array();
+			$this->ci->cache->set('themes_cache', $this->themes_cache);
+		}
 	}
 	
 	/**
@@ -70,17 +79,29 @@ final class DefaultThemeManager implements ThemeManager {
 			throw new \InvalidArgumentException(sprintf('Failed to open directory %s', $dir));
 		
 		while ($entry = readdir($dir_handle)) {
-			$theme_dir = $dir . '/' . $entry;
+			$theme_dir = $dir . $entry;
+			if ($entry == '.' || $entry == '..' || is_file($theme_dir))
+				continue;
 			try {
-				$theme = $this->load_from_theme_dir($theme_dir);
-				//$themes_cache->add_theme($theme);
-				$this->logger->addInfo(sprintf('Theme %s loaded from disk successfully into themes cache', $theme->__toString()));
-			} catch (ThemeException $e) {
-				$this->logger->addError(sprintf('Error loading theme %s: %s', $theme->__toString(), $e->getMessage()), $e);
+				$entry = ltrim($entry, '/');
+				$entry = rtrim($entry, '/');
+				$theme_slug = strtolower($entry);
+				if (!array_key_exists($theme_slug, $this->themes_cache)) {
+					$theme_array = $this->load_from_theme_dir($theme_dir);
+					$theme = new \stdClass();
+					foreach ($theme_array as $key => $value) {
+						$theme->$key = $value;
+					}
+					$this->themes_cache[$theme_slug] = $theme;
+					$this->logger->addInfo(sprintf('Theme %s loaded from disk successfully into themes cache', $theme->name));
+				}
+			} catch (\Exception $e) {
+				$this->logger->addError(sprintf('Error loading theme from %s: %s', $theme_dir, $e->getMessage()));
 			}
+			$this->ci->cache->set('themes_cache', $this->themes_cache);
 		}
 		
-		@close($dir_handle);
+		closedir($dir_handle);
 	}
 	
 	/**
@@ -88,7 +109,15 @@ final class DefaultThemeManager implements ThemeManager {
 	 * @param unknown $theme_dir
 	 */
 	private function load_from_theme_dir($theme_dir) {
+		$theme = new \stdClass();
+		$plugin_yaml = $theme_dir . '/plugin.yaml';
+		if (!file_exists($plugin_yaml)) {
+			throw new \InvalidArgumentException('Missing plugin.yaml');
+		}
 		
+		$yaml = \Spyc::YAMLLoad($plugin_yaml);
+		
+		return $yaml;
 	}
 	
 	/**
@@ -118,6 +147,21 @@ final class DefaultThemeManager implements ThemeManager {
 	 */
 	public function uninstall($theme) {
 		// TODO: Auto-generated method stub
+	}
+	
+	/**
+	 * @param unknown $theme
+	 */
+	public function set_active($theme) {
+		$this->ci->themes_model->deactivate_all();
+		$this->ci->themes_model->activate($theme);
+	}
+
+	/**
+	 * 
+	 */
+	public function get_available_themes() {
+		return $this->themes_cache;
 	}
 
 }

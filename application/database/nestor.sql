@@ -175,5 +175,6 @@ CREATE TABLE `themes`(
   PRIMARY KEY(`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
-INSERT INTO `themes`(`name`, `description`, `url`, `author`, `author_url`, `version`, `status`) 
-VALUES('default', 'Default theme, based on Bootstrap', 'http://nestor-qa.org', 'Bruno P. Kinoshita', 'http://kinoshita.eti.br', '0.1', 0);
+INSERT INTO `themes`(`name`, `description`, `url`, `author`, `author_url`, `version`, `status`) VALUES 
+('default', 'Default theme, based on Bootstrap', 'http://nestor-qa.org', 'Bruno P. Kinoshita', 'http://kinoshita.eti.br', '0.1', 1), 
+('skeleton', 'Skeleton CSS theme', 'http://nestor-qa.org', 'Bruno P. Kinoshita', 'http://kinoshita.eti.br', '0.1', 0);

@@ -35,6 +35,11 @@ class Themes_Model extends CI_Model {
 		return $this->db->get('themes')->row();
 	}
 	
+	public function get_active() {
+		$this->db->where('status', 1);
+		return $this->db->get('themes')->row();
+	}
+	
 	public function update($theme) {
 		$this->db->where('id', $theme->id);
 		$this->db->update('themes', $theme);
@@ -43,6 +48,18 @@ class Themes_Model extends CI_Model {
 	public function remove($theme) {
 		$this->db->where('id', $theme->id);
 		$this->db->delete('themes');
+	}
+	
+	public function deactivate_all() {
+		$this->db->where('status', 1);
+		$data = array('status' => 0);
+		$this->db->update('themes', $data);
+	}
+	
+	public function activate($theme) {
+		$this->db->where('name', $theme);
+		$data = array('status' => 1);
+		$this->db->update('themes', $data);
 	}
 	
 }
