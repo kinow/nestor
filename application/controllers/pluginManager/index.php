@@ -11,7 +11,6 @@ class Index extends MY_Controller {
 	
 	public function index() {
 		$this->theme->set('active', 'manage');
-		var_dump($this->get_nestor());
 		$this->theme->view('pluginManager/index');
 	}
 }

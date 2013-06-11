@@ -7,11 +7,15 @@
 	<description>
 		Nestor QA
     </description>
+    
+    <property file="build.properties"/>
+    <property name="build.number" value="${build.major.number}.${build.minor.number}.${build.revision.number}"/>
 
     <!-- ================================= 
           target: usage              
          ================================= -->
     <target name="usage" depends="clean" description="Prints build usage">
+        <echo message="Nestor-QA ${build.number} usage:" />
         <echo message="clean: removes dist directory and its contents" />
     	<echo message="dist: prepares dist directory with a production ready web site" />
     	<echo message="deploy: deploys the web site to the remote server" />
@@ -96,6 +100,6 @@
             <arg value="-o" />
             <arg value="dist/database-model" />
         </exec>
-    </target>   
+    </target>
 
 </project>
