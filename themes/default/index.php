@@ -20,7 +20,7 @@
     <link href="css/style.css" rel="stylesheet">
 
     <!-- Le jQuery and bootstrap JS -->
-    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.js"></script>
+    <script src="js/jquery-1.10.1.js"></script>
     <script src="js/bootstrap.min.js"></script>
     <script src="js/bootstrap-alert.js"></script>
     <script src="js/sitemapstyler.js"></script>

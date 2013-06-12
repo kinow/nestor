@@ -1,0 +1,12 @@
+{
+    "name": "Nestor QA",
+    "description": "Nestor QA test management tool",
+    "version": "0.0.4",
+    "homepage": "http://nestor-qa.rg",
+    "license": "MIT License",
+    "support": "https://github.com/nestor-qa/nestor/issues",
+    "type": "project",
+    "require": {
+        "monolog/monolog": "1.5.0"
+    }
+}

@@ -1,6 +1,6 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-class All extends MY_Controller {
+class Index extends MY_Controller {
 
 	public function __construct() {
 		parent::__construct();
@@ -59,7 +59,7 @@ class All extends MY_Controller {
 		$this->theme->set('active', 'projects');
 		$this->theme->set('projects', $projects);
 		$this->theme->set('pagination', $this->pagination);
-		$this->theme->view('projects/all');
+		$this->theme->view('projects/index');
 	}
 }
 

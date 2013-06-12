@@ -1,10 +1,18 @@
-<?php  if (! defined('BASEPATH')) exit('No direct script access allowed');
+<?php  
+use Nestor\Nestor;
+
+if (! defined('BASEPATH')) exit('No direct script access allowed');
+
 /**
  * Controller for themes. 
  */
 class MY_Controller extends CI_Controller {
     public function __construct() {
         parent::__construct();
+        
+        $ci = & get_instance();
+        $this->nestor = new Nestor($ci);
+        
     	//load theme spark
 		$this->load->spark('theme/1.0.0');
 		
@@ -54,6 +62,11 @@ class MY_Controller extends CI_Controller {
     		$this->session->set_userdata('messages', $messages);
     	}
     }
+    
+    protected function get_nestor() {
+    	return Nestor::get_instance();
+    }
+
 }
 
 /* End of file MY_Controller.php */
