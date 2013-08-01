@@ -6,6 +6,12 @@
  * So template specific function go in here
  */
 
+// Bootstrap
+{
+    $CI = & get_instance();
+    $CI->load->spark('Twiggy/0.8.5');
+}
+
 if (!function_exists('bootstrap_messages'))
 {
 	function bootstrap_messages( $messages = array() )

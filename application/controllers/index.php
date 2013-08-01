@@ -1,6 +1,6 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-class Index extends MY_Controller {
+class Index extends Twiggy_Controller {
 
 	public function __construct() {
 		parent::__construct();
@@ -9,12 +9,10 @@ class Index extends MY_Controller {
 	
 	public function index() {
 		$projects = $this->projects->all();
-		$this->theme->set('projects', $projects);
-		$project = $this->session->userdata('project');
-		$this->theme->set('project', $project);
-		$this->theme->view('welcome');
+		$active_project = $this->session->userdata('active_project');
+
+		$this->twiggy->set('projects', $projects);
+		$this->twiggy->set('active_project', $active_project);
+		$this->twiggy->display('index');
 	}
 }
-
-/* End of file index.php */
-/* Location: ./application/controllers/index.php */
