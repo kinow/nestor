@@ -80,27 +80,37 @@ class Twiggy_Controller extends MY_Controller {
         $this->twiggy->title('Nestor QA');
         // PHP functions
         $this->twiggy->register_function('array_merge');
+        $this->twiggy->register_function('sprintf');
+        $this->twiggy->register_function('print_r');
+        $this->twiggy->register_function('var_dump');
         // CI functions
+        $this->twiggy->register_function('anchor');
         $this->twiggy->register_function('site_url');
+        $this->twiggy->register_function('current_url');
         $this->twiggy->register_function('base_url');
+        $this->twiggy->register_function('uri_string');
+        $this->twiggy->register_function('validation_errors');
         $this->twiggy->register_function('form_open');
         $this->twiggy->register_function('form_open_multipart');
-        $this->twiggy->register_function('form_close');
         $this->twiggy->register_function('form_input');
-        $this->twiggy->register_function('form_hidden');
+        $this->twiggy->register_function('form_checkbox');
+        $this->twiggy->register_function('form_dropbox');
         $this->twiggy->register_function('form_password');
+        $this->twiggy->register_function('form_hidden');
+        $this->twiggy->register_function('form_radio');
         $this->twiggy->register_function('form_textarea');
         $this->twiggy->register_function('form_multiselect');
-        $this->twiggy->register_function('form_dropbox');
-        $this->twiggy->register_function('form_checkbox');
-        $this->twiggy->register_function('form_radio');
+        $this->twiggy->register_function('form_dropdown');
         $this->twiggy->register_function('form_submit');
-        $this->twiggy->register_function('twiggy_theme_url');
+        $this->twiggy->register_function('form_close');
+        $this->twiggy->register_function('set_value');
         $this->twiggy->register_function('elapsed_time');
         // Theme Spark functions
         $this->twiggy->register_function('bootstrap_menus');
         $this->twiggy->register_function('bootstrap_messages');
-        # Nestor functions
+        // Twiggy
+        $this->twiggy->register_function('twiggy_theme_url');
+        // Nestor functions
         $this->twiggy->register_function('nestor_version'); 
         
         $this->twiggy->set('messages', $this->theme->messages(false));

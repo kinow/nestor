@@ -1,6 +1,6 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-class Index extends MY_Controller {
+class Index extends Twiggy_Controller {
 
 	public function __construct() {
 		parent::__construct();
@@ -9,7 +9,6 @@ class Index extends MY_Controller {
 	
 	public function index() {
 		$this->load->library('pagination');
-		// TODO add to system configuration, the pagination settings
 		$per_page = 5;
 		$page = $this->input->get('page', TRUE);
 		if(!isset($page) || empty($page))
@@ -56,10 +55,14 @@ class Index extends MY_Controller {
 		
 		$this->pagination->initialize($config);
 		
-		$this->theme->set('active', 'projects');
-		$this->theme->set('projects', $projects);
-		$this->theme->set('pagination', $this->pagination);
-		$this->theme->view('projects/index');
+		$this->twiggy->set('active', 'projects');
+		$this->twiggy->set('projects', $projects);
+		$this->twiggy->set('pagination', $this->pagination);
+		//$this->theme->view('projects/index');
+
+		$active_project = $this->session->userdata('active_project');
+		$this->twiggy->set('active_project', $active_project);
+		$this->twiggy->display('projects/index');
 	}
 }
 
