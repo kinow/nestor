@@ -13,9 +13,9 @@ class Position extends MY_Controller {
 		$project = $this->projects->get($project_id);
 		var_dump($project);
 		if ($project) {
-			$this->session->set_userdata('project', $project);
+			$this->session->set_userdata('active_project', $project);
 		} else {
-			$this->session->unset_userdata('project');
+			$this->session->unset_userdata('active_project');
 		}
 		$referrer = '/';
 		if ($this->agent->is_referral()) {
