@@ -36,6 +36,68 @@
   <body>
     {{ bootstrap_menus(active|default('home'), projects|default([]), active_project) }}
     <div class="container">
+	{% if success is defined and success is not empty %}
+		<div class='row'>
+			<div class='span12'>
+				<br />
+		{% if success[0] is defined %}
+			{% for key, value in success %}
+				<div class="alert alert-success" style='margin-bottom: 0px'>
+					<button type="button" class="close" data-dismiss="alert">&times;</button>
+	    			{{ value }}
+	    		</div>
+	   		{% endfor %}
+	    {% else %}
+				<div class="alert alert-success" style='margin-bottom: 0px'>
+					<button type="button" class="close" data-dismiss="alert">&times;</button>
+					{{ success }}
+				</div>
+		{% endif %}
+			</div>
+	    </div>
+	{% endif %}
+	{% if errors is defined and errors is not empty %}
+		<div class='row'>
+			<div class='span12'>
+				<br />
+		{% if errors[0] is defined %}
+			{% for key, value in errors %}
+				<div class="alert alert-error" style='margin-bottom: 0px'>
+					<button type="button" class="close" data-dismiss="alert">&times;</button>
+					{{ value }}
+				</div>
+			{% endfor %}
+		{% else %}
+				<div class="alert alert-error" style='margin-bottom: 0px'>
+					<button type="button" class="close" data-dismiss="alert">&times;</button>
+					{{ errors }}
+				</div>
+		{% endif %}
+			</div>
+		</div>
+	{% endif %}
+	{% if warning is defined and warning is not empty %}
+		<div class='row'>
+			<div class='span12'>
+				<br />
+		{% if warning[0] is defined %}
+			{% for key, value in warning %}
+				<div class="alert" style='margin-bottom: 0px'>
+					<button type="button" class="close" data-dismiss="alert">&times;</button>
+					{{ value }}
+				</div>
+			{% endfor %}
+	    {% else %}
+				<div class="alert" style='margin-bottom: 0px'>
+					<button type="button" class="close" data-dismiss="alert">&times;</button>
+					{{ warning }}
+				</div>
+		{% endif %}
+			</div>
+		</div>
+	{% endif %}
+	</div>
+    <div class="container">
 
       <!-- Example row of columns -->
       <div class="row">

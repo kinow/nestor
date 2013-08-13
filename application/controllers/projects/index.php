@@ -65,6 +65,3 @@ class Index extends Twiggy_Controller {
 		$this->twiggy->display('projects/index');
 	}
 }
-
-/* End of file all.php */
-/* Location: ./application/controllers/project/all.php */

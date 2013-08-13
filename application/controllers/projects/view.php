@@ -1,6 +1,6 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-class View extends MY_Controller {
+class View extends Twiggy_Controller {
 
 	public function __construct() {
 		parent::__construct();
@@ -9,8 +9,12 @@ class View extends MY_Controller {
 	
 	public function index($id) {
 		$projects = $this->projects->all();
-		$this->theme->set('projects', $projects);
-		$this->theme->set('active', 'projects');
+		$this->twiggy->set('active', 'projects');
+		$this->twiggy->set('projects', $projects);
+		
+		$active_project = $this->session->userdata('active_project');
+		$this->twiggy->set('active_project', $active_project);
+		
 		$this->form_validation->set_rules('id', 'ID', 'required');
 		$this->form_validation->set_rules('name', 'Name', 'required');
 		$this->form_validation->set_rules('description', 'Description', 'required');
@@ -20,15 +24,12 @@ class View extends MY_Controller {
 			$project->name = $this->form_validation->set_value('name');
 			$project->description = $this->form_validation->set_value('description');
 			$this->projects->update($project);
-			$this->add_flashdata_message('Project updated successfully.', 'success');
+			$this->add_success('Project updated successfully');
 			redirect('/projects/' . $id);
 		} else {
 			$project = $this->projects->get($id);
-			$this->theme->set('project', $project);
-			$this->theme->view('projects/view');
+			$this->twiggy->set('project', $project);
+			$this->twiggy->display('projects/view');
 		}
 	}
 }
-
-/* End of file view.php */
-/* Location: ./application/controllers/project/view.php */

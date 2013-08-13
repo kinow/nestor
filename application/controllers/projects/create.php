@@ -1,6 +1,6 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-class Create extends MY_Controller {
+class Create extends Twiggy_Controller {
 
 	public function __construct() {
 		parent::__construct();
@@ -9,8 +9,8 @@ class Create extends MY_Controller {
 	
 	public function index() {
 		$projects = $this->projects->all();
-		$this->theme->set('projects', $projects);
-		$this->theme->set('active', 'projects');
+		$this->twiggy->set('projects', $projects);
+		$this->twiggy->set('active', 'projects');
 		$this->form_validation->set_rules('name', 'Name', 'required');
 		$this->form_validation->set_rules('description', 'Description', 'required');
 		if ($this->form_validation->run()) {
@@ -20,16 +20,14 @@ class Create extends MY_Controller {
 			try {
 				$this->projects->create($project);
 			} catch(Exception $exception) {
-				$this->add_flashdata_message($exception->getMessage(), 'error');
+				$this->add_error($exception->getMessage());
 				redirect('/projects/');
 			}
-			$this->add_flashdata_message('Project created successfully.', 'success');
+			$this->add_success('Project created successfully.');
 			redirect('/projects/');
 		} else {
-			$this->theme->view('projects/create');
+			$this->twiggy->display('projects/create');
 		}
 	}
 }
 
-/* End of file create.php */
-/* Location: ./application/controllers/project/create.php */

@@ -83,6 +83,7 @@ class Twiggy_Controller extends MY_Controller {
         $this->twiggy->register_function('sprintf');
         $this->twiggy->register_function('print_r');
         $this->twiggy->register_function('var_dump');
+        $this->twiggy->register_function('empty');
         // CI functions
         $this->twiggy->register_function('anchor');
         $this->twiggy->register_function('site_url');
@@ -92,6 +93,7 @@ class Twiggy_Controller extends MY_Controller {
         $this->twiggy->register_function('validation_errors');
         $this->twiggy->register_function('form_open');
         $this->twiggy->register_function('form_open_multipart');
+        $this->twiggy->register_function('form_label');
         $this->twiggy->register_function('form_input');
         $this->twiggy->register_function('form_checkbox');
         $this->twiggy->register_function('form_dropbox');
@@ -113,9 +115,26 @@ class Twiggy_Controller extends MY_Controller {
         // Nestor functions
         $this->twiggy->register_function('nestor_version'); 
         
-        $this->twiggy->set('messages', $this->theme->messages(false));
+        $this->twiggy->set('errors', $this->session->flashdata('errors'));
+		$this->twiggy->set('warning', $this->session->flashdata('warning'));
+		$this->twiggy->set('success', $this->session->flashdata('success'));
+		
         $elapsed = $BM->elapsed_time('total_execution_time_start', 'total_execution_time_end');
         $this->twiggy->set('elapsed_time', $elapsed);
+        
+        $this->form_validation->set_error_delimiters('<div class="alert alert-block alert-error fade in" data-dismiss="alert"><button type="button" class="close" data-dismiss="alert">×</button>', '</div>');
+    }
+    
+    function add_error($errors) {
+    	$this->session->set_flashdata('errors', $errors);
+    }
+    
+    function add_warning($messages) {
+    	$this->session->set_flashdata('warning', $messages);
+    }
+    
+    function add_success($messages) {
+    	$this->session->set_flashdata('success', $messages);
     }
     
 }

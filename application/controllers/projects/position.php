@@ -1,6 +1,6 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-class Position extends MY_Controller {
+class Position extends Twiggy_Controller {
 
 	public function __construct() {
 		parent::__construct();
@@ -24,6 +24,3 @@ class Position extends MY_Controller {
 		redirect($referrer);
 	}
 }
-
-/* End of file position.php */
-/* Location: ./application/controllers/project/position.php */
