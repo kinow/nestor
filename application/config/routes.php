@@ -38,9 +38,18 @@
 |
 */
 
+# projects
 $route['projects/(:num)'] = 'projects/view/index/$1';
+
+# themes
 $route['themeManager/switch_theme/(:any)'] = 'themeManager/switch_theme/index/$1';
 $route['themeManager/install_theme/(:any)'] = 'themeManager/install_theme/index/$1';
+
+# nodes
+$route['specification/nodes'] = 'specification/nodes/index';
+$route['specification/nodes/(:num)'] = 'specification/nodes/id/$1';
+
+# CI
 $route['default_controller'] = "index";
 $route['404_override'] = '';
 

@@ -1,0 +1,26 @@
+{% extends _layout %}
+
+{% block content %}
+<script type="text/template" id="node_template">
+  <label>Search</label>
+  <input type="text" id="search_input" />
+  <input type="button" id="search_button" value="Search" />
+</script>
+
+<div class='page-header'>
+	<h1>Test Specification</h1>
+</div>
+<div class='row'>
+	<div class='span4' id='navigation_tree_panel'>
+		<p>Navigation tree</p>
+		<ul id="navigation_tree"></ul>
+	</div>
+	<div class="span8" id="test_specification">
+		<div class='pad_l pad_r' id='nodes_panel'>
+			<h4>Select a node in the navigation tree</h4>
+			
+			<p>Different forms or details about nodes will be displayed here.</p>
+		</div>
+	</div>
+</div>
+{% endblock %}
