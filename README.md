@@ -18,3 +18,4 @@ Please, report bugs, suggestions and other issues in [GitHub](http://github.com/
 # License
 
 Licensed under the MIT License. See LICENSE.txt.
+=======
