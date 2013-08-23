@@ -31,7 +31,7 @@ $(function() {
 	// Collections
 	var Nodes = Backbone.Collection.extend({
 		model: Node,
-		url: 'nodes', 
+		url: document.URL + '/nodes', 
 	});
     // Views
 	var NodeItem = Backbone.View.extend({
