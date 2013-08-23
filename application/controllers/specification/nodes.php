@@ -15,10 +15,10 @@ class Nodes extends REST_Controller {
 	}
 	
 	public function id_get() {
-		$node_id = $this->input->get('node_id');
+		$node_id = $this->get('id');
 		$nodes = array();
 		if (isset($node_id) && $node_id) {
-			$nodes = $this->navigation_tree_dao->get_by_node_id($node_id);
+			$nodes = $this->navigation_tree_dao->get_by_project_id($node_id);
 		}
 		return $this->response($nodes);
 	}

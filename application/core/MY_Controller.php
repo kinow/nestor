@@ -7,6 +7,9 @@ if (! defined('BASEPATH')) exit('No direct script access allowed');
  * Controller for themes. 
  */
 class MY_Controller extends CI_Controller {
+	
+	var $js = array();
+	
     public function __construct() {
         parent::__construct();
         
@@ -67,6 +70,15 @@ class MY_Controller extends CI_Controller {
     protected function get_nestor() {
     	return $this->nestor;
     }
+    
+    protected function get_current_project() {
+    	$active_project = $this->session->userdata('active_project');
+    	if (!isset($active_project) || is_null($active_project) || !$active_project) {
+    		$this->add_flashdata_message('Please, select a project first', 'warning');
+    		redirect('/');
+    	}
+    	return $active_project;
+    }
 
 }
 
@@ -123,6 +135,8 @@ class Twiggy_Controller extends MY_Controller {
         $this->twiggy->set('elapsed_time', $elapsed);
         
         $this->form_validation->set_error_delimiters('<div class="alert alert-block alert-error fade in" data-dismiss="alert"><button type="button" class="close" data-dismiss="alert">×</button>', '</div>');
+        
+        $this->twiggy->set('js', $this->js);
     }
     
     function add_error($errors) {

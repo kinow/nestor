@@ -27,6 +27,9 @@
     <script src="{{ twiggy_theme_url('js/json2.js') }}"></script>
     <script src="{{ twiggy_theme_url('js/backbone-min.js') }}"></script>
     <script src="{{ twiggy_theme_url('js/sitemapstyler.js') }}"></script>
+    {% for j in js %}
+    <script src="{{ twiggy_theme_url('js/' ~ j) }}"></script>
+    {% endfor %}
     <script src="{{ twiggy_theme_url('js/script.js') }}"></script>
 
     <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->

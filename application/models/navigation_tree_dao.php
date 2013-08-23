@@ -23,10 +23,17 @@ class Navigation_Tree_Dao extends CI_Model {
 		return $this->db->get('navigation_tree')->result();
 	}
 	
-	public function get_by_node_id($project_id, $left_limit = 0, $right_limit = 0) {
+	public function get_by_project_id($project_id) {
+		$this->db->where('parent_id', 0);
+		$this->db->where('node_type_id', 1); // FIXME: constants
+		$this->db->where('node_id', $project_id);
+		return $this->db->get('navigation_tree')->result();
+	}
+	
+	public function get_by_node_id($node_id, $left_limit = 0, $right_limit = 0) {
 		if ($left_limit > 0)
 			$this->db->limit($left_limit, $right_limit);
-		$this->db->where('parent_id', $project_id);
+		$this->db->where('parent_id', $node_id);
 		return $this->db->get('navigation_tree')->result();
 	}
 	

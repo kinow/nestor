@@ -47,7 +47,7 @@ $route['themeManager/install_theme/(:any)'] = 'themeManager/install_theme/index/
 
 # nodes
 $route['specification/nodes'] = 'specification/nodes/index';
-$route['specification/nodes/(:num)'] = 'specification/nodes/id/$1';
+$route['specification/nodes/id/(:num)'] = 'specification/nodes/id/id/$1';
 
 # CI
 $route['default_controller'] = "index";

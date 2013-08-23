@@ -2,6 +2,8 @@
 
 class Index extends Twiggy_Controller {
 
+	var $js = array('navigation_tree.js');
+	
 	public function __construct() {
 		parent::__construct();
 		$this->load->model('projects');
@@ -9,7 +11,7 @@ class Index extends Twiggy_Controller {
 	}
 	
 	public function index() {
-		$active_project = $this->session->userdata('active_project');
+		$active_project = $this->get_current_project();
 		$this->twiggy->set('active_project', $active_project);
 		$projects = $this->projects->all();
 		$this->twiggy->set('projects', $projects);

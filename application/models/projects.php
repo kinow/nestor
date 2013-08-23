@@ -18,15 +18,16 @@ class Projects extends CI_Model {
 		$CI->load->model('navigation_tree_dao');
 		// TODO validate fields
 		$this->db->trans_start();
-		if (!$this->db->insert('projects', $project)) {
-			throw new Exception('Failed to create project');
-		}
-		$navigation_tree_node = new stdClass();
-		$navigation_tree_node->node_id = $this->db->insert_id();
-		$navigation_tree_node->node_type_id = 1; // FIXME: constants
-		$navigation_tree_node->parent_id = 0; // TBD: constants
-		$navigation_tree_node->display_name = $project->name;
 		try {
+			if (!$this->db->insert('projects', $project)) {
+				throw new Exception('Failed to create project');
+			}
+			$navigation_tree_node = new stdClass();
+			$navigation_tree_node->node_id = $this->db->insert_id();
+			$navigation_tree_node->node_type_id = 1; // FIXME: constants
+			$navigation_tree_node->parent_id = 0; // TBD: constants
+			$navigation_tree_node->display_name = $project->name;
+			
 			$CI->navigation_tree_dao->create($navigation_tree_node);
 			$this->db->trans_commit();
 		} catch (Exception $exception) {

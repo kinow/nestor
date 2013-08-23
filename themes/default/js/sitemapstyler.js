@@ -7,7 +7,7 @@
 */
 
 this.sitemapstyler = function(){
-	var sitemap = document.getElementById("sitemap")
+	var sitemap = document.getElementById("navigation_tree")
 	if(sitemap){
 		
 		this.listItem = function(li){
