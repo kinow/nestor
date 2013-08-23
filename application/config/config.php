@@ -16,7 +16,7 @@
 */
 $config['base_url']	= 'http://localhost/nestor';
 $db_url = getenv('CLEARDB_DATABASE_URL');
-if (isset($db_url) && $db_url) {
+if (isset($db_url) && isset($db_url['user'])) {
     $config['base_url']	= 'http://nestor-qa-demo.herokuapp.com/';
 }
 
