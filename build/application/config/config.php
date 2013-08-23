@@ -14,7 +14,7 @@
 | path to your installation.
 |
 */
-$config['base_url']	= 'http://nestor-qa.org/';
+$config['base_url']	= 'http://nestordemo.net76.net/';
 
 /*
 |--------------------------------------------------------------------------
