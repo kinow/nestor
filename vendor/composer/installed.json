@@ -1,54 +1,5 @@
 [
     {
-        "name": "mustangostang/spyc",
-        "version": "dev-master",
-        "version_normalized": "9999999-dev",
-        "source": {
-            "type": "git",
-            "url": "https://github.com/mustangostang/spyc.git",
-            "reference": "f9a5c83afa28f057dd01806fda724d85f9ca9444"
-        },
-        "dist": {
-            "type": "zip",
-            "url": "https://api.github.com/repos/mustangostang/spyc/zipball/f9a5c83afa28f057dd01806fda724d85f9ca9444",
-            "reference": "f9a5c83afa28f057dd01806fda724d85f9ca9444",
-            "shasum": ""
-        },
-        "require": {
-            "php": ">=5.3.1"
-        },
-        "time": "2013-06-09 15:46:31",
-        "type": "library",
-        "extra": {
-            "branch-alias": {
-                "dev-master": "0.5.x-dev"
-            }
-        },
-        "installation-source": "source",
-        "autoload": {
-            "files": [
-                "Spyc.php"
-            ]
-        },
-        "notification-url": "https://packagist.org/downloads/",
-        "license": [
-            "MIT License"
-        ],
-        "authors": [
-            {
-                "name": "mustangostang",
-                "email": "vlad.andersen@gmail.com"
-            }
-        ],
-        "description": "A simple YAML loader/dumper class for PHP",
-        "homepage": "https://github.com/mustangostang/spyc/",
-        "keywords": [
-            "spyc",
-            "yaml",
-            "yml"
-        ]
-    },
-    {
         "name": "psr/log",
         "version": "1.0.0",
         "version_normalized": "1.0.0.0",
@@ -95,17 +46,17 @@
         "source": {
             "type": "git",
             "url": "https://github.com/Seldaek/monolog.git",
-            "reference": "1.5.0"
+            "reference": "583618d5cd2115a52101694aca87afb182b3e567"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/Seldaek/monolog/zipball/1.5.0",
-            "reference": "1.5.0",
+            "url": "https://api.github.com/repos/Seldaek/monolog/zipball/583618d5cd2115a52101694aca87afb182b3e567",
+            "reference": "583618d5cd2115a52101694aca87afb182b3e567",
             "shasum": ""
         },
         "require": {
             "php": ">=5.3.0",
-            "psr/log": ">=1.0,<2.0"
+            "psr/log": "~1.0"
         },
         "require-dev": {
             "doctrine/couchdb": "dev-master",
@@ -151,5 +102,57 @@
             "logging",
             "psr-3"
         ]
+    },
+    {
+        "name": "mustangostang/spyc",
+        "version": "dev-master",
+        "version_normalized": "9999999-dev",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/mustangostang/spyc.git",
+            "reference": "3c229bf49711fd278a79d0250a28d594c78c5e9b"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/mustangostang/spyc/zipball/3c229bf49711fd278a79d0250a28d594c78c5e9b",
+            "reference": "3c229bf49711fd278a79d0250a28d594c78c5e9b",
+            "shasum": ""
+        },
+        "require": {
+            "php": ">=5.3.1"
+        },
+        "time": "2013-06-19 09:10:41",
+        "type": "library",
+        "extra": {
+            "branch-alias": {
+                "dev-master": "0.5.x-dev"
+            }
+        },
+        "installation-source": "source",
+        "autoload": {
+            "files": [
+                "Spyc.php"
+            ]
+        },
+        "license": [
+            "MIT License"
+        ],
+        "authors": [
+            {
+                "name": "mustangostang",
+                "email": "vlad.andersen@gmail.com"
+            }
+        ],
+        "description": "A simple YAML loader/dumper class for PHP",
+        "homepage": "https://github.com/mustangostang/spyc/",
+        "keywords": [
+            "spyc",
+            "yaml",
+            "yml"
+        ],
+        "support": {
+            "source": "https://github.com/mustangostang/spyc/tree/master",
+            "issues": "https://github.com/mustangostang/spyc/issues"
+        }
     }
 ]

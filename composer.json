@@ -4,10 +4,15 @@
     "version": "0.0.4",
     "homepage": "http://nestor-qa.rg",
     "license": "MIT License",
-    "support": "https://github.com/nestor-qa/nestor/issues",
     "type": "project",
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/mustangostang/spyc.git"
+        }
+    ],
     "require": {
         "monolog/monolog": "1.5.0", 
-        "mustangostang/spyc": "0.5.*@dev"
+        "mustangostang/spyc": "dev-master"
     }
 }
