@@ -15,6 +15,9 @@
 |
 */
 $config['base_url']	= 'http://localhost/nestor';
+if (isset(getenv('CLEARDB_DATABASE_URL')) && getenv('CLEARDB_DATABASE_URL')) {
+    $config['base_url']	= 'http://nestor-qa-demo.herokuapp.com/';
+}
 
 /*
 |--------------------------------------------------------------------------

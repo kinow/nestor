@@ -45,7 +45,9 @@
 | the active record class
 */
 
-$active_group = 'default';
+$url = parse_url(getenv('CLEARDB_DATABASE_URL'));
+
+$active_group = $url ? 'demo' : 'default';
 $active_record = TRUE;
 
 $db['default']['hostname'] = 'localhost';
@@ -63,6 +65,22 @@ $db['default']['dbcollat'] = 'utf8_general_ci';
 $db['default']['swap_pre'] = '';
 $db['default']['autoinit'] = TRUE;
 $db['default']['stricton'] = FALSE;
+
+$db['demo']['hostname'] = $url['host'];
+$db['demo']['username'] = $url['user'];
+$db['demo']['password'] = $url['pass'];
+$db['demo']['database'] = substr($url['path'],1);
+$db['demo']['dbdriver'] = 'mysql';
+$db['demo']['dbprefix'] = '';
+$db['demo']['pconnect'] = TRUE;
+$db['demo']['db_debug'] = FALSE;
+$db['demo']['cache_on'] = FALSE;
+$db['demo']['cachedir'] = '';
+$db['demo']['char_set'] = 'utf8';
+$db['demo']['dbcollat'] = 'utf8_general_ci';
+$db['demo']['swap_pre'] = '';
+$db['demo']['autoinit'] = TRUE;
+$db['demo']['stricton'] = FALSE;
 
 
 /* End of file database.php */
