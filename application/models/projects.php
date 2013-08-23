@@ -15,7 +15,7 @@ class Projects extends CI_Model {
 
 	public function create($project) {
 		$CI = &get_instance();
-		$CI->load->model('navigation_tree');
+		$CI->load->model('navigation_tree_dao');
 		// TODO validate fields
 		$this->db->trans_start();
 		if (!$this->db->insert('projects', $project)) {
@@ -27,7 +27,7 @@ class Projects extends CI_Model {
 		$navigation_tree_node->parent_id = 0; // TBD: constants
 		$navigation_tree_node->display_name = $project->name;
 		try {
-			$CI->navigation_tree->create($navigation_tree_node);
+			$CI->navigation_tree_dao->create($navigation_tree_node);
 			$this->db->trans_commit();
 		} catch (Exception $exception) {
 			$this->db->trans_rollback();
