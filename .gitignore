@@ -8,5 +8,4 @@ tmp
 user_guide
 application/logs
 database-model
-/vendor/
 /composer.lock
