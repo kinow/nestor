@@ -47,7 +47,7 @@
 
 $url = parse_url(getenv('CLEARDB_DATABASE_URL'));
 
-$active_group = $url ? 'demo' : 'default';
+$active_group = (isset($url) && isset($url['user'])) ? 'demo' : 'default';
 $active_record = TRUE;
 
 $db['default']['hostname'] = 'localhost';
@@ -66,10 +66,10 @@ $db['default']['swap_pre'] = '';
 $db['default']['autoinit'] = TRUE;
 $db['default']['stricton'] = FALSE;
 
-$db['demo']['hostname'] = $url['host'];
-$db['demo']['username'] = $url['user'];
-$db['demo']['password'] = $url['pass'];
-$db['demo']['database'] = substr($url['path'],1);
+$db['demo']['hostname'] = isset($url['host']) ? $url['host'] : '';
+$db['demo']['username'] = isset($url['user']) ? $url['user'] : '';
+$db['demo']['password'] = isset($url['pass']) ? $url['pass'] : '';
+$db['demo']['database'] = isset($url['path']) ? substr($url['path'],1) : '';
 $db['demo']['dbdriver'] = 'mysql';
 $db['demo']['dbprefix'] = '';
 $db['demo']['pconnect'] = TRUE;
