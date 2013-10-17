@@ -19,15 +19,16 @@ class TestSuite extends Twiggy_Controller {
 			$testsuite->project_id = $this->form_validation->set_value('project_id');
 			$testsuite->name = $this->form_validation->set_value('name');
 			$testsuite->description = $this->form_validation->set_value('description');
-			
-			$this->testsuites_dao->create($testsuite);
-			
 			$node_id = $this->form_validation->set_value('node_id');
-			redirect("/specification#node/$node_id");
+			
+			$this->testsuites_dao->create($testsuite, $node_id);
+			
+			redirect(sprintf("/specification?node_id=%d", $node_id));
 		} else {
 			$node_id = $this->form_validation->set_value('node_id');
+			$this->session->set_flashdata('errors', validation_errors('', ''));
 			if (isset($node_id) && $node_id) {
-				redirect("/specification#node/$node_id/show_form");
+				redirect(sprintf("/specification?node_id=%d", $node_id));
 			} else {
 				redirect('/specification');
 			}

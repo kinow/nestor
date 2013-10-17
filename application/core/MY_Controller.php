@@ -125,7 +125,8 @@ class Twiggy_Controller extends MY_Controller {
         // Twiggy
         $this->twiggy->register_function('twiggy_theme_url');
         // Nestor functions
-        $this->twiggy->register_function('nestor_version'); 
+        $this->twiggy->register_function('nestor_version');
+        $this->twiggy->register_function('print_navigation_tree');
         
         $this->twiggy->set('errors', $this->session->flashdata('errors'));
 		$this->twiggy->set('warning', $this->session->flashdata('warning'));

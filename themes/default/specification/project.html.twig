@@ -1,0 +1,27 @@
+<div>
+<h4>Project &mdash; {{ node.display_name }}</h4>
+<hr/>
+<h5>Create a test suite</h5>
+{{ validation_errors() }}
+{{ form_open('specification/testsuite', 'class="form-horizontal"') }}
+<input type='hidden' name='project_id' value='{{ active_project.id }}' />
+<input type='hidden' name='node_id' value='{{ node.id }}' />
+<div class="control-group">
+  <label class="control-label" for="name">Name</label>
+  <div class="controls">
+    <input type="text" id="name" name="name" placeholder="Name" />
+  </div>
+</div>
+<div class="control-group">
+  <label class='control-label' for='description'>Description</label>
+  <div class="controls">
+    <textarea name='description' id='description' rows="6" class="span4"></textarea>
+  </div>
+</div>
+<div class="control-group">
+  <div class='controls'>
+    <input type='submit' class='btn btn-primary' value='Add' />
+  </div>
+</div>
+{{ form_close() }}
+</div>

@@ -1,67 +1,6 @@
 {% extends _layout %}
 
 {% block content %}
-<script type="text/template" id="node_template">
-  <label>Search</label>
-  <input type="text" id="search_input" />
-  <input type="button" id="search_button" value="Search" />
-</script>
-
-<script type="text/template" id="node_item">
-<li class='node_item expand_node' id='node_item-<%= id %>'><a href='{{ site_url('specification#node') }}/<%= id %>'><%= display_name %></a></li>
-</script>
-
-<script type="text/template" id="node_project_form">
-<div>
-<h4>Project &mdash; <%= display_name %></h4>
-
-<p><a href="{{ site_url('specification#node') }}/<%= id %>/show_form">Create a test suite</a></p>
-{{ validation_errors() }}
-<% if (show_form) { %>
-{{ form_open('specification/testsuite', 'class="form-horizontal"') }}
-<input type='hidden' name='project_id' value='<%= node_id %>' />
-<input type='hidden' name='node_id' value='<%= id %>' />
-<div class="control-group">
-  <label class="control-label" for="name">Name</label>
-  <div class="controls">
-    <input type="text" id="name" name="name" placeholder="Name" />
-  </div>
-</div>
-<div class="control-group">
-  <label class='control-label' for='description'>Description</label>
-  <div class="controls">
-    <textarea name='description' id='description' rows="6" class="span4"></textarea>
-  </div>
-</div>
-<div class="control-group">
-  <div class='controls'>
-    <input type='submit' class='btn btn-primary' value='Add' />
-  </div>
-</div>
-{{ form_close() }}
-
-<% } else { %>
-
-{{ form_open('suite', 'class="form-horizontal hidden"') }}
-<div class="control-group">
-  <label class="control-label" for="inputPassword">Password</label>
-  <div class="controls">
-    <input type="password" id="inputPassword" placeholder="Password">
-  </div>
-</div>
-{{ form_close() }}
-
-<% } %>
-</div>
-</script>
-
-<script type="text/template" id="node_test_suite_form">
-<div>
-<h4>Test suite &mdash; <%= display_name %></h4>
-
-<p><a href="{{ site_url('specification#node') }}/<%= id %>/show_form">Create a test case</a></p>
-</div>
-</script>
 
 <div class='page-header'>
 	<h1>Test Specification</h1>
@@ -69,22 +8,80 @@
 <div class='row'>
 	<div class='span4' id='navigation_tree_panel'>
 		<p>Navigation tree</p>
-		<ul id="navigation_tree"></ul>
+		{{ print_navigation_tree(navigation_tree, node_id) }}
 	</div>
 	<div class="span8" id="test_specification">
 		<div class='pad_l pad_r' id='nodes_panel'>
-			<h4>Select a node in the navigation tree</h4>
 			
+			{% if node.node_type_id == 1 %} {# project #}
+				{% include 'specification/project.html.twig' %}
+			{% elseif node.node_type_id == 2 %} {# test suite #}
+				{% include 'specification/testsuite.html.twig' %}
+			{% elseif node.node_type_id == 3 %} {# test case #}
+				{% include 'specification/testcase.html.twig' %}
+			{% else %} {# main page #}
+			<h4>Select a node in the navigation tree</h4>
 			<p>Different forms or details about nodes will be displayed here.</p>
+			{% endif %}
 		</div>
 	</div>
 </div>
 
 <script type='text/javascript'>
 var templatecallback = function() {
-	console.log('Firing app');
-	var app = new NavigationRouter({id: '{{ active_project.id }}'});
-    Backbone.history.start();
+	$("#navigation_tree_panel").fancytree({
+		imagePath: "{{ twiggy_theme_url("icons/32x32") }}/",
+		extensions: [],
+		activeVisible: true, // Make sure, active nodes are visible (expanded).
+	    aria: false, // Enable WAI-ARIA support.
+	    autoActivate: true, // Automatically activate a node when it is focused (using keys).
+	    autoCollapse: false, // Automatically collapse all siblings, when a node is expanded.
+	    autoScroll: false, // Automatically scroll nodes into visible area.
+	    clickFolderMode: 1, // 1:activate, 2:expand, 3:activate and expand, 4:activate (dblclick expands)
+	    checkbox: false, // Show checkboxes.
+	    debugLevel: 1, // 0:quiet, 1:normal, 2:debug
+	    disabled: false, // Disable control
+	    generateIds: false, // Generate id attributes like <span id='fancytree-id-KEY'>
+	    idPrefix: "ft_", // Used to generate node id´s like <span id='fancytree-id-<key>'>.
+	    icons: true, // Display node icons.
+	    keyboard: true, // Support keyboard navigation.
+	    keyPathSeparator: "/", // Used by node.getKeyPath() and tree.loadKeyPath().
+	    minExpandLevel: 0, // 1: root node is not collapsible
+	    selectMode: 1, // 1:single, 2:multi, 3:multi-hier
+	    tabbable: true, // Whole tree behaves as one single control
+	    childcounter: {
+	        deep: true,
+	        hideZeros: true,
+	        hideExpanded: true
+	    },
+	    focus: function(e, data) {
+			var node = data.node;
+			// Auto-activate focused node after 1 second
+			if(node.data.href){
+				node.scheduleAction("activate", 100000);
+			}
+		},
+	    blur: function(e, data) {
+			data.node.scheduleAction("cancel");
+		},
+	    activate: function(e, data){
+			var node = data.node;
+			if(node.data.href){
+				window.open(node.data.href, node.data.target);
+			}
+		},
+		click: function(e, data){ // allow re-loads
+			var node = data.node;
+			if(node.isActive() && node.data.href){
+				// TODO: data.tree.reactivate();
+			}
+		}
+	});
+	$("#navigation_tree_panel").fancytree("getRootNode").visit(function(node){
+        //node.setExpanded(true);
+    });
+	var tree = $("#navigation_tree_panel").fancytree("getTree");
+	tree.setFocus(true);
 }
 </script>
 {% endblock %}

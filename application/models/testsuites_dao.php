@@ -13,7 +13,7 @@ class TestSuites_Dao extends CI_Model {
 		return $this->db->get('test_suites')->num_rows();
 	}
 
-	public function create($testsuite) {
+	public function create($testsuite, $parent_id = 0) {
 		$CI = &get_instance();
 		$CI->load->model('navigation_tree_dao');
 		// TODO validate fields
@@ -22,10 +22,12 @@ class TestSuites_Dao extends CI_Model {
 			if (!$this->db->insert('test_suites', $testsuite)) {
 				throw new Exception('Failed to create test suite');
 			}
+			if (!isset($parent_id) || $parent_id <= 0)
+				$parent_id = $testsuite->project_id;
 			$navigation_tree_node = new stdClass();
 			$navigation_tree_node->node_id = $this->db->insert_id();
 			$navigation_tree_node->node_type_id = 2; // FIXME: constants
-			$navigation_tree_node->parent_id = $testsuite->project_id; // TBD: constants
+			$navigation_tree_node->parent_id = $parent_id; // TBD: constants
 			$navigation_tree_node->display_name = $testsuite->name;
 			
 			$CI->navigation_tree_dao->create($navigation_tree_node);

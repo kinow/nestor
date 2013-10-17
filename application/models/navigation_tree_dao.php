@@ -33,8 +33,8 @@ class Navigation_Tree_Dao extends CI_Model {
 	public function get_by_node_id($node_id, $left_limit = 0, $right_limit = 0) {
 		if ($left_limit > 0)
 			$this->db->limit($left_limit, $right_limit);
-		$this->db->where('parent_id', $node_id);
-		return $this->db->get('navigation_tree')->result();
+		$this->db->where('id', $node_id);
+		return $this->db->get('navigation_tree')->row();
 	}
 	
 }
