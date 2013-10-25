@@ -10,3 +10,4 @@ application/logs/
 database-model/
 vendor/
 composer.phar
+_site/
