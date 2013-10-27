@@ -30,7 +30,7 @@ if (!function_exists('bootstrap_menus')) {
 		$items = array();
 		$items['home'] = anchor('/', 'Home');
 		$items['projects'] = anchor('/projects/', 'Projects');
-		$action_links_attribute = (!isset($session_project) || $session_project != null) ? '' : 'style="color: red; display: none;"'; 
+		$action_links_attribute = (isset($session_project) && !is_null($session_project) && ($session_project !== FALSE)) ? '' : 'style="color: red; display: none;"'; 
 		$items['requirements'] = anchor('/requirements/', 'Requirements', $action_links_attribute);
 		$items['specification'] = anchor('/specification/', 'Specification', $action_links_attribute);
 		$items['planning'] = anchor('/planning/', 'Planning', $action_links_attribute);
@@ -45,9 +45,7 @@ if (!function_exists('bootstrap_menus')) {
 				$menuitems .= '<li>'.$item.'</li>';
 		}
 		$projectitems = '';
-		if (strcmp('manage', $active) == 0) {
-			$projectitems = '';
-		} else if (!isset($projects) || !is_array($projects) || count($projects) <= 0) {
+		if (!isset($projects) ||  is_null($projects) || !is_array($projects) ||count($projects) <= 0) {
 			$projectitems .= '<ul class="nav" style="float: right;"><li><a href="' . site_url('/projects/create') . '">Create a new project</a></li></ul>';
 		} else {
 			$projectitems .= '<select name="project_id" style="margin: 5px 0px 0px 0px;" onchange="javascript:position_project(this);">';

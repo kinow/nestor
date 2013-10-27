@@ -1,0 +1,93 @@
+{% extends _layout %}
+{% block content %}
+<div class='page-header'>
+    <h1>Themes</h1>
+</div>
+
+<div class='row'>
+    <div class='span12'>
+        <div id="projects">
+            <ul class="nav nav-tabs" id="myTab">
+                <li class="active"><a href="#updates">Updates</a></li>
+                <li><a href="#available">Available</a></li>
+                <li><a href="#installed">Installed</a></li>
+                <li><a href="#advanced">Advanced</a></li>
+            </ul>
+            <div class="tab-content">
+                <div class="tab-pane active" id="updates">
+                    <h4>Updates</h4>
+                </div>
+                <div class="tab-pane" id="available">
+                    <h4>Themes available</h4>
+                    <table class='table table-bordered table-hover'>
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Description</th>
+                                <th>URL</th>
+                                <th>Author</th>
+                                <th>Version</th>
+                                <th>Install</th>
+                            </tr>
+                        </thead>
+                        {% if available is defined %}
+                        <tbody>
+                        	{% for theme in available %}
+                            <tr>
+                                <td>{{ theme.name }}</td>
+                                <td>{{ theme.description }}</td>
+                                <td>{{ theme.url }}</td>
+                                <td>{{ theme.author }}</td>
+                                <td>{{ theme.version }}</td>
+                                {% if theme.installed %}
+                                <td>Installed</td>
+                                {% else %}
+                                <td>{{ anchor ( 'themeManager/install_theme/' ~ theme.name, 'Install') }}</td>
+                                {% endif %}
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                        {% endif %}
+                    </table>
+                </div>
+                <div class="tab-pane" id="installed">
+                    <h4>Themes installed</h4>
+                    <table class='table table-bordered table-hover'>
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Description</th>
+                                <th>URL</th>
+                                <th>Author</th>
+                                <th>Version</th>
+                                <th>Activate</th>
+                            </tr>
+                        </thead>
+                        {% if themes is defined %}
+                        <tbody>
+                        	{% for theme in themes %}
+                            <tr>
+                                <td>{{ theme.name }}</td>
+                                <td>{{ theme.description }}</td>
+                                <td>{{ theme.url }}</td>
+                                <td>{{ theme.author }}</td>
+                                <td>{{ theme.version }}</td>
+                                <td>{{ anchor('themeManager/switch_theme/' ~ theme.name, 'Activate') }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                        {% endif %}
+                    </table>
+                </div>
+                <div class="tab-pane" id="advanced">
+                    <h4>Advanced</h4>
+                    <!-- who's copying? -->
+                    <p>TODO: add proxy form</p>
+                    <p>TODO: add upload form</p>
+                    <p>TODO: add update site form</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

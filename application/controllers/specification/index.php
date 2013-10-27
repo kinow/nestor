@@ -9,12 +9,12 @@ class Index extends Twiggy_Controller {
 		$this->load->model('testcases_dao');
 	}
 	
-	public function index() {
+	public function index($node_id = NULL) {
 		// Projects
 		$active_project = $this->get_current_project();
 		$projects = $this->projects->all();
 		// Node ID
-		$node_id = $this->input->get('node_id');
+		//$node_id = $this->input->get('node_id');
 		$node = NULL;
 		if (isset($node_id) && $node_id > 0)
 			$node = $this->navigation_tree_dao->get_by_node_id($node_id);

@@ -2,13 +2,18 @@
 
 use Nestor\Nestor;
 
-class Index extends MY_Controller {
+class Index extends Twiggy_Controller {
 
 	public function __construct() {
 		parent::__construct();
+		$this->load->model('projects');
 	}
 	
 	public function index() {
+		// Projects
+		$active_project = $this->get_current_project();
+		$projects = $this->projects->all();
+		// Themes
 		$this->theme->set('active', 'manage');
 		$nestor = Nestor::get_instance();
 		$nestor->get_theme_manager()->scan('themes/');
@@ -23,9 +28,13 @@ class Index extends MY_Controller {
 				}
 			}
 		}
-		$this->theme->set('themes', $themes);
-		$this->theme->set('available', $available);
-		$this->theme->view('themeManager/index');
+		// UI
+		$this->twiggy->set('active_project', $active_project);
+		$this->twiggy->set('projects', $projects);
+		$this->twiggy->set('active', 'manage');
+		$this->twiggy->set('themes', $themes);
+		$this->twiggy->set('available', $available);
+		$this->twiggy->display('themeManager/index');
 	}
 }
 

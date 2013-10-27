@@ -138,6 +138,8 @@ class Twiggy_Controller extends MY_Controller {
         $this->form_validation->set_error_delimiters('<div class="alert alert-block alert-error fade in" data-dismiss="alert"><button type="button" class="close" data-dismiss="alert">×</button>', '</div>');
         
         $this->twiggy->set('js', $this->js);
+        $this->twiggy->set('active_project', NULL);
+        $this->twiggy->set('projects', NULL);
     }
     
     function add_error($errors) {

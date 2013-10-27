@@ -31,3 +31,7 @@ span.fancytree-childcounter {
 .pad_r {
 	padding-right: 10px;
 }
+
+.pagination {
+    margin: 0px 0px;
+}

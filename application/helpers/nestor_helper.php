@@ -64,7 +64,7 @@ if ( ! function_exists('print_navigation_tree')) {
 			}
 			if ($node->node_type_id == 1) { // project
 				echo "<ul id='treeData' style='display: none;'>";
-				echo sprintf("<li data-icon='places/folder.png' class='expanded%s'><a target='_self' href='%s'>%s</a>", $extra_classes, site_url('/specification?node_id='.$node->id), $node->display_name);
+				echo sprintf("<li data-icon='places/folder.png' class='expanded%s'><a target='_self' href='%s'>%s</a>", $extra_classes, site_url('/specification/nodes/'.$node->id), $node->display_name);
 				if (!empty($node->children)) {
 					echo "<ul>";
 					print_navigation_tree($node->children, $node_id, $node->id);
@@ -74,7 +74,7 @@ if ( ! function_exists('print_navigation_tree')) {
 			} else if ($node->node_type_id == 2) { // test suite
 // 				if ($node->parent_id != $last_parent)
 // 					echo "<ul>";
-				echo sprintf("<li data-icon='actions/document-open.png' class='%s'><a target='_self' href='%s'>%s</a>", $extra_classes, site_url('/specification?node_id='.$node->id), $node->display_name);
+				echo sprintf("<li data-icon='actions/document-open.png' class='%s'><a target='_self' href='%s'>%s</a>", $extra_classes, site_url('/specification/nodes/'.$node->id), $node->display_name);
 				if (!empty($node->children)) {
 					echo "<ul>";
 					print_navigation_tree($node->children, $node_id, $node->parent_id);
@@ -84,7 +84,7 @@ if ( ! function_exists('print_navigation_tree')) {
 // 					echo "</ul>";
 				echo "</li>";
 			} else {
-				echo sprintf("<li data-icon='mimetypes/text-x-generic.png' class='%s'><a target='_self' href='%s'>%s</a></li>", $extra_classes, site_url('/specification?node_id='.$node->id), $node->display_name);
+				echo sprintf("<li data-icon='mimetypes/text-x-generic.png' class='%s'><a target='_self' href='%s'>%s</a></li>", $extra_classes, site_url('/specification/nodes/'.$node->id), $node->display_name);
 			}
 		}
 	}
