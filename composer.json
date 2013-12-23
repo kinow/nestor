@@ -1,18 +1,27 @@
 {
-    "name": "Nestor QA",
-    "description": "Nestor QA test management tool",
-    "version": "0.0.4",
-    "homepage": "http://nestor-qa.rg",
-    "license": "MIT License",
-    "type": "project",
-    "repositories": [
-        {
-            "type": "vcs",
-            "url": "https://github.com/mustangostang/spyc.git"
-        }
-    ],
-    "require": {
-        "monolog/monolog": "1.5.0", 
-        "mustangostang/spyc": "0.5.*@dev"
-    }
+	"name" : "laravel/nestor-qa",
+	"type" : "laravel",
+	"description" : "Nestor-QA Test Management",
+	"license" : "MIT",
+	"require" : {
+		"laravel/framework" : "4.1.*",
+		"teepluss/theme" : "dev-master",
+		"philf/setting": "dev-master"
+	},
+	"autoload" : {
+		"psr-0" : {
+			"Nestor" : "app/"
+		},
+		"classmap" : [
+			"app/commands",
+			"app/controllers",
+			"app/database/migrations",
+			"app/database/seeds",
+			"app/tests/TestCase.php"
+		]
+	},
+	"config" : {
+		"preferred-install" : "dist"
+	},
+	"minimum-stability" : "dev"
 }

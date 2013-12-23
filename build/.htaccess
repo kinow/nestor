@@ -1,5 +1,0 @@
-<IfModule mod_rewrite.c>
-RewriteEngine on
-RewriteCond $1 !^(index\.php|themes|uploads|favicon.ico|robots\.txt|sitemap\.xml|google155c1771e472066e.html)
-RewriteRule ^(.*)$ /index.php/$1 [L]
-</IfModule>
