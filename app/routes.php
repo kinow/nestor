@@ -11,7 +11,9 @@
 |
 */
 
+// Main app
 Route::get('/', 'HomeController@getIndex');
 Route::controller('install', 'InstallController');
 
-Route::get('/projects', 'ProjectsController@showAll');
+// Projects
+Route::get('projects', 'ProjectsController@getIndex');

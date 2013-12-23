@@ -3,7 +3,7 @@
 use Auth, Hash, Validator;
 use \User;
 
-class DbUserRepository implements UserRepositoryInterface {
+class DbUserRepository implements UserRepository {
 
 	/**
 	 * Get all of the users.
@@ -19,7 +19,7 @@ class DbUserRepository implements UserRepositoryInterface {
 	 * Get a User by their primary key.
 	 *
 	 * @param  int   $id
-	 * @return Post
+	 * @return User
 	 */
 	public function find($id)
 	{
@@ -34,7 +34,7 @@ class DbUserRepository implements UserRepositoryInterface {
 	 * @param  string  $email
 	 * @param  int  $active
 	 * @param  string  $password
-	 * @return Post
+	 * @return User
 	 */
 	public function create($first_name, $last_name, $email, $active, $password)
 	{
@@ -52,7 +52,7 @@ class DbUserRepository implements UserRepositoryInterface {
 	 * @param  string  $email
 	 * @param  int  $active
 	 * @param  string  $password
-	 * @return Post
+	 * @return User
 	 */
 	public function update($id, $first_name, $last_name, $email, $active, $password = null)
 	{

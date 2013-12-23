@@ -1151,12 +1151,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/EventDispatcher.git",
-                "reference": "81c64d4567f7cf1a983f71f4a5b4d338165aa6e4"
+                "reference": "bdab22742ef40a9c5a6d000da19a7691f7efbb59"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/EventDispatcher/zipball/81c64d4567f7cf1a983f71f4a5b4d338165aa6e4",
-                "reference": "81c64d4567f7cf1a983f71f4a5b4d338165aa6e4",
+                "url": "https://api.github.com/repos/symfony/EventDispatcher/zipball/bdab22742ef40a9c5a6d000da19a7691f7efbb59",
+                "reference": "bdab22742ef40a9c5a6d000da19a7691f7efbb59",
                 "shasum": ""
             },
             "require": {
@@ -1196,7 +1196,7 @@
             ],
             "description": "Symfony EventDispatcher Component",
             "homepage": "http://symfony.com",
-            "time": "2013-12-03 14:52:29"
+            "time": "2013-12-18 17:16:40"
         },
         {
             "name": "symfony/filesystem",
@@ -1587,12 +1587,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/teepluss/laravel4-theme.git",
-                "reference": "c06b906ab06795f6063da43a41620ba45c6df155"
+                "reference": "408ab9b3e8d236a90ca0739274698d4743e761f3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/teepluss/laravel4-theme/zipball/c06b906ab06795f6063da43a41620ba45c6df155",
-                "reference": "c06b906ab06795f6063da43a41620ba45c6df155",
+                "url": "https://api.github.com/repos/teepluss/laravel4-theme/zipball/408ab9b3e8d236a90ca0739274698d4743e761f3",
+                "reference": "408ab9b3e8d236a90ca0739274698d4743e761f3",
                 "shasum": ""
             },
             "require": {
@@ -1634,7 +1634,7 @@
                 "twig",
                 "widget"
             ],
-            "time": "2013-12-19 15:39:07"
+            "time": "2013-12-23 12:18:29"
         },
         {
             "name": "twig/twig",

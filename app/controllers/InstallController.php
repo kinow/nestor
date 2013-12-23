@@ -1,14 +1,13 @@
 <?php
 
-use Nestor\Repositories\UserRepositoryInterface;
-use Setting;
+use Nestor\Repositories\UserRepository;
 
 class InstallController extends Controller {
 
 	/**
 	 * The user repository implementation.
 	 *
-	 * @var Wardrobe\UserRepositoryInterface
+	 * @var Nestor\Repositories\UserRepository
 	 */
 	protected $users;
 
@@ -21,7 +20,7 @@ class InstallController extends Controller {
 	/**
 	 * Create a new Install Controller.
 	 *
-	 * @param UserRepositoryInterface $users
+	 * @param UserRepository $users
 	 * @return InstallController
 	 */
 	public function __construct(UserRepositoryInterface $users)

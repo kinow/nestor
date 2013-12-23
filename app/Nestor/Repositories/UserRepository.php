@@ -1,6 +1,6 @@
 <?php namespace Nestor\Repositories;
 
-interface UserRepositoryInterface {
+interface UserRepository {
 
 	/**
 	 * Get all users
