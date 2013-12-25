@@ -3,7 +3,7 @@
         "This file locks the dependencies of your project to a known state",
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
     ],
-    "hash": "d0283890b0e5824eed36c7fc27fdc594",
+    "hash": "cb57699144477b79045860e8405edc94",
     "packages": [
         {
             "name": "classpreloader/classpreloader",
@@ -342,17 +342,67 @@
             "time": "2013-12-22 02:55:50"
         },
         {
+            "name": "magniloquent/magniloquent",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/philipbrown/magniloquent.git",
+                "reference": "7a1b4640a55dfec4283b84277579f960c2b20ea3"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/philipbrown/magniloquent/zipball/7a1b4640a55dfec4283b84277579f960c2b20ea3",
+                "reference": "7a1b4640a55dfec4283b84277579f960c2b20ea3",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/database": "4.x",
+                "illuminate/support": "4.x",
+                "illuminate/validation": "4.x",
+                "php": ">=5.3.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "Magniloquent\\Magniloquent": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Philip Brown",
+                    "email": "phil@ipbrown.com",
+                    "role": "Creator/Developer"
+                },
+                {
+                    "name": "Alex Sears",
+                    "email": "alexwsears@gmail.com",
+                    "homepage": "http://alexsears.com",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Self-validating models for Laravel 4's Eloquent",
+            "keywords": [
+                "eloquent",
+                "laravel"
+            ],
+            "time": "2013-12-18 04:18:19"
+        },
+        {
             "name": "monolog/monolog",
             "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Seldaek/monolog.git",
-                "reference": "c9db00f8821b2cc7238732529f8d4007296a630c"
+                "reference": "a66d0ed837cc3544c2ff500d11cd24c659b70b22"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Seldaek/monolog/zipball/c9db00f8821b2cc7238732529f8d4007296a630c",
-                "reference": "c9db00f8821b2cc7238732529f8d4007296a630c",
+                "url": "https://api.github.com/repos/Seldaek/monolog/zipball/a66d0ed837cc3544c2ff500d11cd24c659b70b22",
+                "reference": "a66d0ed837cc3544c2ff500d11cd24c659b70b22",
                 "shasum": ""
             },
             "require": {
@@ -406,7 +456,7 @@
                 "logging",
                 "psr-3"
             ],
-            "time": "2013-12-14 13:52:08"
+            "time": "2013-12-25 11:36:24"
         },
         {
             "name": "nesbot/carbon",
@@ -741,12 +791,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/php-fig/log.git",
-                "reference": "5144da9525d24346bf009ff28f10cbaa1f0f166e"
+                "reference": "65f363ac44058796a8e1428cf41e6d92d8a75ddc"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/php-fig/log/zipball/5144da9525d24346bf009ff28f10cbaa1f0f166e",
-                "reference": "5144da9525d24346bf009ff28f10cbaa1f0f166e",
+                "url": "https://api.github.com/repos/php-fig/log/zipball/65f363ac44058796a8e1428cf41e6d92d8a75ddc",
+                "reference": "65f363ac44058796a8e1428cf41e6d92d8a75ddc",
                 "shasum": ""
             },
             "type": "library",
@@ -776,7 +826,7 @@
                 "psr",
                 "psr-3"
             ],
-            "time": "2013-12-05 15:25:07"
+            "time": "2013-12-25 11:17:50"
         },
         {
             "name": "stack/builder",
@@ -1695,7 +1745,8 @@
     "minimum-stability": "dev",
     "stability-flags": {
         "teepluss/theme": 20,
-        "philf/setting": 20
+        "philf/setting": 20,
+        "magniloquent/magniloquent": 20
     },
     "platform": [
 

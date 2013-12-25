@@ -39,27 +39,6 @@ interface ProjectRepository {
 	public function update($id, $name, $description, $project_statuses_id);
 
 	/**
-	 * Validate that the given project is valid for creation.
-	 *
-	 * @param  string  $name
-	 * @param  string  $description
-	 * @param  int  $project_statuses_id
-	 * @return \Illuminate\Support\MessageBag
-	 */
-	public function validForCreation($name, $description, $project_statuses_id);
-
-	/**
-	 * Validate that the given project is valid for updating.
-	 *
-	 * @param  int  $id
-	 * @param  string  $name
-	 * @param  string  $description
-	 * @param  int  $project_statuses_id
-	 * @return \Illuminate\Support\MessageBag
-	 */
-	public function validForUpdate($id, $name, $description, $project_statuses_id);
-
-	/**
 	 * Delete a project
 	 *
 	 * @param int $id

@@ -1,6 +1,8 @@
 <?php
 
-class Project extends \Eloquent {
+use Magniloquent\Magniloquent\Magniloquent;
+
+class Project extends Magniloquent {
 
 	/**
 	 * The database table used by the model.
@@ -22,5 +24,25 @@ class Project extends \Eloquent {
 	 * @var array
 	 */
 	protected $hidden = array('');
+
+	protected static $rules = array(
+		"save" => array(
+				'name' => 'required|min:2',
+				'description' => '',
+				'project_statuses_id' => 'required|numeric'
+		),
+		"create" => array(
+				'name' => 'unique:projects|required|min:2',
+				'description' => '',
+				'project_statuses_id' => 'required|numeric'
+		),
+		"update" => array()
+	);
+
+	protected static $relationships = array(
+		'project_statuses_id' => array('belongsTo', 'project_statuses', 'id'),
+	);
+
+	protected static $purgeable = [''];
 
 }

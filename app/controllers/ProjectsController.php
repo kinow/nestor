@@ -15,6 +15,8 @@ class ProjectsController extends \BaseController {
 
 	protected $theme;
 
+	public $restful = true;
+
 	public function __construct(ProjectRepository $projects)
 	{
 		$this->projects = $projects;
@@ -51,21 +53,6 @@ class ProjectsController extends \BaseController {
 	 */
 	public function store()
 	{
-		Log::info('Validating project params...');
-		$messages = $this->projects->validForCreation(
-				Input::get('name'),
-				Input::get('description'),
-				1 // FIXME: 1 will be active?
-		);
-		if (count($messages) > 0)
-		{
-			Log::info('Invalid params. Redirecting back...');
-			return Redirect::back()
-				->withInput()
-				->withErrors($messages)
-				->with('install_errors', true);
-		}
-
 		Log::info('Creating project...');
 		$project = $this->projects->create(
 				Input::get('name'),
@@ -73,7 +60,15 @@ class ProjectsController extends \BaseController {
 				1
 		);
 
-		return Redirect::to('/projects/' . $project->id);
+		if ($project->isSaved()) {
+			return Redirect::to('/projects/')
+				->with('flash', 'A new project has been created');
+		}
+
+		return Redirect::to('/projects/create')
+			->withInput()
+			->withErrors($project->errors());
+
 	}
 
 	/**
@@ -84,8 +79,9 @@ class ProjectsController extends \BaseController {
 	 */
 	public function show($id)
 	{
-		print_r($id);
-		exit;
+		$args = array();
+		$args['project'] = $this->projects->find($id);
+		return $this->theme->scope('project.show', $args)->render();
 	}
 
 	/**
@@ -96,7 +92,9 @@ class ProjectsController extends \BaseController {
 	 */
 	public function edit($id)
 	{
-		//
+		$args = array();
+		$args['project'] = $this->projects->find($id);
+		return $this->theme->scope('project.edit', $args)->render();
 	}
 
 	/**
@@ -107,7 +105,19 @@ class ProjectsController extends \BaseController {
 	 */
 	public function update($id)
 	{
-		//
+		$project = $this->projects->update($id, Input::get('name'),
+							Input::get('description'),
+							1);
+
+		if ($project->isSaved())
+		{
+			return Redirect::route('projects.show', $id)
+				->with('flash', 'The project was updated');
+		}
+
+		Redirect::route('projects.edit', $id)
+			->withInput()
+			->withErrors($project->errors());
 	}
 
 	/**
@@ -118,7 +128,10 @@ class ProjectsController extends \BaseController {
 	 */
 	public function destroy($id)
 	{
-		//
+		$project = $this->projects->find($id);
+		$this->projects->delete($id);
+		return Redirect::route('projects.index')
+			->with('flash', sprintf('The project %s has been deleted', $project->name));
 	}
 
 }

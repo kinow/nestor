@@ -6,7 +6,8 @@
 	"require" : {
 		"laravel/framework" : "4.1.*",
 		"teepluss/theme" : "dev-master",
-		"philf/setting": "dev-master"
+		"philf/setting" : "dev-master",
+		"magniloquent/magniloquent": "dev-master"
 	},
 	"autoload" : {
 		"psr-0" : {

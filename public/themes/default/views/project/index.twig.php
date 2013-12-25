@@ -24,7 +24,7 @@
 				<tbody>
 					{% for project in projects %}
 					<tr>
-						<td>{{ HTML.link('/projects/' ~ project.id, project.name) }}</td>
+						<td>{{ HTML.linkRoute('projects.show', project.name, [project.id]) }}</td>
 						<td>{{ project.description }}</td>
 					</tr>
 					{% endfor %}
