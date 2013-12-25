@@ -16,4 +16,4 @@ Route::get('/', 'HomeController@getIndex');
 Route::controller('install', 'InstallController');
 
 // Projects
-Route::get('projects', 'ProjectsController@getIndex');
+Route::resource('projects', 'ProjectsController');

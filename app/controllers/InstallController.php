@@ -61,7 +61,8 @@ class InstallController extends Controller {
 		return $this->theme->scope('install.user')->render();
 	}
 
-	public function postUser() {
+	public function postUser()
+	{
 		Log::info('Validating user params...');
 		$messages = $this->users->validForCreation(
 				Input::get('first_name'),
