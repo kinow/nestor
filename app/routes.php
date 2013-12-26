@@ -19,3 +19,6 @@ Route::get('/manage', 'ManageController@getIndex');
 // Projects
 Route::get('projects/position', 'ProjectsController@position');
 Route::resource('projects', 'ProjectsController');
+
+// Specification
+Route::controller('/specification', 'SpecificationController');
