@@ -650,12 +650,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpseclib/phpseclib.git",
-                "reference": "4bd9a546ab5cfa9838eaabe4e0c32643e4eed412"
+                "reference": "1f99fc3c3c9c06186a50b46943a22d9899ea94b8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpseclib/phpseclib/zipball/4bd9a546ab5cfa9838eaabe4e0c32643e4eed412",
-                "reference": "4bd9a546ab5cfa9838eaabe4e0c32643e4eed412",
+                "url": "https://api.github.com/repos/phpseclib/phpseclib/zipball/1f99fc3c3c9c06186a50b46943a22d9899ea94b8",
+                "reference": "1f99fc3c3c9c06186a50b46943a22d9899ea94b8",
                 "shasum": ""
             },
             "require": {
@@ -736,7 +736,7 @@
                 "x.509",
                 "x509"
             ],
-            "time": "2013-12-22 17:53:35"
+            "time": "2013-12-25 23:37:00"
         },
         {
             "name": "predis/predis",
