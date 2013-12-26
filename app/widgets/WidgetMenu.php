@@ -97,7 +97,7 @@ class WidgetMenu extends Widget {
     		$projectitems .= '<ul class="nav" style="float: right;"><li>'. HTML::link('/projects/create', 'Create a new project') . '</li></ul>';
     	} else {
     		$projectitems .= '<select name="project_id" style="margin: 5px 0px 0px 0px;" onchange="javascript:position_project(this);">';
-    		$projectitems .= '<option></option>';
+    		$projectitems .= '<option>-- Choose a project --</option>';
     		foreach ($projects as $project) {
     			if ($current_project != null && strcmp($current_project->name, $project->name) == 0) {
     				$projectitems .= "<option value='$project->id' selected='selected'>$project->name</option>";
