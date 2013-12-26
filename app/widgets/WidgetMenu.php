@@ -2,8 +2,17 @@
 
 use Teepluss\Theme\Theme;
 use Teepluss\Theme\Widget;
+use Nestor\Repositories\ProjectRepository;
+use \Session;
 
 class WidgetMenu extends Widget {
+
+	/**
+	 * The project repository implementation.
+	 *
+	 * @var Nestor\Repositories\ProjectRepository
+	 */
+	protected $projects;
 
     /**
      * Widget template.
@@ -18,6 +27,8 @@ class WidgetMenu extends Widget {
      * @var boolean
      */
     public $watch = false;
+
+    protected $theme;
 
     /**
      * Attributes pass from a widget.
@@ -41,9 +52,12 @@ class WidgetMenu extends Widget {
 
         //$theme->asset()->usePath()->add('widget-name', 'js/widget-execute.js', array('jquery', 'jqueryui'));
         //$this->setAttribute('user', User::find($this->getAttribute('userId')));
+        $this->projects = App::make('Nestor\Repositories\ProjectRepository');
         $this->setAttribute('active', $theme->getActive());
-        $this->setAttribute('projects', $theme->getProjects());
-        $this->setAttribute('current_project', $theme->getCurrentProject());
+        $theme->setProjects($this->projects->all());
+        $current_project = unserialize(Session::get('current_project'));
+        $this->setAttribute('current_project', $current_project);
+        $this->theme = $theme;
     }
 
     /**
@@ -57,7 +71,7 @@ class WidgetMenu extends Widget {
     	if (!$active) {
     		$active = 'home';
     	}
-    	$projects = $this->getAttribute('projects');
+    	$projects = $this->theme->getProjects();
     	$current_project = $this->getAttribute('current_project');
 
     	$items = array();
@@ -79,13 +93,13 @@ class WidgetMenu extends Widget {
     	}
 
     	$projectitems = '';
-    	if (!isset($projects) ||  is_null($projects) || !is_array($projects) ||count($projects) <= 0) {
+    	if (!$projects || count($projects) <= 0) {
     		$projectitems .= '<ul class="nav" style="float: right;"><li>'. HTML::link('/projects/create', 'Create a new project') . '</li></ul>';
     	} else {
     		$projectitems .= '<select name="project_id" style="margin: 5px 0px 0px 0px;" onchange="javascript:position_project(this);">';
     		$projectitems .= '<option></option>';
     		foreach ($projects as $project) {
-    			if (isset($current_project) && $current_project != null && strcmp($current_project->name, $project->name) == 0) {
+    			if ($current_project != null && strcmp($current_project->name, $project->name) == 0) {
     				$projectitems .= "<option value='$project->id' selected='selected'>$project->name</option>";
     			} else {
     				$projectitems .= "<option value='$project->id'>$project->name</option>";
@@ -96,7 +110,7 @@ class WidgetMenu extends Widget {
         //$label = $this->getAttribute('label');
 
         $this->setAttribute('menuitems', $menuitems);
-        $this->setAttribute('projectitems', $projectitems);
+        $this->theme->set('projectitems', $projectitems);
 
         $attrs = $this->getAttributes();
 

@@ -134,4 +134,17 @@ class ProjectsController extends \BaseController {
 			->with('flash', sprintf('The project %s has been deleted', $project->name));
 	}
 
+	public function position()
+	{
+		$project_id = Input::get('project_id');
+		try {
+			$project = $this->projects->find($project_id);
+			Session::put('current_project', serialize($project));
+			return Redirect::back();
+		} catch (Exception $e) {
+			Session::forget('current_project');
+			return Redirect::back();
+		}
+	}
+
 }

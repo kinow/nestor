@@ -1,6 +1,7 @@
 <?php
 
 use Setting;
+use Session;
 
 class BaseController extends Controller {
 
@@ -9,6 +10,8 @@ class BaseController extends Controller {
 	 * @var \Teepluss\Theme\Theme
 	 */
 	protected $theme;
+
+	protected $currentProject;
 
 	public function __construct()
 	{
@@ -20,6 +23,9 @@ class BaseController extends Controller {
 			header('Location: install');
 			exit;
 		}
+		$current_project = Session::get('current_project');
+		$this->currentProject = $current_project;
+		$this->theme->set('current_project', $current_project);
 	}
 
 	/**

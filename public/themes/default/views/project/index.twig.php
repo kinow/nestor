@@ -1,6 +1,7 @@
 {% block content %}
 <div class='page-header'>
 	<h1>Projects</h1>
+	<h3>a: {{ print_r(Theme.getCurrentProject()) }}</h3>
 </div>
 <div class='row'>
 	<div class='span2'>

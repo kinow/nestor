@@ -12,9 +12,9 @@
 			    </ul>
 			</div><!--/.nav-collapse -->
 			<div class='nav-collapse text-right'>
-				<form method="get" action="{$base_url}projects/position" style="margin: 0px;">
-					{{ projectitems }}
-				</form>
+				{{ Form.open({'url': '/projects/position', 'class': 'form-horizontal', 'method': 'GET', 'style': 'margin: 0px;'}) }}
+					{{ Theme.getProjectitems() }}
+				{{ Form.close() }}
 			</div>
 		</div>
 	</div>

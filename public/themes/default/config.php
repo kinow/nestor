@@ -85,6 +85,16 @@ return array(
         	$asset->add('bootstrap.responsive', 'themes/default/assets/css/bootstrap-responsive.min.css');
         	$asset->add('fancytree', 'themes/default/assets/css/plugins/fancytree/skin-lion/ui.fancytree.css');
         	$asset->add('style', 'themes/default/assets/css/style.css');
+        	$asset->add('jquery2', 'themes/default/assets/js/jquery-2.0.3.min.js');
+        	$asset->add('backbone', 'themes/default/assets/js/backbone-min.js');
+        	$asset->add('underscore', 'themes/default/assets/js/underscore-min.js');
+        	$asset->add('html5', 'themes/default/assets/js/html5.js');
+        	$asset->add('bootstrap', 'themes/default/assets/js/bootstrap.min.js');
+        	$asset->add('bootstrap-alert', 'themes/default/assets/js/bootstrap-alert.js');
+        	$asset->add('bootstrap-transition', 'themes/default/assets/js/bootstrap-transition.js');
+        	$asset->add('json2', 'themes/default/assets/js/json2.js');
+        	$asset->add('nestor-navigation_tree', 'themes/default/assets/js/navigation_tree.js');
+        	$asset->add('nestor-style', 'themes/default/assets/js/script.js');
         }
 
     )
