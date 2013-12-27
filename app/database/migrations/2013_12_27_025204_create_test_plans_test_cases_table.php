@@ -14,7 +14,10 @@ class CreateTestPlansTestCasesTable extends Migration {
 	{
 		Schema::create('test_plans_test_cases', function(Blueprint $table)
 		{
-			$table->increments('id');
+			$table->integer('test_plan_id');
+			$table->foreign('test_plan_id')->references('id')->on('test_plans');
+			$table->integer('test_case_id');
+			$table->foreign('test_case_id')->references('id')->on('test_cases');
 			$table->timestamps();
 		});
 	}

@@ -15,7 +15,12 @@ class CreateTestPlansTable extends Migration {
 		Schema::create('test_plans', function(Blueprint $table)
 		{
 			$table->increments('id');
+			$table->integer('project_id');
+			$table->foreign('project_id')->references('id')->on('projects');
+			$table->string('name');
+			$table->string('description')->nullable();
 			$table->timestamps();
+			$table->unique(array('project_id', 'name'));
 		});
 	}
 

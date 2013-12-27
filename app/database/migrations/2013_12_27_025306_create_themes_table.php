@@ -15,6 +15,13 @@ class CreateThemesTable extends Migration {
 		Schema::create('themes', function(Blueprint $table)
 		{
 			$table->increments('id');
+			$table->string('name');
+			$table->string('description')->nullable();
+			$table->string('url')->nullable();
+			$table->string('author');
+			$table->string('author_url')->nullable();
+			$table->string('version');
+			$table->tinyInteger('status')->default(1);
 			$table->timestamps();
 		});
 	}

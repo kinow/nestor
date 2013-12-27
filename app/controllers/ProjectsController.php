@@ -2,7 +2,9 @@
 
 use Theme;
 use Input;
+use DB;
 use Nestor\Repositories\ProjectRepository;
+use Nestor\Repositories\NavigationTreeRepository;
 
 class ProjectsController extends \BaseController {
 
@@ -13,14 +15,22 @@ class ProjectsController extends \BaseController {
 	 */
 	protected $projects;
 
+	/**
+	 * The navigation tree node repository implementation.
+	 *
+	 * @var Nestor\Repositories\NavigationTreeRepository
+	 */
+	protected $nodes;
+
 	protected $theme;
 
 	public $restful = true;
 
-	public function __construct(ProjectRepository $projects)
+	public function __construct(ProjectRepository $projects, NavigationTreeRepository $nodes)
 	{
+		parent::__construct();
 		$this->projects = $projects;
-		$this->theme = Theme::uses('default')->layout('default');
+		$this->nodes = $nodes;
 		$this->theme->setActive('projects');
 	}
 
@@ -53,21 +63,38 @@ class ProjectsController extends \BaseController {
 	 */
 	public function store()
 	{
+		$project = null;
+		$navigationTreeNode = null;
 		Log::info('Creating project...');
-		$project = $this->projects->create(
-				Input::get('name'),
-				Input::get('description'),
-				1
-		);
-
-		if ($project->isSaved()) {
+		try {
+    		DB::connection()->getPdo()->beginTransaction();
+			$project = $this->projects->create(
+					Input::get('name'),
+					Input::get('description'),
+					1
+			);
+			$navigationTreeNode = $this->nodes->create(
+				$project->id,
+				1,
+				null,
+				$project->name
+			);
+			DB::connection()->getPdo()->commit();
+		} catch (\PDOException $e) {
+			return Redirect::to('/projects/create')
+	 			->withInput();
+		}
+		if ($project->isSaved() && $navigationTreeNode->isSaved())
+		{
 			return Redirect::to('/projects/')
 				->with('flash', 'A new project has been created');
+		} else {
+			return Redirect::to('/projects/create')
+				->withInput()
+				->withErrors($project->errors());
 		}
-
-		return Redirect::to('/projects/create')
-			->withInput()
-			->withErrors($project->errors());
+// 		return Redirect::to('/projects/create')
+// 			->withInput();
 
 	}
 

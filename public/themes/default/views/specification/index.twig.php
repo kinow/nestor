@@ -28,7 +28,7 @@
 <script type='text/javascript'>
 var templatecallback = function() {
 	$("#navigation_tree_panel").fancytree({
-		imagePath: "{{ twiggy_theme_url("icons/32x32") }}/",
+		imagePath: "icons/32x32",
 		extensions: [],
 		activeVisible: true, // Make sure, active nodes are visible (expanded).
 	    aria: false, // Enable WAI-ARIA support.

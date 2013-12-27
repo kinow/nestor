@@ -14,7 +14,10 @@ class CreateNavigationTreeNodeTypesTable extends Migration {
 	{
 		Schema::create('navigation_tree_node_types', function(Blueprint $table)
 		{
-			$table->increments('id');
+			$table->integer('id');
+			$table->primary('id');
+			$table->string('name');
+			$table->string('description')->nullable();
 			$table->timestamps();
 		});
 	}

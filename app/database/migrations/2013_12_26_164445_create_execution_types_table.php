@@ -15,10 +15,9 @@ class CreateExecutionTypesTable extends Migration {
 		Schema::create('execution_types', function(Blueprint $table)
 		{
 			$table->increments('id');
-			$table->string('name');
-			$table->string('description');
+			$table->string('name')->unique();
+			$table->string('description')->nullable();
 			$table->timestamps();
-			$table->unique(array('id', 'name'));
 		});
 	}
 

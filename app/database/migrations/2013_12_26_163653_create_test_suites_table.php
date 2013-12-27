@@ -16,11 +16,11 @@ class CreateTestSuitesTable extends Migration {
 		{
 			$table->increments('id');
 			$table->string('name');
-			$table->string('description');
+			$table->string('description')->nullable();
 			$table->integer('project_id');
 			$table->foreign('project_id')->references('id')->on('projects');
 			$table->timestamps();
-			$table->unique(array('id', 'name'));
+			$table->unique(array('project_id', 'name'));
 		});
 	}
 

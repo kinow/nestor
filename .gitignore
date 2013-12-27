@@ -2,6 +2,7 @@
 .buildpath
 .settings
 .project
+.externalToolBuilders/
 cache/
 dist/
 tmp/

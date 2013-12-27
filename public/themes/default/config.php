@@ -81,19 +81,23 @@ return array(
         ),
 
         'asset' => function($asset) {
+        	// CSS
         	$asset->add('bootstrap', 'themes/default/assets/css/bootstrap.min.css');
-        	$asset->add('bootstrap.responsive', 'themes/default/assets/css/bootstrap-responsive.min.css');
+        	$asset->add('bootstrap-responsive', 'themes/default/assets/css/bootstrap-responsive.min.css');
         	$asset->add('fancytree', 'themes/default/assets/css/plugins/fancytree/skin-lion/ui.fancytree.css');
         	$asset->add('style', 'themes/default/assets/css/style.css');
+			// JS
         	$asset->add('jquery2', 'themes/default/assets/js/jquery-2.0.3.min.js');
-        	$asset->add('backbone', 'themes/default/assets/js/backbone-min.js');
-        	$asset->add('underscore', 'themes/default/assets/js/underscore-min.js');
+        	$asset->add('jquery-cookie', 'themes/default/assets/js/plugins/jquery.cookie.js');
+        	$asset->add('jquery-ui-custom', 'themes/default/assets/js/plugins/jqueryui/jqueryui.custom.js');
+        	$asset->add('fancytree', 'themes/default/assets/js/plugins/fancytree/jquery.fancytree.min.js');
+        	$asset->add('fancytree-childcounter', 'themes/default/assets/js/plugins/fancytree/extensions/jquery.fancytree.childcounter.js');
+        	$asset->add('fancytree-persist', 'themes/default/assets/js/plugins/fancytree/extensions/jquery.fancytree.persist.js');
         	$asset->add('html5', 'themes/default/assets/js/html5.js');
         	$asset->add('bootstrap', 'themes/default/assets/js/bootstrap.min.js');
         	$asset->add('bootstrap-alert', 'themes/default/assets/js/bootstrap-alert.js');
         	$asset->add('bootstrap-transition', 'themes/default/assets/js/bootstrap-transition.js');
         	$asset->add('json2', 'themes/default/assets/js/json2.js');
-        	$asset->add('nestor-navigation_tree', 'themes/default/assets/js/navigation_tree.js');
         	$asset->add('nestor-style', 'themes/default/assets/js/script.js');
         }
 
