@@ -44,7 +44,7 @@ class InstallController extends Controller {
 		Log::info('Generating app key...');
 		Artisan::call('key:generate', array('--env' => App::environment()));
 
- 		$artisan = Artisan::call('migrate', array('--env' => App::environment()));
+ 		$artisan = Artisan::call('migrate:refresh', array('--env' => App::environment(), '--seed'));
 
  		if ($artisan > 0)
  		{

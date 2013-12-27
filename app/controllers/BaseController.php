@@ -1,7 +1,6 @@
 <?php
 
-use Setting;
-use Session;
+use \Session;
 
 class BaseController extends Controller {
 

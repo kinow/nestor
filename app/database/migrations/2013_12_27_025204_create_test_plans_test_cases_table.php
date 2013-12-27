@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateProjectsTable extends Migration {
+class CreateTestPlansTestCasesTable extends Migration {
 
 	/**
 	 * Run the migrations.
@@ -12,13 +12,9 @@ class CreateProjectsTable extends Migration {
 	 */
 	public function up()
 	{
-		Schema::create('projects', function(Blueprint $table)
+		Schema::create('test_plans_test_cases', function(Blueprint $table)
 		{
 			$table->increments('id');
-			$table->integer('project_statuses_id');
-			$table->foreign('project_statuses_id')->references('id')->on('project_statuses');
-			$table->string('name');
-			$table->string('description');
 			$table->timestamps();
 		});
 	}
@@ -30,7 +26,7 @@ class CreateProjectsTable extends Migration {
 	 */
 	public function down()
 	{
-		Schema::drop('projects');
+		Schema::drop('test_plans_test_cases');
 	}
 
 }
