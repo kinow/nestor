@@ -14,9 +14,9 @@
 
         <div class="container">
             {{ Theme.content() }}
-        </div>
 
-        {{ Theme.partial('footer') }}
+            {{ Theme.partial('footer') }}
+        </div>
 
         {{ Theme.asset().container('footer').scripts() }}
     </body>
