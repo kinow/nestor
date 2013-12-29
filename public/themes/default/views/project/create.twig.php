@@ -25,4 +25,6 @@
         {{ Form.submit('Add', {'class': "btn btn-primary"}) }}&nbsp; {{ HTML.link(URL.previous(), 'Cancel', {'class': 'btn'}) }}
     </div>
 </div>
-{{ Form.close() }} {% endblock %}
+{{ Form.close() }}
+
+{% endblock %}

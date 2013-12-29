@@ -66,21 +66,32 @@ class ProjectsController extends \BaseController {
 		$project = null;
 		$navigationTreeNode = null;
 		Log::info('Creating project...');
+		$pdo = null;
 		try {
-    		DB::connection()->getPdo()->beginTransaction();
+    		$pdo = DB::connection()->getPdo();
+    		$pdo->beginTransaction();
 			$project = $this->projects->create(
 					Input::get('name'),
 					Input::get('description'),
 					1
 			);
-			$navigationTreeNode = $this->nodes->create(
-				$project->id,
-				1,
-				null,
-				$project->name
-			);
-			DB::connection()->getPdo()->commit();
+			if ($project->isValid() && $project->isSaved())
+			{
+				$navigationTreeNode = $this->nodes->create(
+						$pdo->lastInsertId(),
+						1,
+						0,
+						$project->name
+				);
+				if ($navigationTreeNode->isValid() && $navigationTreeNode->isSaved())
+				{
+					$pdo->commit();
+				}
+			}
+			$pdo->commit();
 		} catch (\PDOException $e) {
+			if (!is_null($pdo))
+				$pdo->rollBack();
 			return Redirect::to('/projects/create')
 	 			->withInput();
 		}
@@ -93,9 +104,6 @@ class ProjectsController extends \BaseController {
 				->withInput()
 				->withErrors($project->errors());
 		}
-// 		return Redirect::to('/projects/create')
-// 			->withInput();
-
 	}
 
 	/**

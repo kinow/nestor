@@ -29,12 +29,12 @@ class TestSuite extends Magniloquent {
 		"save" => array(
 				'name' => 'required|min:2',
 				'description' => '',
-				'project_id' => 'required'
+				'project_id' => 'required|numeric'
 		),
 		"create" => array(
 				'name' => 'unique:test_suites,name,project_id,:project_id|required|min:2',
 				'description' => '',
-				'project_id' => 'unique:test_suites,project_id,name,:name|required|numeric'
+				'project_id' => ''
 		),
 		"update" => array()
 	);

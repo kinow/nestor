@@ -20,5 +20,12 @@ Route::get('/manage', 'ManageController@getIndex');
 Route::get('projects/position', 'ProjectsController@position');
 Route::resource('projects', 'ProjectsController');
 
+// Test Suites
+Route::resource('testsuites', 'TestSuitesController');
+
+// Test Cases
+Route::resource('testcases', 'TestCasesController');
+
 // Specification
 Route::controller('/specification', 'SpecificationController');
+Route::controller('/specification/nodes', 'SpecificationController');

@@ -1,21 +1,20 @@
-## Laravel PHP Framework
+# Nestor-QA
 
-[![Latest Stable Version](https://poser.pugx.org/laravel/framework/version.png)](https://packagist.org/packages/laravel/framework) [![Total Downloads](https://poser.pugx.org/laravel/framework/d/total.png)](https://packagist.org/packages/laravel/framework) [![Build Status](https://travis-ci.org/laravel/framework.png)](https://travis-ci.org/laravel/framework)
+Nestor QA is an extensible test management web application. It supports themes, plug-ins and is 
+highly influenced by agile tools, existing test applications and other tools like Jenkins.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable, creative experience to be truly fulfilling. Laravel attempts to take the pain out of development by easing common tasks used in the majority of web projects, such as authentication, routing, sessions, and caching.
+# Docs
 
-Laravel aims to make the development process a pleasing one for the developer without sacrificing application functionality. Happy developers make the best code. To this end, we've attempted to combine the very best of what we have seen in other web frameworks, including frameworks implemented in other languages, such as Ruby on Rails, ASP.NET MVC, and Sinatra.
+WIP
 
-Laravel is accessible, yet powerful, providing powerful tools needed for large, robust applications. A superb inversion of control container, expressive migration system, and tightly integrated unit testing support give you the tools you need to build any application with which you are tasked.
+# Source code
 
-## Official Documentation
+The official repository is hosted in [GitHub](http://github.com/nestor-qa/nestor).
 
-Documentation for the entire framework can be found on the [Laravel website](http://laravel.com/docs).
+# Issue tracker
 
-### Contributing To Laravel
+Please, report bugs, suggestions and other issues in [GitHub](http://github.com/nestor-qa/nestor/issues)
 
-**All issues and pull requests should be filed on the [laravel/framework](http://github.com/laravel/framework) repository.**
+# License
 
-### License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](http://opensource.org/licenses/MIT)
+Licensed under the MIT License. See LICENSE.txt.

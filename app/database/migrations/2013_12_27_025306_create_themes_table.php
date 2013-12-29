@@ -20,7 +20,7 @@ class CreateThemesTable extends Migration {
 			$table->string('url')->nullable();
 			$table->string('author');
 			$table->string('author_url')->nullable();
-			$table->string('version');
+			$table->string('version')->default('0.1');
 			$table->tinyInteger('status')->default(1);
 			$table->timestamps();
 		});

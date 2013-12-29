@@ -6,17 +6,17 @@
 <div class='row'>
 	<div class='span4' id='navigation_tree_panel'>
 		<p>Navigation tree</p>
-		{{ navigation_tree }}
+		{{ navigation_tree_html }}
 	</div>
 	<div class="span8" id="test_specification">
 		<div class='pad_l pad_r' id='nodes_panel'>
 
 			{% if node.node_type_id == 1 %} {# project #}
-				{% include 'specification/project.html.twig' %}
+				{% include 'views/specification/project.twig.php' %}
 			{% elseif node.node_type_id == 2 %} {# test suite #}
-				{% include 'specification/testsuite.html.twig' %}
+				{% include 'views/specification/testsuite.twig.php' %}
 			{% elseif node.node_type_id == 3 %} {# test case #}
-				{% include 'specification/testcase.html.twig' %}
+				{% include 'views/specification/testcase.twig.php' %}
 			{% else %} {# main page #}
 			<h4>Select a node in the navigation tree</h4>
 			<p>Different forms or details about nodes will be displayed here.</p>
@@ -28,7 +28,7 @@
 <script type='text/javascript'>
 var templatecallback = function() {
 	$("#navigation_tree_panel").fancytree({
-		imagePath: "icons/32x32",
+		imagePath: "{{ URL.to('/themes/default/assets/icons/32x32') }}/",
 		extensions: [],
 		activeVisible: true, // Make sure, active nodes are visible (expanded).
 	    aria: false, // Enable WAI-ARIA support.

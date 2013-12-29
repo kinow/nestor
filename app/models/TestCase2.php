@@ -2,7 +2,7 @@
 
 use Magniloquent\Magniloquent\Magniloquent;
 
-class TestCase extends Magniloquent {
+class TestCase2 extends Magniloquent {
 
 	/**
 	 * The database table used by the model.
@@ -34,7 +34,7 @@ class TestCase extends Magniloquent {
 				'execution_type_id' => 'required'
 		),
 		"create" => array(
-				'name' => 'unique:execution_types|required|min:2',
+				'name' => 'unique:test_cases,name,test_suite_id,:test_suite_id|required|min:2',
 				'description' => '',
 				'test_suite_id' => 'required',
 				'project_id' => 'required',

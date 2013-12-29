@@ -14,8 +14,8 @@ class BaseController extends Controller {
 
 	public function __construct()
 	{
-		$this->theme = Theme::uses('default');
-		$this->theme->setTitle('Nestor QA');
+		$this->theme = Theme::uses('default'); // FIXME: get theme name from config or DB
+		$this->theme->setTitle('Nestor QA'); // FIXME: get it from the configs or DB
 		// Redirect if Nestor QA is not installed
 		if (Setting::get('nestor')['installed'] !== true)
 		{
