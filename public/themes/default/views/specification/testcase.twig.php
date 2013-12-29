@@ -9,13 +9,13 @@
 </ul>
 {% endif %}
 
-{{ Form.open({'route': 'testcases.store', 'class': 'form-horizontal'}) }}
 <h5>Name</h5>
 <p>{{ testcase.name }}</p>
 <h5>Description</h5>
 <p>{{ testcase.description }}</p>
 <h5>Execution Type</h5>
-<p>{{ testcase.execution_type_id }}</p>
-{{ Form.close() }}
+<p>{{ testcase.execution_type_name }}</p>
+<hr/>
+{{ HTML.linkRoute('testcases.edit', 'Edit', [testcase.id], {'class': 'btn btn-primary'}) }}
 <hr/>
 </div>

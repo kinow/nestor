@@ -18,6 +18,15 @@ interface NavigationTreeRepository {
 	public function find($id);
 
 	/**
+	 * Get a NavigationTreeNode by their primary key.
+	 *
+	 * @param  int   $nodeId
+	 * @param  int   $nodeTypeId
+	 * @return NavigationTreeNode
+	 */
+	public function findByNodeIdAndNodeTypeId($nodeId, $nodeTypeId);
+
+	/**
 	 * Create a navigation tree node
 	 *
 	 * @param  int     $node_id

@@ -48,10 +48,7 @@
 <div class="control-group">
   <label class='control-label' for='test_case_execution_type_id'>Execution Type</label>
   <div class="controls">
-  	<select name='execution_type_id' id='test_case_execution_type_id' class='span4'>
-		<option value='1'>Manual</option>
-		<option value='2'>Automated</option>
-  	</select>
+  	{{ Form.select('execution_type_id', execution_type_ids, null, {'id': 'test_case_execution_id', 'class': 'span4'}) }}
   </div>
 </div>
 <div class="control-group">

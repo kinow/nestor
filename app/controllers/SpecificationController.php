@@ -4,6 +4,7 @@ use \Input;
 use \HTML;
 use Nestor\Repositories\ProjectRepository;
 use Nestor\Repositories\TestCaseRepository;
+use Nestor\Repositories\ExecutionTypeRepository;
 use Nestor\Repositories\NavigationTreeRepository;
 
 class SpecificationController extends \BaseController {
@@ -21,15 +22,23 @@ class SpecificationController extends \BaseController {
 	protected $testcases;
 
 	/**
+	 * The execution type repository implementation.
+	 *
+	 * @var Nestor\Repositories\ExecutionTypeRepository
+	 */
+	protected $executionTypes;
+
+	/**
 	 * @var Nestor\Repositories\NavigationTreeRepository
 	 */
 	protected $nodes;
 
-	public function __construct(ProjectRepository $projects, TestCaseRepository $testcases, NavigationTreeRepository $nodes)
+	public function __construct(ProjectRepository $projects, TestCaseRepository $testcases, ExecutionTypeRepository $executionTypes, NavigationTreeRepository $nodes)
 	{
 		parent::__construct();
 		$this->projects = $projects;
 		$this->testcases = $testcases;
+		$this->executionTypes = $executionTypes;
 		$this->nodes = $nodes;
 		$this->theme->setActive('specification');
 	}
@@ -58,9 +67,32 @@ class SpecificationController extends \BaseController {
 
 		$node = $this->nodes->find($node_id);
 		$args['node'] = $node;
-		// Test Case?
-		if (isset($node) && $node->node_type_id == 3) {
+
+		if (isset($node) && $node->node_type_id == 2) // Test Suite?
+		{
+			$execution_types = $this->executionTypes->all();
+			$args['execution_types'] = $execution_types;
+			$execution_types_ids = array();
+			foreach ($args['execution_types'] as $execution_type)
+			{
+				$execution_types_ids[$execution_type->id] = $execution_type->name;
+			}
+			$args['execution_type_ids'] = $execution_types_ids;
+		}
+		else if (isset($node) && $node->node_type_id == 3) // Test Case?
+		{
+			$execution_types = $this->executionTypes->all();
 			$testcase = $this->testcases->find($node->node_id);
+			if (isset($testcase) && !is_null($testcase))
+			{
+				foreach ($execution_types as $execution_type)
+				{
+					if ($execution_type->id == $testcase->execution_type_id)
+					{
+						$testcase->execution_type_name = $execution_type->name;
+					}
+				}
+			}
 			$args['testcase'] = $testcase;
 		}
 

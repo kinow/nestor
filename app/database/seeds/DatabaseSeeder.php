@@ -23,11 +23,11 @@ class DatabaseSeeder extends Seeder {
 	 */
 	public function run()
 	{
-		$this->projectStatuses->create('active', 'Active project');
-		$this->projectStatuses->create('inactive', 'Inactive project');
+		$this->projectStatuses->create('Active', 'Active project');
+		$this->projectStatuses->create('Inactive', 'Inactive project');
 
-		$this->executionTypes->create('manual', 'Manual test');
-		$this->executionTypes->create('automated', 'Automated test');
+		$this->executionTypes->create('Manual', 'Manual test');
+		$this->executionTypes->create('Automated', 'Automated test');
 	}
 
 }

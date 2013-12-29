@@ -27,6 +27,21 @@ class DbNavigationTreeRepository implements NavigationTreeRepository {
 	}
 
 	/**
+	 * Get a NavigationTreeNode by their primary key.
+	 *
+	 * @param  int   $nodeId
+	 * @param  int   $nodeTypeId
+	 * @return NavigationTreeNode
+	 */
+	public function findByNodeIdAndNodeTypeId($nodeId, $nodeTypeId)
+	{
+		return NavigationTreeNode::
+				where('node_id', '=', $nodeId)->
+				where('node_type_id', '=', $nodeTypeId)->
+				firstOrFail();
+	}
+
+	/**
 	 * Create a navigation tree node
 	 *
 	 * @param  int     $node_id
