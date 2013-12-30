@@ -187,7 +187,7 @@ class TestCasesController extends \BaseController {
 			if (!is_null($pdo))
 				$pdo->rollBack();
 			return Redirect::to('/specification/')
-			->withInput();
+				->withInput();
 		}
 		if ($testcase->isSaved())
 		{
@@ -195,8 +195,8 @@ class TestCasesController extends \BaseController {
 			->with('flash', 'A new test case has been created');
 		} else {
 			return Redirect::to('/specification/')
-			->withInput()
-			->withErrors($testcase->errors());
+				->withInput()
+				->withErrors($testcase->errors());
 		}
 	}
 

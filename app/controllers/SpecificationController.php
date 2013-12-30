@@ -33,6 +33,8 @@ class SpecificationController extends \BaseController {
 	 */
 	protected $nodes;
 
+	protected $currentProject;
+
 	public function __construct(ProjectRepository $projects, TestCaseRepository $testcases, ExecutionTypeRepository $executionTypes, NavigationTreeRepository $nodes)
 	{
 		parent::__construct();
@@ -41,27 +43,41 @@ class SpecificationController extends \BaseController {
 		$this->executionTypes = $executionTypes;
 		$this->nodes = $nodes;
 		$this->theme->setActive('specification');
+
+		// Check if the current project has been set
+		$this->beforeFilter('@isCurrentProjectSet');
+	}
+
+	public function isCurrentProjectSet() {
+		$current_project = Session::get('current_project');
+		if (isset($current_project) && $current_project)
+		{
+			$this->currentProject = unserialize($current_project);
+		}
+		else
+		{
+			return Redirect::to('/')
+				->with('flash', 'Choose a project first');
+		}
 	}
 
 	public function getIndex()
 	{
-		$current_project = unserialize(Session::get('current_project'));
 		$navigation_tree_nodes = $this->nodes->all();
-		$navigation_tree = $this->create_navigation_tree($navigation_tree_nodes->toArray(), 0, $current_project);
-		$navigation_tree_html = $this->create_navigation_tree_html($navigation_tree, 0, $current_project, $this->theme->getThemeName());
+		$navigation_tree = $this->create_navigation_tree($navigation_tree_nodes->toArray(), 0, $this->currentProject);
+		$navigation_tree_html = $this->create_navigation_tree_html($navigation_tree, 0, $this->currentProject, $this->theme->getThemeName());
 		$args = array();
 		$args['navigation_tree'] = $navigation_tree;
 		$args['navigation_tree_html'] = $navigation_tree_html;
-		$args['current_project'] = $current_project;
+		$args['current_project'] = $this->currentProject;
 		return $this->theme->scope('specification.index', $args)->render();
 	}
 
 	public function getNodes($node_id)
 	{
-		$current_project = unserialize(Session::get('current_project'));
 		$navigation_tree_nodes = $this->nodes->all();
-		$navigation_tree = $this->create_navigation_tree($navigation_tree_nodes->toArray(), 0, $current_project);
-		$navigation_tree_html = $this->create_navigation_tree_html($navigation_tree, $node_id, $current_project, $this->theme->getThemeName());
+		$navigation_tree = $this->create_navigation_tree($navigation_tree_nodes->toArray(), 0, $this->currentProject);
+		$navigation_tree_html = $this->create_navigation_tree_html($navigation_tree, $node_id, $this->currentProject, $this->theme->getThemeName());
 
 		$args = array();
 
@@ -98,7 +114,7 @@ class SpecificationController extends \BaseController {
 
 		$args['navigation_tree'] = $navigation_tree;
 		$args['navigation_tree_html'] = $navigation_tree_html;
-		$args['current_project'] = $current_project;
+		$args['current_project'] = $this->currentProject;
 		return $this->theme->scope('specification.index', $args)->render();
 	}
 

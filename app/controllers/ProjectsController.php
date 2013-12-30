@@ -88,10 +88,11 @@ class ProjectsController extends \BaseController {
 					$pdo->commit();
 				}
 			}
-			$pdo->commit();
 		} catch (\PDOException $e) {
 			if (!is_null($pdo))
-				$pdo->rollBack();
+				try {
+					$pdo->rollBack();
+				} catch (Exception $ignoreme) {}
 			return Redirect::to('/projects/create')
 	 			->withInput();
 		}
@@ -140,19 +141,46 @@ class ProjectsController extends \BaseController {
 	 */
 	public function update($id)
 	{
-		$project = $this->projects->update($id, Input::get('name'),
+		$project = null;
+		$navigationTreeNode = null;
+		Log::info('Updating project...');
+		$pdo = null;
+		try {
+			$pdo = DB::connection()->getPdo();
+			$pdo->beginTransaction();
+			$project = $this->projects->update(
+							$id,
+							Input::get('name'),
 							Input::get('description'),
 							1);
+			if ($project->isValid() && $project->isSaved())
+			{
+				$navigationTreeNode = $this->nodes->findByNodeIdAndNodeTypeId($project->id, 1);
+				$navigationTreeNode->display_name = $project->name;
+				$this->nodes->update(
+						$navigationTreeNode->id,
+						$navigationTreeNode->node_id,
+						$navigationTreeNode->node_type_id,
+						$navigationTreeNode->parent_id,
+						$navigationTreeNode->display_name);
+				$pdo->commit();
+			}
+		} catch (\PDOException $e) {
+			if (!is_null($pdo))
+				$pdo->rollBack();
+			return Redirect::to('/specification/')
+				->withInput();
+		}
 
 		if ($project->isSaved())
 		{
 			return Redirect::route('projects.show', $id)
 				->with('flash', 'The project was updated');
+		} else {
+			Redirect::route('projects.edit', $id)
+				->withInput()
+				->withErrors($project->errors());
 		}
-
-		Redirect::route('projects.edit', $id)
-			->withInput()
-			->withErrors($project->errors());
 	}
 
 	/**
@@ -163,8 +191,31 @@ class ProjectsController extends \BaseController {
 	 */
 	public function destroy($id)
 	{
-		$project = $this->projects->find($id);
-		$this->projects->delete($id);
+		$project = null;
+		$navigationTreeNode = null;
+		Log::info('Updating project...');
+		$pdo = null;
+		try {
+			$pdo = DB::connection()->getPdo();
+			$pdo->beginTransaction();
+			$project = $this->projects->find($id);
+			$this->projects->delete($id);
+			$navigationTreeNode = $this->nodes->findByNodeIdAndNodeTypeId($project->id, 1);
+			$this->nodes->delete($navigationTreeNode->id);
+			$pdo->commit();
+
+			$currentProject = $this->theme->get('current_project');
+			if ($currentProject && $currentProject->id == $id)
+			{
+				Session::forget('current_project');
+			}
+		} catch (\PDOException $e) {
+			if (!is_null($pdo))
+				$pdo->rollBack();
+			return Redirect::to('/specification/')
+				->withInput();
+		}
+
 		return Redirect::route('projects.index')
 			->with('flash', sprintf('The project %s has been deleted', $project->name));
 	}

@@ -23,6 +23,8 @@ class BaseController extends Controller {
 			exit;
 		}
 		$current_project = Session::get('current_project');
+		if ($current_project)
+			$current_project = unserialize($current_project);
 		$this->currentProject = $current_project;
 		$this->theme->set('current_project', $current_project);
 	}

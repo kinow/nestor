@@ -1,5 +1,5 @@
 <div>
-<h4>Project &mdash; {{ node.display_name }}</h4>
+<h4>Project &mdash; {{ HTML.link('/projects/' ~ node.node_id, node.display_name, {'class': ''}) }}</h4>
 <hr/>
 <h5>Create a test suite</h5>
 
@@ -11,7 +11,8 @@
 {% endif %}
 
 {{ Form.open({'route': 'testsuites.store', 'class': 'form-horizontal'}) }}
-{{ Form.hidden('project_id', node.node_id) }}
+{{ Form.hidden('project_id', current_project.id) }}
+{{ Form.hidden('parent_id', node.id) }}
 <div class="control-group">
   {{ Form.label('name', 'Name', {'class': 'control-label'}) }}
     <div class="controls">{{ Form.input('text', 'name', old.name, {'id':"name", 'class': "span4",
