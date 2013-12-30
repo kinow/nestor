@@ -14,14 +14,15 @@ class CreateNavigationTreeTable extends Migration {
 	{
 		Schema::create('navigation_tree', function(Blueprint $table)
 		{
-			$table->integer('id');
-			$table->primary('id');
+			$table->string('ancestor');
+			$table->string('descendant');
+			$table->integer('length');
 			$table->integer('node_id');
 			$table->integer('node_type_id');
 			$table->foreign('node_type_id')->references('id')->on('navigation_tree_node_types');
-			$table->integer('parent_id')->default(0);
 			$table->string('display_name');
 			$table->timestamps();
+			$table->primary(array('ancestor', 'descendant'));
 		});
 	}
 

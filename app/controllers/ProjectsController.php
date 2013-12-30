@@ -78,12 +78,13 @@ class ProjectsController extends \BaseController {
 			if ($project->isValid() && $project->isSaved())
 			{
 				$navigationTreeNode = $this->nodes->create(
+						'1-' . $pdo->lastInsertId(),
+						'1-' . $pdo->lastInsertId(),
 						$pdo->lastInsertId(),
 						1,
-						0,
 						$project->name
 				);
-				if ($navigationTreeNode->isValid() && $navigationTreeNode->isSaved())
+				if ($navigationTreeNode)
 				{
 					$pdo->commit();
 				}
@@ -96,7 +97,7 @@ class ProjectsController extends \BaseController {
 			return Redirect::to('/projects/create')
 	 			->withInput();
 		}
-		if ($project->isSaved() && $navigationTreeNode->isSaved())
+		if ($project->isSaved() && $navigationTreeNode)
 		{
 			return Redirect::to('/projects/')
 				->with('flash', 'A new project has been created');
@@ -155,13 +156,13 @@ class ProjectsController extends \BaseController {
 							1);
 			if ($project->isValid() && $project->isSaved())
 			{
-				$navigationTreeNode = $this->nodes->findByNodeIdAndNodeTypeId($project->id, 1);
+				$navigationTreeNode = $this->nodes->findByAncestorAndDescendant('1-'.$project->id, '1-'.$project->id);
 				$navigationTreeNode->display_name = $project->name;
-				$this->nodes->update(
-						$navigationTreeNode->id,
+				$navigationTreeNode = $this->nodes->update(
+						'1-'.$project->id,
+						'1-'.$project->id,
 						$navigationTreeNode->node_id,
 						$navigationTreeNode->node_type_id,
-						$navigationTreeNode->parent_id,
 						$navigationTreeNode->display_name);
 				$pdo->commit();
 			}
@@ -200,8 +201,8 @@ class ProjectsController extends \BaseController {
 			$pdo->beginTransaction();
 			$project = $this->projects->find($id);
 			$this->projects->delete($id);
-			$navigationTreeNode = $this->nodes->findByNodeIdAndNodeTypeId($project->id, 1);
-			$this->nodes->delete($navigationTreeNode->id);
+			$navigationTreeNode = $this->nodes->findByAncestorAndDescendant('1-' . $project->id, '1-' . $project->id);
+			$this->nodes->delete($navigationTreeNode->ancestor, $navigationTreeNode->descendant);
 			$pdo->commit();
 
 			$currentProject = $this->theme->get('current_project');

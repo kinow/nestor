@@ -20,22 +20,23 @@ interface NavigationTreeRepository {
 	/**
 	 * Get a NavigationTreeNode by their primary key.
 	 *
-	 * @param  int   $nodeId
-	 * @param  int   $nodeTypeId
+	 * @param  int   $ancestorId
+	 * @param  int   $descendantId
 	 * @return NavigationTreeNode
 	 */
-	public function findByNodeIdAndNodeTypeId($nodeId, $nodeTypeId);
+	public function findByAncestorAndDescendant($nodeId, $nodeTypeId);
 
 	/**
 	 * Create a navigation tree node
 	 *
+	 * @param  string  $ancestor
+	 * @param  string  $descendant
 	 * @param  int     $node_id
 	 * @param  int     $node_type_id
-	 * @param  int     $parent_id
 	 * @param  string  $display_name
 	 * @return NavigationTreeNode
 	 */
-	public function create($node_id, $node_type_id, $parent_id, $display_name);
+	public function create($ancestor, $descendant, $node_id, $node_type_id, $display_name);
 
 	/**
 	 * Update a navigation tree node
@@ -52,8 +53,9 @@ interface NavigationTreeRepository {
 	/**
 	 * Delete a navigation tree node
 	 *
-	 * @param int $id
+	 * @param int $ancestor
+	 * @param int $descendant
 	 */
-	public function delete($id);
+	public function delete($ancestor, $descendant);
 
 }
