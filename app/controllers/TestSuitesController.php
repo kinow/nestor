@@ -73,20 +73,21 @@ class TestSuitesController extends \BaseController {
 					Input::get('name'),
 					Input::get('description')
 			);
-			$parent_id = Input::get('parent_id');
-			if (!$parent_id)
-			{
-				$parent_id = $testsuite->project_id;
-			}
+			$ancestor = Input::get('ancestor');
+// 			if (!$ancestor)
+// 			{
+// 				$ancestor = $testsuite->project_id;
+// 			}
 			if ($testsuite->isValid() && $testsuite->isSaved())
 			{
 				$navigationTreeNode = $this->nodes->create(
+						$ancestor,
+						'2-' . $pdo->lastInsertId(),
 						$pdo->lastInsertId(),
 						2,
-						$parent_id,
 						$testsuite->name
 				);
-				if ($navigationTreeNode->isValid() && $navigationTreeNode->isSaved())
+				if ($navigationTreeNode)
 				{
 					$pdo->commit();
 				}
@@ -97,9 +98,9 @@ class TestSuitesController extends \BaseController {
 			return Redirect::to('/specification/')
 	 			->withInput();
 		}
-		if ($testsuite->isSaved() && $navigationTreeNode->isSaved())
+		if ($testsuite->isSaved() && $navigationTreeNode)
 		{
-			return Redirect::to('/specification/nodes/' . $navigationTreeNode->parent_id)
+			return Redirect::to('/specification/nodes/' . '2-' . $testsuite->id)
 				->with('flash', 'A new test suite has been created');
 		} else {
 			return Redirect::to('/specification/')

@@ -2,6 +2,7 @@
 
 use \Input;
 use \HTML;
+use Log;
 use Nestor\Repositories\ProjectRepository;
 use Nestor\Repositories\TestCaseRepository;
 use Nestor\Repositories\ExecutionTypeRepository;
@@ -61,13 +62,17 @@ class SpecificationController extends \BaseController {
 		}
 	}
 
+	protected function getCurrentProject()
+	{
+		return unserialize(Session::get('current_project'));
+	}
+
 	public function getIndex()
 	{
-		$navigation_tree_nodes = $this->nodes->all();
-		$navigation_tree = $this->create_navigation_tree($navigation_tree_nodes->toArray(), 0, $this->currentProject);
-		$navigation_tree_html = $this->create_navigation_tree_html($navigation_tree, 0, $this->currentProject, $this->theme->getThemeName());
+		$current_project = $this->getCurrentProject();
+		$navigation_tree_nodes = $this->nodes->children('1-'.$current_project->id, 1 /* length*/);
+		$navigation_tree_html = $this->create_navigation_tree_html($navigation_tree_nodes, 0, $this->currentProject, $this->theme->getThemeName());
 		$args = array();
-		$args['navigation_tree'] = $navigation_tree;
 		$args['navigation_tree_html'] = $navigation_tree_html;
 		$args['current_project'] = $this->currentProject;
 		return $this->theme->scope('specification.index', $args)->render();
@@ -75,13 +80,13 @@ class SpecificationController extends \BaseController {
 
 	public function getNodes($node_id)
 	{
-		$navigation_tree_nodes = $this->nodes->all();
-		$navigation_tree = $this->create_navigation_tree($navigation_tree_nodes->toArray(), 0, $this->currentProject);
-		$navigation_tree_html = $this->create_navigation_tree_html($navigation_tree, $node_id, $this->currentProject, $this->theme->getThemeName());
+		$current_project = $this->getCurrentProject();
+		$navigation_tree_nodes = $this->nodes->children('1-'.$current_project->id, 1 /* length*/);
+		$navigation_tree_html = $this->create_navigation_tree_html($navigation_tree_nodes, $node_id, $this->currentProject, $this->theme->getThemeName());
 
 		$args = array();
 
-		$node = $this->nodes->find($node_id);
+		$node = $this->nodes->find($node_id, $node_id);
 		$args['node'] = $node;
 
 		if (isset($node) && $node->node_type_id == 2) // Test Suite?
@@ -112,33 +117,9 @@ class SpecificationController extends \BaseController {
 			$args['testcase'] = $testcase;
 		}
 
-		$args['navigation_tree'] = $navigation_tree;
 		$args['navigation_tree_html'] = $navigation_tree_html;
 		$args['current_project'] = $this->currentProject;
 		return $this->theme->scope('specification.index', $args)->render();
-	}
-
-	private function create_navigation_tree(array $navigation_tree_nodes, $parent_id = 0, $active_project) {
-		$tree = array();
-
-		foreach ($navigation_tree_nodes as $node) {
-			$node = (object) $node;
-			if ($node->node_type_id == 1 && $node->node_id != $active_project->id)
-			{
-				continue; // we want only the current project to be displayed in the navigation tree
-			}
-			if ($node->parent_id == $parent_id || ($node->parent_id == null && $parent_id == 0)) {
-				$children = $this->create_navigation_tree($navigation_tree_nodes, $node->id, $active_project);
-				if ($children) {
-					$node->children = $children;
-				} else {
-					$node->children = array();
-				}
-				$tree[$node->id] = $node;
-			}
-		}
-
-		return $tree;
 	}
 
 	private function create_navigation_tree_html($navigation_tree = array(), $node_id, $last_parent = 0, $theme_name = '')
@@ -149,12 +130,12 @@ class SpecificationController extends \BaseController {
 
 		foreach ( $navigation_tree as $node ) {
 			$extra_classes = "";
-			if ($node->id == $node_id) {
+			if ($node->ancestor == $node_id && $node->descendant == $node_id) {
 				$extra_classes = " expanded active";
 			}
 			if ($node->node_type_id == 1) { // project
 				$buffer .= "<ul id='treeData' style='display: none;'>";
-				$buffer .= sprintf ( "<li data-icon='places/folder.png' class='expanded%s'>%s", $extra_classes, HTML::link ('/specification/nodes/' . $node->id, $node->display_name, array('target' => '_self')));
+				$buffer .= sprintf ( "<li data-icon='places/folder.png' class='expanded%s'>%s", $extra_classes, HTML::link ('/specification/nodes/' . $node->descendant, $node->display_name, array('target' => '_self')));
 				if (! empty ( $node->children )) {
 					$buffer .= "<ul>";
 					$buffer .= $this->create_navigation_tree_html ( $node->children, $node_id, $node->id, $theme_name);

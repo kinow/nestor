@@ -1,6 +1,6 @@
 <?php namespace Nestor\Repositories;
 
-use Auth, Hash, Validator, DB;
+use Auth, Hash, Validator, DB, Log;
 use \NavigationTreeNode;
 
 //http://www.mysqlperformanceblog.com/2011/02/14/moving-subtrees-in-closure-table/
@@ -14,6 +14,19 @@ class DbNavigationTreeRepository implements NavigationTreeRepository {
 	public function all()
 	{
 		return NavigationTreeNode::all();
+	}
+
+	/**
+	 * Get a NavigationTreeNode by its ancestor and length, thus returning all
+	 * its children, itself included.
+	 */
+	public function children($ancestor, $length)
+	{
+		Log::info(sprintf('Retriving children for %s, length %d', $ancestor, $length));
+		return NavigationTreeNode::
+				where('ancestor', $ancestor)->
+				where('length', '<=', $length)->
+				get();
 	}
 
 	/**

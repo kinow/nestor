@@ -12,7 +12,7 @@
 
 {{ Form.open({'route': 'testsuites.store', 'class': 'form-horizontal'}) }}
 {{ Form.hidden('project_id', current_project.id) }}
-{{ Form.hidden('parent_id', node.id) }}
+{{ Form.hidden('ancestor', node.descendant) }}
 <div class="control-group">
   {{ Form.label('name', 'Name', {'class': 'control-label'}) }}
     <div class="controls">{{ Form.input('text', 'name', old.name, {'id':"name", 'class': "span4",
