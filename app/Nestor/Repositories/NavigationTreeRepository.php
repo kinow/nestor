@@ -12,19 +12,11 @@ interface NavigationTreeRepository {
 	/**
 	 * Get a NavigationTreeNode by their primary key.
 	 *
-	 * @param  int   $id
-	 * @return NavigationTreeNode
-	 */
-	public function find($id);
-
-	/**
-	 * Get a NavigationTreeNode by their primary key.
-	 *
 	 * @param  int   $ancestorId
 	 * @param  int   $descendantId
 	 * @return NavigationTreeNode
 	 */
-	public function findByAncestorAndDescendant($nodeId, $nodeTypeId);
+	public function find($nodeId, $nodeTypeId);
 
 	/**
 	 * Create a navigation tree node
@@ -57,5 +49,12 @@ interface NavigationTreeRepository {
 	 * @param int $descendant
 	 */
 	public function delete($ancestor, $descendant);
+
+	/**
+	 * Delete a navigation tree node with all its children nodes
+	 *
+	 * @param int $ancestor
+	 */
+	public function deleteWithAllChildren($ancestor);
 
 }

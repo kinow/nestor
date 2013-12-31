@@ -156,7 +156,7 @@ class ProjectsController extends \BaseController {
 							1);
 			if ($project->isValid() && $project->isSaved())
 			{
-				$navigationTreeNode = $this->nodes->findByAncestorAndDescendant('1-'.$project->id, '1-'.$project->id);
+				$navigationTreeNode = $this->nodes->find('1-'.$project->id, '1-'.$project->id);
 				$navigationTreeNode->display_name = $project->name;
 				$navigationTreeNode = $this->nodes->update(
 						'1-'.$project->id,
@@ -201,8 +201,8 @@ class ProjectsController extends \BaseController {
 			$pdo->beginTransaction();
 			$project = $this->projects->find($id);
 			$this->projects->delete($id);
-			$navigationTreeNode = $this->nodes->findByAncestorAndDescendant('1-' . $project->id, '1-' . $project->id);
-			$this->nodes->delete($navigationTreeNode->ancestor, $navigationTreeNode->descendant);
+			$navigationTreeNode = $this->nodes->find('1-' . $project->id, '1-' . $project->id);
+			$this->nodes->deleteWithAllChildren($navigationTreeNode->ancestor, $navigationTreeNode->descendant);
 			$pdo->commit();
 
 			$currentProject = $this->theme->get('current_project');

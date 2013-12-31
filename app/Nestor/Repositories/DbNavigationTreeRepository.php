@@ -19,22 +19,11 @@ class DbNavigationTreeRepository implements NavigationTreeRepository {
 	/**
 	 * Get a NavigationTreeNode by their primary key.
 	 *
-	 * @param  int   $id
-	 * @return NavigationTreeNode
-	*/
-	public function find($id)
-	{
-		return NavigationTreeNode::findOrFail($id);
-	}
-
-	/**
-	 * Get a NavigationTreeNode by their primary key.
-	 *
 	 * @param  int   $ancestorId
 	 * @param  int   $descendantId
 	 * @return NavigationTreeNode
 	 */
-	public function findByAncestorAndDescendant($ancestorId, $descendantId)
+	public function find($ancestorId, $descendantId)
 	{
 		return NavigationTreeNode::
 				where('ancestor', '=', $ancestorId)->
@@ -98,7 +87,7 @@ class DbNavigationTreeRepository implements NavigationTreeRepository {
 	*/
 	public function update($ancestor, $descendant, $node_id, $node_type_id, $display_name)
 	{
-		$navigation_tree_node = $this->findByAncestorAndDescendant($ancestor, $descendant);
+		$navigation_tree_node = $this->find($ancestor, $descendant);
 
 		$navigation_tree_node->fill(compact('ancestor', 'descendant', 'node_id', 'node_type_id', 'display_name'))->save();
 
@@ -114,6 +103,16 @@ class DbNavigationTreeRepository implements NavigationTreeRepository {
 	public function delete($ancestor, $descendant)
 	{
 		return NavigationTreeNode::where('ancestor', $ancestor)->where('descendant', $descendant)->delete();
+	}
+
+	/**
+	 * Delete a navigation tree node with all its children nodes
+	 *
+	 * @param int $ancestor
+	 */
+	public function deleteWithAllChildren($ancestor)
+	{
+		return NavigationTreeNode::where('ancestor', $ancestor)->delete();
 	}
 
 }
