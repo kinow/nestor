@@ -84,20 +84,17 @@ class TestCasesController extends \BaseController {
 					Input::get('name'),
 					Input::get('description')
 			);
-			$parent_id = Input::get('parent_id');
-			if (!$parent_id)
-			{
-				$parent_id = $testcase->test_suite_id;
-			}
+			$ancestor = Input::get('ancestor');
 			if ($testcase->isValid() && $testcase->isSaved())
 			{
 				$navigationTreeNode = $this->nodes->create(
+						$ancestor,
+						'3-' . $pdo->lastInsertId(),
 						$pdo->lastInsertId(),
 						3,
-						$parent_id,
 						$testcase->name
 				);
-				if ($navigationTreeNode->isValid() && $navigationTreeNode->isSaved())
+				if ($navigationTreeNode)
 				{
 					$pdo->commit();
 				}
@@ -108,9 +105,9 @@ class TestCasesController extends \BaseController {
 			return Redirect::to('/specification/')
 	 			->withInput();
 		}
-		if ($testcase->isSaved() && $navigationTreeNode->isSaved())
+		if ($testcase->isSaved() && $navigationTreeNode)
 		{
-			return Redirect::to('/specification/nodes/' . $navigationTreeNode->parent_id)
+			return Redirect::to('/specification/nodes/' . '3-' . $testcase->id)
 				->with('flash', 'A new test case has been created');
 		} else {
 			return Redirect::to('/specification/')

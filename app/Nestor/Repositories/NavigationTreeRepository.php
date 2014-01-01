@@ -12,8 +12,20 @@ interface NavigationTreeRepository {
 	/**
 	 * Get a NavigationTreeNode by its ancestor and length, thus returning all
 	 * its children, itself included.
+	 *
+	 * @param string $ancestor
+	 * @param int    $length
+	 * @return NavigationTreeNode
 	 */
 	public function children($ancestor, $length);
+
+	/**
+	 * Get a list of parents of a NavigationTreeNode and itself.
+	 *
+	 * @param int $descendant
+	 * @return NavigationTreeNode
+	 */
+	public function parents($descendant);
 
 	/**
 	 * Get a NavigationTreeNode by their primary key.

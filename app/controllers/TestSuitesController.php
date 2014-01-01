@@ -74,10 +74,6 @@ class TestSuitesController extends \BaseController {
 					Input::get('description')
 			);
 			$ancestor = Input::get('ancestor');
-// 			if (!$ancestor)
-// 			{
-// 				$ancestor = $testsuite->project_id;
-// 			}
 			if ($testsuite->isValid() && $testsuite->isSaved())
 			{
 				$navigationTreeNode = $this->nodes->create(

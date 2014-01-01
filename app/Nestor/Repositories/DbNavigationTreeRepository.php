@@ -19,6 +19,10 @@ class DbNavigationTreeRepository implements NavigationTreeRepository {
 	/**
 	 * Get a NavigationTreeNode by its ancestor and length, thus returning all
 	 * its children, itself included.
+	 *
+	 * @param string $ancestor
+	 * @param int    $length
+	 * @return NavigationTreeNode
 	 */
 	public function children($ancestor, $length)
 	{
@@ -27,6 +31,33 @@ class DbNavigationTreeRepository implements NavigationTreeRepository {
 				where('ancestor', $ancestor)->
 				where('length', '<=', $length)->
 				get();
+	}
+
+	/**
+	 * Get a list of parents of a NavigationTreeNode and itself.
+	 *
+	 * @param int $descendant
+	 * @return NavigationTreeNode
+	 */
+	public function parents($descendant)
+	{
+		Log::info(sprintf('Retriving parents for %s', $descendant));
+// 		return NavigationTreeNode::
+// 			where('descendant', $descendant)->
+// 			get();
+/*
+select a.* from navigation_tree a
+left join navigation_tree b on b.descendant = a.ancestor
+where a.descendant = '2-8'
+group by a.ancestor, a.descendant, a.length
+order by a.length
+ */
+		return DB::table('navigation_tree AS a')
+				->select(DB::raw("a.*"))
+				->leftJoin('navigation_tree AS b', 'b.descendant', '=', 'a.ancestor')
+				->where('a.ancestor', '=', "$descendant")
+				->groupBy('ancestor')->groupBy('descendant')->groupBy('length')
+				->get();
 	}
 
 	/**
