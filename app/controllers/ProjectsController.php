@@ -178,7 +178,7 @@ class ProjectsController extends \BaseController {
 			return Redirect::route('projects.show', $id)
 				->with('flash', 'The project was updated');
 		} else {
-			Redirect::route('projects.edit', $id)
+			return Redirect::route('projects.edit', $id)
 				->withInput()
 				->withErrors($project->errors());
 		}

@@ -22,11 +22,43 @@ class BaseController extends Controller {
 			header('Location: /install');
 			exit;
 		}
-		$current_project = Session::get('current_project');
-		if ($current_project)
-			$current_project = unserialize($current_project);
-		$this->currentProject = $current_project;
-		$this->theme->set('current_project', $current_project);
+		$this->currentProject = $this->getCurrentProject();
+		$this->theme->set('current_project', $this->currentProject);
+	}
+	
+	/**
+	 * Filter used to check if the current project is set in the session.
+	 * Redirects to home page if not set.
+	 */
+	public function isCurrentProjectSet() {
+		$currentProject = Session::get('current_project');
+		if (isset($currentProject) && $currentProject)
+		{
+			$this->currentProject = unserialize($currentProject);
+		}
+		else
+		{
+			return Redirect::to('/')->with('flash', 'Choose a project first');
+		}
+	}
+	
+	/**
+	 * Retrieves the current project set in Session.
+	 * 
+	 * @return current project if set in session, null otherwise
+	 */
+	protected function getCurrentProject()
+	{
+		$currentProject = Session::get('current_project');
+		if ($currentProject)
+		{
+			$currentProject = unserialize($currentProject);
+			return $currentProject;
+		}
+		else
+		{
+			return null;
+		}
 	}
 
 	/**

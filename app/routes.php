@@ -29,3 +29,16 @@ Route::resource('testcases', 'TestCasesController');
 // Specification
 Route::controller('/specification', 'SpecificationController');
 Route::controller('/specification/nodes', 'SpecificationController');
+
+// Test Plans
+Route::resource('planning', 'TestPlansController');
+Route::resource('testplans', 'TestPlansController');
+Route::get('testplans/{id}/addTestCases', 'TestPlansController@addTestCases');
+
+// WIP
+Route::controller('requirements', 'WIPController');
+Route::controller('execution', 'WIPController');
+Route::controller('reports', 'WIPController');
+Route::controller('configure', 'WIPController');
+Route::controller('themeManager', 'WIPController');
+Route::controller('pluginManager', 'WIPController');
