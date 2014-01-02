@@ -168,8 +168,23 @@ class TestPlansController extends \NavigationTreeController {
 		return $this->theme->scope('testplan.addTestCases', $args)->render();
 	}
 	
+	function startsWith($haystack, $needle)
+	{
+		return $needle === "" || strpos($haystack, $needle) === 0;
+	}
+	
 	public function storeTestCases($id)
 	{
+		$length = count($_POST);
+		$nodesSelected = array();
+		foreach ($_POST as $entry => $value)
+		{
+			if (strpos($entry, 'ft_1') === 0)
+			{
+				$nodesSelected[] = $value;
+			}
+		}
+		var_dump($nodesSelected);
 		echo "WIP... id: " . $id;
 		exit;
 	}

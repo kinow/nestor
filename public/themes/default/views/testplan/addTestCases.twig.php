@@ -25,11 +25,11 @@
 var templatecallback = function() {
 	$("form#testplan_form").submit(function() {
       // Render hidden <input> elements for active and selected nodes
-      $("#navigation_tree_panel").fancytree("getTree").generateFormElements();
+      $("#navigation_tree_panel").fancytree("getTree").generateFormElements(true, true);
 
-      alert("POST data:\n" + jQuery.param($(this).serializeArray()));
+      console.log("POST data:\n" + jQuery.param($(this).serializeArray()));
       // return false to prevent submission of this sample
-      return false;
+      return true;
     });
 	
 	$("#navigation_tree_panel").fancytree({
@@ -40,7 +40,7 @@ var templatecallback = function() {
 	    autoActivate: true, // Automatically activate a node when it is focused (using keys).
 	    autoCollapse: false, // Automatically collapse all siblings, when a node is expanded.
 	    autoScroll: false, // Automatically scroll nodes into visible area.
-	    clickFolderMode: 1, // 1:activate, 2:expand, 3:activate and expand, 4:activate (dblclick expands)
+	    clickFolderMode: 2, // 1:activate, 2:expand, 3:activate and expand, 4:activate (dblclick expands)
 	    checkbox: true, // Show checkboxes.
 	    debugLevel: 1, // 0:quiet, 1:normal, 2:debug
 	    disabled: false, // Disable control
@@ -52,33 +52,6 @@ var templatecallback = function() {
 	    minExpandLevel: 0, // 1: root node is not collapsible
 	    selectMode: 3, // 1:single, 2:multi, 3:multi-hier
 	    tabbable: true, // Whole tree behaves as one single control
-	    childcounter: {
-	        deep: true,
-	        hideZeros: true,
-	        hideExpanded: true
-	    },
-	    focus: function(e, data) {
-			var node = data.node;
-			// Auto-activate focused node after 1 second
-			if(node.data.href){
-				node.scheduleAction("activate", 100000);
-			}
-		},
-	    blur: function(e, data) {
-			data.node.scheduleAction("cancel");
-		},
-	    activate: function(e, data){
-			var node = data.node;
-			if(node.data.href){
-				window.open(node.data.href, node.data.target);
-			}
-		},
-		click: function(e, data){ // allow re-loads
-			var node = data.node;
-			if(node.isActive() && node.data.href){
-				// TODO: data.tree.reactivate();
-			}
-		}
 	});
 	$("#navigation_tree_panel").fancytree("getRootNode").visit(function(node){
         //node.setExpanded(true);

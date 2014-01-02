@@ -1549,7 +1549,7 @@ Fancytree.prototype = /**@lends Fancytree*/{
 			$.each(nodeList, function(idx, node){
 				$result.append($("<input>", {
 					type: "checkbox",
-					name: selectedName,
+					name: selectedName + '_' + idx,
 					value: node.key,
 					checked: true
 				}));

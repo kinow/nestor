@@ -155,7 +155,7 @@ class NavigationTreeController extends \BaseController {
 			}
 			if ($node->node_type_id == 1) { // project
 				$buffer .= "<ul id='treeData' style='display: none;'>";
-				$buffer .= sprintf ( "<li data-icon='places/folder.png' class='expanded%s'>%s", $extra_classes, $node->display_name);
+				$buffer .= sprintf ( "<li data-icon='places/folder.png' id='%s' class='expanded%s'>%s", $node->descendant, $extra_classes, $node->display_name);
 				if (! empty ( $node->children )) {
 					$buffer .= "<ul>";
 					$buffer .= $this->createTestPlanTreeHTML ($node->children, $nodeId, $theme_name);
@@ -163,7 +163,7 @@ class NavigationTreeController extends \BaseController {
 				}
 				$buffer .= "</li></ul>";
 			} else if ($node->node_type_id == 2) { // test suite
-				$buffer .= sprintf ( "<li data-icon='actions/document-open.png' class='%s'>%s", $extra_classes, $node->display_name);
+				$buffer .= sprintf ( "<li data-icon='actions/document-open.png' id='%s' class='%s'>%s", $node->descendant, $extra_classes, $node->display_name);
 				if (! empty ( $node->children )) {
 					$buffer .= "<ul>";
 					$buffer .= $this->createTestPlanTreeHTML ($node->children, $nodeId, $theme_name);
@@ -171,7 +171,7 @@ class NavigationTreeController extends \BaseController {
 				}
 				$buffer .= "</li>";
 			} else {
-				$buffer .= sprintf ( "<li data-icon='mimetypes/text-x-generic.png' class='%s'>%s</li>", $extra_classes, $node->display_name);
+				$buffer .= sprintf ( "<li data-icon='mimetypes/text-x-generic.png' id='%s' class='%s'>%s</li>", $node->descendant, $extra_classes, $node->display_name);
 			}
 		}
 	
