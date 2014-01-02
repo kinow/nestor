@@ -96,7 +96,7 @@ class SpecificationController extends \BaseController {
 // 		$queries = DB::getQueryLog();
 // 		$last_query = end($queries);
 		$navigationTree = $this->createNavigationTree($nodes, '1-'.$currentProject->id);
-		$navigationTreeHtml = $this->createTreeHTML($navigationTree, '1-'.$currentProject->id, $this->theme->getThemeName());
+		$navigationTreeHtml = $this->createTreeHTML($navigationTree, "", $this->theme->getThemeName());
 		$args = array();
 		$args['navigation_tree'] = $navigationTree;
 		$args['navigation_tree_html'] = $navigationTreeHtml;
