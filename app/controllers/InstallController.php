@@ -43,6 +43,16 @@ class InstallController extends Controller {
 
 	public function postIndex()
 	{
+		Log::info('Re creating database');
+		$app = App::getFacadeRoot();
+		$db = $app['config']['database.default'];
+		// Create sqlite file if it does not exit
+		if ('sqlite' === $db)
+		{
+			$databaseFile = $app['config']['database.connections'][$db]['database'];
+			file_put_contents($databaseFile, '');
+		}
+		
 		Log::info('Generating app key...');
 		// FIXME: due to error in Artisan::call('key:generate', array('--env' => App::environment()));
 		list($path, $contents) = $this->getKeyFile(App::environment());
@@ -53,7 +63,9 @@ class InstallController extends Controller {
 		Log::info("Application key [$key] set successfully.");
 		
 		$artisan = Artisan::call('migrate:install', array('--env' => App::environment()));
- 		$artisan = Artisan::call('migrate:refresh', array('--env' => App::environment(), '--seed'));
+		$artisan = Artisan::call('migrate:refresh', array('--env' => App::environment()));
+		
+ 		$artisan = Artisan::call('db:seed', array('--env' => App::environment(), '--seed'));
 
  		if ($artisan > 0)
  		{

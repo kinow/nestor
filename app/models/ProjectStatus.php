@@ -31,7 +31,7 @@ class ProjectStatus extends Magniloquent {
 				'description' => ''
 		),
 		"create" => array(
-				'name' => 'unique:projects|required|min:2',
+				'name' => 'required|min:2',
 				'description' => ''
 		),
 		"update" => array()
