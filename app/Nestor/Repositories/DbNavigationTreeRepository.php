@@ -27,10 +27,35 @@ class DbNavigationTreeRepository implements NavigationTreeRepository {
 	public function children($ancestor, $length)
 	{
 		Log::info(sprintf('Retriving children for %s, length %d', $ancestor, $length));
-		return NavigationTreeNode::
-				where('ancestor', $ancestor)->
-				where('length', '<=', $length)->
-				get();
+// 		return NavigationTreeNode::
+// 				where('ancestor', $ancestor)->
+// 				where('length', '<=', $length)->
+// 				get();
+
+		$children = DB::table('navigation_tree AS a')
+			->select(DB::raw("a.*"))
+			->leftJoin('navigation_tree AS b', 'a.ancestor', '=', 'b.descendant')
+			->where('b.ancestor', '=', "$ancestor")
+			->where('a.length', '<=', $length)
+			->groupBy('ancestor')->groupBy('descendant')->groupBy('length')
+			->orderBy('b.ancestor')
+			->get();
+
+		// Sort by ancestors
+		usort($children, function($left, $right) {
+			$leftAncestor = $left->ancestor;
+			$rightAncestor = $right->ancestor;
+			list($leftExecutionType, $leftNodeId) = explode("-", $leftAncestor);
+			list($rightExecutionType, $rightNodeId) = explode("-", $rightAncestor);
+			if ($leftExecutionType > $rightExecutionType)
+				return 1;
+			elseif ($leftExecutionType < $rightExecutionType)
+				return -1;
+			else
+				return $leftNodeId > $rightNodeId;
+		});
+
+		return $children;
 	}
 
 	/**

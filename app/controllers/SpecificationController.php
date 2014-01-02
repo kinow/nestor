@@ -34,8 +34,20 @@ class SpecificationController extends \BaseController {
 	 */
 	protected $nodes;
 
+	/**
+	 * Current project in Session.
+	 * @var Project
+	 */
 	protected $currentProject;
 
+	/**
+	 * Constructor.
+	 *
+	 * @param Nestor\Repositories\ProjectRepository         $projects
+	 * @param Nestor\Repositories\ExecutionTypeRepository   $executionTypes
+	 * @param Nestor\Repositories\NavigationTreeRepository  $nodes
+	 * @return SpecificationController
+	 */
 	public function __construct(ProjectRepository $projects, TestCaseRepository $testcases, ExecutionTypeRepository $executionTypes, NavigationTreeRepository $nodes)
 	{
 		parent::__construct();
@@ -49,50 +61,67 @@ class SpecificationController extends \BaseController {
 		$this->beforeFilter('@isCurrentProjectSet');
 	}
 
+	/**
+	 * Filter used to check if the current project is set in the session.
+	 * Redirects to home page if not set.
+	 */
 	public function isCurrentProjectSet() {
-		$current_project = Session::get('current_project');
-		if (isset($current_project) && $current_project)
+		$currentProject = Session::get('current_project');
+		if (isset($currentProject) && $currentProject)
 		{
-			$this->currentProject = unserialize($current_project);
+			$this->currentProject = unserialize($currentProject);
 		}
 		else
 		{
-			return Redirect::to('/')
-				->with('flash', 'Choose a project first');
+			return Redirect::to('/')->with('flash', 'Choose a project first');
 		}
 	}
 
+	/**
+	 * Retrieves the current project set in Session.
+	 */
 	protected function getCurrentProject()
 	{
 		return unserialize(Session::get('current_project'));
 	}
 
+	/**
+	 * Specification index controller.
+	 *
+	 * /specification/nodes
+	 */
 	public function getIndex()
 	{
-		$current_project = $this->getCurrentProject();
-		$navigation_tree_nodes = $this->nodes->children('1-'.$current_project->id, 2 /* length*/);
-		$navigation_tree = $this->create_navigation_tree($navigation_tree_nodes->toArray(), '1-'.$current_project->id);
-		$navigation_tree_html = $this->create_tree_html($navigation_tree, '1-'.$current_project->id, $this->theme->getThemeName());
+		$currentProject = $this->getCurrentProject();
+		$nodes = $this->nodes->children('1-'.$currentProject->id, 1 /* length*/);
+// 		$queries = DB::getQueryLog();
+// 		$last_query = end($queries);
+		$navigationTree = $this->createNavigationTree($nodes, '1-'.$currentProject->id);
+		$navigationTreeHtml = $this->createTreeHTML($navigationTree, '1-'.$currentProject->id, $this->theme->getThemeName());
 		$args = array();
-		$args['navigation_tree_html'] = $navigation_tree_html;
+		$args['navigation_tree'] = $navigationTree;
+		$args['navigation_tree_html'] = $navigationTreeHtml;
 		$args['current_project'] = $this->currentProject;
 		return $this->theme->scope('specification.index', $args)->render();
 	}
 
+	/**
+	 * Specification nodes controller.
+	 *
+	 * /specification/nodes/(:any)
+	 */
 	public function getNodes($node_id)
 	{
-		$current_project = $this->getCurrentProject();
-		$navigation_tree_nodes = $this->nodes->children('1-'.$current_project->id, 1 /* length*/);
-		$child_tree = $this->nodes->parents($node_id);
-//  		$queries = DB::getQueryLog();
-//  		$last_query = end($queries);
-		$navigation_tree = $this->create_merged_navigation_tree($navigation_tree_nodes->toArray(), $child_tree, $node_id);
-		$navigation_tree_html = $this->create_tree_html2($navigation_tree, $node_id, $this->currentProject, $this->theme->getThemeName());
+		$currentProject = $this->getCurrentProject();
+		$nodes = $this->nodes->children('1-'.$currentProject->id, 1 /* length*/);
+		$navigationTree = $this->createNavigationTree($nodes, '1-'.$currentProject->id);
+		$navigationTreeHtml = $this->createTreeHTML($navigationTree, $node_id, $this->theme->getThemeName());
 		$args = array();
 
 		$node = $this->nodes->find($node_id, $node_id);
 		$args['node'] = $node;
 
+		// Create specific parameters depending on execution type
 		if (isset($node) && $node->node_type_id == 2) // Test Suite?
 		{
 			$execution_types = $this->executionTypes->all();
@@ -120,114 +149,103 @@ class SpecificationController extends \BaseController {
 			}
 			$args['testcase'] = $testcase;
 		}
-// 		foreach($navigation_tree_nodes as $n)
-// 		{
-// 			print ($n->ancestor . '/' . $n->descendant);
-// 			print "<br/>";
-// 		}
-		$args['navigation_tree_html'] = $navigation_tree_html;
-		$args['navigation_tree'] = $navigation_tree;
-		$args['current_project'] = $this->currentProject;
-		return $this->theme->scope('specification.index', $args)->render();
+			$args['navigation_tree_html'] = $navigationTreeHtml;
+			$args['navigation_tree'] = $navigationTree;
+			$args['current_project'] = $this->currentProject;
+			return $this->theme->scope('specification.index', $args)->render();
 	}
 
-	private function create_navigation_tree(array $nodes, $node_id = -1)
+	// --------- Utility methods
+
+	/**
+	 * Create a navigation tree with the nodes returned from DB.
+	 *
+	 * @param array   $nodes
+	 * @param NavigationTreeNode $root
+	 * @return array
+	 */
+	protected function createNavigationTree($nodes, $root)
 	{
 		$tree = array();
 		foreach ($nodes as $node)
 		{
 			$node = (object) $node;
-			if (isset($tree[$node->ancestor]))
-			{
-				$ancestor = $tree[$node->ancestor];
-				$ancestor->children[$node->descendant] = $node;
-			}
-			else
+			if ($node->ancestor == $node->descendant && $node->ancestor == $root)
 			{
 				$node->children = array();
-				$tree[$node->ancestor] = $node;
+				$tree[$root] = $node;
 			}
-		}
-		return $tree;
-	}
-
-	private function create_merged_navigation_tree(array $nodes, $parents, $node_id = -1)
-	{
-		$tree = array();
-		foreach ($nodes as $node)
-		{
-			$node = (object) $node;
-			if (isset($tree[$node->ancestor]))
+			else if ($node->ancestor !== $node->descendant)
 			{
-				if ($node->length > 1)
-					continue;
-				$ancestor = $tree[$node->ancestor];
-				$ancestor->children[$node->descendant] = $node;
-			}
-			else
-			{
-				$node->children = array();
-				$tree[$node->ancestor] = $node;
-			}
-		}
-
-		foreach ($parents as $node)
-		{
-			$node = (object) $node;
-			if (isset($tree[$node->ancestor]))
-			{
-				if ($node->length > 0)
-					continue;
-				if ($node->ancestor == $node->descendant)
-					continue;
-				$ancestor = $tree[$node->ancestor];
-				if (!isset($ancestor->children[$node->descendant]))
-					$ancestor->children[$node->descendant] = $node;
-			}
-			else
-			{
-				if ($node->ancestor == $node->descendant)
-					continue;
-				$node->children = array();
 				$this->addChild($tree, $node);
 			}
 		}
-
-		//echo var_dump($tree);exit;
-
+		$this->sortNavigationTree($tree);
 		return $tree;
 	}
 
-	private function addChild($tree, $node)
+	protected function sortNavigationTree(&$nodes)
 	{
-		if (isset($tree[$node->ancestor]))
+		// Sort by execution type and display name
+		usort($nodes, function($left, $right) {
+			$leftAncestor = $left->ancestor;
+			$rightAncestor = $right->ancestor;
+			list($leftExecutionType, $leftNodeId) = explode("-", $leftAncestor);
+			list($rightExecutionType, $rightNodeId) = explode("-", $rightAncestor);
+			if ($leftExecutionType > $rightExecutionType)
+				return 1;
+			elseif ($leftExecutionType < $rightExecutionType)
+				return -1;
+			else
+				return $left->display_name > $right->display_name;
+		});
+
+		foreach ($nodes as $node)
 		{
-			$temp = $tree[$node->ancestor];
-			if (!isset($temp->children))
-				$temp->children = array();
-			$temp->children[$node->descendant] = $node;
+			$this->sortNavigationTree($node->children);
 		}
-		else
+	}
+
+	/**
+	 * Adds a child node into the navigation tree.
+	 *
+	 * @param array $tree
+	 * @param NavigationTreeNode $node
+	 */
+	protected function addChild($tree, $node)
+	{
+		foreach ($tree as $edge)
 		{
-			foreach ($tree as $t)
+			if ($edge->descendant == $node->ancestor)
 			{
-				if (isset($t->children))
-				{
-					$this->addChild($t->children, $node);
-				}
+				$node->children = array();
+				$node->ancestor = $node->descendant;
+				$edge->children[$node->descendant] = $node;
+			}
+			else
+			{
+				$this->addChild($edge->children, $node);
 			}
 		}
 	}
 
-	private function create_tree_html($navigation_tree = array(), $project_id, $theme_name = '')
+	/**
+	 * Creates the navigation tree HTML to be displayed in the theme UI.
+	 *
+	 * @param array $navigationTree
+	 * @param int $nodeId selected node
+	 * @param string $themeName Used to build HTML links with theme assets
+	 * @return string HTML
+	 */
+	protected function createTreeHTML($navigation_tree = array(), $nodeId, $theme_name = '')
 	{
 		$buffer = '';
 		if (is_null ( $navigation_tree ) || empty ( $navigation_tree ))
 			return $buffer;
 
-		foreach ( $navigation_tree as $node ) {
+		foreach ($navigation_tree as $node) {
 			$extra_classes = "";
-			if ($node->descendant == $project_id) {
+			if ($node->descendant == $nodeId && $node->ancestor == $nodeId) {
 				$extra_classes = " expanded active";
 			}
 			if ($node->node_type_id == 1) { // project
@@ -235,7 +253,7 @@ class SpecificationController extends \BaseController {
 				$buffer .= sprintf ( "<li data-icon='places/folder.png' class='expanded%s'>%s", $extra_classes, HTML::link ('/specification/nodes/' . $node->descendant, $node->display_name, array('target' => '_self')));
 				if (! empty ( $node->children )) {
 					$buffer .= "<ul>";
-					$buffer .= $this->create_tree_html ($node->children, $project_id, $theme_name);
+					$buffer .= $this->createTreeHTML ($node->children, $nodeId, $theme_name);
 					$buffer .= "</ul>";
 				}
 				$buffer .= "</li></ul>";
@@ -243,47 +261,9 @@ class SpecificationController extends \BaseController {
 				$buffer .= sprintf ( "<li data-icon='actions/document-open.png' class='%s'>%s", $extra_classes, HTML::link ('/specification/nodes/' . $node->descendant, $node->display_name, array('target' => '_self')));
 				if (! empty ( $node->children )) {
 					$buffer .= "<ul>";
-					$buffer .= $this->create_tree_html ($node->children, $node_id, $theme_name);
+					$buffer .= $this->createTreeHTML ($node->children, $nodeId, $theme_name);
 					$buffer .= "</ul>";
 				}
-				$buffer .= "</li>";
-			} else {
-			$buffer .= sprintf ( "<li data-icon='mimetypes/text-x-generic.png' class='%s'>%s</li>", $extra_classes, HTML::link ('/specification/nodes/' . $node->id, $node->display_name, array('target' => '_self')));
-			}
-		}
-
-		return $buffer;
-	}
-
-	private function create_tree_html2($navigation_tree = array(), $node_id, $last_parent = 0, $theme_name = '')
-	{
-		$buffer = '';
-		if (is_null ( $navigation_tree ) || empty ( $navigation_tree ))
-			return $buffer;
-
-		foreach ( $navigation_tree as $node ) {
-			$extra_classes = "";
-			if ($node->descendant == $node_id) {
-				$extra_classes = " expanded active";
-			}
-			if ($node->node_type_id == 1) { // project
-				$buffer .= "<ul id='treeData' style='display: none;'>";
-				$buffer .= sprintf ( "<li data-icon='places/folder.png' class='expanded%s'>%s", $extra_classes, HTML::link ('/specification/nodes/' . $node->descendant, $node->display_name, array('target' => '_self')));
-				if (! empty ( $node->children )) {
-					$buffer .= "<ul>";
-					$buffer .= $this->create_tree_html2 ($node->children, $node_id, $node->descendant, $theme_name);
-					$buffer .= "</ul>";
-				}
-				$buffer .= "</li></ul>";
-			} else if ($node->node_type_id == 2) { // test suite
-				$buffer .= sprintf ( "<li data-icon='actions/document-open.png' class='%s'>%s", $extra_classes, HTML::link ('/specification/nodes/' . $node->descendant, $node->display_name, array('target' => '_self')));
-				if (! empty ( $node->children )) {
-					$buffer .= "<ul>";
-					$buffer .= $this->create_tree_html2 ($node->children, $node_id, $node->descendant, $theme_name);
-					$buffer .= "</ul>";
-				}
-				// if ($node->parent_id != $last_parent)
-				// echo "</ul>";
 				$buffer .= "</li>";
 			} else {
 				$buffer .= sprintf ( "<li data-icon='mimetypes/text-x-generic.png' class='%s'>%s</li>", $extra_classes, HTML::link ('/specification/nodes/' . $node->descendant, $node->display_name, array('target' => '_self')));
@@ -292,4 +272,5 @@ class SpecificationController extends \BaseController {
 
 		return $buffer;
 	}
+
 }
