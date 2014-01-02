@@ -1,8 +1,8 @@
 <?php
 
-use Theme;
-use Input;
-use DB;
+use \Theme;
+use \Input;
+use \DB;
 use Nestor\Repositories\ProjectRepository;
 use Nestor\Repositories\NavigationTreeRepository;
 

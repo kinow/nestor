@@ -17,7 +17,18 @@ class BaseController extends Controller {
 		$this->theme = Theme::uses('default'); // FIXME: get theme name from config or DB
 		$this->theme->setTitle('Nestor QA'); // FIXME: get it from the configs or DB
 		// Redirect if Nestor QA is not installed
-		if (Setting::get('nestor')['installed'] !== true)
+		$app = App::getFacadeRoot();
+		$db = $app['config']['database.default'];
+		// Create sqlite file if it does not exit
+		if ('sqlite' === $db)
+		{
+			$databaseFile = $app['config']['database.connections'][$db]['database'];
+			if (!file_exists($databaseFile)) 
+			{
+				file_put_contents($databaseFile, '');
+			}
+		}
+		if (!isset(Setting::get('nestor')['installed']) || Setting::get('nestor')['installed'] !== true)
 		{
 			header('Location: install');
 			exit;

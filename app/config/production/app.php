@@ -65,7 +65,7 @@ return array(
 	|
 	*/
 
-	'key' => 'yL9vnW7mSTaDHxbUR7xjn5XKp66NHK9v',
+	'key' => 'zgNkIKPvCJ0GkcGRjTcHGVb4L0hRsOtb',
 
 	/*
 	|--------------------------------------------------------------------------
@@ -106,7 +106,8 @@ return array(
 		'Illuminate\Validation\ValidationServiceProvider',
 		'Illuminate\View\ViewServiceProvider',
 		'Illuminate\Workbench\WorkbenchServiceProvider',
-		
+		'Illuminate\Foundation\Providers\KeyGeneratorServiceProvider',
+
 		'Philf\Setting\SettingServiceProvider',
 		'Teepluss\Theme\ThemeServiceProvider',
 		'Nestor\BackendServiceProvider',
@@ -137,6 +138,10 @@ return array(
 	*/
 
 	'aliases' => array(
+
+		'Theme'           => 'Teepluss\Theme\Facades\Theme',
+		'Nestor'          => 'Nestor\Facades\NestorFacade',
+		'Setting'         => 'Philf\Setting\Facades\Setting',
 
 		'App'             => 'Illuminate\Support\Facades\App',
 		'Artisan'         => 'Illuminate\Support\Facades\Artisan',
@@ -175,9 +180,6 @@ return array(
 		'URL'             => 'Illuminate\Support\Facades\URL',
 		'Validator'       => 'Illuminate\Support\Facades\Validator',
 		'View'            => 'Illuminate\Support\Facades\View',
-
-		'Theme'           => 'Teepluss\Theme\Facades\Theme',
-		'Nestor'          => 'Nestor\Facades\NestorFacade',
 
 	),
 

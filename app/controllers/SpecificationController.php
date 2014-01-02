@@ -2,7 +2,6 @@
 
 use \Input;
 use \HTML;
-use Log;
 use Nestor\Repositories\ProjectRepository;
 use Nestor\Repositories\TestCaseRepository;
 use Nestor\Repositories\ExecutionTypeRepository;

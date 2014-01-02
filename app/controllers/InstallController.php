@@ -1,6 +1,7 @@
 <?php
 
 use Nestor\Repositories\UserRepository;
+use Illuminate\Support\Str; // workaround
 
 class InstallController extends Controller {
 
@@ -23,10 +24,11 @@ class InstallController extends Controller {
 	 * @param UserRepository $users
 	 * @return InstallController
 	 */
-	public function __construct(UserRepositoryInterface $users)
+	public function __construct(UserRepository $users)
 	{
 		$this->theme = Theme::uses('default')->layout('install');
-		if (Config::get('nestor.installed') === true)
+		$this->app = App::getFacadeRoot();
+		if (isset(Setting::get('nestor')['installed']) && Setting::get('nestor')['installed'] === true)
 		{
 			return App::abort(404, 'Page not found');
 		}
@@ -42,8 +44,15 @@ class InstallController extends Controller {
 	public function postIndex()
 	{
 		Log::info('Generating app key...');
-		Artisan::call('key:generate', array('--env' => App::environment()));
-
+		// FIXME: due to error in Artisan::call('key:generate', array('--env' => App::environment()));
+		list($path, $contents) = $this->getKeyFile(App::environment());
+		$key = Str::random(32);
+		$contents = str_replace($this->app['config']['app.key'], $key, $contents);
+		file_put_contents($path, $contents);
+		$this->app['config']['app.key'] = $key;
+		Log::info("Application key [$key] set successfully.");
+		
+		$artisan = Artisan::call('migrate:install', array('--env' => App::environment()));
  		$artisan = Artisan::call('migrate:refresh', array('--env' => App::environment(), '--seed'));
 
  		if ($artisan > 0)
@@ -54,6 +63,22 @@ class InstallController extends Controller {
  		}
 
  		return Redirect::to('install/user');
+	}
+	
+	/**
+	 * FIXME: workaround
+	 * Get the key file and contents.
+	 *
+	 * @return array
+	 */
+	protected function getKeyFile($env = '')
+	{
+		if ('/' !== substr($env, -strlen($env)))
+		{
+			$env = $env.'/';
+		}
+		$contents = file_get_contents($path = $this->app['path']."/config/{$env}app.php");
+		return array($path, $contents);
 	}
 
 	public function getUser()
