@@ -167,5 +167,11 @@ class TestPlansController extends \NavigationTreeController {
 		$args['current_project'] = $this->currentProject;
 		return $this->theme->scope('testplan.addTestCases', $args)->render();
 	}
+	
+	public function storeTestCases($id)
+	{
+		echo "WIP... id: " . $id;
+		exit;
+	}
 
 }

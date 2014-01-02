@@ -7,23 +7,13 @@
 	<div class='span4' id='navigation_tree_panel'>
 		<p>Navigation tree</p>
 		{{ navigation_tree_html }}
-		{{ Form.open({'url': '/planning/' ~ testplan.id ~ '/addTestCases', 'method': 'POST'}) }}
-			
-		{{ Form.close() }}
 	</div>
 	<div class="span8" id="test_specification">
 		<div class='pad_l pad_r' id='nodes_panel'>
-
-			{% if node.node_type_id == 1 %} {# project #}
-				{% include 'views/specification/project.twig.php' %}
-			{% elseif node.node_type_id == 2 %} {# test suite #}
-				{% include 'views/specification/testsuite.twig.php' %}
-			{% elseif node.node_type_id == 3 %} {# test case #}
-				{% include 'views/specification/testcase.twig.php' %}
-			{% else %} {# main page #}
 			<h4>Check the test cases you would like to add to the test plan [{{ HTML.linkRoute('testplans.show', testplan.name, testplan.id) }}]</h4>
-			<p>Different forms or details about nodes will be displayed here.</p>
-			{% endif %}
+			{{ Form.open({'url': '/testplans/' ~ testplan.id ~ '/addTestCases', 'method': 'POST'}) }}
+				{{ Form.submit('Add Selected Test Cases', {'class': "btn btn-primary"}) }}
+			{{ Form.close() }}
 		</div>
 	</div>
 </div>

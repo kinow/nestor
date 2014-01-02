@@ -56,15 +56,15 @@ class NavigationTreeController extends \BaseController {
 			if ($leftExecutionType > $rightExecutionType)
 				return 1;
 			elseif ($leftExecutionType < $rightExecutionType)
-			return -1;
+				return -1;
 			else
 				return $left->display_name > $right->display_name;
 		});
 	
-			foreach ($nodes as $node)
-			{
-				$this->sortNavigationTree($node->children);
-			}
+		foreach ($nodes as $node)
+		{
+			$this->sortNavigationTree($node->children);
+		}
 	}
 	
 	/**
@@ -176,6 +176,25 @@ class NavigationTreeController extends \BaseController {
 		}
 	
 		return $buffer;
+	}
+	
+	protected function isNodeInTree($tree, $node)
+	{
+		$r = false;
+		foreach ($tree as $entry)
+		{
+			if ($entry->ancestor === $node->ancestor && $entry->descendant === $node->descendant)
+			{
+				return true;
+			}
+			if (isset($entry->children) && !empty($entry->children))
+			{
+				$r = $this->isNodeInTree($entry->children, $node);
+				if ($r)
+					return true;
+			}
+		}
+		return $r;
 	}
 	
 }

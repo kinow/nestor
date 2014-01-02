@@ -90,7 +90,20 @@ class SpecificationController extends \NavigationTreeController {
 		$navigationTreeHtml = $this->createTreeHTML($navigationTree, $node_id, $this->theme->getThemeName());
 		$args = array();
 
-		$node = $this->nodes->find($node_id, $node_id);
+		try 
+		{
+			$node = $this->nodes->find($node_id, $node_id);
+		}
+		catch (Exception $mnfe)
+		{
+			return Redirect::to('/specification/')
+			->with('flash', sprintf('The node %s does not belong to the current selected project', $node_id));
+		}
+		if (!$this->isNodeInTree($navigationTree, $node))
+		{
+			return Redirect::to('/specification/')
+					->with('flash', sprintf('The node %s does not belong to the current selected project', $node_id));
+		}
 		$args['node'] = $node;
 
 		// Create specific parameters depending on execution type

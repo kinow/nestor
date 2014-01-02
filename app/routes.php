@@ -34,6 +34,7 @@ Route::controller('/specification/nodes', 'SpecificationController');
 Route::resource('planning', 'TestPlansController');
 Route::resource('testplans', 'TestPlansController');
 Route::get('testplans/{id}/addTestCases', 'TestPlansController@addTestCases');
+Route::post('testplans/{id}/addTestCases', 'TestPlansController@storeTestCases');
 
 // WIP
 Route::controller('requirements', 'WIPController');

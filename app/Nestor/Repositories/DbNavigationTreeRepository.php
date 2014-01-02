@@ -52,7 +52,7 @@ class DbNavigationTreeRepository implements NavigationTreeRepository {
 			elseif ($leftExecutionType < $rightExecutionType)
 				return -1;
 			else
-				return $leftNodeId > $rightNodeId;
+				return $leftNodeId < $rightNodeId;
 		});
 
 		return $children;
