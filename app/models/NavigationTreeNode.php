@@ -14,6 +14,8 @@ class NavigationTreeNode extends Magniloquent {
 	protected $primaryKey = 'ancestor';
 
 	public $incrementing = FALSE;
+	
+	public $children = array();
 
 	/**
 	 * The attributes that are mass assignable.
@@ -27,7 +29,7 @@ class NavigationTreeNode extends Magniloquent {
 	 *
 	 * @var array
 	 */
-	protected $hidden = array('');
+	protected $hidden = array('children');
 
 	protected static $rules = array(
 		"save" => array(
@@ -54,5 +56,45 @@ class NavigationTreeNode extends Magniloquent {
 // 	);
 
 	protected static $purgeable = [''];
+	
+	public function getAncestorExecutionType()
+	{
+		$ancestor = $this->ancestor;
+		if (!$ancestor)
+			throw new \Exception("Invalid ancestor");
+		
+		list($executionType, $nodeId) = explode("-", $ancestor);
+		return $executionType;
+	}
+	
+	public function getAncestorNodeId()
+	{
+		$ancestor = $this->ancestor;
+		if (!$ancestor)
+			throw new \Exception("Invalid ancestor");
+	
+		list($executionType, $nodeId) = explode("-", $ancestor);
+		return $nodeId;
+	}
+	
+	public function getDescendantExecutionType()
+	{
+		$descendant = $this->descendant;
+		if (!$descendant)
+			throw new \Exception("Invalid descendant");
+	
+		list($executionType, $nodeId) = explode("-", $descendant);
+		return (int) $executionType;
+	}
+	
+	public function getDescendantNodeId()
+	{
+		$descendant = $this->descendant;
+		if (!$descendant)
+			throw new \Exception("Invalid descendant");
+	
+		list($executionType, $nodeId) = explode("-", $descendant);
+		return $nodeId;
+	}
 
 }

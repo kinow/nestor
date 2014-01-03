@@ -1,6 +1,7 @@
 <?php namespace Nestor\Repositories;
 
 use Auth, Hash, Validator, DB, Log;
+use Magniloquent\Magniloquent\Magniloquent;
 use \NavigationTreeNode;
 
 //http://www.mysqlperformanceblog.com/2011/02/14/moving-subtrees-in-closure-table/
@@ -24,13 +25,9 @@ class DbNavigationTreeRepository implements NavigationTreeRepository {
 	 * @param int    $length
 	 * @return NavigationTreeNode
 	 */
-	public function children($ancestor, $length)
+	public function children($ancestor, $length = 1)
 	{
 		Log::info(sprintf('Retriving children for %s, length %d', $ancestor, $length));
-// 		return NavigationTreeNode::
-// 				where('ancestor', $ancestor)->
-// 				where('length', '<=', $length)->
-// 				get();
 
 		$children = DB::table('navigation_tree AS a')
 			->select(DB::raw("a.*"))
@@ -55,7 +52,14 @@ class DbNavigationTreeRepository implements NavigationTreeRepository {
 				return $leftNodeId < $rightNodeId;
 		});
 
-		return $children;
+		$r = array();
+		Magniloquent::unguard();
+		foreach ($children as $child)
+		{
+			$r[] = new NavigationTreeNode(get_object_vars($child));
+		}
+		
+		return $r;
 	}
 
 	/**

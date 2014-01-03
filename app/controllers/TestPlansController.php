@@ -175,8 +175,10 @@ class TestPlansController extends \NavigationTreeController {
 	
 	public function storeTestCases($id)
 	{
+		$testplan = $this->testplans->find($id);
 		$length = count($_POST);
 		$nodesSelected = array();
+		$testcases = array();
 		foreach ($_POST as $entry => $value)
 		{
 			if (strpos($entry, 'ft_1') === 0)
@@ -184,9 +186,34 @@ class TestPlansController extends \NavigationTreeController {
 				$nodesSelected[] = $value;
 			}
 		}
-		var_dump($nodesSelected);
-		echo "WIP... id: " . $id;
-		exit;
+		foreach ($nodesSelected as $node)
+		{
+			$children = $this->nodes->children($node);
+			$this->getTestCasesFrom($children, $testcases);
+		}
+// 		var_dump($testcases);
+// 		echo "Add these test cases to test plan #" . $id;exit;
+		
+		// TODO: attach entities to test_plans_test_cases/test_plans
+		
+		return Redirect::to('/planning/' . $id)
+				->with('success', sprintf('%d test cases were added to the test plan %s', count($testcases), $testplan->name));
+	}
+	
+	protected function getTestCasesFrom($children, &$testcases) 
+	{
+		foreach ($children as $child)
+		{
+			$executionType = $child->getDescendantExecutionType();
+			if ($executionType == 3)
+			{
+				$testcases[$child->getDescendantNodeId()] = $child;
+			}
+			if (isset($child->children) && !empty($child->children))
+			{
+				$this->getTestCasesFrom($children, $testcases);
+			}
+		}		
 	}
 
 }

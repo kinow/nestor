@@ -13,6 +13,12 @@
         {{ Theme.partial('header') }}
 
         <div class="container">
+        	{% if Session.has('success') %}
+			<div class="alert">
+			    <a href="#close" class="close" data-dismiss="alert">&times;</a>
+			    <p>{{ Session.get('success') }}</p>
+			</div>
+			{% endif %}
             {{ Theme.content() }}
 
             {{ Theme.partial('footer') }}
