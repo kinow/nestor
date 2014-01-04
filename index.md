@@ -12,8 +12,10 @@ categories: none
   tools.</p>
 
   <p>The project is still in beta, but we already have a lot of ideas to put in practice.
-  If you are interested in helping, feel free to browse the [open issues](https://github.com/nestor-qa/nestor/issues?state=open) or
-  send us a message in our [mailing list](https://groups.google.com/forum/#!forum/nestor-dev).</p>
+  If you are interested in helping, feel free to browse the
+  <a href="https://github.com/nestor-qa/nestor/issues?state=open">open issues</a> or
+  send us a message in our
+  <a href="https://groups.google.com/forum/#!forum/nestor-dev">mailing list</a>.</p>
 
   <h2><span class="pictos">U</span>Team</h2>
   <ul>
@@ -45,7 +47,7 @@ categories: none
     </ul>
   </div>
 
-  <h2><span class="pictos">\</span>Blog Posts</h2>
+  <h2><span class="pictos">N</span>Blog Posts</h2>
   <div id="posts">
     <ul>
       {% for post in site.categories.blog %}
