@@ -11,3 +11,4 @@ database-model/
 vendor/
 composer.phar
 _site/
+.externalToolBuilders/
