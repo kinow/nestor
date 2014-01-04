@@ -8,15 +8,22 @@ categories: none
 <h1>Nestor QA &mdash; Open source test management tool</h1>
 <div class="left">
   <p>This is Nestor QA official web page. Nestor is an Open Source test management
-  tool that was created with focus on simplicity, extensibility and integration with other 
+  tool that was created with focus on simplicity, extensibility and integration with other
   tools.</p>
 
-  <p>The project is still in beta, but we already have a lot of ideas to put in practice. 
-  If you are interested in helping, feel free to browse the [open issues](https://github.com/nestor-qa/nestor/issues?state=open) or 
+  <p>The project is still in beta, but we already have a lot of ideas to put in practice.
+  If you are interested in helping, feel free to browse the [open issues](https://github.com/nestor-qa/nestor/issues?state=open) or
   send us a message in our [mailing list](https://groups.google.com/forum/#!forum/nestor-dev).</p>
+
+  <h2><span class="pictos">U</span>Team</h2>
+  <ul>
+    <li>Peter Florijn <a href="https://twitter.com/peterflorijn">@peterflorijn</a></li>
+    <li>Bruno P. Kinoshita <a href="https://twitter.com/kinow">@kinow</a></li>
+  </ul>
 
   <h2><span class="pictos">N</span>License</h2>
   <p>The project is licensed under the MIT License.</p>
+
 </div>
 
 <div class="right">
