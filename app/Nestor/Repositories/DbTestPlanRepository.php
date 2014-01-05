@@ -27,6 +27,18 @@ class DbTestPlanRepository implements TestPlanRepository {
 	}
 
 	/**
+	 * Get all test plans that belong to a project
+	 *
+	 * @param  int   $projectId
+	 * @return TestPlan
+	 */
+	public function findByProjectId($projectId)
+	{
+		return TestPlan::where('project_id', $projectId)
+				->get();
+	}
+
+	/**
 	 * Create a test plan
 	 *
 	 * @param  int     $project_id

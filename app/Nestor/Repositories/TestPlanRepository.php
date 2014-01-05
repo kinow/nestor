@@ -18,6 +18,14 @@ interface TestPlanRepository {
 	public function find($id);
 
 	/**
+	 * Get all test plans that belong to a project
+	 *
+	 * @param  int   $projectId
+	 * @return TestPlan
+	 */
+	public function findByProjectId($projectId);
+
+	/**
 	 * Create a test plan
 	 *
 	 * @param  int     $project_id

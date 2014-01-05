@@ -49,7 +49,10 @@ class TestPlansController extends \NavigationTreeController {
 	public function index()
 	{
 		$args = array();
-		$args['testplans'] = $this->testplans->all();
+		$project = $this->getCurrentProject();
+		$projectId = $project->id;
+		$args['testplans'] = $this->testplans->findByProjectId($projectId);
+		$queries = DB::getQueryLog();
 		return $this->theme->scope('testplan.index', $args)->render();
 	}
 
