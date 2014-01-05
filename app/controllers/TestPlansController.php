@@ -4,6 +4,7 @@ use \Theme;
 use \Input;
 use \DB;
 use Nestor\Repositories\TestPlanRepository;
+use Nestor\Repositories\TestCaseRepository;
 use Nestor\Repositories\NavigationTreeRepository;
 
 class TestPlansController extends \NavigationTreeController {
@@ -14,7 +15,14 @@ class TestPlansController extends \NavigationTreeController {
 	 * @var Nestor\Repositories\TestPlanRepository
 	 */
 	protected $testplans;
-	
+
+	/**
+	 * The test case repository implementation.
+	 *
+	 * @var Nestor\Repositories\TestCaseRepository
+	 */
+	protected $testcases;
+
 	/**
 	 * @var Nestor\Repositories\NavigationTreeRepository
 	 */
@@ -24,10 +32,11 @@ class TestPlansController extends \NavigationTreeController {
 
 	public $restful = true;
 
-	public function __construct(TestPlanRepository $testplans, NavigationTreeRepository $nodes)
+	public function __construct(TestPlanRepository $testplans, TestCaseRepository $testcases, NavigationTreeRepository $nodes)
 	{
 		parent::__construct();
 		$this->testplans = $testplans;
+		$this->testcases = $testcases;
 		$this->nodes = $nodes;
 		$this->theme->setActive('planning');
 	}
@@ -64,13 +73,13 @@ class TestPlansController extends \NavigationTreeController {
 	public function store()
 	{
 		Log::info('Creating test plan...');
-		
+
 		$testplan = $this->testplans->create(
 				Input::get('project_id'),
 				Input::get('name'),
 				Input::get('description')
 		);
-		
+
 		if ($testplan->isValid() && $testplan->isSaved())
 		{
 			return Redirect::to('/planning/')
@@ -91,7 +100,11 @@ class TestPlansController extends \NavigationTreeController {
 	public function show($id)
 	{
 		$args = array();
-		$args['testplan'] = $this->testplans->find($id);
+		$testplan = $this->testplans->find($id);
+		$args['testplan'] = $testplan;
+		$args['testcases'] = $testplan->testcases;
+		$queries = DB::getQueryLog();
+		$last_query = end($queries);
 		return $this->theme->scope('testplan.show', $args)->render();
 	}
 
@@ -118,14 +131,14 @@ class TestPlansController extends \NavigationTreeController {
 	public function update($id)
 	{
 		Log::info('Updating test plan...');
-		
+
 		$testplan = $this->testplans->update(
 				$id,
 				Input::get('project_id'),
 				Input::get('name'),
 				Input::get('description')
 		);
-		
+
 		if ($testplan->isValid() && $testplan->isSaved())
 		{
 			return Redirect::route('testplans.show', $id)
@@ -152,8 +165,8 @@ class TestPlansController extends \NavigationTreeController {
 		return Redirect::route('testplans.index')
 			->with('flash', sprintf('The test plan %s has been deleted', $testplan->name));
 	}
-	
-	public function addTestCases($id) 
+
+	public function addTestCases($id)
 	{
 		$currentProject = $this->getCurrentProject();
 		$nodes = $this->nodes->children('1-'.$currentProject->id, 1 /* length*/);
@@ -167,12 +180,12 @@ class TestPlansController extends \NavigationTreeController {
 		$args['current_project'] = $this->currentProject;
 		return $this->theme->scope('testplan.addTestCases', $args)->render();
 	}
-	
+
 	function startsWith($haystack, $needle)
 	{
 		return $needle === "" || strpos($haystack, $needle) === 0;
 	}
-	
+
 	public function storeTestCases($id)
 	{
 		$testplan = $this->testplans->find($id);
@@ -193,27 +206,34 @@ class TestPlansController extends \NavigationTreeController {
 		}
 // 		var_dump($testcases);
 // 		echo "Add these test cases to test plan #" . $id;exit;
-		
+
 		// TODO: attach entities to test_plans_test_cases/test_plans
-		
+
+		foreach ($testcases as $testcase)
+		{
+			Log::info(sprintf('Adding testcase %s to test plan %s', $testcase->name, $testplan->name));
+			$testplan->testcases()->attach($testcase);
+		}
+
 		return Redirect::to('/planning/' . $id)
 				->with('success', sprintf('%d test cases were added to the test plan %s', count($testcases), $testplan->name));
 	}
-	
-	protected function getTestCasesFrom($children, &$testcases) 
+
+	protected function getTestCasesFrom($children, &$testcases)
 	{
 		foreach ($children as $child)
 		{
 			$executionType = $child->getDescendantExecutionType();
 			if ($executionType == 3)
 			{
-				$testcases[$child->getDescendantNodeId()] = $child;
+				$nodeId = $child->getDescendantNodeId();
+				$testcases[$nodeId] = $this->testcases->find($nodeId);
 			}
 			if (isset($child->children) && !empty($child->children))
 			{
 				$this->getTestCasesFrom($children, $testcases);
 			}
-		}		
+		}
 	}
 
 }

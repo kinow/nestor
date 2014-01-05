@@ -38,7 +38,7 @@ class ExecutionType extends Magniloquent {
 	);
 
 	protected static $relationships = array(
-		'projects' => array('hasMany', 'TestCase'),
+		'testCases' => array('hasMany', 'TestCase'),
 	);
 
 	protected static $purgeable = [''];

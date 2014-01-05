@@ -51,4 +51,9 @@ class TestCase2 extends Magniloquent {
 
 	protected static $purgeable = [''];
 
+	public function executionType()
+	{
+		return $this->belongsTo('ExecutionType', 'execution_type_id')->get()->toArray();
+	}
+
 }

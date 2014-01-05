@@ -45,10 +45,10 @@ class TestPlan extends Magniloquent {
 
 	protected static $purgeable = [''];
 
-	public function testcases() 
+	public function testcases()
 	{
 		return $this->belongsToMany('TestCase2', 'test_plans_test_cases', 'test_plan_id', 'test_case_id')
-				->withPivot('test_plans_test_cases');
+				->withTimestamps();
 	}
-	
+
 }

@@ -37,16 +37,30 @@
 <div class='row'>
 	<div class='span12'>
 		<p class='muted'><strong>Test Cases in this Test Plan</strong></p>
-		
-		{% set testcases = testplan.testcases %}
 		{% if testcases[0] is defined %}
-			{% for testcase in testplan.testcases %}
-			
+		<table class='table table-bordered table-striped table-hover'>
+			<thead>
+				<tr>
+					<th>Test Case</th>
+					<th>Execution Type</th>
+					<th>Action</th>
+				</tr>
+			</thead>
+			<tbody>
+			{% for testcase in testcases %}
+				<tr>
+					<td>{{ HTML.linkRoute('testcases.show', testcase.name, testcase.id) }}</td>
+					<td>{{ testcase.executionType[0]['name'] }}</td>
+					<td>Remove this test case from test plan link</td>
+				</tr>
 			{% endfor %}
+			</tbody>
+		</table>
 		{% else %}
-		<p>No test cases added yet. {{ HTML.link('testplans/' ~ testplan.id ~ '/addTestCases', 'Add new tests cases to this test plan') }}</p>
+		<p>No test cases added yet.</p>
 		{% endif %}
-		
+		<h4>{{ HTML.link('testplans/' ~ testplan.id ~ '/addTestCases', 'Add new tests cases to this test plan') }}</h4>
+
 	</div>
 </div>
 {% endblock %}

@@ -56,7 +56,8 @@ return array(
     	$fns = array(
     		'print_r',
     		'var_dump',
-    		'isset'
+    		'isset',
+    		'count'
     	);
 
     	foreach ($fns as $fn)
