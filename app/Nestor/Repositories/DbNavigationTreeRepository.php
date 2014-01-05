@@ -38,27 +38,13 @@ class DbNavigationTreeRepository implements NavigationTreeRepository {
 			->orderBy('b.ancestor')
 			->get();
 
-		// Sort by ancestors
-		usort($children, function($left, $right) {
-			$leftAncestor = $left->ancestor;
-			$rightAncestor = $right->ancestor;
-			list($leftExecutionType, $leftNodeId) = explode("-", $leftAncestor);
-			list($rightExecutionType, $rightNodeId) = explode("-", $rightAncestor);
-			if ($leftExecutionType > $rightExecutionType)
-				return 1;
-			elseif ($leftExecutionType < $rightExecutionType)
-				return -1;
-			else
-				return $leftNodeId < $rightNodeId;
-		});
-
 		$r = array();
 		Magniloquent::unguard();
 		foreach ($children as $child)
 		{
 			$r[] = new NavigationTreeNode(get_object_vars($child));
 		}
-		
+
 		return $r;
 	}
 

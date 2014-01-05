@@ -66,8 +66,8 @@ class SpecificationController extends \NavigationTreeController {
 	{
 		$currentProject = $this->getCurrentProject();
 		$nodes = $this->nodes->children('1-'.$currentProject->id, 1 /* length*/);
-// 		$queries = DB::getQueryLog();
-// 		$last_query = end($queries);
+//  		$queries = DB::getQueryLog();
+//  		$last_query = end($queries);
 		$navigationTree = $this->createNavigationTree($nodes, '1-'.$currentProject->id);
 		$navigationTreeHtml = $this->createTreeHTML($navigationTree, "", $this->theme->getThemeName());
 		$args = array();
@@ -90,7 +90,7 @@ class SpecificationController extends \NavigationTreeController {
 		$navigationTreeHtml = $this->createTreeHTML($navigationTree, $node_id, $this->theme->getThemeName());
 		$args = array();
 
-		try 
+		try
 		{
 			$node = $this->nodes->find($node_id, $node_id);
 		}

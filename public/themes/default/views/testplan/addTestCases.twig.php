@@ -1,7 +1,7 @@
 {% block content %}
 
 <div class='page-header'>
-	<h1>Add Test Cases to Test Plan</h1>
+	<h1>Add Test Cases to Test Plan [{{ HTML.linkRoute('testplans.show', testplan.name, testplan.id) }}]</h1>
 </div>
 <div class='row'>
 	{{ Form.open({'url': '/testplans/' ~ testplan.id ~ '/addTestCases', 'method': 'POST', 'id': 'testplan_form'}) }}
@@ -11,12 +11,13 @@
 			{{ navigation_tree_html }}
 		</div>
 		<br/>
-		{{ Form.submit('Add Selected Test Cases', {'class': "btn btn-primary"}) }}
+		{{ Form.submit('Save', {'class': "btn btn-primary"}) }}
+		{{ HTML.link(URL.previous(), 'Cancel', {'class': 'btn'}) }}
 	</div>
 	{{ Form.close() }}
 	<div class="span8" id="test_specification">
 		<div class='pad_l pad_r' id='nodes_panel'>
-			<h4>Check the test cases you would like to add to the test plan [{{ HTML.linkRoute('testplans.show', testplan.name, testplan.id) }}]</h4>
+			<h4>Check the test cases you would like to add to this test plan</h4>
 		</div>
 	</div>
 </div>
@@ -31,7 +32,7 @@ var templatecallback = function() {
       // return false to prevent submission of this sample
       return true;
     });
-	
+
 	$("#navigation_tree_panel").fancytree({
 		imagePath: "{{ URL.to('/themes/default/assets/icons/32x32') }}/",
 		extensions: [],

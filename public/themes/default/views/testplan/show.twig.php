@@ -36,7 +36,10 @@
 <hr />
 <div class='row'>
 	<div class='span12'>
-		<p class='muted'><strong>Test Cases in this Test Plan</strong></p>
+		<p class='muted'><strong>Test Cases</strong></p>
+		<div class='well'>
+			{{ HTML.link('testplans/' ~ testplan.id ~ '/addTestCases', 'Manage test cases in this test plan', {'class': 'btn'}) }}
+		</div>
 		{% if testcases[0] is defined %}
 		<table class='table table-bordered table-striped table-hover'>
 			<thead>
@@ -59,7 +62,6 @@
 		{% else %}
 		<p>No test cases added yet.</p>
 		{% endif %}
-		<h4>{{ HTML.link('testplans/' ~ testplan.id ~ '/addTestCases', 'Add new tests cases to this test plan') }}</h4>
 
 	</div>
 </div>

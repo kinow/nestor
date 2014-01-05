@@ -169,6 +169,9 @@ class TestPlansController extends \NavigationTreeController {
 			->with('flash', sprintf('The test plan %s has been deleted', $testplan->name));
 	}
 
+	/**
+	 * Displays navigation tree for managing test cases of a test plan.
+	 */
 	public function addTestCases($id)
 	{
 		$currentProject = $this->getCurrentProject();
@@ -182,11 +185,6 @@ class TestPlansController extends \NavigationTreeController {
 		$args['navigation_tree_html'] = $navigationTreeHtml;
 		$args['current_project'] = $this->currentProject;
 		return $this->theme->scope('testplan.addTestCases', $args)->render();
-	}
-
-	function startsWith($haystack, $needle)
-	{
-		return $needle === "" || strpos($haystack, $needle) === 0;
 	}
 
 	public function storeTestCases($id)
@@ -207,10 +205,6 @@ class TestPlansController extends \NavigationTreeController {
 			$children = $this->nodes->children($node);
 			$this->getTestCasesFrom($children, $testcases);
 		}
-// 		var_dump($testcases);
-// 		echo "Add these test cases to test plan #" . $id;exit;
-
-		// TODO: attach entities to test_plans_test_cases/test_plans
 
 		foreach ($testcases as $testcase)
 		{

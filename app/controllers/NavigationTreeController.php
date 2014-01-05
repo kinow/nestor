@@ -15,9 +15,9 @@ class NavigationTreeController extends \BaseController {
 		// Check if the current project has been set
 		$this->beforeFilter('@isCurrentProjectSet');
 	}
-	
+
 	// --------- Utility methods
-	
+
 	/**
 	 * Create a navigation tree with the nodes returned from DB.
 	 *
@@ -44,7 +44,7 @@ class NavigationTreeController extends \BaseController {
 		$this->sortNavigationTree($tree);
 		return $tree;
 	}
-	
+
 	protected function sortNavigationTree(&$nodes)
 	{
 		// Sort by execution type and display name
@@ -60,13 +60,13 @@ class NavigationTreeController extends \BaseController {
 			else
 				return $left->display_name > $right->display_name;
 		});
-	
+
 		foreach ($nodes as $node)
 		{
 			$this->sortNavigationTree($node->children);
 		}
 	}
-	
+
 	/**
 	 * Adds a child node into the navigation tree.
 	 *
@@ -89,7 +89,7 @@ class NavigationTreeController extends \BaseController {
 			}
 		}
 	}
-	
+
 	/**
 	 * Creates the navigation tree HTML to be displayed in the theme UI.
 	 *
@@ -103,7 +103,7 @@ class NavigationTreeController extends \BaseController {
 		$buffer = '';
 		if (is_null ( $navigation_tree ) || empty ( $navigation_tree ))
 			return $buffer;
-	
+
 		foreach ($navigation_tree as $node) {
 			$extra_classes = "";
 			if ($node->descendant == $nodeId && $node->ancestor == $nodeId) {
@@ -130,10 +130,10 @@ class NavigationTreeController extends \BaseController {
 				$buffer .= sprintf ( "<li data-icon='mimetypes/text-x-generic.png' class='%s'>%s</li>", $extra_classes, HTML::link ('/specification/nodes/' . $node->descendant, $node->display_name, array('target' => '_self')));
 			}
 		}
-	
+
 		return $buffer;
 	}
-	
+
 	/**
 	 * Creates the navigation tree HTML to be displayed in the theme UI.
 	 *
@@ -147,7 +147,7 @@ class NavigationTreeController extends \BaseController {
 		$buffer = '';
 		if (is_null ( $navigation_tree ) || empty ( $navigation_tree ))
 			return $buffer;
-	
+
 		foreach ($navigation_tree as $node) {
 			$extra_classes = "";
 			if ($node->descendant == $nodeId && $node->ancestor == $nodeId) {
@@ -174,10 +174,10 @@ class NavigationTreeController extends \BaseController {
 				$buffer .= sprintf ( "<li data-icon='mimetypes/text-x-generic.png' id='%s' class='%s'>%s</li>", $node->descendant, $extra_classes, $node->display_name);
 			}
 		}
-	
+
 		return $buffer;
 	}
-	
+
 	protected function isNodeInTree($tree, $node)
 	{
 		$r = false;
@@ -196,5 +196,5 @@ class NavigationTreeController extends \BaseController {
 		}
 		return $r;
 	}
-	
+
 }
