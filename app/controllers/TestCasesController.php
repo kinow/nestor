@@ -209,35 +209,38 @@ class TestCasesController extends \BaseController {
 	 */
 	public function destroy($id)
 	{
-		$testcase = null;
-		$navigationTreeNode = null;
-		Log::info('Deleting test case...');
+		Log::info(sprintf('Deleting test case %d...', $id));
+		$parent = null;
 		$pdo = null;
 		try {
-			$testcase = $this->testcases->find($id);
 			$pdo = DB::connection()->getPdo();
 			$pdo->beginTransaction();
-			$navigationTreeNode = $this->nodes->findByNodeIdAndNodeTypeId($testcase->id, 3);
-			$navigationTreeNode->display_name = $testcase->name;
-			$this->nodes->delete(
-						$navigationTreeNode->id,
-						$navigationTreeNode->parent_id,
-						$navigationTreeNode->display_name);
+			$parent = $this->nodes->parent('3-'.$id);
+			Log::info(sprintf('The parent node of the deleted is %s', $parent->ancestor));
+			$testcasesDeleted = $this->testcases->delete($id);
+			$nodesDeleted = $this->nodes->delete('3-'.$id);
+
+			if ($testcasesDeleted !== 1)
+			{
+				throw new Exception('Failed to delete test case');
+			}
+
+			// if ($nodesDeleted !== 1)
+			// {
+			// 	$queries = DB::getQueryLog();
+			// 	$last_query = end($queries);
+			// 	Log::info($last_query);
+			// 	throw new Exception('Failed to delete node');
+			// }
+
 			$pdo->commit();
-		} catch (\PDOException $e) {
+
+			return Redirect::to('/specification/nodes/' . $parent->ancestor);
+		} catch (\Exception $e) {
+			Log::error($e);
 			if (!is_null($pdo))
 				$pdo->rollBack();
-			return Redirect::to('/specification/')
-				->withInput();
-		}
-		if ($testcase->isSaved())
-		{
-			return Redirect::to('/specification/nodes/' . $navigationTreeNode->id)
-			->with('flash', 'A new test case has been created');
-		} else {
-			return Redirect::to('/specification/')
-				->withInput()
-				->withErrors($testcase->errors());
+			return Redirect::to('/testcases/' . $id)->withInput();
 		}
 	}
 

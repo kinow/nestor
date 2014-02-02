@@ -28,6 +28,14 @@ interface NavigationTreeRepository {
 	public function parents($descendant);
 
 	/**
+	 * Get the direct parent of the node.
+	 *
+	 * @param string $descendant
+	 * @return NavigationTreeNode
+	 */
+	public function parent($descendant);
+
+	/**
 	 * Get a NavigationTreeNode by their primary key.
 	 *
 	 * @param  int   $ancestorId
@@ -63,10 +71,9 @@ interface NavigationTreeRepository {
 	/**
 	 * Delete a navigation tree node
 	 *
-	 * @param int $ancestor
 	 * @param int $descendant
 	 */
-	public function delete($ancestor, $descendant);
+	public function delete($descendant);
 
 	/**
 	 * Delete a navigation tree node with all its children nodes

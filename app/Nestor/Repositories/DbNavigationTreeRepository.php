@@ -76,6 +76,22 @@ order by a.length
 	}
 
 	/**
+	 * Get the direct parent of the node.
+	 *
+	 * @param string $descendant
+	 * @return NavigationTreeNode
+	 */
+	public function parent($descendant)
+	{
+		return DB::table('navigation_tree AS a')
+			->select(DB::raw("a.*"))
+			->where('descendant', '=', $descendant)
+			->where('ancestor', '<>', $descendant)
+			->where('length', '=', 1)
+			->first();
+	}
+
+	/**
 	 * Get a NavigationTreeNode by their primary key.
 	 *
 	 * @param  int   $ancestorId
@@ -156,12 +172,11 @@ order by a.length
 	/**
 	 * Delete a navigation tree node
 	 *
-	 * @param int $ancestor
-	 * @param int $descendant
+	 * @param string $descendant
 	 */
-	public function delete($ancestor, $descendant)
+	public function delete($descendant)
 	{
-		return NavigationTreeNode::where('ancestor', $ancestor)->where('descendant', $descendant)->delete();
+		return NavigationTreeNode::where('descendant', $descendant)->delete();
 	}
 
 	/**
