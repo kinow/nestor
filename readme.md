@@ -5,7 +5,7 @@ highly influenced by agile tools, existing test applications and other tools lik
 
 # Docs
 
-WIP...
+WIP. Working hard on that.
 
 # Source code
 
