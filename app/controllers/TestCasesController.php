@@ -205,7 +205,36 @@ class TestCasesController extends \BaseController {
 	 */
 	public function destroy($id)
 	{
-		//
+		$testcase = null;
+		$navigationTreeNode = null;
+		Log::info('Deleting test case...');
+		$pdo = null;
+		try {
+			$testcase = $this->testcases->find($id);
+			$pdo = DB::connection()->getPdo();
+			$pdo->beginTransaction();
+			$navigationTreeNode = $this->nodes->findByNodeIdAndNodeTypeId($testcase->id, 3);
+			$navigationTreeNode->display_name = $testcase->name;
+			$this->nodes->delete(
+						$navigationTreeNode->id,
+						$navigationTreeNode->parent_id,
+						$navigationTreeNode->display_name);
+			$pdo->commit();
+		} catch (\PDOException $e) {
+			if (!is_null($pdo))
+				$pdo->rollBack();
+			return Redirect::to('/specification/')
+				->withInput();
+		}
+		if ($testcase->isSaved())
+		{
+			return Redirect::to('/specification/nodes/' . $navigationTreeNode->id)
+			->with('flash', 'A new test case has been created');
+		} else {
+			return Redirect::to('/specification/')
+				->withInput()
+				->withErrors($testcase->errors());
+		}
 	}
 
 }

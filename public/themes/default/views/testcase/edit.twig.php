@@ -36,6 +36,6 @@
 </div>
 {{ Form.close() }} {% endblock %}
 
-{{ Form.open({'route': ['projects.destroy', project.id], 'method': 'DELETE', 'class': 'form-horizontal pull-right'}) }}
+{{ Form.open({'route': ['testcases.destroy', testcase.id], 'method': 'DELETE', 'class': 'form-horizontal pull-right'}) }}
 	{{ Form.submit('Delete', {'class': 'btn btn-danger'}) }}
 {{ Form.close() }}
