@@ -168,30 +168,34 @@ class TestCasesController extends \BaseController {
 							Input::get('execution_type_id'),
 							Input::get('name'),
 							Input::get('description'));
-			if ($testcase->isValid() && $testcase->isSaved())
+			if (!$testcase->isValid() || !$testcase->isSaved())
 			{
-				$navigationTreeNode = $this->nodes->findByNodeIdAndNodeTypeId($testcase->id, 3);
-				$navigationTreeNode->display_name = $testcase->name;
-				$this->nodes->update(
-							$navigationTreeNode->id,
-							$navigationTreeNode->node_id,
-							$navigationTreeNode->node_type_id,
-							$navigationTreeNode->parent_id,
-							$navigationTreeNode->display_name);
-				$pdo->commit();
+				throw new Exception('Failed to update Test Case');
 			}
-		} catch (\PDOException $e) {
+			$navigationTreeNode = $this->nodes->find('3-'.$testcase->id, '3-'.$testcase->id);
+			$navigationTreeNode->display_name = $testcase->name;
+			$updatedNode = $this->nodes->update(
+						'3-'.$testcase->id,
+						'3-'.$testcase->id,
+						$navigationTreeNode->node_id,
+						$navigationTreeNode->node_type_id,
+						$navigationTreeNode->display_name);
+			if (!$updatedNode->isValid() || !$updatedNode->isSaved())
+			{
+				throw new Exception('Failed to update Node');
+			}
+			$pdo->commit();	
+		} catch (\Exception $e) {
 			if (!is_null($pdo))
 				$pdo->rollBack();
-			return Redirect::to('/specification/')
-				->withInput();
+			return Redirect::to('/testcases/' . $id)->withInput();
 		}
-		if ($testcase->isSaved())
+		if (!is_null($testcase) && $testcase->isSaved())
 		{
-			return Redirect::to('/specification/nodes/' . $navigationTreeNode->id)
-			->with('flash', 'A new test case has been created');
+			return Redirect::to('/specification/nodes/' . $navigationTreeNode->node_id)
+				->with('flash', 'A new test case has been created');
 		} else {
-			return Redirect::to('/specification/')
+			return Redirect::to('/testcases/' . $id)
 				->withInput()
 				->withErrors($testcase->errors());
 		}
