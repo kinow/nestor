@@ -39,3 +39,19 @@
 {{ Form.open({'route': ['testcases.destroy', testcase.id], 'method': 'DELETE', 'class': 'form-horizontal pull-right'}) }}
 	{{ Form.submit('Delete', {'class': 'btn btn-danger'}) }}
 {{ Form.close() }}
+
+<script type='text/javascript'>
+
+templatecallback = function() {
+    var opts = {
+        absoluteURLs: false,
+        cssClass : 'el-rte',
+        lang     : 'en',
+        height   : 300,
+        toolbar  : 'normal',
+        cssfiles : ['{{ URL.to('/themes/default/assets/css/plugins/elrte/elrte-inner.css') }}']
+    }
+    $("#description").elrte(opts);
+}
+
+</script>

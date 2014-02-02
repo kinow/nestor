@@ -21,4 +21,5 @@ $(function() {
 	if (window.templatecallback) {
 		templatecallback();
 	}
+
 });

@@ -82,17 +82,20 @@ return array(
 
         'asset' => function($asset) {
         	// CSS
-        	$asset->add('bootstrap', 'themes/default/assets/css/bootstrap.min.css');
-        	$asset->add('bootstrap-responsive', 'themes/default/assets/css/bootstrap-responsive.min.css');
-        	$asset->add('fancytree', 'themes/default/assets/css/plugins/fancytree/skin-lion/ui.fancytree.css');
-        	$asset->add('style', 'themes/default/assets/css/style.css');
+            $asset->add('jqueryui-css', 'themes/default/assets/css/plugins/jqueryui/smoothness/jquery-ui-1.10.4.custom.css');
+        	$asset->add('fancytree-css', 'themes/default/assets/css/plugins/fancytree/skin-lion/ui.fancytree.css');
+            $asset->add('elrte-css', 'themes/default/assets/css/plugins/elrte/elrte.min.css');
+            $asset->add('bootstrap-css', 'themes/default/assets/css/bootstrap.min.css');
+            $asset->add('bootstrap-responsive-css', 'themes/default/assets/css/bootstrap-responsive.min.css');
+        	$asset->add('style-css', 'themes/default/assets/css/style.css');
 			// JS
-        	$asset->add('jquery2', 'themes/default/assets/js/jquery-2.0.3.min.js');
+        	$asset->add('jquery2-js', 'themes/default/assets/js/jquery-2.1.0.min.js');
         	$asset->add('jquery-cookie', 'themes/default/assets/js/plugins/jquery.cookie.js');
-        	$asset->add('jquery-ui-custom', 'themes/default/assets/js/plugins/jqueryui/jqueryui.custom.js');
-        	$asset->add('fancytree', 'themes/default/assets/js/plugins/fancytree/jquery.fancytree.js');
+        	$asset->add('jquery-ui-custom', 'themes/default/assets/js/plugins/jqueryui/jquery-ui-1.10.4.custom.min.js');
+        	$asset->add('fancytree-js', 'themes/default/assets/js/plugins/fancytree/jquery.fancytree.js');
         	$asset->add('fancytree-childcounter', 'themes/default/assets/js/plugins/fancytree/extensions/jquery.fancytree.childcounter.js');
         	$asset->add('fancytree-persist', 'themes/default/assets/js/plugins/fancytree/extensions/jquery.fancytree.persist.js');
+            $asset->add('elrte-js', 'themes/default/assets/js/plugins/elrte/elrte.min.js');
         	$asset->add('html5', 'themes/default/assets/js/html5.js');
         	$asset->add('bootstrap', 'themes/default/assets/js/bootstrap.min.js');
         	$asset->add('bootstrap-alert', 'themes/default/assets/js/bootstrap-alert.js');
