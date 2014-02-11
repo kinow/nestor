@@ -142,7 +142,7 @@ class NavigationTreeController extends \BaseController {
 	 * @param string $themeName Used to build HTML links with theme assets
 	 * @return string HTML
 	 */
-	protected function createTestPlanTreeHTML($navigation_tree = array(), $nodeId, $theme_name = '')
+	protected function createTestPlanTreeHTML($navigation_tree = array(), $nodeId, $theme_name = '', $nodesSelected = array())
 	{
 		$buffer = '';
 		if (is_null ( $navigation_tree ) || empty ( $navigation_tree ))
@@ -153,12 +153,17 @@ class NavigationTreeController extends \BaseController {
 			if ($node->descendant == $nodeId && $node->ancestor == $nodeId) {
 				$extra_classes = " expanded active";
 			}
-			if ($node->node_type_id == 1) { // project
+			$nodeTypeId = $node->node_type_id;
+			if ($nodeTypeId == 3 && array_key_exists($node->node_id, $nodesSelected))
+			{
+				$extra_classes = " selected";
+			}
+			if ($nodeTypeId == 1) { // project
 				$buffer .= "<ul id='treeData' style='display: none;'>";
 				$buffer .= sprintf ( "<li data-icon='places/folder.png' id='%s' class='expanded%s'>%s", $node->descendant, $extra_classes, $node->display_name);
 				if (! empty ( $node->children )) {
 					$buffer .= "<ul>";
-					$buffer .= $this->createTestPlanTreeHTML ($node->children, $nodeId, $theme_name);
+					$buffer .= $this->createTestPlanTreeHTML ($node->children, $nodeId, $theme_name, $nodesSelected);
 					$buffer .= "</ul>";
 				}
 				$buffer .= "</li></ul>";
@@ -166,7 +171,7 @@ class NavigationTreeController extends \BaseController {
 				$buffer .= sprintf ( "<li data-icon='actions/document-open.png' id='%s' class='%s'>%s", $node->descendant, $extra_classes, $node->display_name);
 				if (! empty ( $node->children )) {
 					$buffer .= "<ul>";
-					$buffer .= $this->createTestPlanTreeHTML ($node->children, $nodeId, $theme_name);
+					$buffer .= $this->createTestPlanTreeHTML ($node->children, $nodeId, $theme_name, $nodesSelected);
 					$buffer .= "</ul>";
 				}
 				$buffer .= "</li>";

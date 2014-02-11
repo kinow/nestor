@@ -46,7 +46,6 @@
 				<tr>
 					<th>Test Case</th>
 					<th>Execution Type</th>
-					<th>Action</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -54,7 +53,6 @@
 				<tr>
 					<td>{{ HTML.linkRoute('testcases.show', testcase.name, testcase.id) }}</td>
 					<td>{{ testcase.executionType[0]['name'] }}</td>
-					<td>Remove this test case from test plan link</td>
 				</tr>
 			{% endfor %}
 			</tbody>
