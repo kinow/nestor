@@ -11,3 +11,4 @@ database-model/
 vendor/
 composer.phar
 *.sqlite
+database-schema/
