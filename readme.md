@@ -1,15 +1,16 @@
 # Nestor-QA
 
 Nestor QA is an extensible test management web application. It supports themes, plug-ins and is 
-highly influenced by agile tools, existing test applications and other tools like Jenkins.
+highly influenced by agile tools and existing applications like Jenkins.
 
 # Docs
 
-WIP. 
+Please visit [http://nestor-qa.org/](http://nestor-qa.org) for the docs and 
+tutorials.
 
 # Source code
 
-The official repository is hosted in [GitHub](http://github.com/nestor-qa/nestor).
+The official repository is hosted in [GitHub](http://github.com/nestor-qa/nestor). Fork us and send us your contributions!
 
 # Issue tracker
 
