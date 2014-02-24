@@ -36,6 +36,9 @@ Route::resource('testplans', 'TestPlansController');
 Route::get('testplans/{id}/addTestCases', 'TestPlansController@addTestCases');
 Route::post('testplans/{id}/addTestCases', 'TestPlansController@storeTestCases');
 
+// Test Plans
+Route::resource('executions', 'ExecutionsController');
+
 // WIP
 Route::controller('requirements', 'WIPController');
 Route::controller('execution', 'WIPController');
