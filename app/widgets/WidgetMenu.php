@@ -81,7 +81,7 @@ class WidgetMenu extends Widget {
     	$items['requirements'] = HTML::link('/requirements/', 'Requirements', $action_links_attribute);
     	$items['specification'] = HTML::link('/specification/', 'Specification', $action_links_attribute);
     	$items['planning'] = HTML::link('/planning/', 'Planning', $action_links_attribute);
-    	$items['execution'] = HTML::link('/executions/', 'Execution', $action_links_attribute);
+    	$items['execution'] = HTML::link('/execution/', 'Execution', $action_links_attribute);
     	$items['reports'] = HTML::link('/reports/', 'Reports', $action_links_attribute);
     	$items['manage'] = HTML::link('/manage/', 'Manage Nestor');
     	$menuitems = '';

@@ -1,6 +1,6 @@
 {% block content %}
 <div class='page-header'>
-    <h1>Create test plan</h1>
+    <h1>Create Test Run</h1>
 </div>
 
 {% if errors is defined and errors is not empty %}
@@ -10,8 +10,12 @@
 </ul>
 {% endif %}
 
-{{ Form.open({'route': 'testplans.store', 'class': 'form-horizontal'}) }}
-{{ Form.hidden('project_id', project.id) }}
+{{ Form.open({'route': 'execution.store', 'class': 'form-horizontal'}) }}
+{{ Form.hidden('test_plan_id', testplan.id) }}
+<div class="control-group">
+    {{ Form.label('name', 'Test Plan', {'class': 'control-label'}) }}
+    <div class="controls">{{ Form.input('text', 'testplan_name', testplan.name, {'id':"testplan_name", 'class': "span10", "readonly": "readonly"}) }}</div>
+</div>
 <div class="control-group">
     {{ Form.label('name', 'Name', {'class': 'control-label'}) }}
     <div class="controls">{{ Form.input('text', 'name', old.name, {'id':"name", 'class': "span10"}) }}</div>

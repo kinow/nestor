@@ -37,11 +37,11 @@ Route::get('testplans/{id}/addTestCases', 'TestPlansController@addTestCases');
 Route::post('testplans/{id}/addTestCases', 'TestPlansController@storeTestCases');
 
 // Test Plans
-Route::resource('executions', 'ExecutionsController');
+Route::resource('execution/testruns', 'TestRunsController');
+Route::resource('execution', 'ExecutionsController');
 
 // WIP
 Route::controller('requirements', 'WIPController');
-Route::controller('execution', 'WIPController');
 Route::controller('reports', 'WIPController');
 Route::controller('configure', 'WIPController');
 Route::controller('themeManager', 'WIPController');

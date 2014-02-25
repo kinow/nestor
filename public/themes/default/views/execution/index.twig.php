@@ -1,6 +1,7 @@
 {% block content %}
 <div class='page-header'>
-	<h1>Test Runs</h1>
+	<h1>Test Execution</h1>
+	<p class='muted'>Choose a Test Plan to execute, or use an existing Test Run</p>
 </div>
 <div class='row'>
 	<div class='span12'>
@@ -12,26 +13,24 @@
 					<tr>
 						<th>Name</th>
 						<th>Description</th>
-						<th># test cases</th>
-						<th># test runs</th>
+						<th>Test cases</th>
+						<th>Test runs</th>
 						<th>&nbsp;</th>
 					</tr>
 				</thead>
 				<tbody>
 					{% for testplan in testplans %}
 					<tr>
-						<td>{{ HTML.linkRoute('testplans.show', testplan.name, [testplan.id]) }}</td>
+						<td>{{ testplan.name }}</td>
 						<td>{{ testplan.description }}</td>
 						<td>{{ testplan.testcases.count }}</td>
-						<td>WIP</td>
-						<td>{{ HTML.link('#', 'New Run') }}</td>
+						<td>{{ HTML.link('execution/testruns?test_plan_id=' ~ testplan.id, "View Test Runs (" ~ testplan.testruns.count ~ ")") }}</td>
+						<td>{{ HTML.link('execution/testruns/create?test_plan_id=' ~ testplan.id, 'New Test Run') }}</td>
 					</tr>
 					{% endfor %}
 				</tbody>
 			</table>
 				{{ pagination.create_links() }}
-			{% else %}
-			<p>No test plans found. {{ HTML.link('/planning/create', 'Create a new test plan') }}</p>
 			{% endif %}
 		</div>
 	</div>

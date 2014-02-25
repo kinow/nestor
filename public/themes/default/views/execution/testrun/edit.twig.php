@@ -1,6 +1,6 @@
 {% block content %}
 <div class='page-header'>
-    <h1>Edit Test Plan {{ testplan.id }} &mdash; {{ testplan.name }}</h1>
+    <h1>Edit Test Run {{ testrun.id }} &mdash; {{ testrun.name }}</h1>
 </div>
 
 {% if errors is defined and errors is not empty %}
@@ -10,15 +10,19 @@
 </ul>
 {% endif %}
 
-{{ Form.open({'route': ['testplans.update', testplan.id], 'method': 'PUT', 'class': 'form-horizontal'}) }}
-{{ Form.hidden('project_id', project.id) }}
+{{ Form.open({'route': ['execution.testruns.update', testrun.id], 'method': 'PUT', 'class': 'form-horizontal'}) }}
+{{ Form.hidden('test_plan_id', testplan.id) }}
+<div class="control-group">
+    {{ Form.label('testplan_name', 'Test Plan', {'class': 'control-label'}) }}
+    <div class="controls">{{ Form.input('text', 'testplan_name', testplan.name, {'id':"testplan_name", 'class': "span10", "readonly": "readonly"}) }}</div>
+</div>
 <div class="control-group">
     {{ Form.label('name', 'Name', {'class': 'control-label'}) }}
-    <div class="controls">{{ Form.input('text', 'name', testplan.name, {'id':"name", 'class': "span10"}) }}</div>
+    <div class="controls">{{ Form.input('text', 'name', testrun.name, {'id':"name", 'class': "span10"}) }}</div>
 </div>
 <div class="control-group">
     {{ Form.label('description', 'Description', {'class': 'control-label'}) }}
-    <div class="controls">{{ Form.textarea('description', testplan.description, {'id': "description", 'rows': "3",
+    <div class="controls">{{ Form.textarea('description', testrun.description, {'id': "description", 'rows': "3",
         'class': "span10"}) }}</div>
 </div>
 <div class="control-group">
@@ -30,7 +34,7 @@
 </div>
 {{ Form.close() }}
 
-{{ Form.open({'route': ['testplans.destroy', testplan.id], 'method': 'DELETE', 'class': 'form-horizontal'}) }}
+{{ Form.open({'route': ['execution.testruns.destroy', testrun.id], 'method': 'DELETE', 'class': 'form-horizontal'}) }}
 <div class="control-group">
     <div class='controls'>
 	{{ Form.submit('Delete', {'class': 'btn btn-danger pull-right'}) }}

@@ -51,4 +51,9 @@ class TestPlan extends Magniloquent {
 				->withTimestamps();
 	}
 
+	public function testruns()
+	{
+		return $this->hasMany('TestRun')->get();
+	}
+
 }

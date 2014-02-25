@@ -15,6 +15,10 @@ class CreateExecutionsTable extends Migration {
 		Schema::create('executions', function(Blueprint $table)
 		{
 			$table->increments('id');
+			$table->integer('test_run_id');
+			$table->foreign('test_run_id')->references('id')->on('test_runs');
+			$table->integer('test_case_id');
+			$table->foreign('test_case_id')->references('id')->on('test_cases');
 			$table->timestamps();
 		});
 	}

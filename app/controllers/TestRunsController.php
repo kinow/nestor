@@ -7,7 +7,7 @@ use Nestor\Repositories\TestPlanRepository;
 use Nestor\Repositories\TestRunRepository;
 use Nestor\Repositories\NavigationTreeRepository;
 
-class ExecutionsController extends \NavigationTreeController {
+class TestRunsController extends \NavigationTreeController {
 
 	/**
 	 * The test plan repository implementation.
@@ -48,11 +48,13 @@ class ExecutionsController extends \NavigationTreeController {
 	 */
 	public function index()
 	{
+		$test_plan_id = Input::get('test_plan_id');
+		$testplan = $this->testplans->find($test_plan_id);
+		$testruns = $this->testruns->findByTestPlanId($test_plan_id);
 		$args = array();
-		$project = $this->getCurrentProject();
-		$projectId = $project->id;
-		$args['testplans'] = $this->testplans->findByProjectId($projectId);
-		return $this->theme->scope('execution.index', $args)->render();
+		$args['testruns'] = $testruns;
+		$args['testplan'] = $testplan;
+		return $this->theme->scope('execution.testrun.index', $args)->render();
 	}
 
 	/**
@@ -62,7 +64,10 @@ class ExecutionsController extends \NavigationTreeController {
 	 */
 	public function create()
 	{
-		// FIXME: throw not implemented
+		$test_plan_id = Input::get('test_plan_id');
+		$args = array();
+		$args['testplan'] = $this->testplans->find($test_plan_id);
+		return $this->theme->scope('execution.create', $args)->render();
 	}
 
 	/**
@@ -82,10 +87,10 @@ class ExecutionsController extends \NavigationTreeController {
 
 		if ($testrun->isValid() && $testrun->isSaved())
 		{
-			return Redirect::to('/execution/testruns?test_plan_id=' . $testrun->testplan()->id)
+			return Redirect::to('/executions/')
 				->with('flash', 'A new test run has been created');
 		} else {
-			return Redirect::to('/execution/create?test_plan_id=' . Input::get('test_plan_id'))
+			return Redirect::to('/executions/create?test_plan_id=' . Input::get('test_plan_id'))
 				->withInput()
 				->withErrors($testrun->errors());
 		}
@@ -100,12 +105,10 @@ class ExecutionsController extends \NavigationTreeController {
 	public function show($id)
 	{
 		$args = array();
-		$testplan = $this->testplans->find($id);
-		$args['testplan'] = $testplan;
-		$args['testcases'] = $testplan->testcases;
-		$queries = DB::getQueryLog();
-		$last_query = end($queries);
-		return $this->theme->scope('testplan.show', $args)->render();
+		$testrun = $this->testruns->find($id);
+		$args['testrun'] = $testrun;
+		$args['testplan'] = $testrun->testplan;
+		return $this->theme->scope('execution.testrun.show', $args)->render();
 	}
 
 	/**
@@ -117,9 +120,10 @@ class ExecutionsController extends \NavigationTreeController {
 	public function edit($id)
 	{
 		$args = array();
-		$args['testplan'] = $this->testplans->find($id);
-		$args['project'] = $this->getCurrentProject();
-		return $this->theme->scope('testplan.edit', $args)->render();
+		$testrun = $this->testruns->find($id);
+		$args['testrun'] = $testrun;
+		$args['testplan'] = $testrun->testplan;
+		return $this->theme->scope('execution.testrun.edit', $args)->render();
 	}
 
 	/**
@@ -130,23 +134,23 @@ class ExecutionsController extends \NavigationTreeController {
 	 */
 	public function update($id)
 	{
-		Log::info('Updating test plan...');
+		Log::info('Updating test run...');
 
-		$testplan = $this->testplans->update(
+		$testrun = $this->testruns->update(
 				$id,
-				Input::get('project_id'),
+				Input::get('test_plan_id'),
 				Input::get('name'),
 				Input::get('description')
 		);
 
-		if ($testplan->isValid() && $testplan->isSaved())
+		if ($testrun->isValid() && $testrun->isSaved())
 		{
-			return Redirect::route('testplans.show', $id)
-				->with('flash', 'The test plan was updated');
+			return Redirect::route('execution.testruns.show', $id)
+				->with('flash', 'The test run was updated');
 		} else {
-			return Redirect::route('testplans.edit', $id)
+			return Redirect::route('execution.testruns.edit', $id)
 				->withInput()
-				->withErrors($testplan->errors());
+				->withErrors($testrun->errors());
 		}
 	}
 
@@ -158,12 +162,13 @@ class ExecutionsController extends \NavigationTreeController {
 	 */
 	public function destroy($id)
 	{
-		Log::info('Destroying test plan...');
-		$testplan = $this->testplans->find($id);
-		$this->testplans->delete($id);
+		Log::info('Destroying test run...');
+		$testrun = $this->testruns->find($id);
+		$testplan = $testrun->testplan();
+		$this->testruns->delete($id);
 
-		return Redirect::route('testplans.index')
-			->with('flash', sprintf('The test plan %s has been deleted', $testplan->name));
+		return Redirect::to('execution/testruns?test_plan_id=' . $testplan->id)
+			->with('flash', sprintf('The test run %s has been deleted', $testrun->name));
 	}
 
 }
