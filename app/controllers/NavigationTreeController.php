@@ -202,4 +202,47 @@ class NavigationTreeController extends \BaseController {
 		return $r;
 	}
 
+	/**
+	 * Creates the navigation tree HTML to be displayed in the theme UI.
+	 *
+	 * @param array $navigationTree
+	 * @return string HTML
+	 */
+	protected function createTestRunTreeHTML($navigation_tree = array(), $testrun_id, $testcases, $test_case_id = NULL)
+	{
+		$buffer = '';
+		if (is_null ( $navigation_tree ) || empty ( $navigation_tree ))
+			return $buffer;
+
+		foreach ($navigation_tree as $node) {
+			$extra_classes = "expanded";
+			if (!is_null($test_case_id) && $node->node_type_id == 3 && $node->node_id == $test_case_id)
+			{
+				$extra_classes .= " active";
+			}
+			if ($node->node_type_id == 1) { // project
+				$buffer .= "<ul id='treeData' style='display: none;'>";
+				$buffer .= sprintf ("<li data-icon='places/folder.png' class='%s'>%s", $extra_classes, $node->display_name);
+				if (! empty ( $node->children )) {
+					$buffer .= "<ul>";
+					$buffer .= $this->createTestRunTreeHTML ($node->children, $testrun_id, $testcases, $test_case_id);
+					$buffer .= "</ul>";
+				}
+				$buffer .= "</li></ul>";
+			} else if ($node->node_type_id == 2) { // test suite // FIXME: show only test suites whose test cases we display
+				$buffer .= sprintf ( "<li data-icon='actions/document-open.png' class='%s'>%s", $extra_classes, $node->display_name);
+				if (! empty ( $node->children )) {
+					$buffer .= "<ul>";
+					$buffer .= $this->createTestRunTreeHTML ($node->children, $testrun_id, $testcases, $test_case_id);
+					$buffer .= "</ul>";
+				}
+				$buffer .= "</li>";
+			} else if (array_key_exists($node->node_id, $testcases)) {
+				$buffer .= sprintf ( "<li data-icon='mimetypes/text-x-generic.png' class='%s'>%s</li>", $extra_classes, HTML::link ('/execution/testruns/' . $testrun_id . "/run/testcase/" . $node->node_id, $node->display_name, array('target' => '_self')));
+			}
+		}
+
+		return $buffer;
+	}
+
 }

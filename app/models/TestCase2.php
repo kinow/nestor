@@ -53,7 +53,7 @@ class TestCase2 extends Magniloquent {
 
 	public function executionType()
 	{
-		return $this->belongsTo('ExecutionType', 'execution_type_id')->get()->toArray();
+		return $this->belongsTo('ExecutionType', 'execution_type_id')->first();
 	}
 
 }

@@ -106,8 +106,6 @@ class TestPlansController extends \NavigationTreeController {
 		$testplan = $this->testplans->find($id);
 		$args['testplan'] = $testplan;
 		$args['testcases'] = $testplan->testcases;
-		$queries = DB::getQueryLog();
-		$last_query = end($queries);
 		return $this->theme->scope('testplan.show', $args)->render();
 	}
 

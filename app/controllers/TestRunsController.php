@@ -4,8 +4,11 @@ use \Theme;
 use \Input;
 use \DB;
 use Nestor\Repositories\TestPlanRepository;
+use Nestor\Repositories\TestCaseRepository;
 use Nestor\Repositories\TestRunRepository;
 use Nestor\Repositories\NavigationTreeRepository;
+use Nestor\Repositories\ExecutionStatusRepository;
+use Nestor\Repositories\ExecutionRepository;
 
 class TestRunsController extends \NavigationTreeController {
 
@@ -24,6 +27,27 @@ class TestRunsController extends \NavigationTreeController {
 	protected $testruns;
 
 	/**
+	 * The test case repository implementation.
+	 *
+	 * @var Nestor\Repositories\TestCaseRepository
+	 */
+	protected $testcases;
+
+	/**
+	 * The execution status repository implementation.
+	 *
+	 * @var Nestor\Repositories\ExecutionStatusRepository
+	 */
+	protected $executionStatuses;
+
+	/**
+	 * The execution repository implementation.
+	 *
+	 * @var Nestor\Repositories\ExecutionRepository
+	 */
+	protected $executions;
+
+	/**
 	 * @var Nestor\Repositories\NavigationTreeRepository
 	 */
 	protected $nodes;
@@ -32,12 +56,20 @@ class TestRunsController extends \NavigationTreeController {
 
 	public $restful = true;
 
-	public function __construct(TestPlanRepository $testplans, TestRunRepository $testruns, NavigationTreeRepository $nodes)
+	public function __construct(TestPlanRepository $testplans, 
+		TestCaseRepository $testcases, 
+		TestRunRepository $testruns, 
+		NavigationTreeRepository $nodes, 
+		ExecutionStatusRepository $executionStatuses,
+		ExecutionRepository $executions)
 	{
 		parent::__construct();
 		$this->testplans = $testplans;
+		$this->testcases = $testcases;
 		$this->testruns = $testruns;
 		$this->nodes = $nodes;
+		$this->executionStatuses = $executionStatuses;
+		$this->executions = $executions;
 		$this->theme->setActive('execution');
 	}
 
@@ -169,6 +201,90 @@ class TestRunsController extends \NavigationTreeController {
 
 		return Redirect::to('execution/testruns?test_plan_id=' . $testplan->id)
 			->with('flash', sprintf('The test run %s has been deleted', $testrun->name));
+	}
+
+	public function runGet($test_run_id) 
+	{
+		Log::info(sprintf('Executing Test Run %d', $test_run_id));
+		$currentProject = $this->getCurrentProject();
+		$testrun = $this->testruns->find($test_run_id);
+		$testplan = $testrun->testplan;
+		$testcases = $testplan->testcases;
+
+		$showOnly = array(); // Our filter
+
+		foreach ($testcases as $testcase)
+		{
+			$showOnly[$testcase->id] = TRUE;
+		}
+
+		$nodes = $this->nodes->children('1-'.$currentProject->id, 1 /* length*/);
+		$navigationTree = $this->createNavigationTree($nodes, '1-'.$currentProject->id);
+		$navigationTreeHtml = $this->createTestRunTreeHTML($navigationTree, $testrun->id, $showOnly);
+		
+		$args = array();
+		$args['testrun'] = $testrun;
+		$args['testplan'] = $testplan;
+		$args['testcases'] = $testcases;
+		$args['navigation_tree'] = $navigationTree;
+		$args['navigation_tree_html'] = $navigationTreeHtml;
+		$args['current_project'] = $this->currentProject;
+
+		return $this->theme->scope('execution.testrun.run', $args)->render();
+	}
+
+	public function runTestCase($test_run_id, $test_case_id) 
+	{
+		Log::info(sprintf('Executing Test Run %d, Test Case %d', $test_run_id, $test_case_id));
+		$currentProject = $this->getCurrentProject();
+		$testrun = $this->testruns->find($test_run_id);
+		$testplan = $testrun->testplan;
+		$testcases = $testplan->testcases;
+		$testcase = $this->testcases->find($test_case_id);
+		$executionStatuses = $this->executionStatuses->all();
+
+		$showOnly = array(); // Our filter
+
+		foreach ($testcases as $testcase)
+		{
+			$showOnly[$testcase->id] = TRUE;
+		}
+
+		$nodes = $this->nodes->children('1-'.$currentProject->id, 1 /* length*/);
+		$navigationTree = $this->createNavigationTree($nodes, '1-'.$currentProject->id);
+		$navigationTreeHtml = $this->createTestRunTreeHTML($navigationTree, $testrun->id, $showOnly, $test_case_id);
+		
+		$args = array();
+		$args['testrun'] = $testrun;
+		$args['testplan'] = $testplan;
+		$args['testcases'] = $testcases;
+		$args['testcase'] = $testcase;
+		$args['executionStatuses'] = $executionStatuses;
+		$args['navigation_tree'] = $navigationTree;
+		$args['navigation_tree_html'] = $navigationTreeHtml;
+		$args['current_project'] = $this->currentProject;
+
+		return $this->theme->scope('execution.testrun.runTestcase', $args)->render();
+	}
+
+	public function runTestCasePost($test_run_id, $test_case_id) 
+	{
+		echo "EAE! " . $test_run_id . " - " . $test_case_id;
+		$testrun = $this->testruns->find($test_run_id);
+		$testcase = $this->testcases->find($test_case_id);
+		$execution = $this->executions->create($testrun->id, 
+			$testcase->id, 
+			Input::get('execution_status_id'), 
+			Input::get('notes'));
+
+		if ($execution->isValid() && $execution->isSaved())
+		{
+			return Redirect::to(Request::url())->with('flash', 'A new test run has been created');
+		} else {
+			return Redirect::to(Request::url())
+				->withInput()
+				->withErrors($execution->errors());
+		}
 	}
 
 }

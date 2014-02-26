@@ -19,6 +19,8 @@ class CreateExecutionsTable extends Migration {
 			$table->foreign('test_run_id')->references('id')->on('test_runs');
 			$table->integer('test_case_id');
 			$table->foreign('test_case_id')->references('id')->on('test_cases');
+			$table->integer('execution_status_id')->default(1);
+			$table->foreign('execution_status_id')->references('id')->on('executions_statuses');
 			$table->timestamps();
 		});
 	}
