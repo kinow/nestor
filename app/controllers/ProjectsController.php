@@ -41,6 +41,7 @@ class ProjectsController extends \BaseController {
 	 */
 	public function index()
 	{
+		$this->theme->breadcrumb()->add('Home', URL::to('/'))->add('Projects', Request::url());
 		$args = array();
 		$args['projects'] = $this->projects->all();
 		return $this->theme->scope('project.index', $args)->render();
@@ -53,6 +54,10 @@ class ProjectsController extends \BaseController {
 	 */
 	public function create()
 	{
+		$this->theme->breadcrumb()->
+			add('Home', URL::to('/'))->
+			add('Projects', URL::to('/projects'))->
+			add('Create new project', Request::url());
 		return $this->theme->scope('project.create')->render();
 	}
 
@@ -116,8 +121,13 @@ class ProjectsController extends \BaseController {
 	 */
 	public function show($id)
 	{
+		$project = $this->projects->find($id);
+		$this->theme->breadcrumb()->
+			add('Home', URL::to('/'))->
+			add('Projects', URL::to('/projects'))->
+			add(sprintf('Project %s', $project->name), Request::url());
 		$args = array();
-		$args['project'] = $this->projects->find($id);
+		$args['project'] = $project;
 		return $this->theme->scope('project.show', $args)->render();
 	}
 
@@ -129,8 +139,13 @@ class ProjectsController extends \BaseController {
 	 */
 	public function edit($id)
 	{
+		$project = $this->projects->find($id);
+		$this->theme->breadcrumb()->
+			add('Home', URL::to('/'))->
+			add('Projects', URL::to('/projects'))->
+			add(sprintf('Project %s', $project->name), Request::url());
 		$args = array();
-		$args['project'] = $this->projects->find($id);
+		$args['project'] = $project;
 		return $this->theme->scope('project.edit', $args)->render();
 	}
 

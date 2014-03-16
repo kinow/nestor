@@ -192,8 +192,8 @@ class TestCasesController extends \BaseController {
 		}
 		if (!is_null($testcase) && $testcase->isSaved())
 		{
-			return Redirect::to('/specification/nodes/' . $navigationTreeNode->node_id)
-				->with('flash', 'A new test case has been created');
+			return Redirect::to(sprintf('/specification/nodes/%s-%s', $navigationTreeNode->node_type_id, $navigationTreeNode->node_id))
+				->with('message', 'A new test case has been created');
 		} else {
 			return Redirect::to('/testcases/' . $id)
 				->withInput()

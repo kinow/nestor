@@ -11,6 +11,11 @@
     </head>
     <body>
         {{ Theme.partial('header') }}
+        <div class="container">
+            <div class='row-fluid'>
+                {{ Theme.breadcrumb.render() }}
+            </div>
+        </div>
 
         <div class="container">
         	{% if Session.has('success') %}
