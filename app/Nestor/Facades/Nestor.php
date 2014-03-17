@@ -6,7 +6,7 @@ class Nestor {
 
 	public function getVersion()
 	{
-		return '0.7';
+		return '0.8';
 	}
 
 	public function getAvailableThemes()
