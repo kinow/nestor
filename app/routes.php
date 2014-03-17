@@ -33,8 +33,8 @@ Route::controller('/specification/nodes', 'SpecificationController');
 // Test Plans
 Route::resource('planning', 'TestPlansController');
 Route::resource('testplans', 'TestPlansController');
-Route::get('testplans/{id}/addTestCases', 'TestPlansController@addTestCases');
-Route::post('testplans/{id}/addTestCases', 'TestPlansController@storeTestCases');
+Route::get('planning/{id}/addTestCases', 'TestPlansController@addTestCases');
+Route::post('planning/{id}/addTestCases', 'TestPlansController@storeTestCases');
 
 // Test Execution
 Route::get('execution/testruns/{test_run_id}/run/testcase/{test_case_id}', 'TestRunsController@runTestCase');

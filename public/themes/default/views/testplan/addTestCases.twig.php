@@ -4,7 +4,7 @@
 	<h1>Add Test Cases to Test Plan [{{ HTML.linkRoute('testplans.show', testplan.name, testplan.id) }}]</h1>
 </div>
 <div class='row'>
-	{{ Form.open({'url': '/testplans/' ~ testplan.id ~ '/addTestCases', 'method': 'POST', 'id': 'testplan_form'}) }}
+	{{ Form.open({'url': '/planning/' ~ testplan.id ~ '/addTestCases', 'method': 'POST', 'id': 'testplan_form'}) }}
 	<div class='span4'>
 		<p>Navigation tree</p>
 		<div id='navigation_tree_panel'>

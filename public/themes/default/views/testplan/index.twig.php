@@ -25,7 +25,7 @@
 				<tbody>
 					{% for testplan in testplans %}
 					<tr>
-						<td>{{ HTML.linkRoute('testplans.show', testplan.name, [testplan.id]) }}</td>
+						<td>{{ HTML.linkRoute('planning.show', testplan.name, [testplan.id]) }}</td>
 						<td>{{ testplan.description }}</td>
 						<td>{{ testplan.testcases.count }}</td>
 					</tr>

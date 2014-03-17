@@ -29,7 +29,7 @@
 </div>
 <div class='row'>
 	<div class='offset2'>
-		{{ HTML.linkRoute('testplans.edit', 'Edit', [testplan.id], {'class': 'btn btn-primary'}) }}
+		{{ HTML.linkRoute('planning.edit', 'Edit', [testplan.id], {'class': 'btn btn-primary'}) }}
 		{{ HTML.link(URL.previous(), 'Back', {'class': 'btn'}) }}
 	</div>
 </div>
@@ -38,7 +38,7 @@
 	<div class='span12'>
 		<p class='muted'><strong>Test Cases</strong></p>
 		<div class='well'>
-			{{ HTML.link('testplans/' ~ testplan.id ~ '/addTestCases', 'Manage test cases in this test plan', {'class': 'btn'}) }}
+			{{ HTML.link('planning/' ~ testplan.id ~ '/addTestCases', 'Manage test cases in this test plan', {'class': 'btn'}) }}
 		</div>
 		{% if testcases[0] is defined %}
 		<table class='table table-bordered table-striped table-hover'>

@@ -48,6 +48,9 @@ class TestPlansController extends \NavigationTreeController {
 	 */
 	public function index()
 	{
+		$this->theme->breadcrumb()->
+			add('Home', URL::to('/'))->
+			add('Planning');
 		$args = array();
 		$project = $this->getCurrentProject();
 		$projectId = $project->id;
@@ -63,6 +66,10 @@ class TestPlansController extends \NavigationTreeController {
 	 */
 	public function create()
 	{
+		$this->theme->breadcrumb()->
+			add('Home', URL::to('/'))->
+			add('Planning', URL::to('/planning'))->
+			add('Create new test plan');
 		$args = array();
 		$args['project'] = $this->getCurrentProject();
 		return $this->theme->scope('testplan.create', $args)->render();
@@ -85,7 +92,7 @@ class TestPlansController extends \NavigationTreeController {
 
 		if ($testplan->isValid() && $testplan->isSaved())
 		{
-			return Redirect::to('/planning/')
+			return Redirect::to(sprintf('/planning/%s', $testplan->id))
 				->with('flash', 'A new test plan has been created');
 		} else {
 			return Redirect::to('/planning/create')
@@ -102,8 +109,12 @@ class TestPlansController extends \NavigationTreeController {
 	 */
 	public function show($id)
 	{
-		$args = array();
 		$testplan = $this->testplans->find($id);
+		$this->theme->breadcrumb()->
+			add('Home', URL::to('/'))->
+			add('Planning', URL::to('/planning'))->
+			add(sprintf('Test plan %s', $testplan->name));
+		$args = array();
 		$args['testplan'] = $testplan;
 		$args['testcases'] = $testplan->testcases;
 		return $this->theme->scope('testplan.show', $args)->render();
@@ -117,8 +128,13 @@ class TestPlansController extends \NavigationTreeController {
 	 */
 	public function edit($id)
 	{
+		$testplan = $this->testplans->find($id);
+		$this->theme->breadcrumb()->
+			add('Home', URL::to('/'))->
+			add('Planning', URL::to('/planning'))->
+			add(sprintf('Test plan %s', $testplan->name));
 		$args = array();
-		$args['testplan'] = $this->testplans->find($id);
+		$args['testplan'] = $testplan;
 		$args['project'] = $this->getCurrentProject();
 		return $this->theme->scope('testplan.edit', $args)->render();
 	}
@@ -172,9 +188,14 @@ class TestPlansController extends \NavigationTreeController {
 	 */
 	public function addTestCases($id)
 	{
-		$currentProject = $this->getCurrentProject();
 		// This is the current test plan
 		$testplan = $this->testplans->find($id);
+		$this->theme->breadcrumb()->
+			add('Home', URL::to('/'))->
+			add('Planning', URL::to('/planning'))->
+			add(sprintf('Test plan %s', $testplan->name), URL::to(sprintf('/planning/%s', $testplan->id)))->
+			add('Add Test Cases');
+		$currentProject = $this->getCurrentProject();
 		$nodesSelected = array();
 		$testcases = $testplan->testcases;
 

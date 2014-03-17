@@ -64,6 +64,9 @@ class SpecificationController extends \NavigationTreeController {
 	 */
 	public function getIndex()
 	{
+		$this->theme->breadcrumb()->
+			add('Home', URL::to('/'))->
+			add('Specification');
 		$currentProject = $this->getCurrentProject();
 		$nodes = $this->nodes->children('1-'.$currentProject->id, 1 /* length*/);
 //  		$queries = DB::getQueryLog();
@@ -105,6 +108,10 @@ class SpecificationController extends \NavigationTreeController {
 					->with('flash', sprintf('The node %s does not belong to the current selected project', $node_id));
 		}
 		$args['node'] = $node;
+		$this->theme->breadcrumb()->
+			add('Home', URL::to('/'))->
+			add('Specification', URL::to('/specification/'))->
+			add(sprintf('Node %s-%s', $node->node_type_id, $node->node_id));
 
 		// Create specific parameters depending on execution type
 		if (isset($node) && $node->node_type_id == 2) // Test Suite?

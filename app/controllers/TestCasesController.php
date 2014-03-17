@@ -50,7 +50,7 @@ class TestCasesController extends \BaseController {
 	 */
 	public function index()
 	{
-		//
+		return Redirect::to('/specification/');
 	}
 
 	/**
@@ -60,7 +60,7 @@ class TestCasesController extends \BaseController {
 	 */
 	public function create()
 	{
-		//
+		return Redirect::to('/specification/');
 	}
 
 	/**
@@ -124,7 +124,7 @@ class TestCasesController extends \BaseController {
 	 */
 	public function show($id)
 	{
-		//
+		return Redirect::to('/specification/nodes/3-' . $id);
 	}
 
 	/**
@@ -135,8 +135,13 @@ class TestCasesController extends \BaseController {
 	 */
 	public function edit($id)
 	{
+		$testcase = $this->testcases->find($id);
 		$args = array();
-		$args['testcase'] = $this->testcases->find($id);
+		$this->theme->breadcrumb()->
+			add('Home', URL::to('/'))->
+			add('Specification', URL::to('/specification/'))->
+			add(sprintf('Edit test case %s', $testcase->name));
+		$args['testcase'] = $testcase;
 		$args['execution_types'] = $this->executionTypes->all();
 		$execution_types_ids = array();
 		foreach ($args['execution_types'] as $execution_type)

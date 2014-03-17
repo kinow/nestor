@@ -82,6 +82,10 @@ class TestRunsController extends \NavigationTreeController {
 	{
 		$test_plan_id = Input::get('test_plan_id');
 		$testplan = $this->testplans->find($test_plan_id);
+		$this->theme->breadcrumb()->
+			add('Home', URL::to('/'))->
+			add('Test Execution', URL::to('/execution'))->
+			add(sprintf('Test Runs for Test Plan %s', $testplan->name));
 		$testruns = $this->testruns->findByTestPlanId($test_plan_id);
 		$args = array();
 		$args['testruns'] = $testruns;
@@ -97,8 +101,13 @@ class TestRunsController extends \NavigationTreeController {
 	public function create()
 	{
 		$test_plan_id = Input::get('test_plan_id');
+		$testplan = $this->testplans->find($test_plan_id);
+		$this->theme->breadcrumb()->
+			add('Home', URL::to('/'))->
+			add('Test Execution', URL::to('/execution'))->
+			add(sprintf('Create Test Run for Test Plan %s', $testplan->name));
 		$args = array();
-		$args['testplan'] = $this->testplans->find($test_plan_id);
+		$args['testplan'] = $testplan;
 		return $this->theme->scope('execution.create', $args)->render();
 	}
 
@@ -138,6 +147,10 @@ class TestRunsController extends \NavigationTreeController {
 	{
 		$args = array();
 		$testrun = $this->testruns->find($id);
+		$this->theme->breadcrumb()->
+			add('Home', URL::to('/'))->
+			add('Test Execution', URL::to('/execution'))->
+			add(sprintf('Test Run %s', $testrun->name));
 		$args['testrun'] = $testrun;
 		$args['testplan'] = $testrun->testplan;
 		return $this->theme->scope('execution.testrun.show', $args)->render();
@@ -153,6 +166,10 @@ class TestRunsController extends \NavigationTreeController {
 	{
 		$args = array();
 		$testrun = $this->testruns->find($id);
+		$this->theme->breadcrumb()->
+			add('Home', URL::to('/'))->
+			add('Test Execution', URL::to('/execution'))->
+			add(sprintf('Test Run %s', $testrun->name));
 		$args['testrun'] = $testrun;
 		$args['testplan'] = $testrun->testplan;
 		return $this->theme->scope('execution.testrun.edit', $args)->render();
