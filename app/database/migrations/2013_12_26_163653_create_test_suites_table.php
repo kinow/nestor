@@ -18,7 +18,10 @@ class CreateTestSuitesTable extends Migration {
 			$table->string('name');
 			$table->string('description')->nullable();
 			$table->integer('project_id');
-			$table->foreign('project_id')->references('id')->on('projects');
+			$table->foreign('project_id')
+				->references('id')
+				->on('projects')
+				->onDelete('cascade');
 			$table->timestamps();
 			$table->unique(array('project_id', 'name'));
 		});

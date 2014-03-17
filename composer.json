@@ -7,7 +7,8 @@
 		"laravel/framework" : "4.1.*",
 		"teepluss/theme" : "dev-master",
 		"philf/setting" : "dev-master",
-		"magniloquent/magniloquent": "dev-master"
+		"magniloquent/magniloquent": "dev-master",
+		"doctrine/dbal": "2.5.*@dev"
 	},
 	"autoload" : {
 		"psr-0" : {

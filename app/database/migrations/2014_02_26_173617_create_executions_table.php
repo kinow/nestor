@@ -16,11 +16,19 @@ class CreateExecutionsTable extends Migration {
 		{
 			$table->increments('id');
 			$table->integer('test_run_id');
-			$table->foreign('test_run_id')->references('id')->on('test_runs');
+			$table->foreign('test_run_id')
+				->references('id')
+				->on('test_runs')
+				->onDelete('cascade');
 			$table->integer('test_case_id');
-			$table->foreign('test_case_id')->references('id')->on('test_cases');
+			$table->foreign('test_case_id')
+				->references('id')
+				->on('test_cases')
+				->onDelete('cascade');
 			$table->integer('execution_status_id')->default(1);
-			$table->foreign('execution_status_id')->references('id')->on('executions_statuses');
+			$table->foreign('execution_status_id')
+				->references('id')
+				->on('executions_statuses');
 			$table->timestamps();
 		});
 	}

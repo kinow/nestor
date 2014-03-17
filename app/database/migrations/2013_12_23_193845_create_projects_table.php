@@ -16,7 +16,9 @@ class CreateProjectsTable extends Migration {
 		{
 			$table->increments('id');
 			$table->integer('project_statuses_id');
-			$table->foreign('project_statuses_id')->references('id')->on('project_statuses');
+			$table->foreign('project_statuses_id')
+				->references('id')
+				->on('project_statuses');
 			$table->string('name')->unique();
 			$table->string('description')->nullable();
 			$table->timestamps();

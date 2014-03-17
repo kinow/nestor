@@ -16,7 +16,10 @@ class CreateTestRunsTable extends Migration {
 		{
 			$table->increments('id');
 			$table->integer('test_plan_id');
-			$table->foreign('test_plan_id')->references('id')->on('test_plans');
+			$table->foreign('test_plan_id')
+				->references('id')
+				->on('test_plans')
+				->onDelete('cascade');
 			$table->text('name', 50);
 			$table->text('description');
 			$table->timestamps();
