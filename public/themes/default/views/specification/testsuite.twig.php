@@ -1,7 +1,7 @@
 <div>
 <h4>Test Suite &mdash; {{ node.display_name }}</h4>
 <hr/>
-<h5>Create a test suite</h5>
+<h5>Create a test suite <button class='btn' id='sub_test_suite_btn'>&#x25BC;</button></h5>
 
 {% if errors is defined and errors is not empty %}
 <ul>
@@ -10,6 +10,7 @@
 </ul>
 {% endif %}
 
+<div class='hide' id='sub_test_suite'>
 {{ Form.open({'route': 'testsuites.store', 'class': 'form-horizontal'}) }}
 {{ Form.hidden('project_id', current_project.id) }}
 {{ Form.hidden('ancestor', node.descendant) }}
@@ -29,6 +30,7 @@
   </div>
 </div>
 {{ Form.close() }}
+</div>
 <hr/>
 <h5>Create a test case</h5>
 {{ Form.open({'route': 'testcases.store', 'class': 'form-horizontal'}) }}
@@ -58,3 +60,8 @@
 </div>
 {{ Form.close() }}
 </div>
+<script>
+$("#sub_test_suite_btn").click(function(){
+  $("#sub_test_suite").toggle();
+});
+</script>
