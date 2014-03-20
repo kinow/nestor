@@ -31,6 +31,8 @@
 				</tbody>
 			</table>
 				{{ pagination.create_links() }}
+			{% else %}
+			<p>No test plans found. {{ HTML.link('planning/create', "Create a test plan") }}</p>
 			{% endif %}
 		</div>
 	</div>
