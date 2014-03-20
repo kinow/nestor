@@ -1,5 +1,5 @@
 <div>
-<h4>Test Suite &mdash; {{ node.display_name }}</h4>
+<h4>Test Suite &mdash; {{ HTML.link('/testsuites/' ~ node.node_id, node.display_name, {'class': ''}) }}</h4>
 <hr/>
 <h5>Create a test suite <button class='btn' id='sub_test_suite_btn'>&#x25BC;</button></h5>
 

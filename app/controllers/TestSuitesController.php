@@ -41,7 +41,7 @@ class TestSuitesController extends \BaseController {
 	 */
 	public function index()
 	{
-		//
+		return Redirect::to('/specification');
 	}
 
 	/**
@@ -51,7 +51,7 @@ class TestSuitesController extends \BaseController {
 	 */
 	public function create()
 	{
-		//
+		return Redirect::to('/specification');
 	}
 
 	/**
@@ -113,7 +113,14 @@ class TestSuitesController extends \BaseController {
 	 */
 	public function show($id)
 	{
-		//
+		$testsuite = $this->testsuites->find($id);
+		$this->theme->breadcrumb()->
+			add('Home', URL::to('/'))->
+			add('Specification', URL::to('/specification'))->
+			add(sprintf('Test Suite %s', $testsuite->name));
+		$args = array();
+		$args['testsuite'] = $testsuite;
+		return $this->theme->scope('testsuite.show', $args)->render();
 	}
 
 	/**
@@ -124,7 +131,14 @@ class TestSuitesController extends \BaseController {
 	 */
 	public function edit($id)
 	{
-		//
+		$testsuite = $this->testsuites->find($id);
+		$this->theme->breadcrumb()->
+			add('Home', URL::to('/'))->
+			add('Specification', URL::to('/specification'))->
+			add(sprintf('Test Suite %s', $testsuite->name));
+		$args = array();
+		$args['testsuite'] = $testsuite;
+		return $this->theme->scope('testsuite.edit', $args)->render();
 	}
 
 	/**
@@ -135,7 +149,39 @@ class TestSuitesController extends \BaseController {
 	 */
 	public function update($id)
 	{
-		//
+		$testsuite = null;
+		$navigationTreeNode = null;
+		Log::info('Updating test suite...');
+		$pdo = null;
+		try {
+			$pdo = DB::connection()->getPdo();
+			$pdo->beginTransaction();
+			$testsuite = $this->testsuites->update(
+							$id,
+							Input::get('project_id'),
+							Input::get('name'),
+							Input::get('description'));
+			if ($testsuite->isValid() && $testsuite->isSaved())
+			{
+				$navigationTreeNode = $this->nodes->updateDisplayNameByDescendant(
+						'2-'.$testsuite->id,
+						$testsuite->name);
+				$pdo->commit();
+			}
+		} catch (\PDOException $e) {
+			if (!is_null($pdo))
+				$pdo->rollBack();
+			return Redirect::to('/specification/')->withInput();
+		}
+
+		if ($testsuite->isSaved())
+		{
+			return Redirect::route('testsuites.show', $id)->with('flash', 'The test suite was updated');
+		} else {
+			return Redirect::route('testsuites.edit', $id)
+				->withInput()
+				->withErrors($testsuite->errors());
+		}
 	}
 
 	/**
@@ -146,7 +192,26 @@ class TestSuitesController extends \BaseController {
 	 */
 	public function destroy($id)
 	{
-		//
+		$testsuite = null;
+		$navigationTreeNode = null;
+		Log::info('Destroying test suite...');
+		$pdo = null;
+		try {
+			$pdo = DB::connection()->getPdo();
+			$pdo->beginTransaction();
+			$testsuite = $this->testsuites->find($id);
+			$this->testsuites->delete($id);
+			$navigationTreeNode = $this->nodes->find('2-' . $testsuite->id, '2-' . $testsuite->id);
+			$this->nodes->deleteWithAllChildren($navigationTreeNode->ancestor, $navigationTreeNode->descendant);
+			$pdo->commit();
+		} catch (\PDOException $e) {
+			if (!is_null($pdo))
+				$pdo->rollBack();
+			return Redirect::to('/specification/')->withInput();
+		}
+
+		return Redirect::to('/specification')
+			->with('flash', sprintf('The test suite %s has been deleted', $testsuite->name));
 	}
 
 }

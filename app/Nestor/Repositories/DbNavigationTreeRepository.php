@@ -170,6 +170,22 @@ order by a.length
 	}
 
 	/**
+	 * Update a navigation tree node by the descendant ID
+	 *
+	 * @param  string  $descendant
+	 * @param  int     $node_id
+	 * @param  int     $node_type_id
+	 * @param  string  $display_name
+	 * @return int
+	*/
+	public function updateDisplayNameByDescendant($descendantId, $display_name)
+	{
+		$affectedRows = NavigationTreeNode::where('descendant', '=', $descendantId)
+			->update(array('display_name' => $display_name));
+		return $affectedRows;
+	}
+
+	/**
 	 * Delete a navigation tree node
 	 *
 	 * @param string $descendant
@@ -183,10 +199,13 @@ order by a.length
 	 * Delete a navigation tree node with all its children nodes
 	 *
 	 * @param int $ancestor
+	 * @param int $descendant
 	 */
-	public function deleteWithAllChildren($ancestor)
+	public function deleteWithAllChildren($ancestor, $descendant)
 	{
-		return NavigationTreeNode::where('ancestor', $ancestor)->delete();
+		return NavigationTreeNode::where('ancestor', $ancestor)
+			->orWhere('descendant', $descendant)
+			->delete();
 	}
 
 }
