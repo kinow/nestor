@@ -1,6 +1,7 @@
 <?php
 
 use Magniloquent\Magniloquent\Magniloquent;
+use \Execution;
 
 class TestCase2 extends Magniloquent {
 
@@ -54,6 +55,13 @@ class TestCase2 extends Magniloquent {
 	public function executionType()
 	{
 		return $this->belongsTo('ExecutionType', 'execution_type_id')->first();
+	}
+
+	public function lastExecutionStatus() 
+	{
+		return Execution::where('test_case_id', $this->id)
+			->orderBy('id', 'DESC')
+			->first();
 	}
 
 }

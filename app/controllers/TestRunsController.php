@@ -228,6 +228,12 @@ class TestRunsController extends \NavigationTreeController {
 		$testplan = $testrun->testplan;
 		$testcases = $testplan->testcases;
 
+		$this->theme->breadcrumb()->
+			add('Home', URL::to('/'))->
+			add('Test Execution', URL::to('/execution'))->
+			add(sprintf('Test Runs for Test Plan %s', $testplan->name), URL::to(sprintf('/execution/testruns?test_plan_id=%d', $testplan->id)))->
+			add(sprintf('Test Run %s', $testrun->name));
+
 		$showOnly = array(); // Our filter
 
 		foreach ($testcases as $testcase)
@@ -260,11 +266,17 @@ class TestRunsController extends \NavigationTreeController {
 		$testcase = $this->testcases->find($test_case_id);
 		$executionStatuses = $this->executionStatuses->all();
 
+		$this->theme->breadcrumb()->
+			add('Home', URL::to('/'))->
+			add('Test Execution', URL::to('/execution'))->
+			add(sprintf('Test Runs for Test Plan %s', $testplan->name), URL::to(sprintf('/execution/testruns?test_plan_id=%d', $testplan->id)))->
+			add(sprintf('Test Run %s', $testrun->name));
+
 		$showOnly = array(); // Our filter
 
-		foreach ($testcases as $testcase)
+		foreach ($testcases as $tempTestcase)
 		{
-			$showOnly[$testcase->id] = TRUE;
+			$showOnly[$tempTestcase->id] = TRUE;
 		}
 
 		$nodes = $this->nodes->children('1-'.$currentProject->id, 1 /* length*/);

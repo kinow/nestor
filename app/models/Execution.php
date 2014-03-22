@@ -30,19 +30,19 @@ class Execution extends Magniloquent {
 				'test_run_id' => 'required|numeric',
 				'test_case_id' => 'required|numeric',
 				'execution_status_id' => 'required|numeric',
-				'notes' => 'required|min:2'
+				'notes' => ''
 		),
 		"create" => array(
 				'test_run_id' => 'required|numeric',
 				'test_case_id' => 'required|numeric',
 				'execution_status_id' => 'required|numeric',
-				'notes' => 'required|min:2'
+				'notes' => ''
 		),
 		"update" => array(
 				'test_run_id' => 'required|numeric',
 				'test_case_id' => 'required|numeric',
 				'execution_status_id' => 'required|numeric',
-				'notes' => 'required|min:2'
+				'notes' => ''
 		)
 	);
 

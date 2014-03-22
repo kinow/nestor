@@ -40,9 +40,15 @@
 							    <div class="controls">{{ Form.textarea('notes', '', {'id': "notes", 'rows': "3", 'class': "span7"}) }}</div>
 							</div>
 
+							{% set lastExecutionStatus = testcase.lastExecutionStatus %}
+							{% if lastExecutionStatus == null %}
+								{% set lastExecutionStatusId = 1 %} {# FIXME magic number, 1 is NOT RUN #}
+							{% else %}
+								{% set lastExecutionStatusId = lastExecutionStatus.execution_status_id %} {# FIXME magic number, 1 is NOT RUN #}
+							{% endif %}
 							{% for executionStatus in executionStatuses %}
 						<label class="radio">
-								{{ Form.radio('execution_status_id', executionStatus.id) }} {{ executionStatus.name }}
+							{{ Form.radio('execution_status_id', executionStatus.id, lastExecutionStatusId == executionStatus.id) }} {{ executionStatus.name }}
 						</label>
 							{% endfor %}
 							{{ Form.submit('Save', {'class': 'btn btn-primary'}) }}
