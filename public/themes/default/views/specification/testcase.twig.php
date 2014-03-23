@@ -18,6 +18,16 @@
 <h5>Execution Type</h5>
 <p>{{ testcase.execution_type_name }}</p>
 <hr/>
+<h5>Test Steps</h5>
+{% if testcase.steps is defined and testcase.steps.results is not empty %}
+	{{ testcase.steps }}
+	{% for step in testcase.steps %}
+
+	{% endfor %}
+{% else %}
+<p>No steps defined</p>
+{% endif %}
+<hr/>
 {{ HTML.linkRoute('testcases.edit', 'Edit', [testcase.id], {'class': 'btn btn-primary'}) }}
 <hr/>
 </div>
