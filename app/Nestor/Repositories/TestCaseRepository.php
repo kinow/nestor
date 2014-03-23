@@ -27,7 +27,7 @@ interface TestCaseRepository {
 	 * @param  string  $description
 	 * @return TestCase
 	 */
-	public function create($project_id, $test_suite_id, $execution_type_id, $name, $description);
+	public function create($project_id, $test_suite_id, $execution_type_id, $name, $description, $prerequisite);
 
 	/**
 	 * Update a test case
@@ -39,7 +39,7 @@ interface TestCaseRepository {
 	 * @param  string  $description
 	 * @return TestCase
 	 */
-	public function update($id, $project_id, $test_suite_id, $execution_type_id, $name, $description);
+	public function update($id, $project_id, $test_suite_id, $execution_type_id, $name, $description, $prerequisite);
 
 	/**
 	 * Delete a test case

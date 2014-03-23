@@ -18,10 +18,16 @@
 					<div class='pad_l pad_r' id='nodes_panel'>
 						<h4>{{ testcase.name }}</h4>
 						<hr />
+						<h5>Description</h5>
 						<p>
 							{{ testcase.description }}
 						</p>
 						<hr />
+						<h5>Prerequisite</h5>
+						<p>
+							{{ testcase.prerequisite }}
+						</p>
+						<hr/>
 						<p>Execution Type: {{ testcase.executionType.name }}</p>
 						<hr/>
 						<h5>Execution Status</h5>

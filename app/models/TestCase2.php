@@ -17,7 +17,7 @@ class TestCase2 extends Magniloquent {
 	 *
 	 * @var array
 	 */
-	protected $fillable = array('id', 'name', 'description', 'test_suite_id', 'project_id', 'execution_type_id');
+	protected $fillable = array('id', 'name', 'description', 'prerequisite', 'test_suite_id', 'project_id', 'execution_type_id');
 
 	/**
 	 * The attributes excluded from the model's JSON form.
@@ -30,6 +30,7 @@ class TestCase2 extends Magniloquent {
 		"save" => array(
 				'name' => 'required|min:2',
 				'description' => '',
+				'prerequisite' => '',
 				'test_suite_id' => 'required',
 				'project_id' => 'required',
 				'execution_type_id' => 'required'
@@ -37,11 +38,19 @@ class TestCase2 extends Magniloquent {
 		"create" => array(
 				'name' => 'unique:test_cases,name,test_suite_id,:test_suite_id|required|min:2',
 				'description' => '',
+				'prerequisite' => '',
 				'test_suite_id' => 'required',
 				'project_id' => 'required',
 				'execution_type_id' => 'required'
 		),
-		"update" => array()
+		"update" => array(
+				'name' => 'unique:test_cases,name,test_suite_id,:test_suite_id|required|min:2',
+				'description' => '',
+				'prerequisite' => '',
+				'test_suite_id' => 'required',
+				'project_id' => 'required',
+				'execution_type_id' => 'required'
+		)
 	);
 
 	protected static $relationships = array(

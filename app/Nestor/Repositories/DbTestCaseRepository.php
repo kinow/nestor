@@ -36,9 +36,9 @@ class DbTestCaseRepository implements TestCaseRepository {
 	 * @param  string  $description
 	 * @return TestCase
 	 */
-	public function create($project_id, $test_suite_id, $execution_type_id, $name, $description)
+	public function create($project_id, $test_suite_id, $execution_type_id, $name, $description, $prerequisite)
 	{
-		return TestCase2::create(compact('project_id', 'test_suite_id', 'execution_type_id', 'name', 'description'));
+		return TestCase2::create(compact('project_id', 'test_suite_id', 'execution_type_id', 'name', 'description', 'prerequisite'));
 	}
 
 	/**
@@ -51,11 +51,11 @@ class DbTestCaseRepository implements TestCaseRepository {
 	 * @param  string  $description
 	 * @return TestCase
 	 */
-	public function update($id, $project_id, $test_suite_id, $execution_type_id, $name, $description)
+	public function update($id, $project_id, $test_suite_id, $execution_type_id, $name, $description, $prerequisite)
 	{
 		$test_case = $this->find($id);
 
-		$test_case->fill(compact('project_id', 'test_suite_id', 'execution_type_id', 'name', 'description'))->save();
+		$test_case->fill(compact('project_id', 'test_suite_id', 'execution_type_id', 'name', 'description', 'prerequisite'))->save();
 
 		return $test_case;
 	}

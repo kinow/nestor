@@ -23,6 +23,11 @@
         'class': "span10"}) }}</div>
 </div>
 <div class="control-group">
+    {{ Form.label('prerequisite', 'Prerequisite', {'class': 'control-label'}) }}
+    <div class="controls">{{ Form.textarea('prerequisite', testcase.prerequisite, {'id': "prerequisite", 'rows': "3",
+        'class': "span10"}) }}</div>
+</div>
+<div class="control-group">
     {{ Form.label('execution_type_id', 'Execution Type', {'class': 'control-label'}) }}
     <div class="controls">{{ Form.select('execution_type_id', execution_type_ids, testcase.execution_type_id, {'id': "execution_type_id",
         'class': "span10"}) }}</div>
@@ -47,11 +52,12 @@ templatecallback = function() {
         absoluteURLs: false,
         cssClass : 'el-rte',
         lang     : 'en',
-        height   : 300,
+        height   : 100,
         toolbar  : 'normal',
         cssfiles : ['{{ URL.to('/themes/default/assets/css/plugins/elrte/elrte-inner.css') }}']
     }
     $("#description").elrte(opts);
+    $("#prerequisite").elrte(opts);
 }
 
 </script>

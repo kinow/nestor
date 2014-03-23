@@ -82,7 +82,8 @@ class TestCasesController extends \BaseController {
 					Input::get('test_suite_id'),
 					Input::get('execution_type_id'),
 					Input::get('name'),
-					Input::get('description')
+					Input::get('description'),
+					Input::get('prerequisite')
 			);
 			$ancestor = Input::get('ancestor');
 			if ($testcase->isValid() && $testcase->isSaved())
@@ -172,7 +173,8 @@ class TestCasesController extends \BaseController {
 							Input::get('test_suite_id'),
 							Input::get('execution_type_id'),
 							Input::get('name'),
-							Input::get('description'));
+							Input::get('description'),
+							Input::get('prerequisite'));
 			if (!$testcase->isValid() || !$testcase->isSaved())
 			{
 				throw new Exception('Failed to update Test Case');

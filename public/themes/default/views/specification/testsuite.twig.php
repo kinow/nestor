@@ -48,6 +48,11 @@
         'class': "span4", 'placeholder': 'Description'}) }}</div>
 </div>
 <div class="control-group">
+  {{ Form.label('prerequisite', 'Prerequisite', {'class': 'control-label'}) }}
+  <div class="controls">{{ Form.textarea('prerequisite', old.prerequisite, {'id': "prerequisite", 'rows': "3",
+        'class': "span4", 'placeholder': 'Prerequisite'}) }}</div>
+</div>
+<div class="control-group">
   <label class='control-label' for='test_case_execution_type_id'>Execution Type</label>
   <div class="controls">
   	{{ Form.select('execution_type_id', execution_type_ids, null, {'id': 'test_case_execution_id', 'class': 'span4'}) }}
