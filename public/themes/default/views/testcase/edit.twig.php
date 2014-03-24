@@ -32,6 +32,7 @@
     <div class="controls">{{ Form.select('execution_type_id', execution_type_ids, testcase.execution_type_id, {'id': "execution_type_id",
         'class': "span10"}) }}</div>
 </div>
+<h5>Test Case Steps</h5>
 <div class="control-group">
     <div class='controls'>
     	<div class='span8'>

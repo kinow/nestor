@@ -1,3 +1,15 @@
+<script type='text/template' id='testStepTemplate'>
+<div class='step'>
+    <div><div class='span2'>Order</div> {{ Form.input('text', 'step_order[]', '', {'class': 'required-2 form-control'}) }}</div>
+    <div><div class='span2'>Description</div> {{ Form.input('text', 'step_description[]', '', {'class': 'required-2 form-control'}) }}</div>
+    <div><div class='span2'>Expected Result</div> {{ Form.input('text', 'step_expected_result[]', '', {'class': 'required-2 form-control'}) }}</div>
+    <div><div class='span2'>Execution Status</div> {{ Form.input('text', 'step_execution_status[]', '', {'class': 'required-2 form-control'}) }}</div>
+    <br style='clear: both' />
+    <div class='span2'></div><a href="#" class='btn btn-danger btn-xs' onclick='javascript:removeStep(this);return false;'><span class='icon-minus'></span> Remove step</a>
+    <br style='clear: both' />
+</div>
+</script>
+
 <div>
 <h4>Test Suite &mdash; {{ HTML.link('/testsuites/' ~ node.node_id, node.display_name, {'class': ''}) }}</h4>
 <hr/>
@@ -59,6 +71,16 @@
   </div>
 </div>
 <div class="control-group">
+  <label class='control-label' for='add_step'>Test Case Steps</label>
+  <div class="controls">
+    <div id="steps">
+    <!-- Test Case steps go here -->
+    </div>
+    <button id='add_step' class='btn'><i class='icon-plus'></i> Add Step</button>
+  </div>
+</div>
+
+<div class="control-group">
   <div class='controls'>
     {{ Form.submit('Create', {'class': "btn btn-primary"}) }}
   </div>
@@ -66,7 +88,26 @@
 {{ Form.close() }}
 </div>
 <script>
+// Toggles the sub test suite form
 $("#sub_test_suite_btn").click(function(){
   $("#sub_test_suite").toggle();
 });
+
+// Adds a new test step
+$('#add_step').click(function (event) {
+  event.preventDefault();
+  var steps = $('#steps');
+
+  var stepTemplate = $("#testStepTemplate").html(); // http://stackoverflow.com/questions/14062368/new-recommended-jquery-templates
+  var template = stepTemplate.format($('#steps').length+1);
+  //var template = cardTemplate.format("http://example.com", "Link Title");
+  steps.append(template);
+});
+
+// Removes a test step
+removeStep = function(elem) {
+  var step = $(elem).parent();
+  step.remove();
+  return false;
+};
 </script>

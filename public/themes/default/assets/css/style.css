@@ -48,3 +48,14 @@ span.fancytree-childcounter {
 .center {
     text-align: center;
 }
+
+.step {
+  display: block;
+  margin: 4px 0px;
+  padding: 18px 0px;
+  border: 1px solid #CCCCCC;
+}
+
+.step div {
+  margin-top: 4px;
+}
