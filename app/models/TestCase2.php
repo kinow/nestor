@@ -37,6 +37,7 @@ class TestCase2 extends Magniloquent {
 		),
 		"create" => array(
 				'name' => 'unique:test_cases,name,test_suite_id,:test_suite_id|required|min:2',
+				'lower(name)' => 'unique:test_cases,lower(name),test_suite_id,:test_suite_id',
 				'description' => '',
 				'prerequisite' => '',
 				'test_suite_id' => 'required',

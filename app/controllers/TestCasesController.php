@@ -75,6 +75,11 @@ class TestCasesController extends \BaseController {
 		Log::info('Creating test case...');
 		$pdo = null;
 		try {
+			$name = Input::get('name');
+			$existing = $this->testcases->findByName($name, /* caseSensitive*/ true);
+			if ($existing->count() >= 1) {
+				throw new Exception(sprintf('Invalid existing test case name: %s',$name));
+			}
 			$pdo = DB::connection()->getPdo();
     		$pdo->beginTransaction();
 			$testcase = $this->testcases->create(
@@ -103,14 +108,24 @@ class TestCasesController extends \BaseController {
 		} catch (\PDOException $e) {
 			if (!is_null($pdo))
 				$pdo->rollBack();
-			return Redirect::to('/specification/')
-	 			->withInput();
+			Log::warning('Failed to store new Test Case. PDO error: ' . $e->getMessage());
+			$messages = new Illuminate\Support\MessageBag;
+			$messages->add('nestor.customError', $e->getMessage());
+			return Redirect::to('/specification/')->withInput()->withErrors($messages);;
+		} catch (\Exception $e) {
+			if (!is_null($pdo))
+				$pdo->rollBack();
+			Log::warning('Failed to store new Test Case. Error: ' . $e->getMessage());
+			$messages = new Illuminate\Support\MessageBag;
+			$messages->add('nestor.customError', $e->getMessage());
+			return Redirect::to('/specification/')->withInput()->withErrors($messages);
 		}
 		if ($testcase->isSaved() && $navigationTreeNode)
 		{
 			return Redirect::to('/specification/nodes/' . '3-' . $testcase->id)
 				->with('flash', 'A new test case has been created');
 		} else {
+			Log::warning('Failed to store new Test Case: ' . $testcase->errors());
 			return Redirect::to('/specification/')
 				->withInput()
 				->withErrors($testcase->errors());

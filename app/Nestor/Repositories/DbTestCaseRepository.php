@@ -27,6 +27,19 @@ class DbTestCaseRepository implements TestCaseRepository {
 	}
 
 	/**
+	 * Searches an entry by its name.
+	 * @param string $name name
+	 * @param bool $caseSensitive whether to ignore case sensitivy or not
+	 * @return \TestCase2
+	 */
+	public function findByName($name, $caseSensitive)
+	{
+		if (!$caseSensitive)
+			return TestCase2::where('name', '=', $name);
+		return TestCase2::where('name', 'LIKE', $name);
+	}
+
+	/**
 	 * Create a test case
 	 *
 	 * @param  int     $project_id

@@ -18,6 +18,14 @@ interface TestCaseRepository {
 	public function find($id);
 
 	/**
+	 * Searches an entry by its name.
+	 * @param string $name name
+	 * @param bool $caseSensitive whether to ignore case sensitivy or not
+	 * @return \TestCase2
+	 */
+	public function findByName($name, $caseSensitive);
+
+	/**
 	 * Create a test case
 	 *
 	 * @param  int     $project_id
@@ -25,7 +33,7 @@ interface TestCaseRepository {
 	 * @param  int     $execution_type_id
 	 * @param  string  $name
 	 * @param  string  $description
-	 * @return TestCase
+	 * @return TestCase2
 	 */
 	public function create($project_id, $test_suite_id, $execution_type_id, $name, $description, $prerequisite);
 
