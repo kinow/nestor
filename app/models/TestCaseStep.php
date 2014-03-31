@@ -17,7 +17,7 @@ class TestCaseStep extends Magniloquent {
 	 *
 	 * @var array
 	 */
-	protected $fillable = array('id', 'order', 'description', 'test_case_id', 'expected_result', 'execution_status_id');
+	protected $fillable = array('id', 'test_case_id', 'order', 'description', 'expected_result', 'execution_status_id');
 
 	/**
 	 * The attributes excluded from the model's JSON form.
@@ -28,49 +28,32 @@ class TestCaseStep extends Magniloquent {
 
 	protected static $rules = array(
 		"save" => array(
-				'name' => 'required|min:2',
 				'description' => '',
-				'prerequisite' => '',
-				'test_suite_id' => 'required',
-				'project_id' => 'required',
-				'execution_type_id' => 'required'
+				'test_case_id' => 'required|numeric',
+				'order' => 'required|numeric',
+				'expected_result' => '',
+				'execution_status_id' => 'required|numeric'
 		),
 		"create" => array(
-				'name' => 'unique:test_cases,name,test_suite_id,:test_suite_id|required|min:2',
 				'description' => '',
-				'prerequisite' => '',
-				'test_suite_id' => 'required',
-				'project_id' => 'required',
-				'execution_type_id' => 'required'
+				'test_case_id' => 'required|numeric',
+				'order' => 'required|numeric',
+				'expected_result' => '',
+				'execution_status_id' => 'required|numeric'
 		),
 		"update" => array(
-				'name' => 'unique:test_cases,name,test_suite_id,:test_suite_id|required|min:2',
 				'description' => '',
-				'prerequisite' => '',
-				'test_suite_id' => 'required',
-				'project_id' => 'required',
-				'execution_type_id' => 'required'
+				'test_case_id' => 'required|numeric',
+				'order' => 'required|numeric',
+				'expected_result' => '',
+				'execution_status_id' => 'required|numeric'
 		)
 	);
 
 	protected static $relationships = array(
-		'project' => array('belongsTo', 'Project', 'project_id'),
-		'testSuite' => array('belongsTo', 'TestSuite', 'test_suite_id'),
-		'executionType' => array('belongsTo', 'ExecutionType', 'execution_type_id')
+		'executionStatus' => array('belongsTo', 'ExecutionStatus', 'execution_status_id')
 	);
 
 	protected static $purgeable = [''];
-
-	public function executionType()
-	{
-		return $this->belongsTo('ExecutionType', 'execution_type_id')->first();
-	}
-
-	public function lastExecutionStatus() 
-	{
-		return Execution::where('test_case_id', $this->id)
-			->orderBy('id', 'DESC')
-			->first();
-	}
 
 }

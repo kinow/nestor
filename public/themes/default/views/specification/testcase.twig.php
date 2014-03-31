@@ -20,9 +20,15 @@
 <hr/>
 <h5>Test Steps</h5>
 {% if testcase.steps is defined and testcase.steps.results is not empty %}
-	{{ testcase.steps }}
-	{% for step in testcase.steps %}
-
+	{% for step in testcase.steps.get() %}
+		<h6>Order</h6>
+		<p>{{ step.order }}</p>
+		<h6>Description</h6>
+		<p>{{ step.description }}</p>
+		<h6>Expected Result</h6>
+		<p>{{ step.expected_result }}</p>
+		<h6>Execution Status</h6>
+		<p>{{ step.executionStatus.first.name }} </p>
 	{% endfor %}
 {% else %}
 <p>No steps defined</p>

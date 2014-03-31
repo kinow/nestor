@@ -6,6 +6,7 @@ use \DB;
 use Nestor\Repositories\TestCaseRepository;
 use Nestor\Repositories\ExecutionTypeRepository;
 use Nestor\Repositories\NavigationTreeRepository;
+use Nestor\Repositories\TestCaseStepRepository;
 
 class TestCasesController extends \BaseController {
 
@@ -30,16 +31,29 @@ class TestCasesController extends \BaseController {
 	 */
 	protected $nodes;
 
+	/**
+	 * The test case repository implementation.
+	 *
+	 * @var Nestor\Repositories\TestCaseStepRepository
+	 */
+	protected $testcaseSteps;
+
 	protected $theme;
 
 	public $restful = true;
 
-	public function __construct(TestCaseRepository $testcases, ExecutionTypeRepository $executionTypes, NavigationTreeRepository $nodes)
+	public function __construct(
+		TestCaseRepository $testcases, 
+		ExecutionTypeRepository $executionTypes, 
+		NavigationTreeRepository $nodes, 
+		TestCaseStepRepository $testcaseSteps)
 	{
 		parent::__construct();
 		$this->testcases = $testcases;
 		$this->executionTypes = $executionTypes;
 		$this->nodes = $nodes;
+		
+		$this->testcaseSteps = $testcaseSteps;
 		$this->theme->setActive('testcases');
 	}
 
@@ -77,7 +91,8 @@ class TestCasesController extends \BaseController {
 		try {
 			$name = Input::get('name');
 			$existing = $this->testcases->findByName($name, /* caseSensitive*/ true);
-			if ($existing->count() >= 1) {
+			if ($existing->count() >= 1) 
+			{
 				throw new Exception(sprintf('Invalid existing test case name: %s',$name));
 			}
 			$pdo = DB::connection()->getPdo();
@@ -90,13 +105,36 @@ class TestCasesController extends \BaseController {
 					Input::get('description'),
 					Input::get('prerequisite')
 			);
+			$testCaseId = $pdo->lastInsertId();
+			$testcase->id = $testCaseId;
+			$stepOrders = Input::get('step_order');
+			$stepDescriptions = Input::get('step_description');
+			$stepExpectedResults = Input::get('step_expected_result');
+			$stepExecutionStatuses = Input::get('step_execution_status');
+			if (isset($stepOrders) && is_array($stepOrders)) 
+			{
+				for($i = 0; $i < count($stepOrders); ++$i)
+				{
+					$stepOrder = $stepOrders[$i];
+					$stepDescription = $stepDescriptions[$i];
+					$stepExpectedResult = $stepExpectedResults[$i];
+					$stepExecutionStatus = $stepExecutionStatuses[$i];
+
+					$testcaseStep = $this->testcaseSteps->create($testCaseId, $stepOrder, $stepDescription, $stepExpectedResult, $stepExecutionStatus);
+					if (!$testcaseStep->isValid() || !$testcaseStep->isSaved())
+					{
+						Log::warning('Failed to save a test step. Rolling back.');
+						throw new Exception('Failed to persist a test case. Check your input parameters.');
+					}
+				}
+			}
 			$ancestor = Input::get('ancestor');
 			if ($testcase->isValid() && $testcase->isSaved())
 			{
 				$navigationTreeNode = $this->nodes->create(
 						$ancestor,
-						'3-' . $pdo->lastInsertId(),
-						$pdo->lastInsertId(),
+						'3-' . $testCaseId,
+						$testCaseId,
 						3,
 						$testcase->name
 				);

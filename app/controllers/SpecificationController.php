@@ -7,6 +7,8 @@ use Nestor\Repositories\TestCaseRepository;
 use Nestor\Repositories\ExecutionTypeRepository;
 use Nestor\Repositories\NavigationTreeRepository;
 
+use Nestor\Repositories\ExecutionStatusRepository;
+
 class SpecificationController extends \NavigationTreeController {
 
 	/**
@@ -34,6 +36,13 @@ class SpecificationController extends \NavigationTreeController {
 	protected $nodes;
 
 	/**
+	 * The execution status repository implementation.
+	 *
+	 * @var Nestor\Repositories\ExecutionStatusRepository
+	 */
+	protected $executionStatuses;
+
+	/**
 	 * Current project in Session.
 	 * @var Project
 	 */
@@ -47,13 +56,19 @@ class SpecificationController extends \NavigationTreeController {
 	 * @param Nestor\Repositories\NavigationTreeRepository  $nodes
 	 * @return SpecificationController
 	 */
-	public function __construct(ProjectRepository $projects, TestCaseRepository $testcases, ExecutionTypeRepository $executionTypes, NavigationTreeRepository $nodes)
+	public function __construct(
+		ProjectRepository $projects, 
+		TestCaseRepository $testcases, 
+		ExecutionTypeRepository $executionTypes, 
+		NavigationTreeRepository $nodes, 
+		ExecutionStatusRepository $executionStatuses)
 	{
 		parent::__construct();
 		$this->projects = $projects;
 		$this->testcases = $testcases;
 		$this->executionTypes = $executionTypes;
 		$this->nodes = $nodes;
+		$this->executionStatuses = $executionStatuses;
 		$this->theme->setActive('specification');
 	}
 
@@ -100,12 +115,12 @@ class SpecificationController extends \NavigationTreeController {
 		catch (Exception $mnfe)
 		{
 			return Redirect::to('/specification/')
-			->with('flash', sprintf('The node %s does not belong to the current selected project', $node_id));
+				->with('flash', sprintf('The node %s does not belong to the current selected project', $node_id));
 		}
 		if (!$this->isNodeInTree($navigationTree, $node))
 		{
 			return Redirect::to('/specification/')
-					->with('flash', sprintf('The node %s does not belong to the current selected project', $node_id));
+				->with('flash', sprintf('The node %s does not belong to the current selected project', $node_id));
 		}
 		$args['node'] = $node;
 		$this->theme->breadcrumb()->
@@ -124,6 +139,16 @@ class SpecificationController extends \NavigationTreeController {
 				$execution_types_ids[$execution_type->id] = $execution_type->name;
 			}
 			$args['execution_type_ids'] = $execution_types_ids;
+			$execution_statuses = $this->executionStatuses->all();
+			$args['execution_statuses'] = $execution_statuses;
+			$execution_statuses_ids = array();
+			foreach ($args['execution_statuses'] as $execution_status) 
+			{
+				if ($execution_status->id == 1 || $execution_status->id == 2)
+					continue; // Skip NOT RUN
+				$execution_statuses_ids[$execution_status->id] = $execution_status->name;
+			}
+			$args['execution_statuses'] = $execution_statuses_ids;
 		}
 		else if (isset($node) && $node->node_type_id == 3) // Test Case?
 		{
@@ -141,10 +166,10 @@ class SpecificationController extends \NavigationTreeController {
 			}
 			$args['testcase'] = $testcase;
 		}
-			$args['navigation_tree_html'] = $navigationTreeHtml;
-			$args['navigation_tree'] = $navigationTree;
-			$args['current_project'] = $this->currentProject;
-			return $this->theme->scope('specification.index', $args)->render();
+		$args['navigation_tree_html'] = $navigationTreeHtml;
+		$args['navigation_tree'] = $navigationTree;
+		$args['current_project'] = $this->currentProject;
+		return $this->theme->scope('specification.index', $args)->render();
 	}
 
 }

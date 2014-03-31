@@ -89,6 +89,7 @@ return array(
             $asset->add('bootstrap-responsive-css', 'themes/default/assets/css/bootstrap-responsive.min.css');
         	$asset->add('style-css', 'themes/default/assets/css/style.css');
 			// JS
+            $asset->add('yui3-min', 'themes/default/assets/js/yui-min.js');
         	$asset->add('jquery2-js', 'themes/default/assets/js/jquery-2.1.0.min.js');
         	$asset->add('jquery-cookie', 'themes/default/assets/js/plugins/jquery.cookie.js');
         	$asset->add('jquery-ui-custom', 'themes/default/assets/js/plugins/jqueryui/jquery-ui-1.10.4.custom.min.js');
@@ -101,7 +102,7 @@ return array(
         	$asset->add('bootstrap-alert', 'themes/default/assets/js/bootstrap-alert.js');
         	$asset->add('bootstrap-transition', 'themes/default/assets/js/bootstrap-transition.js');
         	$asset->add('json2', 'themes/default/assets/js/json2.js');
-        	$asset->add('nestor-style', 'themes/default/assets/js/script.js');
+        	$asset->add('nestor-script', 'themes/default/assets/js/script.js');
         }
 
     )

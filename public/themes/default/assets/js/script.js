@@ -34,3 +34,14 @@ String.prototype.format = function() {
     ;
   });
 };
+
+// Create a YUI sandbox on your page.
+YUI_config = {
+    debug: true,
+    combine: true
+    //comboBase: 'http://mydomain.com/combo?',
+    //root: 'yui3/'
+};
+
+YUI().use('node', 'event', function (Y) {
+});
