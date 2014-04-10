@@ -7,6 +7,7 @@ use Nestor\Repositories\TestCaseRepository;
 use Nestor\Repositories\ExecutionTypeRepository;
 use Nestor\Repositories\NavigationTreeRepository;
 use Nestor\Repositories\TestCaseStepRepository;
+use Nestor\Repositories\ExecutionStatusRepository;
 
 class TestCasesController extends \BaseController {
 
@@ -38,6 +39,13 @@ class TestCasesController extends \BaseController {
 	 */
 	protected $testcaseSteps;
 
+	/**
+	 * The execution status repository implementation.
+	 *
+	 * @var Nestor\Repositories\ExecutionStatusRepository
+	 */
+	protected $executionStatuses;
+
 	protected $theme;
 
 	public $restful = true;
@@ -46,14 +54,15 @@ class TestCasesController extends \BaseController {
 		TestCaseRepository $testcases, 
 		ExecutionTypeRepository $executionTypes, 
 		NavigationTreeRepository $nodes, 
-		TestCaseStepRepository $testcaseSteps)
+		TestCaseStepRepository $testcaseSteps, 
+		ExecutionStatusRepository $executionStatuses)
 	{
 		parent::__construct();
 		$this->testcases = $testcases;
 		$this->executionTypes = $executionTypes;
 		$this->nodes = $nodes;
-		
 		$this->testcaseSteps = $testcaseSteps;
+		$this->executionStatuses = $executionStatuses;
 		$this->theme->setActive('testcases');
 	}
 
@@ -197,6 +206,16 @@ class TestCasesController extends \BaseController {
 			add(sprintf('Edit test case %s', $testcase->name));
 		$args['testcase'] = $testcase;
 		$args['execution_types'] = $this->executionTypes->all();
+		$execution_statuses = $this->executionStatuses->all();
+		$args['execution_statuses'] = $execution_statuses;
+		$execution_statuses_ids = array();
+		foreach ($args['execution_statuses'] as $execution_status) 
+		{
+			if ($execution_status->id == 1 || $execution_status->id == 2)
+				continue; // Skip NOT RUN
+			$execution_statuses_ids[$execution_status->id] = $execution_status->name;
+		}
+		$args['execution_statuses_ids'] = $execution_statuses_ids;
 		$execution_types_ids = array();
 		foreach ($args['execution_types'] as $execution_type)
 		{

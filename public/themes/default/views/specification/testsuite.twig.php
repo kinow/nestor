@@ -4,7 +4,7 @@
     <div><div class='span2'>Description</div> {{ Form.textarea('step_description[]', '', {'class': 'required-2 form-control', 'rows': '4'}) }}</div>
     <div><div class='span2'>Expected Result</div> {{ Form.textarea('step_expected_result[]', '', {'class': 'required-2 form-control', 'rows': '4'}) }}</div>
     <div><div class='span2'>Execution Status</div> 
-    {{ Form.select('step_execution_status[]', execution_statuses, {'class': 'required-2 form-control'}) }}
+    {{ Form.select('step_execution_status[]', execution_statuses_ids, null, {'class': 'required-2 form-control'}) }}
     </div>
     <br style='clear: both' />
     <div class='span2'></div><a href="#" class='btn btn-danger btn-xs btn-remove-test-case-step'><span class='icon-minus'></span> Remove step</a>

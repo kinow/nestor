@@ -148,7 +148,7 @@ class SpecificationController extends \NavigationTreeController {
 					continue; // Skip NOT RUN
 				$execution_statuses_ids[$execution_status->id] = $execution_status->name;
 			}
-			$args['execution_statuses'] = $execution_statuses_ids;
+			$args['execution_statuses_ids'] = $execution_statuses_ids;
 		}
 		else if (isset($node) && $node->node_type_id == 3) // Test Case?
 		{
