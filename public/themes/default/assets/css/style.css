@@ -49,6 +49,8 @@ span.fancytree-childcounter {
     text-align: center;
 }
 
+/* Test case Steps */
+
 .step {
   display: block;
   margin: 4px 0px;
@@ -58,4 +60,10 @@ span.fancytree-childcounter {
 
 .step div {
   margin-top: 4px;
+}
+
+/* From the specification screen */
+.testcase_steps {
+  border: 1px solid #CCCCCC;
+  padding: 0px 4px;
 }
