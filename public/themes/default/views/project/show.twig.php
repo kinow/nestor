@@ -28,6 +28,14 @@
     </div>
 </div>
 <div class='row'>
+	<div class='span2'>
+		<p class='pull-right'><strong>Status</strong></p>
+	</div>
+	<div class='span10'>
+		<p>{{ project.name }}</p>
+	</div>
+</div>
+<div class='row'>
 	<div class='offset2'>
 		{{ HTML.linkRoute('projects.edit', 'Edit', [project.id], {'class': 'btn btn-primary'}) }}
 		{{ HTML.link(URL.previous(), 'Back', {'class': 'btn'}) }}

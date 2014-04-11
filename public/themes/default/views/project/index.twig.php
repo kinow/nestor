@@ -19,6 +19,7 @@
 					<tr>
 						<th>Name</th>
 						<th>Description</th>
+						<th>Status</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -26,6 +27,7 @@
 					<tr>
 						<td>{{ HTML.linkRoute('projects.show', project.name, [project.id]) }}</td>
 						<td>{{ project.description }}</td>
+						<td>{{ project.projectStatus.first.name }}</td>
 					</tr>
 					{% endfor %}
 				</tbody>

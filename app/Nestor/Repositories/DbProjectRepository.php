@@ -12,7 +12,7 @@ class DbProjectRepository implements ProjectRepository {
 	 */
 	public function all()
 	{
-		return Project::all();
+		return Project::where('project_statuses_id', '<>', 2)->get();
 	}
 
 	/**
@@ -64,6 +64,21 @@ class DbProjectRepository implements ProjectRepository {
 	public function delete($id)
 	{
 		return Project::where('id', $id)->delete();
+	}
+
+	/** 
+	 * Deactivates a project by changing its status.
+	 * 
+	 * @param int $id
+	 * @return Project
+	 */
+	public function deactivate($id)
+	{
+		$project = $this->find($id);
+
+		$project->fill(array('project_statuses_id' => 2))->save(); // TODO: use constants
+
+		return $project;
 	}
 
 }

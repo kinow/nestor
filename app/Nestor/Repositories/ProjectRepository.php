@@ -45,4 +45,12 @@ interface ProjectRepository {
 	 */
 	public function delete($id);
 
+	/** 
+	 * Deactivates a project by changing its status.
+	 * 
+	 * @param int $id
+	 * @return Project
+	 */
+	public function deactivate($id);
+
 }

@@ -207,11 +207,11 @@ class ProjectsController extends \BaseController {
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function destroy($id)
+	public function destroy2($id)
 	{
 		$project = null;
 		$navigationTreeNode = null;
-		Log::info('Updating project...');
+		Log::info('Deleting project...');
 		$pdo = null;
 		try {
 			$pdo = DB::connection()->getPdo();
@@ -236,6 +236,40 @@ class ProjectsController extends \BaseController {
 
 		return Redirect::route('projects.index')
 			->with('flash', sprintf('The project %s has been deleted', $project->name));
+	}
+
+	/**
+	 * Deactivates the project.
+	 *
+	 * @param  int  $id
+	 * @return Response
+	 */
+	public function destroy($id)
+	{
+		$project = null;
+		$navigationTreeNode = null;
+		Log::info('Deactivating project...');
+		$pdo = null;
+		try {
+			$pdo = DB::connection()->getPdo();
+			$pdo->beginTransaction();
+			$project = $this->projects->deactivate($id);
+			$pdo->commit();
+
+			$currentProject = $this->theme->get('current_project');
+			if ($currentProject && $currentProject->id == $id)
+			{
+				Session::forget('current_project');
+			}
+		} catch (\PDOException $e) {
+			if (!is_null($pdo))
+				$pdo->rollBack();
+			return Redirect::to('/specification/')
+				->withInput();
+		}
+
+		return Redirect::route('projects.index')
+			->with('success', sprintf('The project %s has been deleted', $project->name));
 	}
 
 	public function position()

@@ -40,7 +40,7 @@ class Project extends Magniloquent {
 	);
 
 	protected static $relationships = array(
-		'project_statuses_id' => array('belongsTo', 'project_statuses', 'id'),
+		'projectStatus' => array('belongsTo', 'ProjectStatus', 'project_statuses_id'),
 	);
 
 	protected static $purgeable = [''];
