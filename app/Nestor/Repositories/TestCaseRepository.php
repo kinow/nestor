@@ -18,14 +18,6 @@ interface TestCaseRepository {
 	public function find($id);
 
 	/**
-	 * Searches an entry by its name.
-	 * @param string $name name
-	 * @param bool $caseSensitive whether to ignore case sensitivy or not
-	 * @return \TestCase2
-	 */
-	public function findByName($name, $caseSensitive);
-
-	/**
 	 * Create a test case
 	 *
 	 * @param  int     $project_id
@@ -55,5 +47,15 @@ interface TestCaseRepository {
 	 * @param int $id
 	 */
 	public function delete($id);
+
+	/**
+	 * Looks for existing test cases with a given name, within a test suite.
+	 * 
+	 * @param int      $id 
+	 * @param int      $test_suite_id
+	 * @param string   $name
+	 * @return boolean
+	 */
+	public function isNameAvailable($id, $test_suite_id, $name);
 
 }

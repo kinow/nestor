@@ -3,6 +3,7 @@
 use \Theme;
 use \Input;
 use \DB;
+use \Validator;
 use Nestor\Repositories\TestCaseRepository;
 use Nestor\Repositories\ExecutionTypeRepository;
 use Nestor\Repositories\NavigationTreeRepository;
@@ -98,12 +99,11 @@ class TestCasesController extends \BaseController {
 		Log::info('Creating test case...');
 		$pdo = null;
 		try {
-			$name = Input::get('name');
-			$existing = $this->testcases->findByName($name, /* caseSensitive*/ true);
-			if ($existing->count() >= 1) 
+			if (!$this->testcases->isNameAvailable(0, Input::get('test_suite_id'), Input::get('name')))
 			{
-				throw new Exception(sprintf('Invalid existing test case name: %s',$name));
+				throw new Exception('Test case not created: Name already taken.');
 			}
+
 			$pdo = DB::connection()->getPdo();
     		$pdo->beginTransaction();
 			$testcase = $this->testcases->create(
@@ -251,6 +251,12 @@ class TestCasesController extends \BaseController {
 		try {
 			$pdo = DB::connection()->getPdo();
 			$pdo->beginTransaction();
+
+			if (!$this->testcases->isNameAvailable($id, Input::get('test_suite_id'), Input::get('name')))
+			{
+				throw new Exception('Test case not updated: Name already taken.');
+			}
+
 			$testcase = $this->testcases->update($id,
 							Input::get('project_id'),
 							Input::get('test_suite_id'),
@@ -258,15 +264,17 @@ class TestCasesController extends \BaseController {
 							Input::get('name'),
 							Input::get('description'),
 							Input::get('prerequisite'));
-			if (!$testcase->isValid() || !$testcase->isSaved())
+
+			if (!$testcase->isValid()) 
 			{
-				throw new Exception('Failed to update Test Case');
+				throw new Exception('Test case not updated: ' . $testcase->errors());
 			}
 
+			Log::info('Updating test case steps...');
 			$existingSteps = $testcase->steps->all();
-			Log::info('Steps: ');
 
 			// update test case steps
+			$stepIds = Input::get('step_id');
 			$stepOrders = Input::get('step_order');
 			$stepDescriptions = Input::get('step_description');
 			$stepExpectedResults = Input::get('step_expected_result');
@@ -275,34 +283,70 @@ class TestCasesController extends \BaseController {
 			{
 				for($i = 0; $i < count($stepOrders); ++$i)
 				{
+					$stepId = $stepIds[$i];
 					$stepOrder = $stepOrders[$i];
 					$stepDescription = $stepDescriptions[$i];
 					$stepExpectedResult = $stepExpectedResults[$i];
 					$stepExecutionStatus = $stepExecutionStatuses[$i];
 
-					/*$testcaseStep = $this->testcaseSteps->create($testCaseId, $stepOrder, $stepDescription, $stepExpectedResult, $stepExecutionStatus);
+					if (strcmp($stepId, "-1") !== 0)
+					{
+						$testcaseStep = $this->testcaseSteps->update($stepId, $id, $stepOrder, $stepDescription, $stepExpectedResult, $stepExecutionStatus);
+					}
+					else
+					{
+						$testcaseStep = $this->testcaseSteps->create($id, $stepOrder, $stepDescription, $stepExpectedResult, $stepExecutionStatus);
+					}
 					if (!$testcaseStep->isValid() || !$testcaseStep->isSaved())
 					{
 						Log::warning('Failed to save a test step. Rolling back.');
-						throw new Exception('Failed to persist a test case. Check your input parameters.');
-					}*/
+						throw new Exception('Failed to persist a test case step. Check your input parameters.');
+					}
 				}
 			}
+
+			if (empty($stepIds))
+			{
+				foreach ($existingSteps as $existingStep)
+				{
+					Log::info("Deleting test case step: " . $existingStep->id);
+					$this->testcaseSteps->delete($existingStep->id);
+				}
+			} else {
+				top: foreach ($existingSteps as $existingStep) 
+				{
+					$remove = true;
+					foreach ($stepIds as $stepId)
+					{
+						if ($stepId == $existingStep->id)
+						{
+							$remove = false;
+							continue 2;
+						}
+					}
+					Log::info("Deleting test case step: " . $existingStep->id);
+					$this->testcaseSteps->delete($existingStep->id);
+				}
+			}
+
 			$navigationTreeNode = $this->nodes->updateDisplayNameByDescendant(
-						'3-'.$testcase->id,
-						$testcase->name);
+				'3-'.$testcase->id,
+				$testcase->name);
 			$pdo->commit();	
 		} catch (\Exception $e) {
+			Log::error($e);
 			if (!is_null($pdo))
 				$pdo->rollBack();
-			return Redirect::to('/testcases/' . $id)->withInput();
+			return Redirect::to(sprintf('/testcases/%d/edit', $id))
+				->withInput()
+				->with('error', $e->getMessage());
 		}
 		if (!is_null($testcase) && $testcase->isSaved())
 		{
 			return Redirect::to(sprintf('/specification/nodes/%s-%s', 3, $testcase->id))
-				->with('message', 'Test case updated');
+				->with('success', 'Test case updated');
 		} else {
-			return Redirect::to('/testcases/' . $id)
+			return Redirect::to(sprintf('/testcases/%d/edit', $id))
 				->withInput()
 				->withErrors($testcase->errors());
 		}

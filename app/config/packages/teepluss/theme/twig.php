@@ -28,7 +28,8 @@ return array(
         'Str',
         'Theme',
         'URL',
-        'Validator'
+        'Validator',
+        'Session'
     ),
 
     /*

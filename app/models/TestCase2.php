@@ -36,8 +36,6 @@ class TestCase2 extends Magniloquent {
 				'execution_type_id' => 'required'
 		),
 		"create" => array(
-				'name' => 'unique:test_cases,name,test_suite_id,:test_suite_id|required|min:2',
-				'lower(name)' => 'unique:test_cases,lower(name),test_suite_id,:test_suite_id',
 				'description' => '',
 				'prerequisite' => '',
 				'test_suite_id' => 'required',
@@ -45,20 +43,18 @@ class TestCase2 extends Magniloquent {
 				'execution_type_id' => 'required'
 		),
 		"update" => array(
-				'name' => 'unique:test_cases,name,test_suite_id,:test_suite_id|required|min:2',
 				'description' => '',
 				'prerequisite' => '',
 				'test_suite_id' => 'required',
 				'project_id' => 'required',
 				'execution_type_id' => 'required'
-		)
+		),
 	);
 
 	protected static $relationships = array(
 		'project' => array('belongsTo', 'Project', 'project_id'),
 		'testSuite' => array('belongsTo', 'TestSuite', 'test_suite_id'),
-		'executionType' => array('belongsTo', 'ExecutionType', 'execution_type_id'),
-		'steps' => array('hasMany', 'TestCaseStep', 'test_case_id')
+		'executionType' => array('belongsTo', 'ExecutionType', 'execution_type_id')
 	);
 
 	protected static $purgeable = [''];
@@ -73,6 +69,11 @@ class TestCase2 extends Magniloquent {
 		return Execution::where('test_case_id', $this->id)
 			->orderBy('id', 'DESC')
 			->first();
+	}
+
+	public function steps()
+	{
+		return TestCase2::hasMany('TestCaseStep', 'test_case_id')->orderBy('order');
 	}
 
 }
