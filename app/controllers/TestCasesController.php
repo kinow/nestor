@@ -206,10 +206,21 @@ class TestCasesController extends \BaseController {
 			add(sprintf('Edit test case %s', $testcase->name));
 		$args['testcase'] = $testcase;
 		$args['execution_types'] = $this->executionTypes->all();
-		$execution_statuses = $this->executionStatuses->all();
-		$args['execution_statuses'] = $execution_statuses;
+		$executionStatusesCol = $this->executionStatuses->all();
+		$execution_statuses = array();
+		foreach ($executionStatusesCol as $execution_status)
+		{
+			if ($execution_status->id != 1 && $execution_status->id != 2) 
+			{
+				$o = new stdClass();
+				$o->name = $execution_status->name;
+				$o->id = $execution_status->id;
+				$execution_statuses[] = $o;
+			}
+		}
+		$args['execution_statuses'] = json_encode($execution_statuses);
 		$execution_statuses_ids = array();
-		foreach ($args['execution_statuses'] as $execution_status) 
+		foreach ($executionStatusesCol as $execution_status) 
 		{
 			if ($execution_status->id == 1 || $execution_status->id == 2)
 				continue; // Skip NOT RUN

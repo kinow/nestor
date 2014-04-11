@@ -12,6 +12,33 @@
 </div>
 </script>
 
+
+<script type='text/x-template' id='existing-test-case-step-template'>
+<div class='step'>
+    {% verbatim %}
+    <div><div class='span2'>Order</div> 
+      <input type='text' name='step_order[]' value="<%= data.order %>" readonly="readonly" class="required-2 form-control" />
+    </div>
+    <div><div class='span2'>Description</div> 
+      <textarea name='step_description[]' class='required-2 form-control' rows='4'><%= data.description %></textarea>
+    </div>
+    <div><div class='span2'>Expected Result</div> 
+      <textarea name='step_expected_result[]' class='required-2 form-control' rows='4'><%= data.expected_result %></textarea>
+    </div>
+    <div><div class='span2'>Execution Status</div> 
+      <select name='step_execution_status[]' class='required-2 form-control'>
+        <% Y.Array.each(data.execution_statuses, function (item) { %>
+          <option value='<%= item.id %>'<%= item.id = data.execution_status_id ? 'selected="selected"' : '' %>><%= item.name %></option>
+        <% }); %>
+      </select>
+    </div>
+    {% endverbatim %}
+    <br style='clear: both' />
+    <div class='span2'></div><a href="#" class='btn btn-danger btn-xs btn-remove-test-case-step'><span class='icon-minus'></span> Remove step</a>
+    <br style='clear: both' />
+</div>
+</script>
+
 <div class='page-header'>
     <h1>Edit Test Case {{ testcase.id }} &mdash; {{ testcase.name }}</h1>
 </div>
@@ -50,19 +77,6 @@
   <div class="controls">
     <div id="test-case-steps">
     <!-- Test Case steps go here -->
-    {% for step in testcase.steps.get() %}
-    <div class='step'>
-        <div><div class='span2'>Order</div> {{ Form.input('text', 'step_order[]', step.order, {'readonly': 'readonly', 'class': 'required-2 form-control'}) }}</div>
-        <div><div class='span2'>Description</div> {{ Form.textarea('step_description[]', step.description, {'class': 'required-2 form-control', 'rows': '4'}) }}</div>
-        <div><div class='span2'>Expected Result</div> {{ Form.textarea('step_expected_result[]', step.expected_result, {'class': 'required-2 form-control', 'rows': '4'}) }}</div>
-        <div><div class='span2'>Execution Status</div> 
-        {{ Form.select('step_execution_status[]', execution_statuses_ids, step.executionStatus.first.id, {'class': 'required-2 form-control'}) }}
-        </div>
-        <br style='clear: both' />
-        <div class='span2'></div><a href="#" class='btn btn-danger btn-xs btn-remove-test-case-step'><span class='icon-minus'></span> Remove step</a>
-        <br style='clear: both' />
-    </div>
-    {% endfor %}
     </div>
     <button id='add-test-case-step' class='btn'><i class='icon-plus'></i> Add Step</button>
   </div>
@@ -113,17 +127,24 @@ YUI().use('node', 'sortable', 'template', 'dd-delegate', 'transition', function(
   // adds a new test step
   Y.one('#add-test-case-step').on('click', function(e) {
     e.preventDefault();
+    addStep();
+  });
+
+  var addStep = function() {
     var newStep = micro.compile(Y.one('#test-case-step-template').getHTML());
     var o = Y.one('#test-case-steps').appendChild(newStep());
-    o.one('.btn-remove-test-case-step').on('click', function(e) { 
-      e.preventDefault();
-      o.remove();
-      fixOrder();
-      e.stopPropagation();
-    });
+    o.one('.btn-remove-test-case-step').on('click', removeTestCaseStep);
     // update order
     fixOrder();
-  });
+  }
+
+  var addExistingStep = function(options) {
+    var newStep = micro.compile(Y.one('#existing-test-case-step-template').getHTML());
+    var o = Y.one('#test-case-steps').appendChild(newStep(options));
+    o.one('.btn-remove-test-case-step').on('click', removeTestCaseStep);
+    // update order
+    //fixOrder();
+  }
 
   var fixOrder = function() {
     var order = 0;
@@ -133,17 +154,23 @@ YUI().use('node', 'sortable', 'template', 'dd-delegate', 'transition', function(
     });
   };
 
-  // used to toggle the test suite form visibility
-  var sub_test_suite_btn = Y.one('#sub-test-suite-btn');
-  var sub_test_suite_div = Y.one('#sub-test-suite');
-  sub_test_suite_btn.on('click', function(e) {
+  var removeTestCaseStep = function(e) { 
     e.preventDefault();
-    sub_test_suite_div.toggleView();
+    var o = e.target.ancestor();
+    o.remove();
+    fixOrder();
     e.stopPropagation();
-  });
+  };
 
-  // Hide the test suites form
-  sub_test_suite_div.hide();
+  {% for step in testcase.steps.get() %}
+  addExistingStep({
+    'order': "{{ step.order }}",
+    'description': "{{ step.description}}",
+    'expected_result': "{{ step.expected_result }}",
+    'execution_statuses': {{ execution_statuses }},
+    'execution_status_id': "{{ step.executionStatus.first.id }}"
+   });
+  {% endfor %}
 
 });
 
