@@ -262,18 +262,35 @@ class TestCasesController extends \BaseController {
 			{
 				throw new Exception('Failed to update Test Case');
 			}
-			$navigationTreeNode = $this->nodes->find('3-'.$testcase->id, '3-'.$testcase->id);
-			$navigationTreeNode->display_name = $testcase->name;
-			$updatedNode = $this->nodes->update(
-						'3-'.$testcase->id,
-						'3-'.$testcase->id,
-						$navigationTreeNode->node_id,
-						$navigationTreeNode->node_type_id,
-						$navigationTreeNode->display_name);
-			if (!$updatedNode->isValid() || !$updatedNode->isSaved())
+
+			$existingSteps = $testcase->steps->all();
+			Log::info('Steps: ');
+
+			// update test case steps
+			$stepOrders = Input::get('step_order');
+			$stepDescriptions = Input::get('step_description');
+			$stepExpectedResults = Input::get('step_expected_result');
+			$stepExecutionStatuses = Input::get('step_execution_status');
+			if (isset($stepOrders) && is_array($stepOrders)) 
 			{
-				throw new Exception('Failed to update Node');
+				for($i = 0; $i < count($stepOrders); ++$i)
+				{
+					$stepOrder = $stepOrders[$i];
+					$stepDescription = $stepDescriptions[$i];
+					$stepExpectedResult = $stepExpectedResults[$i];
+					$stepExecutionStatus = $stepExecutionStatuses[$i];
+
+					/*$testcaseStep = $this->testcaseSteps->create($testCaseId, $stepOrder, $stepDescription, $stepExpectedResult, $stepExecutionStatus);
+					if (!$testcaseStep->isValid() || !$testcaseStep->isSaved())
+					{
+						Log::warning('Failed to save a test step. Rolling back.');
+						throw new Exception('Failed to persist a test case. Check your input parameters.');
+					}*/
+				}
 			}
+			$navigationTreeNode = $this->nodes->updateDisplayNameByDescendant(
+						'3-'.$testcase->id,
+						$testcase->name);
 			$pdo->commit();	
 		} catch (\Exception $e) {
 			if (!is_null($pdo))
@@ -282,8 +299,8 @@ class TestCasesController extends \BaseController {
 		}
 		if (!is_null($testcase) && $testcase->isSaved())
 		{
-			return Redirect::to(sprintf('/specification/nodes/%s-%s', $navigationTreeNode->node_type_id, $navigationTreeNode->node_id))
-				->with('message', 'A new test case has been created');
+			return Redirect::to(sprintf('/specification/nodes/%s-%s', 3, $testcase->id))
+				->with('message', 'Test case updated');
 		} else {
 			return Redirect::to('/testcases/' . $id)
 				->withInput()
