@@ -45,28 +45,6 @@ class NavigationTreeController extends \BaseController {
 		return $tree;
 	}
 
-	protected function sortNavigationTree(&$nodes)
-	{
-		// Sort by execution type and display name
-		usort($nodes, function($left, $right) {
-			$leftAncestor = $left->ancestor;
-			$rightAncestor = $right->ancestor;
-			list($leftExecutionType, $leftNodeId) = explode("-", $leftAncestor);
-			list($rightExecutionType, $rightNodeId) = explode("-", $rightAncestor);
-			if ($leftExecutionType > $rightExecutionType)
-				return 1;
-			elseif ($leftExecutionType < $rightExecutionType)
-				return -1;
-			else
-				return $left->display_name > $right->display_name;
-		});
-
-		foreach ($nodes as $node)
-		{
-			$this->sortNavigationTree($node->children);
-		}
-	}
-
 	/**
 	 * Adds a child node into the navigation tree.
 	 *
@@ -87,6 +65,28 @@ class NavigationTreeController extends \BaseController {
 			{
 				$this->addChild($edge->children, $node);
 			}
+		}
+	}
+
+	protected function sortNavigationTree(&$nodes)
+	{
+		// Sort by execution type and display name
+		usort($nodes, function($left, $right) {
+			$leftAncestor = $left->ancestor;
+			$rightAncestor = $right->ancestor;
+			list($leftExecutionType, $leftNodeId) = explode("-", $leftAncestor);
+			list($rightExecutionType, $rightNodeId) = explode("-", $rightAncestor);
+			if ($leftExecutionType > $rightExecutionType)
+				return 1;
+			elseif ($leftExecutionType < $rightExecutionType)
+				return -1;
+			else
+				return $left->display_name > $right->display_name;
+		});
+
+		foreach ($nodes as $node)
+		{
+			$this->sortNavigationTree($node->children);
 		}
 	}
 
@@ -111,23 +111,38 @@ class NavigationTreeController extends \BaseController {
 			}
 			if ($node->node_type_id == 1) { // project
 				$buffer .= "<ul id='treeData' style='display: none;'>";
-				$buffer .= sprintf ( "<li data-icon='places/folder.png' class='expanded%s'>%s", $extra_classes, HTML::link ('/specification/nodes/' . $node->descendant, $node->display_name, array('target' => '_self')));
+				$buffer .= sprintf ("<li data-icon='places/folder.png' data-node-type='%s' data-node-id='%s' class='expanded%s'>%s", 
+					$node->node_type_id, 
+					$node->node_id,
+					$extra_classes, 
+					HTML::link('/specification/nodes/' . $node->descendant, $node->display_name, array('target' => '_self')
+				));
 				if (! empty ( $node->children )) {
 					$buffer .= "<ul>";
-					$buffer .= $this->createTreeHTML ($node->children, $nodeId, $theme_name);
+					$buffer .= $this->createTreeHTML($node->children, $nodeId, $theme_name);
 					$buffer .= "</ul>";
 				}
 				$buffer .= "</li></ul>";
 			} else if ($node->node_type_id == 2) { // test suite
-				$buffer .= sprintf ( "<li data-icon='actions/document-open.png' class='%s'>%s", $extra_classes, HTML::link ('/specification/nodes/' . $node->descendant, $node->display_name, array('target' => '_self')));
+				$buffer .= sprintf("<li data-icon='actions/document-open.png' data-node-type='%s' data-node-id='%s' class='%s'>%s", 
+					$node->node_type_id, 
+					$node->node_id,
+					$extra_classes, 
+					HTML::link('/specification/nodes/' . $node->descendant, $node->display_name, array('target' => '_self')
+				));
 				if (! empty ( $node->children )) {
 					$buffer .= "<ul>";
-					$buffer .= $this->createTreeHTML ($node->children, $nodeId, $theme_name);
+					$buffer .= $this->createTreeHTML($node->children, $nodeId, $theme_name);
 					$buffer .= "</ul>";
 				}
 				$buffer .= "</li>";
 			} else {
-				$buffer .= sprintf ( "<li data-icon='mimetypes/text-x-generic.png' class='%s'>%s</li>", $extra_classes, HTML::link ('/specification/nodes/' . $node->descendant, $node->display_name, array('target' => '_self')));
+				$buffer .= sprintf("<li data-icon='mimetypes/text-x-generic.png' data-node-type='%s' data-node-id='%s' class='%s'>%s</li>", 
+					$node->node_type_id, 
+					$node->node_id,
+					$extra_classes, 
+					HTML::link ('/specification/nodes/' . $node->descendant, $node->display_name, array('target' => '_self')
+				));
 			}
 		}
 
