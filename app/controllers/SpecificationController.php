@@ -172,4 +172,14 @@ class SpecificationController extends \NavigationTreeController {
 		return $this->theme->scope('specification.index', $args)->render();
 	}
 
+	public function postMoveNode() 
+	{
+		/*$nodeId = Input::get('nodeId');
+		$ancestorId = Input::get('ancestorId');
+
+		echo $nodeId . ' - ' . $ancestorId;*/
+		echo "OI";
+		exit;
+	}
+
 }

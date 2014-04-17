@@ -130,6 +130,13 @@ var templatecallback = function() {
 	          	var nodeId = '' + selectedNode.data.nodeType + '-' + selectedNode.data.nodeId;
 	          	var ancestorId = '' + node.data.nodeType + '-' + node.data.nodeId;
 	          	console.log('Update ' + nodeId + ' set ancestor = ' + ancestorId);
+	          	$.ajax({
+				  type: "POST",
+				  url: url,
+				  data: {nodeId: nodeId, ancestorId: ancestorId},
+				  success: success,
+				  dataType: dataType
+				});
 				selectedNode.moveTo(node, data.hitMode);
 	        }
         }

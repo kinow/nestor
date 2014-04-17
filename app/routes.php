@@ -27,8 +27,8 @@ Route::resource('testsuites', 'TestSuitesController');
 Route::resource('testcases', 'TestCasesController');
 
 // Specification
+Route::post('specification/moveNode', 'SpecificationController@postMoveNode');
 Route::controller('/specification', 'SpecificationController');
-Route::controller('/specification/nodes', 'SpecificationController');
 
 // Test Plans
 Route::resource('planning', 'TestPlansController');
