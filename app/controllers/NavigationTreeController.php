@@ -107,7 +107,7 @@ class NavigationTreeController extends \BaseController {
 		foreach ($navigation_tree as $node) {
 			$extra_classes = "";
 			if ($node->descendant == $nodeId && $node->ancestor == $nodeId) {
-				$extra_classes = " expanded active";
+				$extra_classes = " active";
 			}
 			if ($node->node_type_id == 1) { // project
 				$buffer .= "<ul id='treeData' style='display: none;'>";
@@ -124,7 +124,7 @@ class NavigationTreeController extends \BaseController {
 				}
 				$buffer .= "</li></ul>";
 			} else if ($node->node_type_id == 2) { // test suite
-				$buffer .= sprintf("<li data-icon='actions/document-open.png' data-node-type='%s' data-node-id='%s' class='%s'>%s", 
+				$buffer .= sprintf("<li data-icon='actions/document-open.png' data-node-type='%s' data-node-id='%s' class='expanded%s'>%s", 
 					$node->node_type_id, 
 					$node->node_id,
 					$extra_classes, 

@@ -65,7 +65,6 @@ var templatecallback = function() {
 	    activate: function(e, data) {
 	    	if (data.draggable)
 	    		return; // prevent false hits
-	    	return;
 			var node = data.node;
 			if(node.data.href){
 				window.open(node.data.href, node.data.target);
