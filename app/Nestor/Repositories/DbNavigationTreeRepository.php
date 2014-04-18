@@ -208,4 +208,24 @@ order by a.length
 			->delete();
 	}
 
+	public function move($descendant, $ancestor)
+	{
+		DB::beginTransaction();
+		try 
+		{
+			$node = $this->find($descendant, $descendant);
+			Log::debug($node);
+			$this->delete($descendant);
+			// $ancestor, $descendant, $node_id, $node_type_id, $display_name
+			$this->create($ancestor, $descendant, $node->node_id, $node->node_type_id, $node->display_name);
+			DB::commit();
+		}
+		catch (\Exception $e)
+		{
+			Log::error($e);
+			DB::rollback();
+			throw $e;
+		}
+	}
+
 }

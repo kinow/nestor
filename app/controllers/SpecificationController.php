@@ -174,12 +174,11 @@ class SpecificationController extends \NavigationTreeController {
 
 	public function postMoveNode() 
 	{
-		/*$nodeId = Input::get('nodeId');
-		$ancestorId = Input::get('ancestorId');
-
-		echo $nodeId . ' - ' . $ancestorId;*/
-		echo "OI";
-		exit;
+		$descendant = Input::get('descendant');
+		$ancestor = Input::get('ancestor');
+		Log::debug(sprintf('Moving %s under %s', $descendant, $ancestor));
+		$this->nodes->move($descendant, $ancestor);
+		return Response::json('OK');
 	}
 
 }

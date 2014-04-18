@@ -127,17 +127,22 @@ var templatecallback = function() {
 	        },
 	        dragDrop: function(node, data) {
 	          	var selectedNode = data.otherNode; // the selected node
-	          	var nodeId = '' + selectedNode.data.nodeType + '-' + selectedNode.data.nodeId;
-	          	var ancestorId = '' + node.data.nodeType + '-' + node.data.nodeId;
-	          	console.log('Update ' + nodeId + ' set ancestor = ' + ancestorId);
+	          	var descendant = '' + selectedNode.data.nodeType + '-' + selectedNode.data.nodeId;
+	          	var ancestor = '' + node.data.nodeType + '-' + node.data.nodeId;
+	          	var url = '{{ URL.to("specification/moveNode") }}';
 	          	$.ajax({
 				  type: "POST",
 				  url: url,
-				  data: {nodeId: nodeId, ancestorId: ancestorId},
-				  success: success,
-				  dataType: dataType
+				  data: {descendant: descendant, ancestor: ancestor},
+				  success: function(data, textStatus, jqXHR) {
+				  	selectedNode.moveTo(node, data.hitMode);
+				  },
+				  error: function(data, textStatus, jqXHR) {
+				  	console.log(data);
+				  	console.log(textStatus);
+				  	alert(data);
+				  }
 				});
-				selectedNode.moveTo(node, data.hitMode);
 	        }
         }
 	});

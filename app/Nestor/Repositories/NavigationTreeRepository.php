@@ -94,4 +94,13 @@ interface NavigationTreeRepository {
 	 */
 	public function deleteWithAllChildren($ancestor, $descendant);
 
+	/**
+	 * Moves a node under another node.
+	 *
+	 * @param string $descendant  from
+	 * @param string $ancestor    to
+	 * @return NavigationTreeNode
+	 */
+	public function move($descendant, $ancestor);
+
 }
