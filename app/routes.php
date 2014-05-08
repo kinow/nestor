@@ -15,6 +15,7 @@
 Route::get('/', 'HomeController@getIndex');
 Route::controller('install', 'InstallController');
 Route::get('/manage', 'ManageController@getIndex');
+Route::get('/configure', 'ConfigurationController@getConfigure');
 
 // Projects
 Route::get('projects/position', 'ProjectsController@position');
@@ -46,7 +47,6 @@ Route::resource('execution', 'ExecutionsController');
 // WIP
 Route::controller('requirements', 'WIPController');
 Route::controller('reports', 'WIPController');
-Route::controller('configure', 'WIPController');
 Route::controller('themeManager', 'WIPController');
 Route::controller('pluginManager', 'WIPController');
 

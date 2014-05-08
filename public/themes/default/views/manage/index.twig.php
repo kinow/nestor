@@ -6,7 +6,7 @@
 <div class='row'>
 	<div class='span12'>
 		<p class='muted'>
-		    {{ HTML.link('/configure', 'Configure System') }}
+		    {{ HTML.link('/configure', 'Configuration System') }}
 		    <br/>
 		    <small>Configure global settings</small>
 		</p>
