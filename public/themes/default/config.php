@@ -86,7 +86,6 @@ return array(
         	$asset->add('fancytree-css', 'themes/default/assets/css/plugins/fancytree/skin-lion/ui.fancytree.css');
             $asset->add('elrte-css', 'themes/default/assets/css/plugins/elrte/elrte.min.css');
             $asset->add('bootstrap-css', 'themes/default/assets/css/bootstrap.min.css');
-            $asset->add('bootstrap-responsive-css', 'themes/default/assets/css/bootstrap-responsive.min.css');
         	$asset->add('style-css', 'themes/default/assets/css/style.css');
 			// JS
             $asset->add('yui3-min', 'themes/default/assets/js/yui-min.js');
@@ -99,8 +98,6 @@ return array(
             $asset->add('elrte-js', 'themes/default/assets/js/plugins/elrte/elrte.min.js');
         	$asset->add('html5', 'themes/default/assets/js/html5.js');
         	$asset->add('bootstrap', 'themes/default/assets/js/bootstrap.min.js');
-        	$asset->add('bootstrap-alert', 'themes/default/assets/js/bootstrap-alert.js');
-        	$asset->add('bootstrap-transition', 'themes/default/assets/js/bootstrap-transition.js');
         	$asset->add('json2', 'themes/default/assets/js/json2.js');
         	$asset->add('nestor-script', 'themes/default/assets/js/script.js');
         }

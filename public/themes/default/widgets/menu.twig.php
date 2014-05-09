@@ -1,21 +1,22 @@
-<div class="navbar navbar-fixed-top">
-	<div class="navbar-inner">
+<nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+	<div class="container-fluid">
 		<div class="container">
-			<a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
-			<span class="icon-bar"></span>
-			<span class="icon-bar"></span>
-			<span class="icon-bar"></span>
-			</a>
-			<div class="nav-collapse">
-				<ul class="nav">
+			<div class="navbar-header">
+	          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-6">
+	            <span class="sr-only">Toggle navigation</span>
+	            <span class="icon-bar"></span>
+	            <span class="icon-bar"></span>
+	            <span class="icon-bar"></span>
+	          </button>
+	        </div>
+			<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-6">
+          		<ul class="nav navbar-nav">
 					{{ menuitems }}
 			    </ul>
-			</div><!--/.nav-collapse -->
-			<div class='nav-collapse text-right'>
-				{{ Form.open({'url': '/projects/position', 'class': 'form-horizontal', 'method': 'GET', 'style': 'margin: 0px;'}) }}
-					{{ Theme.getProjectitems() }}
-				{{ Form.close() }}
+			    {{ Form.open({'url': '/projects/position', 'class': 'navbar-form navbar-right form-horizontal', 'role': 'projectPosition', 'method': 'GET', 'style': 'margin: 0px;'}) }}
+				{{ Theme.getProjectitems() }}
+			{{ Form.close() }}
 			</div>
 		</div>
 	</div>
-</div>
+</nav>

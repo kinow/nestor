@@ -53,4 +53,6 @@ interface ProjectRepository {
 	 */
 	public function deactivate($id);
 
+	public function paginate($perPage);
+
 }

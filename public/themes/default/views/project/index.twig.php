@@ -1,16 +1,12 @@
 {% block content %}
-<div class='page-header'>
-	<h1>Projects</h1>
-</div>
 <div class='row'>
-	<div class='span2'>
-		<ul class="nav nav-tabs nav-stacked">
-			<li>
-				{{ HTML.link('/projects/create', 'New Project') }}
-			</li>
-		</ul>
+	<div class='col-xs-12'>
+		{{ HTML.link('/projects/create', 'New Project', {'class': 'btn btn-primary'}) }}
 	</div>
-	<div class='span10'>
+</div>
+<br/>
+<div class='row'>
+	<div class='col-xs-12'>
 		<div id="projects">
 			{% if projects[0] is defined %}
 				{{ pagination.create_links() }}
@@ -39,4 +35,5 @@
 		</div>
 	</div>
 </div>
+{{ projects.links() }}
 {% endblock %}

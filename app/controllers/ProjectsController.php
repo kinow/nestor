@@ -45,7 +45,7 @@ class ProjectsController extends \BaseController {
 			add('Home', URL::to('/'))->
 			add('Projects');
 		$args = array();
-		$args['projects'] = $this->projects->all();
+		$args['projects'] = $this->projects->paginate(10);
 		return $this->theme->scope('project.index', $args)->render();
 	}
 
@@ -107,7 +107,7 @@ class ProjectsController extends \BaseController {
 		if ($project->isSaved() && $navigationTreeNode)
 		{
 			return Redirect::to('/projects/')
-				->with('flash', 'A new project has been created');
+				->with('success', sprintf('Project %s created', Input::get('name')));
 		} else {
 			return Redirect::to('/projects/create')
 				->withInput()
@@ -193,7 +193,7 @@ class ProjectsController extends \BaseController {
 		if ($project->isSaved())
 		{
 			return Redirect::route('projects.show', $id)
-				->with('flash', 'The project was updated');
+				->with('success', 'The project was updated');
 		} else {
 			return Redirect::route('projects.edit', $id)
 				->withInput()

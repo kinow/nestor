@@ -81,4 +81,9 @@ class DbProjectRepository implements ProjectRepository {
 		return $project;
 	}
 
+	public function paginate($perPage = 0)
+	{
+		return Project::where('project_statuses_id', '<>', 2)->paginate($perPage);
+	}
+
 }
