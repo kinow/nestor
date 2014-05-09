@@ -1,26 +1,23 @@
 {% block content %}
-<div class='page-header'>
-	<h1>Manage Nestor</h1>
-</div>
-
 <div class='row'>
-	<div class='span12'>
-		<p class='muted'>
-		    {{ HTML.link('/configure', 'Configuration System') }}
+	<div class='col-xs-12'>
+		<ul class="list-group">
+		  <li class="list-group-item">
+		  	{{ HTML.link('/configure', 'Configuration System') }}
 		    <br/>
 		    <small>Configure global settings</small>
-		</p>
-		<p class='muted'>
-			{{ HTML.link('/themeManager', 'Manage Themes') }}
+		  </li>
+		  <li class="list-group-item">
+		  	{{ HTML.link('/themeManager', 'Manage Themes') }}
         	<br/>
         	<small>Add, remove, disable or enable themes that change the UI of Nestor.</small>
-        </p>
-
-        <p class='muted'>
-        	{{ HTML.link('/pluginManager', 'Manage Plug-ins') }}
+		  </li>
+		  <li class="list-group-item">
+		  	{{ HTML.link('/pluginManager', 'Manage Plug-ins') }}
         	<br/>
         	<small>Install or uninstall plug-ins to extend Nestor behaviour.</small>
-       	</p>
+		  </li>
+		</ul>
 	</div>
 </div>
 {% endblock %}
