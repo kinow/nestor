@@ -2,100 +2,120 @@
 <div class='step'>
     {% verbatim %}
     <input type='hidden' name='step_id[]' value='-1' />
-    <div><div class='span2'>Order</div> 
-      <input type='text' name='step_order[]' readonly='readonly' class='required-2 form-control' /></div>
-    <div><div class='span2'>Description</div> 
-      <textarea name='step_description[]' class='required-2 form-control' rows='4'></textarea>
+    <div class='form-group'>
+      <label class='col-xs-2 control-label'>Order</label>
+      <div class='col-xs-10'>
+        <input type='text' name='step_order[]' readonly='readonly' class='required-2 form-control' />
+      </div>
     </div>
-    <div><div class='span2'>Expected Result</div> 
-      <textarea name='step_expected_result[]' class='required-2 form-control' rows='4'></textarea>
+    <div class='form-group'>
+      <label class='col-xs-2 control-label'>Description</label>
+      <div class='col-xs-10'>
+        <textarea name='step_description[]' class='required-2 form-control' rows='4'></textarea>
+      </div>
     </div>
-    <div><div class='span2'>Execution Status</div> 
-      <select name='step_execution_status[]' class='required-2 form-control'>
-        <% Y.Array.each(data.execution_statuses, function (item) { %>
-          <option value='<%= item.id %>'><%= item.name %></option>
-        <% }); %>
-      </select>
+    <div class='form-group'>
+      <label class='col-xs-2 control-label'>Expected Result</label>
+      <div class='col-xs-10'>
+        <textarea name='step_expected_result[]' class='required-2 form-control' rows='4'></textarea>
+      </div>
+    </div>
+    <div class='form-group'>
+      <label class='col-xs-2 control-label'>Execution Status</label>
+      <div class='col-xs-10'>
+        <select name='step_execution_status[]' class='required-2 form-control'>
+          <% Y.Array.each(data.execution_statuses, function (item) { %>
+            <option value='<%= item.id %>'><%= item.name %></option>
+          <% }); %>
+        </select>
+      </div>
     </div>
     {% endverbatim %}
-    <br style='clear: both' />
-    <div class='span2'></div><a href="#" class='btn btn-danger btn-xs btn-remove-test-case-step'><span class='icon-minus'></span> Remove step</a>
-    <br style='clear: both' />
+    <div class='form-group'>
+      <div class='col-xs-10 col-xs-offset-2'>
+        <a href="#" class='btn btn-danger btn-remove-test-case-step'><span class='icon-minus'></span> Remove step</a>
+      </div>
+    </div>
 </div>
 </script>
-
 
 <script type='text/x-template' id='existing-test-case-step-template'>
 <div class='step'>
     {% verbatim %}
     <input type='hidden' name='step_id[]' value='<%= data.id %>' />
-    <div><div class='span2'>Order</div> 
-      <input type='text' name='step_order[]' value="<%= data.order %>" readonly="readonly" class="required-2 form-control" />
+    <div class='form-group'>
+      <label class='col-xs-2 control-label'>Order</label>
+      <div class='col-xs-10'>
+        <input type='text' name='step_order[]' value="<%= data.order %>" readonly="readonly" class="required-2 form-control" />
+      </div>
     </div>
-    <div><div class='span2'>Description</div> 
-      <textarea name='step_description[]' class='required-2 form-control' rows='4'><%= data.description %></textarea>
+    <div class='form-group'>
+      <label class='col-xs-2 control-label'>Description</label>
+      <div class='col-xs-10'>
+        <textarea name='step_description[]' class='required-2 form-control' rows='4'><%= data.description %></textarea>
+      </div>
     </div>
-    <div><div class='span2'>Expected Result</div> 
-      <textarea name='step_expected_result[]' class='required-2 form-control' rows='4'><%= data.expected_result %></textarea>
+    <div class='form-group'>
+      <label class='col-xs-2 control-label'>Expected Result</label>
+      <div class='col-xs-10'>
+        <textarea name='step_expected_result[]' class='required-2 form-control' rows='4'><%= data.expected_result %></textarea>
+      </div>
     </div>
-    <div><div class='span2'>Execution Status</div> 
-      <select name='step_execution_status[]' class='required-2 form-control'>
-        <% Y.Array.each(data.execution_statuses, function (item) { %>
-          <option value='<%= item.id %>'<%= item.id == data.execution_status_id ? 'selected="selected"' : '' %>><%= item.name %></option>
-        <% }); %>
-      </select>
+    <div class='form-group'>
+      <label class='col-xs-2 control-label'>Execution Status</label>
+      <div class='col-xs-10'>
+        <select name='step_execution_status[]' class='required-2 form-control'>
+          <% Y.Array.each(data.execution_statuses, function (item) { %>
+            <option value='<%= item.id %>'<%= item.id == data.execution_status_id ? 'selected="selected"' : '' %>><%= item.name %></option>
+          <% }); %>
+        </select>
+      </div>
     </div>
     {% endverbatim %}
-    <br style='clear: both' />
-    <div class='span2'></div><a href="#" class='btn btn-danger btn-xs btn-remove-test-case-step'><span class='icon-minus'></span> Remove step</a>
-    <br style='clear: both' />
+    <div class='form-group'>
+      <div class='col-xs-10 col-xs-offset-2'>
+        <a href="#" class='btn btn-danger btn-remove-test-case-step'><span class='icon-minus'></span> Remove step</a>
+      </div>
+    </div>
 </div>
 </script>
-
-<div class='page-header'>
-    <h1>Edit Test Case {{ testcase.id }} &mdash; {{ testcase.name }}</h1>
-</div>
-
-{% if errors is defined and errors is not empty %}
-<ul>
-    {% for error in errors.all() %}
-    <li>{{ error }}</li> {% endfor %}
-</ul>
-{% endif %}
 
 {{ Form.open({'route': ['testcases.update', testcase.id], 'method': 'PUT', 'class': 'form-horizontal'}) }}
 {{ Form.hidden('project_id', testcase.project_id) }}
 {{ Form.hidden('test_suite_id', testcase.test_suite_id) }}
-<div class="control-group">
-    {{ Form.label('name', 'Name', {'class': 'control-label'}) }}
-    <div class="controls">{{ Form.input('text', 'name', testcase.name, {'id':"name", 'class': "span10"}) }}</div>
+<div class="form-group">
+    {{ Form.label('name', 'Name', {'class': 'control-label col-xs-2'}) }}
+    <div class="col-xs-10">
+      {{ Form.input('text', 'name', testcase.name, {'id':"name", 'class': "form-control"}) }}
+    </div>
 </div>
-<div class="control-group">
-    {{ Form.label('description', 'Description', {'class': 'control-label'}) }}
-    <div class="controls">{{ Form.textarea('description', testcase.description, {'id': "description", 'rows': "3",
-        'class': "span10"}) }}</div>
+<div class="form-group">
+    {{ Form.label('description', 'Description', {'class': 'control-label col-xs-2'}) }}
+    <div class="col-xs-10">
+      {{ Form.textarea('description', testcase.description, {'id': "description", 'rows': "3",'class': "form-control"}) }}
+    </div>
 </div>
-<div class="control-group">
-    {{ Form.label('prerequisite', 'Prerequisite', {'class': 'control-label'}) }}
-    <div class="controls">{{ Form.textarea('prerequisite', testcase.prerequisite, {'id': "prerequisite", 'rows': "3",
-        'class': "span10"}) }}</div>
+<div class="form-group">
+    {{ Form.label('prerequisite', 'Prerequisite', {'class': 'control-label col-xs-2'}) }}
+    <div class="col-xs-10">{{ Form.textarea('prerequisite', testcase.prerequisite, {'id': "prerequisite", 'rows': "3",
+        'class': "form-control"}) }}</div>
 </div>
-<div class="control-group">
-    {{ Form.label('execution_type_id', 'Execution Type', {'class': 'control-label'}) }}
-    <div class="controls">{{ Form.select('execution_type_id', execution_type_ids, testcase.execution_type_id, {'id': "execution_type_id",
-        'class': "span10"}) }}</div>
+<div class="form-group">
+    {{ Form.label('execution_type_id', 'Execution Type', {'class': 'control-label col-xs-2'}) }}
+    <div class="col-xs-10">{{ Form.select('execution_type_id', execution_type_ids, testcase.execution_type_id, {'id': "execution_type_id",
+        'class': "form-control"}) }}</div>
 </div>
-<div class="control-group">
-  <label class='control-label' for='add_step'>Test Case Steps</label>
-  <div class="controls">
+<div class="form-group">
+  {{ Form.label('add_step', 'Test Case steps', {'class': 'control-label col-xs-2'}) }}
+  <div class="col-xs-10">
     <div id="test-case-steps">
     <!-- Test Case steps go here -->
     </div>
     <button id='add-test-case-step' class='btn'><i class='icon-plus'></i> Add Step</button>
   </div>
 </div>
-<div class="control-group">
-    <div class='controls'>
+<div class="form-group">
+    <div class='col-xs-10 col-xs-offset-2'>
     	<div class='span8'>
         	{{ Form.submit('Update', {'class': "btn btn-primary"}) }}&nbsp; {{ HTML.link(URL.previous(), 'Cancel', {'class': 'btn'}) }}
         </div>
@@ -106,6 +126,8 @@
 {{ Form.open({'route': ['testcases.destroy', testcase.id], 'method': 'DELETE', 'class': 'form-horizontal pull-right'}) }}
 	{{ Form.submit('Delete', {'class': 'btn btn-danger'}) }}
 {{ Form.close() }}
+
+<br class="clearfix" />
 
 <script type='text/javascript'>
 
@@ -171,7 +193,9 @@ YUI().use('node', 'sortable', 'template', 'dd-delegate', 'transition', function(
 
   var removeTestCaseStep = function(e) { 
     e.preventDefault();
-    var o = e.target.ancestor();
+    var o2 = e.target.ancestor();
+    var o1 = o2.ancestor();
+    var o = o1.ancestor();
     o.remove();
     fixOrder();
     e.stopPropagation();

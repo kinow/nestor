@@ -1,24 +1,15 @@
 <div>
-<h4>Test Case &mdash; {{ node.display_name }}</h4>
-<hr/>
-
-{% if errors is defined and errors is not empty %}
-<ul>
-    {% for error in errors.all() %}
-    <li>{{ error }}</li> {% endfor %}
-</ul>
-{% endif %}
-
-<h5>Name</h5>
+<h4>Test Case {{ node.display_name }}</h4>
+<label>Name</label>
 <p>{{ testcase.name }}</p>
-<h5>Description</h5>
+<label>Description</label>
 <p>{{ testcase.description }}</p>
-<h5>Prerequisite</h5>
+<label>Prerequisite</label>
 <p>{{ testcase.prerequisite }}</p>
-<h5>Execution Type</h5>
+<label>Execution Type</label>
 <p>{{ testcase.execution_type_name }}</p>
 <hr/>
-<h5>Test Steps</h5>
+<label>Test Steps</label>
 {% if testcase.steps is defined and testcase.steps.results is not empty %}
 <table class='table table-bordered table-hover'>
 	<thead>

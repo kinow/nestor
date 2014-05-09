@@ -91,15 +91,15 @@ class TestSuitesController extends \BaseController {
 		} catch (\PDOException $e) {
 			if (!is_null($pdo))
 				$pdo->rollBack();
-			return Redirect::to('/specification/')
+			return Redirect::to(URL::previous())
 	 			->withInput();
 		}
 		if ($testsuite->isSaved() && $navigationTreeNode)
 		{
 			return Redirect::to('/specification/nodes/' . '2-' . $testsuite->id)
-				->with('flash', 'A new test suite has been created');
+				->with('success', 'A new test suite has been created');
 		} else {
-			return Redirect::to('/specification/')
+			return Redirect::to(URL::previous())
 				->withInput()
 				->withErrors($testsuite->errors());
 		}

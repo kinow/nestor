@@ -34,8 +34,8 @@ class DbNavigationTreeRepository implements NavigationTreeRepository {
 			->leftJoin('navigation_tree AS b', 'a.ancestor', '=', 'b.descendant')
 			->where('b.ancestor', '=', "$ancestor")
 			->where('a.length', '<=', $length)
-			->groupBy('ancestor')->groupBy('descendant')->groupBy('length')
-			->orderBy('b.ancestor')
+			->groupBy('a.ancestor')->groupBy('a.descendant')->groupBy('a.length')
+			->orderBy('a.ancestor')
 			->get();
 
 		$r = array();

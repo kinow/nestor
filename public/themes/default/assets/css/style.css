@@ -29,18 +29,6 @@ span.fancytree-childcounter {
   font-size: 9px;
 }
 
-#test_specification {
-	background-color: #EEEEEE;
-}
-
-.pad_l {
-	padding-left: 10px;
-}
-
-.pad_r {
-	padding-right: 10px;
-}
-
 .pagination {
     margin: 0px 0px;
 }
@@ -52,10 +40,13 @@ span.fancytree-childcounter {
 /* Test case Steps */
 
 .step {
-  display: block;
-  margin: 4px 0px;
-  padding: 18px 0px;
-  border: 1px solid #CCCCCC;
+margin-left: 0;
+margin-right: 0;
+background-color: #fff;
+border-width: 1px;
+border-color: #ddd;
+border-radius: 4px 4px 0 0;
+box-shadow: none;
 }
 
 .step div {

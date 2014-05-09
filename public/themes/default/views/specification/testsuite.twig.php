@@ -1,93 +1,109 @@
 <script type='text/x-template' id='test-case-step-template'>
 <div class='step'>
-    <div><div class='span2'>Order</div> {{ Form.input('text', 'step_order[]', "", {'readonly': 'readonly', 'class': 'required-2 form-control'}) }}</div>
-    <div><div class='span2'>Description</div> {{ Form.textarea('step_description[]', '', {'class': 'required-2 form-control', 'rows': '4'}) }}</div>
-    <div><div class='span2'>Expected Result</div> {{ Form.textarea('step_expected_result[]', '', {'class': 'required-2 form-control', 'rows': '4'}) }}</div>
-    <div><div class='span2'>Execution Status</div> 
-    {{ Form.select('step_execution_status[]', execution_statuses_ids, null, {'class': 'required-2 form-control'}) }}
+    <div class='form-group'>
+      <label class='col-xs-2 control-label'>Order</label>
+      <div class='col-xs-10'>
+        {{ Form.input('text', 'step_order[]', "", {'readonly': 'readonly', 'class': 'required-2 form-control'}) }}
+      </div>
     </div>
-    <br style='clear: both' />
-    <div class='span2'></div><a href="#" class='btn btn-danger btn-xs btn-remove-test-case-step'><span class='icon-minus'></span> Remove step</a>
-    <br style='clear: both' />
+    <div class='form-group'>
+      <label class='col-xs-2 control-label'>Description</label>
+      <div class='col-xs-10'>
+        {{ Form.textarea('step_description[]', '', {'class': 'required-2 form-control', 'rows': '4'}) }}
+      </div>
+    </div>
+    <div class='form-group'>
+      <label class='col-xs-2 control-label'>Expected Result</label>
+      <div class='col-xs-10'>
+        {{ Form.textarea('step_expected_result[]', '', {'class': 'required-2 form-control', 'rows': '4'}) }}
+      </div>
+    </div>
+    <div class='form-group'>
+      <label class='col-xs-2 control-label'>Execution Status</label>
+      <div class='col-xs-10'>
+        {{ Form.select('step_execution_status[]', execution_statuses_ids, null, {'class': 'required-2 form-control'}) }}
+      </div>
+    </div>
+    <div class='form-group'>
+      <div class='col-xs-10 col-xs-offset-2'>
+        <a href="#" class='btn btn-danger btn-remove-test-case-step'><span class='icon-minus'></span> Remove step</a>
+      </div>
+    </div>
 </div>
 </script>
 
 <div>
-<h4>Test Suite &mdash; {{ HTML.link('/testsuites/' ~ node.node_id, node.display_name, {'class': ''}) }}</h4>
-<hr/>
-<h5>Create a test suite <button class='btn' id='sub-test-suite-btn'>&#x25BC;</button></h5>
+  <h4>Test Suite {{ HTML.link('/testsuites/' ~ node.node_id, node.display_name, {'class': ''}) }}</h4>
+  <h5>Create a child test suite <button class='btn' id='sub-test-suite-btn'>&#x25BC;</button></h5>
 
-{% if errors is defined and errors is not empty %}
-<ul>
-    {% for error in errors.all() %}
-    <li>{{ error }}</li> {% endfor %}
-</ul>
-{% endif %}
-
-<div id='sub-test-suite'>
-{{ Form.open({'route': 'testsuites.store', 'class': 'form-horizontal'}) }}
-{{ Form.hidden('project_id', current_project.id) }}
-{{ Form.hidden('ancestor', node.descendant) }}
-<div class="control-group">
-  {{ Form.label('name', 'Name', {'class': 'control-label'}) }}
-    <div class="controls">{{ Form.input('text', 'name', old.name, {'id':"name", 'class': "span4",
-    	'placeholder': 'Name'}) }}</div>
-</div>
-<div class="control-group">
-  {{ Form.label('description', 'Description', {'class': 'control-label'}) }}
-  <div class="controls">{{ Form.textarea('description', old.description, {'id': "description", 'rows': "3",
-        'class': "span4", 'placeholder': 'Description'}) }}</div>
-</div>
-<div class="control-group">
-  <div class='controls'>
-    {{ Form.submit('Create', {'class': "btn btn-primary"}) }}
-  </div>
-</div>
-{{ Form.close() }}
-</div>
-<hr/>
-<h5>Create a test case</h5>
-{{ Form.open({'route': 'testcases.store', 'class': 'form-horizontal'}) }}
-{{ Form.hidden('project_id', current_project.id) }}
-{{ Form.hidden('test_suite_id', node.node_id) }}
-{{ Form.hidden('ancestor', node.descendant) }}
-<div class="control-group">
-  {{ Form.label('name', 'Name', {'class': 'control-label'}) }}
-    <div class="controls">{{ Form.input('text', 'name', old.name, {'id':"name", 'class': "span4",
-    	'placeholder': 'Name'}) }}</div>
-</div>
-<div class="control-group">
-  {{ Form.label('description', 'Description', {'class': 'control-label'}) }}
-  <div class="controls">{{ Form.textarea('description', old.description, {'id': "description", 'rows': "3",
-        'class': "span4", 'placeholder': 'Description'}) }}</div>
-</div>
-<div class="control-group">
-  {{ Form.label('prerequisite', 'Prerequisite', {'class': 'control-label'}) }}
-  <div class="controls">{{ Form.textarea('prerequisite', old.prerequisite, {'id': "prerequisite", 'rows': "3",
-        'class': "span4", 'placeholder': 'Prerequisite'}) }}</div>
-</div>
-<div class="control-group">
-  <label class='control-label' for='test_case_execution_type_id'>Execution Type</label>
-  <div class="controls">
-  	{{ Form.select('execution_type_id', execution_type_ids, null, {'id': 'test_case_execution_id', 'class': 'span4'}) }}
-  </div>
-</div>
-<div class="control-group">
-  <label class='control-label' for='add_step'>Test Case Steps</label>
-  <div class="controls">
-    <div id="test-case-steps">
-    <!-- Test Case steps go here -->
+  <div id='sub-test-suite'>
+  {{ Form.open({'route': 'testsuites.store', 'class': 'form-horizontal'}) }}
+    {{ Form.hidden('project_id', current_project.id) }}
+    {{ Form.hidden('ancestor', node.descendant) }}
+    <div class="form-group">
+      {{ Form.label('suite_name', 'Name', {'class': 'control-label col-xs-2'}) }}
+      <div class="col-xs-10">
+        {{ Form.input('text', 'name', old.name, {'id':"suite_name", 'class': "form-control", 'placeholder': 'Name'}) }}
+      </div>
     </div>
-    <button id='add-test-case-step' class='btn'><i class='icon-plus'></i> Add Step</button>
+    <div class="form-group">
+      {{ Form.label('suite_description', 'Description', {'class': 'control-label col-xs-2'}) }}
+      <div class="col-xs-10">
+        {{ Form.textarea('description', old.description, {'id': "suite_description", 'rows': "3", 'class': "form-control", 'placeholder': 'Description'}) }}
+      </div>
+    </div>
+    <div class="form-group">
+      <div class='col-xs-10 col-xs-offset-2'>
+        {{ Form.submit('Create', {'class': "btn btn-primary"}) }}
+      </div>
+    </div>
+  {{ Form.close() }}
   </div>
-</div>
+  <hr/>
+  <h5>Create a test case</h5>
+  {{ Form.open({'route': 'testcases.store', 'class': 'form-horizontal'}) }}
+    {{ Form.hidden('project_id', current_project.id) }}
+    {{ Form.hidden('test_suite_id', node.node_id) }}
+    {{ Form.hidden('ancestor', node.descendant) }}
+    <div class="form-group">
+      {{ Form.label('name', 'Name', {'class': 'control-label col-xs-2'}) }}
+        <div class="col-xs-10">
+          {{ Form.input('text', 'name', old.name, {'id':"name", 'class': "form-control", 'placeholder': 'Name'}) }}
+        </div>
+    </div>
+    <div class="form-group">
+      {{ Form.label('description', 'Description', {'class': 'control-label col-xs-2'}) }}
+      <div class="col-xs-10">
+        {{ Form.textarea('description', old.description, {'id': "description", 'rows': "3", 'class': "form-control", 'placeholder': 'Description'}) }}</div>
+    </div>
+    <div class="form-group">
+      {{ Form.label('prerequisite', 'Prerequisite', {'class': 'control-label col-xs-2'}) }}
+      <div class="col-xs-10">
+        {{ Form.textarea('prerequisite', old.prerequisite, {'id': "prerequisite", 'rows': "3", 'class': "form-control", 'placeholder': 'Prerequisite'}) }}
+      </div>
+    </div>
+    <div class="form-group">
+      {{ Form.label('test_case_execution_id', 'Execution Type', {'class': 'control-label col-xs-2'}) }}
+      <div class="col-xs-10">
+      	{{ Form.select('execution_type_id', execution_type_ids, null, {'id': 'test_case_execution_id', 'class': 'form-control'}) }}
+      </div>
+    </div>
+    <div class="form-group">
+      <label class='control-label col-xs-2' for='add_step'>Test Case Steps</label>
+      <div class="col-xs-10">
+        <div id="test-case-steps">
+        <!-- Test Case steps go here -->
+        </div>
+        <button id='add-test-case-step' class='btn'><i class='icon-plus'></i> Add step</button>
+      </div>
+    </div>
 
-<div class="control-group">
-  <div class='controls'>
-    {{ Form.submit('Create', {'class': "btn btn-primary"}) }}
-  </div>
-</div>
-{{ Form.close() }}
+    <div class="control-group">
+      <div class='col-xs-10 col-xs-offset-2'>
+        {{ Form.submit('Create', {'class': "btn btn-primary"}) }}
+      </div>
+    </div>
+  {{ Form.close() }}
 </div>
 <script>
 YUI().use('node', 'sortable', 'template', 'dd-delegate', 'transition', function(Y) {

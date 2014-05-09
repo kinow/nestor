@@ -1,15 +1,11 @@
 {% block content %}
-
-<div class='page-header'>
-	<h1>Test Specification</h1>
-</div>
 <div class='row'>
-	<div class='span4' id='navigation_tree_panel'>
+	<div class='col-xs-4' id='navigation_tree_panel'>
 		<p>Navigation tree</p>
 		{{ navigation_tree_html }}
 	</div>
-	<div class="span8" id="test_specification">
-		<div class='pad_l pad_r' id='nodes_panel'>
+	<div class="col-xs-8" id="test_specification">
+		<div id='nodes_panel'>
 
 			{% if node.node_type_id == 1 %} {# project #}
 				{% include 'views/specification/project.twig.php' %}
