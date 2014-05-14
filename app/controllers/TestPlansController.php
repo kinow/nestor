@@ -93,7 +93,7 @@ class TestPlansController extends \NavigationTreeController {
 		if ($testplan->isValid() && $testplan->isSaved())
 		{
 			return Redirect::to(sprintf('/planning/%s', $testplan->id))
-				->with('flash', 'A new test plan has been created');
+				->with('success', 'A new test plan has been created');
 		} else {
 			return Redirect::to('/planning/create')
 				->withInput()
@@ -159,7 +159,7 @@ class TestPlansController extends \NavigationTreeController {
 		if ($testplan->isValid() && $testplan->isSaved())
 		{
 			return Redirect::route('testplans.show', $id)
-				->with('flash', 'The test plan was updated');
+				->with('success', 'The test plan was updated');
 		} else {
 			return Redirect::route('testplans.edit', $id)
 				->withInput()
@@ -180,7 +180,7 @@ class TestPlansController extends \NavigationTreeController {
 		$this->testplans->delete($id);
 
 		return Redirect::route('testplans.index')
-			->with('flash', sprintf('The test plan %s has been deleted', $testplan->name));
+			->with('success', sprintf('The test plan %s has been deleted', $testplan->name));
 	}
 
 	/**

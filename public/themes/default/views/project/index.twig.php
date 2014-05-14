@@ -28,7 +28,6 @@
 					{% endfor %}
 				</tbody>
 			</table>
-				{{ pagination.create_links() }}
 			{% else %}
 			<p>No projects found. {{ HTML.link('/projects/create', 'Create a new project') }}</p>
 			{% endif %}

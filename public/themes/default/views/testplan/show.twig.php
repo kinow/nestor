@@ -1,44 +1,33 @@
 {% block content %}
-<div class='page-header'>
-    <h1>Test Plan {{ testplan.id }} &mdash; {{ testplan.name }}</h1>
-</div>
-
-{% if errors is defined and errors is not empty %}
-<ul>
-    {% for error in errors.all() %}
-    <li>{{ error }}</li> {% endfor %}
-</ul>
-{% endif %}
-
 <div class='row'>
-	<div class='span2'>
+	<div class='col-xs-2'>
 		<p class='pull-right'><strong>Name</strong></p>
 	</div>
-	<div class='span10'>
+	<div class='col-xs-10'>
 		<p>{{ testplan.name }}</p>
 	</div>
 </div>
 <div class='row'>
-	<div class='span2'>
+	<div class='col-xs-2'>
 		<p class='pull-right'><strong>Description</strong></p>
 	</div>
-	<div class='span10'>
-		{{ Form.textarea('description', testplan.description, {'id': "description", 'rows': "3",
-        	'class': "span10", 'readonly': 'readonly'}) }}
+	<div class='col-xs-10'>
+		{{ Form.textarea('description', testplan.description, {'id': "description", 'rows': "3", 'class': "col-xs-10 form-control", 'readonly': 'readonly'}) }}
     </div>
 </div>
+<br/>
 <div class='row'>
-	<div class='offset2'>
+	<div class='col-xs-offset-2 col-xs-8'>
 		{{ HTML.linkRoute('planning.edit', 'Edit', [testplan.id], {'class': 'btn btn-primary'}) }}
 		{{ HTML.link(URL.previous(), 'Back', {'class': 'btn'}) }}
 	</div>
 </div>
 <hr />
 <div class='row'>
-	<div class='span12'>
+	<div class='col-xs-12'>
 		<p class='muted'><strong>Test Cases</strong></p>
 		<div class='well'>
-			{{ HTML.link('planning/' ~ testplan.id ~ '/addTestCases', 'Manage test cases in this test plan', {'class': 'btn'}) }}
+			{{ HTML.link('planning/' ~ testplan.id ~ '/addTestCases', 'Manage test cases in this test plan', {'class': 'btn btn-primary'}) }}
 		</div>
 		{% if testcases[0] is defined %}
 		<table class='table table-bordered table-striped table-hover'>

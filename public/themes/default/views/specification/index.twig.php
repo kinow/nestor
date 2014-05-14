@@ -6,7 +6,6 @@
 	</div>
 	<div class="col-xs-8" id="test_specification">
 		<div id='nodes_panel'>
-
 			{% if node.node_type_id == 1 %} {# project #}
 				{% include 'views/specification/project.twig.php' %}
 			{% elseif node.node_type_id == 2 %} {# test suite #}

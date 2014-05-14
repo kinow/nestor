@@ -25,13 +25,15 @@
     </div>
 </div>
 
-{{ Form.open({'route': ['projects.destroy', project.id], 'method': 'DELETE', 'class': 'form-horizontal'}) }}
-<div class="control-group">
-    <div class='controls'>
-	{{ Form.submit('Delete', {'class': 'btn btn-danger pull-right'}) }}
-	</div>
+<div class='row'>
+    <div class='col-xs-12'>
+        {{ Form.open({'route': ['projects.destroy', project.id], 'method': 'DELETE', 'class': 'form-horizontal'}) }}
+            <div class="form-group">
+                <div class='col-xs-12'>
+                    {{ Form.submit('Delete', {'class': 'btn btn-danger pull-right'}) }}
+                </div>
+            </div>
+        {{ Form.close() }}
+    </div>
 </div>
-{{ Form.close() }}
-
-
 {% endblock %}

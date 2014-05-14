@@ -1,10 +1,12 @@
 {% block content %}
-<div class='page-header'>
-	<h1>Test Runs</h1>
-	<p class='muted'>Choose one of the existing Test Runs for Test Plan {{ testplan.name }}</p>
-</div>
 <div class='row'>
-	<div class='span12'>
+	<div class='col-xs-12'>
+		{{ HTML.link('execution/testruns/create?test_plan_id=' ~ testplan.id, 'Create new Test Run', {'class': 'btn btn-primary'}) }}
+	</div>
+</div>
+<br/>
+<div class='row'>
+	<div class='col-xs-12'>
 		<div id="projects">
 			{% if testruns[0] is defined %}
 				{{ pagination.create_links() }}
@@ -14,7 +16,7 @@
 						<th>Name</th>
 						<th>Description</th>
 						<th>Test cases</th>
-						<th>&nbsp;</th>
+						<th>Actions</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -23,22 +25,30 @@
 						<td>{{ HTML.link('execution/testruns/' ~ testrun.id, testrun.name) }}</td>
 						<td>{{ testrun.description }}</td>
 						<td>{{ testrun.testplan.testcases.count() }}</td>
-						<td style='text-align: center'><a href="{{ URL.to('execution/testruns/' ~ testrun.id ~ '/run') }}"><i class="icon-play"></i></a></td>
+						<td>
+							<a href="{{ URL.to('execution/testruns/' ~ testrun.id ~ '/run') }}"><i class="icon-play"></i></a>
+							<div class="btn-group">
+							  <button type="button" class="btn">Action</button>
+							  <button type="button" class="btn dropdown-toggle" data-toggle="dropdown">
+							    <span class="caret"></span>
+							    <span class="sr-only">Toggle Dropdown</span>
+							  </button>
+							  <ul class="dropdown-menu" role="menu">
+							    <li>{{ HTML.link('execution/testruns/' ~ testrun.id ~ '/run', 'Run') }}</li>
+							  </ul>
+							</div>
+						</td>
 					</tr>
 					{% endfor %}
 				</tbody>
 			</table>
-				{{ pagination.create_links() }}
-
-				<p>
-					<i class='icon-plus'></i> {{ HTML.link('execution/testruns/create?test_plan_id=' ~ testplan.id, 'Create new Test Run') }}
-				</p>
 			{% else %}
-				<p>
-					You have no test runs yet. {{ HTML.link('execution/testruns/create?test_plan_id=' ~ testplan.id, 'Create one now') }}
-				</p>
+			<p>
+				You have no test runs yet. {{ HTML.link('execution/testruns/create?test_plan_id=' ~ testplan.id, 'Create one now') }}
+			</p>
 			{% endif %}
 		</div>
 	</div>
 </div>
+{{ testruns.links() }}
 {% endblock %}

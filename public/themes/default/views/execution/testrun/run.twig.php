@@ -1,21 +1,18 @@
 {% block content %}
-<div class='page-header'>
-	<h1>Test Run {{ testrun.name }}</h1>
-</div>
 <div class='row'>
-	<div class='span12'>
+	<div class='col-xs-12'>
 		<div id="projects">
 			{% if testcases[0] is defined %}
 			<div class='row'>
-				<div class='span4'>
-					<p>Navigation tree</p>
+				<div class='col-xs-4'>
 					<div id='navigation_tree_panel'>
+						<p>Navigation tree</p>
 						{{ navigation_tree_html }}
 					</div>
 					<br/>
 				</div>
-				<div class="span8" id="test_specification">
-					<div class='pad_l pad_r' id='nodes_panel'>
+				<div class="col-xs-8" id="test_specification">
+					<div id='nodes_panel'>
 						<h4>Choose a test case to execute</h4>
 					</div>
 				</div>

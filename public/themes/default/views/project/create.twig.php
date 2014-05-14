@@ -15,7 +15,7 @@
                 </div>
             </div>
             <div class="form-group pull-right">
-                <div class='controls'>
+                <div class='col-xs-12'>
                     {{ Form.submit('Add', {'class': "btn btn-primary"}) }}&nbsp; {{ HTML.link(URL.previous(), 'Cancel', {'class': 'btn'}) }}
                 </div>
             </div>

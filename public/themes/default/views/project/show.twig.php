@@ -12,8 +12,7 @@
 		<p class='pull-right'><strong>Description</strong></p>
 	</div>
 	<div class='col-xs-10'>
-		{{ Form.textarea('description', project.description, {'id': "description", 'rows': "3",
-        	'class': "col-xs-10 form-control", 'readonly': 'readonly'}) }}
+		{{ Form.textarea('description', project.description, {'id': "description", 'rows': "3", 'class': "col-xs-10 form-control", 'readonly': 'readonly'}) }}
     </div>
 </div>
 <div class='row'>

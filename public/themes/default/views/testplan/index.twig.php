@@ -1,17 +1,13 @@
 {% block content %}
-<div class='page-header'>
-	<h1>Test Plans</h1>
-</div>
 <div class='row'>
-	<div class='span2'>
-		<ul class="nav nav-tabs nav-stacked">
-			<li>
-				{{ HTML.link('/planning/create', 'New Test Plan') }}
-			</li>
-		</ul>
+	<div class='col-xs-12'>
+		{{ HTML.link('/planning/create', 'New Test Plan', {'class': 'btn btn-primary'}) }}
 	</div>
-	<div class='span10'>
-		<div id="projects">
+</div>
+<br/>
+<div class='row'>
+	<div class='col-xs-12'>
+		<div id="testplans">
 			{% if testplans[0] is defined %}
 				{{ pagination.create_links() }}
 			<table class='table table-bordered table-hover'>
@@ -32,11 +28,11 @@
 					{% endfor %}
 				</tbody>
 			</table>
-				{{ pagination.create_links() }}
 			{% else %}
 			<p>No test plans found. {{ HTML.link('/planning/create', 'Create a new test plan') }}</p>
 			{% endif %}
 		</div>
 	</div>
 </div>
+{{ testplans.links() }}
 {% endblock %}

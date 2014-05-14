@@ -1,21 +1,18 @@
 {% block content %}
-<div class='page-header'>
-	<h1>Test Run {{ testrun.name }}</h1>
-</div>
 <div class='row'>
-	<div class='span12'>
+	<div class='col-xs-12'>
 		<div id="projects">
 			{% if testcases[0] is defined %}
 			<div class='row'>
-				<div class='span4'>
-					<p>Navigation tree</p>
+				<div class='col-xs-4'>
 					<div id='navigation_tree_panel'>
+						<p>Navigation tree</p>
 						{{ navigation_tree_html }}
 					</div>
 					<br/>
 				</div>
-				<div class="span8" id="test_specification">
-					<div class='pad_l pad_r' id='nodes_panel'>
+				<div class="col-xs-8" id="test_specification">
+					<div id='nodes_panel'>
 						<h4>{{ testcase.name }}</h4>
 						<hr />
 						<h5>Description</h5>
@@ -39,11 +36,13 @@
 						</ul>
 						{% endif %}
 
-						{{ Form.open({'action': Request.url(), 'method': 'post'}) }}
+						{{ Form.open({'action': Request.url(), 'method': 'post', 'class': 'form-vertical'}) }}
 
-							<div class="control-group">
-							    {{ Form.label('notes', 'Notes', {'class': 'control-label'}) }}
-							    <div class="controls">{{ Form.textarea('notes', '', {'id': "notes", 'rows': "3", 'class': "span7"}) }}</div>
+							<div class="form-group">
+							    {{ Form.label('notes', 'Notes', {'class': 'control-label col-xs-12'}) }}
+							    <div class="col-xs-12">
+							    	{{ Form.textarea('notes', '', {'id': "notes", 'rows': "3", 'class': "form-control"}) }}
+							    </div>
 							</div>
 
 							{% set lastExecutionStatus = testcase.lastExecutionStatus %}
@@ -53,9 +52,11 @@
 								{% set lastExecutionStatusId = lastExecutionStatus.execution_status_id %} {# FIXME magic number, 1 is NOT RUN #}
 							{% endif %}
 							{% for executionStatus in executionStatuses %}
-						<label class="radio">
-							{{ Form.radio('execution_status_id', executionStatus.id, lastExecutionStatusId == executionStatus.id) }} {{ executionStatus.name }}
-						</label>
+							<div class='radio col-xs-12'>
+								<label>
+									{{ Form.radio('execution_status_id', executionStatus.id, lastExecutionStatusId == executionStatus.id) }} {{ executionStatus.name }}
+								</label>
+							</div>
 							{% endfor %}
 							{{ Form.submit('Save', {'class': 'btn btn-primary'}) }}
 						{{ Form.close() }}

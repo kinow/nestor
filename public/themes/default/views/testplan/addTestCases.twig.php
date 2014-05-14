@@ -1,27 +1,22 @@
 {% block content %}
-
-<div class='page-header'>
-	<h1>Add Test Cases to Test Plan [{{ HTML.linkRoute('testplans.show', testplan.name, testplan.id) }}]</h1>
-</div>
 <div class='row'>
 	{{ Form.open({'url': '/planning/' ~ testplan.id ~ '/addTestCases', 'method': 'POST', 'id': 'testplan_form'}) }}
-	<div class='span4'>
-		<p>Navigation tree</p>
-		<div id='navigation_tree_panel'>
-			{{ navigation_tree_html }}
+		<div class='col-xs-4'>
+			<div id='navigation_tree_panel'>
+				<p>Navigation tree</p>
+				{{ navigation_tree_html }}
+			</div>
+			<br/>
+			{{ Form.submit('Save', {'class': "btn btn-primary"}) }}
+			{{ HTML.link(URL.previous(), 'Cancel', {'class': 'btn'}) }}
 		</div>
-		<br/>
-		{{ Form.submit('Save', {'class': "btn btn-primary"}) }}
-		{{ HTML.link(URL.previous(), 'Cancel', {'class': 'btn'}) }}
-	</div>
 	{{ Form.close() }}
-	<div class="span8" id="test_specification">
-		<div class='pad_l pad_r' id='nodes_panel'>
+	<div class="col-xs-8" id="test_specification">
+		<div id='nodes_panel'>
 			<h4>Check the test cases you would like to add to this test plan</h4>
 		</div>
 	</div>
 </div>
-
 <script type='text/javascript'>
 var templatecallback = function() {
 	$("form#testplan_form").submit(function() {
