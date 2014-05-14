@@ -137,7 +137,7 @@ YUI().use('node', 'sortable', 'template', 'dd-delegate', 'transition', function(
   });
 
   var fixOrder = function() {
-    var order = 0;
+    var order = 1;
     Y.all('.step').each(function(o) {
       o.one('input[name="step_order[]"]').set('value', order);
       order += 1;

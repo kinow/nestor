@@ -11,6 +11,7 @@
 <hr/>
 <label>Test Steps</label>
 {% if testcase.steps is defined and testcase.steps.results is not empty %}
+	{% for step in testcase.steps.get() %}
 <table class='table table-bordered table-hover'>
 	<thead>
 		<colgroup>
@@ -19,7 +20,6 @@
 		</colgroup>
 	</thead>
 	<tbody>
-	{% for step in testcase.steps.get() %}
 		<tr>
 			<th colspan='2'>Step #{{ step.order }}</th>
 		</tr>
@@ -35,10 +35,9 @@
 			<th>Execution Status</th>
 			<td>{{ step.executionStatus.first.name }}</td>
 		</tr>
-		<tr><td colspan='2'>&nbsp;</td></tr>
-	{% endfor %}
 	</tbody>
 </table>
+	{% endfor %}
 {% else %}
 <p>No steps defined</p>
 {% endif %}
