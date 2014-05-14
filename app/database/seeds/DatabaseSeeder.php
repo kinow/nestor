@@ -28,6 +28,8 @@ class DatabaseSeeder extends Seeder {
 	 */
 	public function run()
 	{
+		$this->call('ConfigurationSeeder');
+
 		$this->projectStatuses->create('Active', 'Active project');
 		$this->projectStatuses->create('Inactive', 'Inactive project');
 

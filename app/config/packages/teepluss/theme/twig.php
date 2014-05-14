@@ -58,7 +58,10 @@ return array(
     		'print_r',
     		'var_dump',
     		'isset',
-    		'count'
+    		'count',
+            'current',
+            'next',
+            'dd'
     	);
 
     	foreach ($fns as $fn)

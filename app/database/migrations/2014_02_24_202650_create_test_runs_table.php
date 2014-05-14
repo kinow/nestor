@@ -20,8 +20,8 @@ class CreateTestRunsTable extends Migration {
 				->references('id')
 				->on('test_plans')
 				->onDelete('cascade');
-			$table->text('name', 50);
-			$table->text('description');
+			$table->string('name', 50);
+			$table->string('description');
 			$table->timestamps();
 		});
 	}

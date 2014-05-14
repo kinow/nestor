@@ -15,8 +15,8 @@ class CreateExecutionStatusesTable extends Migration {
 		Schema::create('execution_statuses', function(Blueprint $table)
 		{
 			$table->increments('id');
-			$table->text('name', 50);
-			$table->text('description', 200);
+			$table->string('name', 50);
+			$table->string('description', 200);
 			$table->timestamps();
 		});
 	}

@@ -16,6 +16,7 @@ Route::get('/', 'HomeController@getIndex');
 Route::controller('install', 'InstallController');
 Route::get('/manage', 'ManageController@getIndex');
 Route::get('/configure', 'ConfigurationController@getConfigure');
+Route::post('/configure', 'ConfigurationController@postConfigure');
 
 // Projects
 Route::get('projects/position', 'ProjectsController@position');

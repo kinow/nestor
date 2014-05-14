@@ -170,7 +170,7 @@ class TestCasesController extends \BaseController {
 		if ($testcase->isSaved() && $navigationTreeNode)
 		{
 			return Redirect::to('/specification/nodes/' . '3-' . $testcase->id)
-				->with('flash', 'A new test case has been created');
+				->with('success', 'A new test case has been created');
 		} else {
 			Log::warning('Failed to store new Test Case: ' . $testcase->errors());
 			return Redirect::to('/specification/')

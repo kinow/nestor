@@ -14,7 +14,7 @@ class AddNotesToExecutions extends Migration {
 	{
 		Schema::table('executions', function(Blueprint $table)
 		{
-			$table->text('notes', 200)->default('');
+			$table->string('notes', 200)->default('');
 		});
 	}
 

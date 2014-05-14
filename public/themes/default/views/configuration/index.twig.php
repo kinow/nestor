@@ -6,11 +6,11 @@
 				Appearance
 			</h4>
 			<div class="form-group">
-				<label class="col-xs-2 control-label" for="enableSecurity">Editor</label>
+				<label class="col-xs-2 control-label" for="editor">Editor</label>
 				<div class="col-xs-10">
-			    <select id="selectbasic" name="selectbasic" class="form-control">
-			      <option value="1">Option one</option>
-			      <option value="2">Option two</option>
+			    <select id="editor" name="editor" class="form-control">
+			      <!--<option value="1">Option one</option>
+			      <option value="2">Option two</option>-->
 			    </select>
 			  </div>
 			</div>
@@ -18,22 +18,27 @@
 				Security
 			</h4>
 			<div class="form-group">
-				<label class="col-xs-2 control-label" for="enableSecurity">Enable Security</label>
+				<label class="col-xs-2 control-label" for="security_enabled">Enable Security</label>
 				<div class="col-xs-10">
-				    <label class="checkbox-inline" for="enableSecurity">
-				    	<input type="checkbox" name="enableSecurity" id="enableSecurity" value="1">
-				    </label>
+				    <label class="checkbox-inline" for="security_enabled">
+				    	{% set enableSecurity = settings.getConfig()['security_enabled'] %}
+				    	<input type="checkbox" name="security_enabled" id="security_enabled" value="true" {{ enableSecurity != "null" ? 'checked="checked"' : '' }} />
 				</div>
 			</div>
 			<!-- Select Basic -->
 			<div class="form-group">
-			  <label class="col-xs-2 control-label" for="selectbasic">Select Basic</label>
+			  <label class="col-xs-2 control-label" for="security_provider">Authentication Provider</label>
 			  <div class="col-xs-10">
-			    <select id="selectbasic" name="selectbasic" class="form-control">
-			      <option value="1">Option one</option>
-			      <option value="2">Option two</option>
+			    <select id="security_provider" name="security_provider" class="form-control">
+			      <!--<option value="1">Option one</option>
+			      <option value="2">Option two</option>-->
 			    </select>
 			  </div>
+			</div>
+			<div class='form-group'>
+				<div class='col-xs-10 col-xs-offset-2'>
+					<input type='submit' value='Save' class='btn btn-primary' />
+				</div>
 			</div>
 		{{ Form.close() }}
 	</div>

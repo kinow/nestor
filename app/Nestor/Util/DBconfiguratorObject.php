@@ -7,7 +7,7 @@ use Cache;
 // https://github.com/ipsum-laravel/core/blob/master/src/Library/DBconfiguratorObject.php
 
 
-class DBconfiguratorObject implements \ArrayAccess, \Iterator,  \Serializable {
+class DBconfiguratorObject implements \ArrayAccess, \Iterator, \Serializable {
     protected $config = array();
     protected $table = null;
     protected $tableName = null;
@@ -93,5 +93,9 @@ class DBconfiguratorObject implements \ArrayAccess, \Iterator,  \Serializable {
     public function rewind()
     {
         reset($this->config);
+    }
+    public function getConfig()
+    {
+        return $this->config;
     }
 }

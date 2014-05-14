@@ -14,7 +14,7 @@ class AddPrerequisitesColumnToTestCases extends Migration {
 	{
 		Schema::table('test_cases', function(Blueprint $table)
 		{
-			$table->text('prerequisite', 200)->default('');
+			$table->string('prerequisite', 200)->default('');
 		});
 	}
 

@@ -14,8 +14,8 @@ class AddExpectedStatusAndResultToTestCaseSteps extends Migration {
 	{
 		Schema::table('test_case_steps', function(Blueprint $table)
 		{
-			$table->text('expected_result', 200)->default('');
-			$table->text('execution_status_id')->default(1);
+			$table->string('expected_result', 200)->default('');
+			$table->integer('execution_status_id')->default(1);
 		});
 	}
 
@@ -28,10 +28,10 @@ class AddExpectedStatusAndResultToTestCaseSteps extends Migration {
 	{
 		Schema::table('test_case_steps', function(Blueprint $table)
 		{
-			if (Schema::hasColumn('test_case_steps', 'expected_result'))
-			{
-				$table->dropColumn('expected_result');
-			}
+			$table->dropColumn('expected_result');
+		});
+		Schema::table('test_case_steps', function(Blueprint $table)
+		{
 			$table->dropColumn('execution_status_id');
 		});
 	}

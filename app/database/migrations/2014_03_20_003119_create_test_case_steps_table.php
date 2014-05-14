@@ -16,7 +16,7 @@ class CreateTestCaseStepsTable extends Migration {
 		{
 			$table->increments('id');
 			$table->integer('order');
-			$table->text('description', 500);
+			$table->string('description', 500);
 			$table->integer('test_case_id');
 			$table->foreign('test_case_id')
 				->references('id')
