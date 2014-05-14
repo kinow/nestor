@@ -35,7 +35,7 @@ class DbTestPlanRepository implements TestPlanRepository {
 	public function findByProjectId($projectId)
 	{
 		return TestPlan::where('project_id', $projectId)
-				->get();
+				->paginate(10);
 	}
 
 	/**
@@ -76,6 +76,19 @@ class DbTestPlanRepository implements TestPlanRepository {
 	public function delete($id)
 	{
 		return TestPlan::where('id', $id)->delete();
+	}
+
+	public function paginate($perPage = 0)
+	{
+		return TestPlan::paginate($perPage);
+	}
+
+	public function findForExecutionByProjectId($projectId)
+	{
+		return TestPlan::select('test_plans.*')
+			->where('test_plans.project_id', $projectId)
+			->join('test_plans_test_cases', 'test_plans.id', '=', 'test_plans_test_cases.test_plan_id')
+			->paginate(10);
 	}
 
 }

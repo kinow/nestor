@@ -93,7 +93,7 @@ class TestPlansController extends \NavigationTreeController {
 		if ($testplan->isValid() && $testplan->isSaved())
 		{
 			return Redirect::to(sprintf('/planning/%s', $testplan->id))
-				->with('success', 'A new test plan has been created');
+				->with('success', 'Test plan created. Add some tests to it now.');
 		} else {
 			return Redirect::to('/planning/create')
 				->withInput()

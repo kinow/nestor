@@ -61,14 +61,13 @@ class TestCase2 extends Magniloquent {
 
 	public function executionType()
 	{
-		return $this->belongsTo('ExecutionType', 'execution_type_id')->first();
+		return $this->belongsTo('ExecutionType', 'execution_type_id');
 	}
 
 	public function lastExecutionStatus() 
 	{
 		return Execution::where('test_case_id', $this->id)
-			->orderBy('id', 'DESC')
-			->first();
+			->orderBy('id', 'DESC');
 	}
 
 	public function steps()

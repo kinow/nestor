@@ -25,7 +25,7 @@
 							{{ testcase.prerequisite }}
 						</p>
 						<hr/>
-						<p>Execution Type: {{ testcase.executionType.name }}</p>
+						<p>Execution Type: {{ testcase.executionType.first.name }}</p>
 						<hr/>
 						<h5>Execution Status</h5>
 
@@ -45,7 +45,7 @@
 							    </div>
 							</div>
 
-							{% set lastExecutionStatus = testcase.lastExecutionStatus %}
+							{% set lastExecutionStatus = testcase.lastExecutionStatus.first %}
 							{% if lastExecutionStatus == null %}
 								{% set lastExecutionStatusId = 1 %} {# FIXME magic number, 1 is NOT RUN #}
 							{% else %}

@@ -53,4 +53,8 @@ interface TestPlanRepository {
 	 */
 	public function delete($id);
 
+	public function paginate($perPage);
+
+	public function findForExecutionByProjectId($projectId);
+
 }

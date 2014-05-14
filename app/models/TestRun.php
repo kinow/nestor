@@ -51,7 +51,7 @@ class TestRun extends Magniloquent {
 
 	public function testplan()
 	{
-		return $this->belongsTo('TestPlan', 'test_plan_id')->first();
+		return $this->belongsTo('TestPlan', 'test_plan_id');
 	}
 
 	// public function testcases()

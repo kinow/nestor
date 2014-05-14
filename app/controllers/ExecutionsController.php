@@ -54,7 +54,7 @@ class ExecutionsController extends \NavigationTreeController {
 		$args = array();
 		$project = $this->getCurrentProject();
 		$projectId = $project->id;
-		$args['testplans'] = $this->testplans->findByProjectId($projectId);
+		$args['testplans'] = $this->testplans->findForExecutionByProjectId($projectId);
 		return $this->theme->scope('execution.index', $args)->render();
 	}
 
@@ -86,7 +86,7 @@ class ExecutionsController extends \NavigationTreeController {
 		if ($testrun->isValid() && $testrun->isSaved())
 		{
 			return Redirect::to('/execution/testruns?test_plan_id=' . $testrun->testplan()->id)
-				->with('flash', 'A new test run has been created');
+				->with('success', 'A new test run has been created');
 		} else {
 			return Redirect::to('/execution/create?test_plan_id=' . Input::get('test_plan_id'))
 				->withInput()
@@ -145,7 +145,7 @@ class ExecutionsController extends \NavigationTreeController {
 		if ($testplan->isValid() && $testplan->isSaved())
 		{
 			return Redirect::route('testplans.show', $id)
-				->with('flash', 'The test plan was updated');
+				->with('success', 'The test plan was updated');
 		} else {
 			return Redirect::route('testplans.edit', $id)
 				->withInput()
@@ -166,7 +166,7 @@ class ExecutionsController extends \NavigationTreeController {
 		$this->testplans->delete($id);
 
 		return Redirect::route('testplans.index')
-			->with('flash', sprintf('The test plan %s has been deleted', $testplan->name));
+			->with('success', sprintf('The test plan %s has been deleted', $testplan->name));
 	}
 
 }

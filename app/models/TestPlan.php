@@ -53,7 +53,7 @@ class TestPlan extends Magniloquent {
 
 	public function testruns()
 	{
-		return $this->hasMany('TestRun')->get();
+		return $this->hasMany('TestRun');
 	}
 
 }

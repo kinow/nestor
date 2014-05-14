@@ -129,7 +129,7 @@ class TestRunsController extends \NavigationTreeController {
 		if ($testrun->isValid() && $testrun->isSaved())
 		{
 			return Redirect::to('/executions/')
-				->with('flash', 'A new test run has been created');
+				->with('success', 'A new test run has been created');
 		} else {
 			return Redirect::to('/executions/create?test_plan_id=' . Input::get('test_plan_id'))
 				->withInput()
@@ -195,7 +195,7 @@ class TestRunsController extends \NavigationTreeController {
 		if ($testrun->isValid() && $testrun->isSaved())
 		{
 			return Redirect::route('execution.testruns.show', $id)
-				->with('flash', 'The test run was updated');
+				->with('success', 'The test run was updated');
 		} else {
 			return Redirect::route('execution.testruns.edit', $id)
 				->withInput()
@@ -217,7 +217,7 @@ class TestRunsController extends \NavigationTreeController {
 		$this->testruns->delete($id);
 
 		return Redirect::to('execution/testruns?test_plan_id=' . $testplan->id)
-			->with('flash', sprintf('The test run %s has been deleted', $testrun->name));
+			->with('success', sprintf('The test run %s has been deleted', $testrun->name));
 	}
 
 	public function runGet($test_run_id) 
@@ -308,7 +308,7 @@ class TestRunsController extends \NavigationTreeController {
 
 		if ($execution->isValid() && $execution->isSaved())
 		{
-			return Redirect::to(Request::url())->with('flash', 'A new test run has been created');
+			return Redirect::to(Request::url())->with('success', 'Test executed');
 		} else {
 			return Redirect::to(Request::url())
 				->withInput()

@@ -24,7 +24,7 @@
 					<tr>
 						<td>{{ HTML.link('execution/testruns/' ~ testrun.id, testrun.name) }}</td>
 						<td>{{ testrun.description }}</td>
-						<td>{{ testrun.testplan.testcases.count() }}</td>
+						<td>{{ testrun.testplan.first.testcases.count() }}</td>
 						<td>
 							<a href="{{ URL.to('execution/testruns/' ~ testrun.id ~ '/run') }}"><i class="icon-play"></i></a>
 							<div class="btn-group">
