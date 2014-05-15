@@ -21,9 +21,17 @@
 var templatecallback = function() {
 	$("form#testplan_form").submit(function() {
       // Render hidden <input> elements for active and selected nodes
-      $("#navigation_tree_panel").fancytree("getTree").generateFormElements(true, true);
+      $("#navigation_tree_panel").fancytree("getTree").generateFormElements(true, false);
+      var form = $("#fancytree_result_1");
+      var children = form.children();
+      for (var i = 0; i < children.length; ++i) {
+      	  child = children[i];
+      	  if (child.tagName == 'INPUT') {
+      	  	  child.setAttribute('name', child.name + '[]');
+      	  }
+      }
 
-      console.log("POST data:\n" + jQuery.param($(this).serializeArray()));
+      // console.log("POST data:\n" + jQuery.param($(this).serializeArray()));
       // return false to prevent submission of this sample
       return true;
     });
@@ -45,13 +53,22 @@ var templatecallback = function() {
 	    icons: true, // Display node icons.
 	    keyboard: true, // Support keyboard navigation.
 	    keyPathSeparator: "/", // Used by node.getKeyPath() and tree.loadKeyPath().
-	    minExpandLevel: 0, // 1: root node is not collapsible
+	    minExpandLevel: 2, // 1: root node is not collapsible
 	    selectMode: 3, // 1:single, 2:multi, 3:multi-hier
 	    tabbable: true, // Whole tree behaves as one single control
 	});
-	$("#navigation_tree_panel").fancytree("getRootNode").visit(function(node){
+	var rootNode = $("#navigation_tree_panel").fancytree("getRootNode");
+	rootNode.visit(function(node){
         //node.setExpanded(true);
+        //console.log(node);
     });
+	var sortCmp = function(a, b) {
+    	//console.log(a);
+	    var x = a.data.nodeType + a.title.toLowerCase(),
+	        y = b.data.nodeType + b.title.toLowerCase();
+	    return x === y ? 0 : x > y ? 1 : -1;
+	};
+    rootNode.sortChildren(sortCmp, true);
 	var tree = $("#navigation_tree_panel").fancytree("getTree");
 	tree.setFocus(true);
 }

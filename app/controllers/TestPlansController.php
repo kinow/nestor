@@ -226,9 +226,17 @@ class TestPlansController extends \NavigationTreeController {
 		$testcases = array();
 		foreach ($_POST as $entry => $value)
 		{
-			if (strpos($entry, 'ft_1') === 0 && strpos($entry, 'ft_1_active') !== 0)
+			if (strpos($entry, 'ft_') === 0 && strpos($entry, 'ft_1_active') !== 0)
 			{
-				$nodesSelected[] = $value;
+				if (is_array($value))
+				{
+					foreach ($value as $tempValue)
+						$nodesSelected[] = $tempValue;
+				}
+				else 
+				{
+					$nodesSelected[] = $value;
+				}
 			}
 		}
 		foreach ($nodesSelected as $node)

@@ -149,9 +149,6 @@ var templatecallback = function() {
         }
 	});
 	var rootNode = $("#navigation_tree_panel").fancytree("getRootNode");
-	rootNode.visit(function(node){
-        //node.setExpanded(true);
-    });
     var sortCmp = function(a, b) {
     	//console.log(a);
 	    var x = a.data.nodeType + a.title.toLowerCase(),

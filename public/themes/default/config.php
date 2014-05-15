@@ -93,8 +93,6 @@ return array(
         	$asset->add('jquery-cookie', 'themes/default/assets/js/plugins/jquery.cookie.js');
         	$asset->add('jquery-ui-custom', 'themes/default/assets/js/plugins/jqueryui/jquery-ui-1.10.4.custom.min.js');
         	$asset->add('fancytree-js', 'themes/default/assets/js/plugins/fancytree/jquery.fancytree.js');
-        	$asset->add('fancytree-childcounter', 'themes/default/assets/js/plugins/fancytree/extensions/jquery.fancytree.childcounter.js');
-        	$asset->add('fancytree-persist', 'themes/default/assets/js/plugins/fancytree/extensions/jquery.fancytree.persist.js');
             $asset->add('elrte-js', 'themes/default/assets/js/plugins/elrte/elrte.min.js');
         	$asset->add('html5', 'themes/default/assets/js/html5.js');
         	$asset->add('bootstrap', 'themes/default/assets/js/bootstrap.min.js');

@@ -1,6 +1,10 @@
 <?php
 
 use \HTML;
+use \Fhaculty\Graph\Graph as Graph;
+use \Fhaculty\Graph\Algorithm\Search\BreadthFirst;
+//use \Fhaculty\Graph\GraphViz;
+use \Fhaculty\Graph\Walk;
 
 class NavigationTreeController extends \BaseController {
 
@@ -27,66 +31,51 @@ class NavigationTreeController extends \BaseController {
 	 */
 	protected function createNavigationTree($nodes, $root)
 	{
-		$tree = array();
+		$graph = new Graph();
+		$vertices = array();
+		// first add all the nodes of the graph/tree
 		foreach ($nodes as $node)
 		{
 			$node = (object) $node;
-			if ($node->ancestor == $node->descendant && $node->ancestor == $root)
+			if ($node->length == 0)
 			{
-				$node->children = array();
-				$tree[$root] = $node;
-			}
-			else if ($node->ancestor !== $node->descendant)
-			{
-				$this->addChild($tree, $node);
+				$vertex = $graph->createVertex($node->descendant, /* returnDuplicate */ TRUE);
+				$vertex->data = $node;
+				$vertices[$node->descendant] = $vertex;
 			}
 		}
-		$this->sortNavigationTree($tree);
+
+		// now create the edges
+		foreach ($nodes as $node)
+		{
+			$node = (object) $node;
+			if ($node->length != 0)
+			{
+				$from = $vertices[$node->ancestor]; // get the parent node
+				$to = $vertices[$node->descendant]; // the destination node
+				
+				$from->createEdgeTo($to);
+			}
+		}
+
+		$rootVertex = new BreadthFirst($vertices[$root]);
+		$bfsVertices = $rootVertex->getVertices();
+		$tree = array();
+		$node = $vertices[$root]->data;
+		$tree[$node->descendant] = $node;
+		$this->createTreeFromVertex($vertices[$root]);
+
 		return $tree;
 	}
 
-	/**
-	 * Adds a child node into the navigation tree.
-	 *
-	 * @param array $tree
-	 * @param NavigationTreeNode $node
-	 */
-	protected function addChild($tree, $node)
+	public function createTreeFromVertex($vertex) 
 	{
-		foreach ($tree as $edge)
-		{
-			if ($edge->descendant == $node->ancestor)
-			{
-				$node->children = array();
-				$node->ancestor = $node->descendant;
-				$edge->children[$node->descendant] = $node;
-			}
-			else
-			{
-				$this->addChild($edge->children, $node);
-			}
-		}
-	}
-
-	protected function sortNavigationTree(&$nodes)
-	{
-		// Sort by execution type and display name
-		usort($nodes, function($left, $right) {
-			$leftAncestor = $left->ancestor;
-			$rightAncestor = $right->ancestor;
-			list($leftExecutionType, $leftNodeId) = explode("-", $leftAncestor);
-			list($rightExecutionType, $rightNodeId) = explode("-", $rightAncestor);
-			if ($leftExecutionType > $rightExecutionType)
-				return 1;
-			elseif ($leftExecutionType < $rightExecutionType)
-				return -1;
-			else
-				return $left->display_name > $right->display_name;
-		});
-
-		foreach ($nodes as $node)
-		{
-			$this->sortNavigationTree($node->children);
+		$node = $vertex->data;
+		$node->children = array();
+		foreach ($vertex->getEdgesOut() as $edge) {
+			$childVertex = $edge->getVertexEnd();
+			$node->children[] = $childVertex->data;
+			$this->createTreeFromVertex($childVertex);
 		}
 	}
 
@@ -166,16 +155,21 @@ class NavigationTreeController extends \BaseController {
 		foreach ($navigation_tree as $node) {
 			$extra_classes = "";
 			if ($node->descendant == $nodeId && $node->ancestor == $nodeId) {
-				$extra_classes = " expanded active";
+				$extra_classes .= " active";
 			}
 			$nodeTypeId = $node->node_type_id;
 			if ($nodeTypeId == 3 && array_key_exists($node->node_id, $nodesSelected))
 			{
-				$extra_classes = " selected";
+				$extra_classes .= " selected";
 			}
 			if ($nodeTypeId == 1) { // project
 				$buffer .= "<ul id='treeData' style='display: none;'>";
-				$buffer .= sprintf ( "<li data-icon='places/folder.png' id='%s' class='expanded%s'>%s", $node->descendant, $extra_classes, $node->display_name);
+				$buffer .= sprintf ( "<li data-icon='places/folder.png' id='%s' data-node-type='%s' data-node-id='%s' class='expanded%s'>%s", 
+					$node->descendant, 
+					$node->node_type_id, 
+					$node->node_id,
+					$extra_classes, 
+					$node->display_name);
 				if (! empty ( $node->children )) {
 					$buffer .= "<ul>";
 					$buffer .= $this->createTestPlanTreeHTML ($node->children, $nodeId, $theme_name, $nodesSelected);
@@ -183,7 +177,12 @@ class NavigationTreeController extends \BaseController {
 				}
 				$buffer .= "</li></ul>";
 			} else if ($node->node_type_id == 2) { // test suite
-				$buffer .= sprintf ( "<li data-icon='actions/document-open.png' id='%s' class='%s'>%s", $node->descendant, $extra_classes, $node->display_name);
+				$buffer .= sprintf ( "<li data-icon='actions/document-open.png' id='%s' data-node-type='%s' data-node-id='%s' class='expanded%s'>%s", 
+					$node->descendant, 
+					$node->node_type_id, 
+					$node->node_id,
+					$extra_classes, 
+					$node->display_name);
 				if (! empty ( $node->children )) {
 					$buffer .= "<ul>";
 					$buffer .= $this->createTestPlanTreeHTML ($node->children, $nodeId, $theme_name, $nodesSelected);
@@ -191,7 +190,12 @@ class NavigationTreeController extends \BaseController {
 				}
 				$buffer .= "</li>";
 			} else {
-				$buffer .= sprintf ( "<li data-icon='mimetypes/text-x-generic.png' id='%s' class='%s'>%s</li>", $node->descendant, $extra_classes, $node->display_name);
+				$buffer .= sprintf ( "<li data-icon='mimetypes/text-x-generic.png' id='%s' data-node-type='%s' data-node-id='%s' class='expanded%s'>%s</li>", 
+					$node->descendant, 
+					$node->node_type_id, 
+					$node->node_id,
+					$extra_classes, 
+					$node->display_name);
 			}
 		}
 
