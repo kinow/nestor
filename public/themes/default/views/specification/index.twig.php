@@ -83,6 +83,9 @@ var templatecallback = function() {
 				}
 	        	return true;
 	        },
+	        dragStop: function(node, data) {
+	        	
+	        },
 	        dragOver: function(node, data) {
 	        },
 	        dragEnter: function(node, data) {
@@ -131,6 +134,8 @@ var templatecallback = function() {
 				  data: {descendant: descendant, ancestor: ancestor},
 				  success: function(data, textStatus, jqXHR) {
 				  	selectedNode.moveTo(node, data.hitMode);
+				  	var rootNode = node.tree.rootNode;
+			    	rootNode.sortChildren(sortCmp, true);
 				  },
 				  error: function(data, textStatus, jqXHR) {
 				  	console.log(data);
@@ -138,12 +143,22 @@ var templatecallback = function() {
 				  	alert(data);
 				  }
 				});
+	        },
+	        dragLeave: function(node, data) {
 	        }
         }
 	});
-	$("#navigation_tree_panel").fancytree("getRootNode").visit(function(node){
+	var rootNode = $("#navigation_tree_panel").fancytree("getRootNode");
+	rootNode.visit(function(node){
         //node.setExpanded(true);
     });
+    var sortCmp = function(a, b) {
+    	//console.log(a);
+	    var x = a.data.nodeType + a.title.toLowerCase(),
+	        y = b.data.nodeType + b.title.toLowerCase();
+	    return x === y ? 0 : x > y ? 1 : -1;
+	};
+    rootNode.sortChildren(sortCmp, true);
 	var tree = $("#navigation_tree_panel").fancytree("getTree");
 	tree.setFocus(true);
 }
