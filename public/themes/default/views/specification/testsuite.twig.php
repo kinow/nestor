@@ -98,7 +98,7 @@
       </div>
     </div>
 
-    <div class="control-group">
+    <div class="form-group">
       <div class='col-xs-10 col-xs-offset-2'>
         {{ Form.submit('Create', {'class': "btn btn-primary"}) }}
       </div>
