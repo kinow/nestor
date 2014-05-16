@@ -72,25 +72,8 @@ class WidgetMenu extends Widget {
     		$active = 'home';
     	}
     	$projects = $this->theme->getProjects();
-    	$current_project = $this->getAttribute('current_project');
-
-    	$items = array();
-    	$items['home'] = HTML::link('/', 'Home');
-    	$items['projects'] = HTML::link('/projects/', 'Projects');
-    	$action_links_attribute = $current_project ? '' : 'style="color: red; display: none;"';
-    	$items['requirements'] = HTML::link('/requirements/', 'Requirements', $action_links_attribute);
-    	$items['specification'] = HTML::link('/specification/', 'Specification', $action_links_attribute);
-    	$items['planning'] = HTML::link('/planning/', 'Planning', $action_links_attribute);
-    	$items['execution'] = HTML::link('/execution/', 'Execution', $action_links_attribute);
-    	$items['reports'] = HTML::link('/reports/', 'Reports', $action_links_attribute);
-    	$items['manage'] = HTML::link('/manage/', 'Manage Nestor');
-    	$menuitems = '';
-    	foreach ($items as $key => $item) {
-    		if (strcmp($active, $key) == 0)
-    			$menuitems .= '<li class="active">'.$item.'</li>';
-    		else
-    			$menuitems .= '<li>'.$item.'</li>';
-    	}
+    	$currentProject = $this->getAttribute('current_project');
+        $currentProjectExists = FALSE; // The project may have been deleted...
 
     	$projectitems = '';
     	if (!$projects || count($projects) <= 0) {
@@ -99,7 +82,8 @@ class WidgetMenu extends Widget {
     		$projectitems .= '<select class="form-control" name="project_id" style="margin: 5px 0px 0px 0px;" onchange="javascript:position_project(this);">';
     		$projectitems .= '<option>-- Choose a project --</option>';
     		foreach ($projects as $project) {
-    			if ($current_project != null && strcmp($current_project->name, $project->name) == 0) {
+    			if ($currentProject != null && strcmp($currentProject->name, $project->name) == 0) {
+                    $currentProjectExists = TRUE;
     				$projectitems .= "<option value='$project->id' selected='selected'>$project->name</option>";
     			} else {
     				$projectitems .= "<option value='$project->id'>$project->name</option>";
@@ -107,7 +91,24 @@ class WidgetMenu extends Widget {
     		}
     		$projectitems .= '</select>';
     	}
-        //$label = $this->getAttribute('label');
+        
+        $items = array();
+        $items['home'] = HTML::link('/', 'Home');
+        $items['projects'] = HTML::link('/projects/', 'Projects');
+        $action_links_attribute = $currentProjectExists ? '' : 'style="color: red; display: none;"';
+        $items['requirements'] = HTML::link('/requirements/', 'Requirements', $action_links_attribute);
+        $items['specification'] = HTML::link('/specification/', 'Specification', $action_links_attribute);
+        $items['planning'] = HTML::link('/planning/', 'Planning', $action_links_attribute);
+        $items['execution'] = HTML::link('/execution/', 'Execution', $action_links_attribute);
+        $items['reports'] = HTML::link('/reports/', 'Reports', $action_links_attribute);
+        $items['manage'] = HTML::link('/manage/', 'Manage Nestor');
+        $menuitems = '';
+        foreach ($items as $key => $item) {
+            if (strcmp($active, $key) == 0)
+                $menuitems .= '<li class="active">'.$item.'</li>';
+            else
+                $menuitems .= '<li>'.$item.'</li>';
+        }
 
         $this->setAttribute('menuitems', $menuitems);
         $this->theme->set('projectitems', $projectitems);

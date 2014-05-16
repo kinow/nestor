@@ -34,6 +34,7 @@ class BaseController extends Controller {
 		$currentProject = Session::get('current_project');
 		if (!isset($currentProject) || !$currentProject)
 		{
+			Session::forget('current_project');
 			return Redirect::to('/')->with('flash', 'Choose a project first');
 		}
 	}
