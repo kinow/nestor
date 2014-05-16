@@ -7,7 +7,7 @@
 <br/>
 <div class='row'>
 	<div class='col-xs-12'>
-		<div id="projects">
+		<div id="testruns">
 			{% if testruns[0] is defined %}
 				{{ pagination.create_links() }}
 			<table class='table table-bordered table-hover'>

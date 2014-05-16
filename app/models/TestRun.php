@@ -32,12 +32,12 @@ class TestRun extends Magniloquent {
 				'test_plan_id' => 'required'
 		),
 		"create" => array(
-				'name' => 'unique:test_runs,name|required|min:2',
+				'name' => 'required|min:2',
 				'description' => '',
 				'test_plan_id' => 'required'
 		),
 		"update" => array(
-				'name' => 'unique:test_runs,name|required|min:2',
+				'name' => 'required|min:2',
 				'description' => '',
 				'test_plan_id' => 'required'
 		)

@@ -11,8 +11,8 @@
                 {{ Form.label('description', 'Description', {'class': 'col-xs-2 control-label'}) }}
                 <div class="col-xs-10">{{ Form.textarea('description', old.description, {'id': "description", 'rows': "3", 'class': "form-control"}) }}</div>
             </div>
-            <div class="form-group pull-right">
-                <div class='col-xs-12'>
+            <div class="form-group">
+                <div class='col-xs-offset-2 col-xs-10'>
                     {{ Form.submit('Add', {'class': "btn btn-primary"}) }}&nbsp; {{ HTML.link(URL.previous(), 'Cancel', {'class': 'btn'}) }}
                 </div>
             </div>

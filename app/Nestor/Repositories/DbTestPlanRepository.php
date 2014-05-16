@@ -88,6 +88,7 @@ class DbTestPlanRepository implements TestPlanRepository {
 		return TestPlan::select('test_plans.*')
 			->where('test_plans.project_id', $projectId)
 			->join('test_plans_test_cases', 'test_plans.id', '=', 'test_plans_test_cases.test_plan_id')
+			->groupBy('test_plans.id')
 			->paginate(10);
 	}
 

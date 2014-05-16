@@ -9,7 +9,6 @@
 	<div class='col-xs-12'>
 		<div id="projects">
 			{% if projects[0] is defined %}
-				{{ pagination.create_links() }}
 			<table class='table table-bordered table-hover'>
 				<thead>
 					<tr>

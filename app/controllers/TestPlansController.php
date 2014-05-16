@@ -279,12 +279,6 @@ class TestPlansController extends \NavigationTreeController {
 			}
 		}
 
-		// echo "Remove:";
-		// var_dump($testcasesForRemoval);
-		// echo "Add";
-		// var_dump($testcasesForAdding);
-		// exit;
-
 		foreach ($testcasesForAdding as $addMe)
 		{
 			Log::info(sprintf('Adding testcase %s to test plan %s', $addMe->name, $testplan->name));

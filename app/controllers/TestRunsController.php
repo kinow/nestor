@@ -296,11 +296,18 @@ class TestRunsController extends \NavigationTreeController {
 		return $this->theme->scope('execution.testrun.runTestcase', $args)->render();
 	}
 
-	public function runTestCasePost($test_run_id, $test_case_id) 
+	public function runTestCasePost($testRunId, $testCaseId) 
 	{
-		echo "EAE! " . $test_run_id . " - " . $test_case_id;
-		$testrun = $this->testruns->find($test_run_id);
-		$testcase = $this->testcases->find($test_case_id);
+		if (Input::get('execution_status_id') == 1) // FIXME use constants
+		{
+			$messages = new Illuminate\Support\MessageBag;
+			$messages->add('nestor.customError', 'You cannot set an execution status back to Not Run');
+			return Redirect::to(sprintf('/execution/testruns/%d/run/testcase/%d', $testRunId, $testCaseId))
+				->withInput()
+				->withErrors($messages);
+		}
+		$testrun = $this->testruns->find($testRunId);
+		$testcase = $this->testcases->find($testCaseId);
 		$execution = $this->executions->create($testrun->id, 
 			$testcase->id, 
 			Input::get('execution_status_id'), 
@@ -310,7 +317,7 @@ class TestRunsController extends \NavigationTreeController {
 		{
 			return Redirect::to(Request::url())->with('success', 'Test executed');
 		} else {
-			return Redirect::to(Request::url())
+			return Redirect::to(sprintf('/execution/testruns/%d/run/testcase/%d', $testRunId, $testCaseId))
 				->withInput()
 				->withErrors($execution->errors());
 		}

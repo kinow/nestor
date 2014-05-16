@@ -158,7 +158,7 @@ class TestCasesController extends \BaseController {
 			Log::warning('Failed to store new Test Case. PDO error: ' . $e->getMessage());
 			$messages = new Illuminate\Support\MessageBag;
 			$messages->add('nestor.customError', $e->getMessage());
-			return Redirect::to('/specification/')->withInput()->withErrors($messages);;
+			return Redirect::to('/specification/')->withInput()->withErrors($messages);
 		} catch (\Exception $e) {
 			if (!is_null($pdo))
 				$pdo->rollBack();

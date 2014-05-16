@@ -53,4 +53,6 @@ interface TestRunRepository {
 	 */
 	public function delete($id);
 
+	public function isNameAvailable($id, $testPlanId, $name);
+
 }

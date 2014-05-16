@@ -78,4 +78,12 @@ class DbTestRunRepository implements TestRunRepository {
 		return TestRun::where('id', $id)->delete();
 	}
 
+	public function isNameAvailable($id, $testPlanId, $name)
+	{
+		return TestRun::where('id', '<>', $id)
+			->where('test_plan_id', '=', $testPlanId)
+			->where(new \Illuminate\Database\Query\Expression("lower(test_runs.name)"), '=', strtolower($name))
+			->count() == 0;
+	}
+
 }

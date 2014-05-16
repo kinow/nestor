@@ -9,7 +9,6 @@
 	<div class='col-xs-12'>
 		<div id="testplans">
 			{% if testplans[0] is defined %}
-				{{ pagination.create_links() }}
 			<table class='table table-bordered table-hover'>
 				<thead>
 					<tr>
@@ -29,7 +28,7 @@
 				</tbody>
 			</table>
 			{% else %}
-			<p>No test plans found. {{ HTML.link('/planning/create', 'Create a new test plan') }}</p>
+			<p>No test plans found.</p>
 			{% endif %}
 		</div>
 	</div>

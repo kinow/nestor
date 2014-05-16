@@ -29,13 +29,6 @@
 						<hr/>
 						<h5>Execution Status</h5>
 
-						{% if errors is defined and errors is not empty %}
-						<ul>
-						    {% for error in errors.all() %}
-						    <li>{{ error }}</li> {% endfor %}
-						</ul>
-						{% endif %}
-
 						{{ Form.open({'action': Request.url(), 'method': 'post', 'class': 'form-vertical'}) }}
 
 							<div class="form-group">

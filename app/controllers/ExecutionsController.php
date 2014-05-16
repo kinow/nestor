@@ -75,6 +75,18 @@ class ExecutionsController extends \NavigationTreeController {
 	 */
 	public function store()
 	{
+		if (!$this->testruns->isNameAvailable(0, Input::get('test_plan_id'), Input::get('name')))
+		{
+			Log::warning(sprintf('Duplicate Test Run name [%s] found within the same Test plan [%d]', 
+				Input::get('name'), 
+				Input::get('test_plan_id')));
+			$messages = new Illuminate\Support\MessageBag;
+			$messages->add('nestor.customError', 'This name has already been taken');
+			return Redirect::to('/execution/testruns/create?test_plan_id=' . Input::get('test_plan_id'))
+				->withInput()
+				->withErrors($messages);
+		}
+
 		Log::info('Creating test run...');
 
 		$testrun = $this->testruns->create(
@@ -85,10 +97,10 @@ class ExecutionsController extends \NavigationTreeController {
 
 		if ($testrun->isValid() && $testrun->isSaved())
 		{
-			return Redirect::to('/execution/testruns?test_plan_id=' . $testrun->testplan()->id)
-				->with('success', 'A new test run has been created');
+			return Redirect::to('/execution/testruns?test_plan_id=' . $testrun->testplan()->first()->id)
+				->with('success', 'Test Run created!');
 		} else {
-			return Redirect::to('/execution/create?test_plan_id=' . Input::get('test_plan_id'))
+			return Redirect::to('/execution/testruns/create?test_plan_id=' . Input::get('test_plan_id'))
 				->withInput()
 				->withErrors($testrun->errors());
 		}
