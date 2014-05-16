@@ -50,7 +50,7 @@ class ExecutionsController extends \NavigationTreeController {
 	{
 		$this->theme->breadcrumb()->
 			add('Home', URL::to('/'))->
-			add('Test Execution');
+			add('Execution');
 		$args = array();
 		$project = $this->getCurrentProject();
 		$projectId = $project->id;

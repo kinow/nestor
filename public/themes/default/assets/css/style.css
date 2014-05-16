@@ -63,3 +63,8 @@ box-shadow: none;
   margin: 5px 0px;
   padding: 0px 0px 5px 0px;
 }
+
+.table tbody>tr>td.vert-align
+{
+    vertical-align: middle;
+}

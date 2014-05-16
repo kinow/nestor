@@ -44,14 +44,48 @@ class TestRun extends Magniloquent {
 	);
 
 	protected static $relationships = array(
-		'testplan' => array('belongsTo', 'TestPlan', 'test_plan_id')
+		'testplan' => array('belongsTo', 'TestPlan', 'test_plan_id'),
+		'executions' => array('hasMany', 'Execution', 'test_run_id')
 	);
+
+	public function countTestCases()
+	{
+		return static::join('test_plans', 'test_plans.id', '=', 'test_runs.test_plan_id')
+			->join('test_plans_test_cases', 'test_plans_test_cases.test_plan_id', '=', 'test_plans.id')
+			->count('test_plans_test_cases.test_case_id');
+	}
 
 	protected static $purgeable = [''];
 
-	public function testplan()
+	public function progress()
 	{
-		return $this->belongsTo('TestPlan', 'test_plan_id');
+		$percentage = 0;
+		$progress = array();
+		$total = $this->countTestCases();
+		$executions = Execution::select('executions.*')
+			->where('executions.test_run_id', $this->id)
+			->groupBy('test_case_id')->get();
+
+		$executionStatuses = ExecutionStatus::all();
+		$executionStatusesCount = array();
+		foreach ($executionStatuses as $executionStatus)
+		{
+			$executionStatusesCount[$executionStatus->id] = 0;
+		}
+		foreach ($executions as $execution)
+		{
+			$executionStatusesCount[$execution->execution_status_id] += 1;
+		}
+		$executionStatusesCount[1] = count($executionStatusesCount) - $total;
+		foreach ($executionStatusesCount as $statusId => $count)
+		{
+			$progress[$statusId] = ($count / $total) * 100;
+		}
+		$percentage = ($executions->count()/$total) * 100;
+		return array(
+			'percentage' => $percentage,
+			'progress' => $progress
+		);
 	}
 
 	// public function testcases()

@@ -37,7 +37,7 @@
 				</tbody>
 			</table>
 			{% else %}
-			<p>No test plans found. {{ HTML.link('planning/create', "Create a test plan") }}</p>
+			<p>No test plans with test cases found. {{ HTML.link('planning/create', "Create a test plan") }}. Or add test cases to existing test plans.</p>
 			{% endif %}
 		</div>
 	</div>

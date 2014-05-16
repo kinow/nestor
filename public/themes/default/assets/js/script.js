@@ -10,14 +10,16 @@ var get_children = function(node_id, node_type_id) {
 }
 
 $(function() {
-    $('#myTab a:first').tab('show');
+  $('#myTab a:first').tab('show');
     
-    $('#myTab a').click(function (e) {
+  $('#myTab a').click(function (e) {
 	  e.preventDefault();
 	  $(this).tab('show');
 	});
-    
-    // function called within template blocks
+
+  $('[data-toggle="tooltip"]').tooltip();
+
+  // function called within template blocks
 	if (window.templatecallback) {
 		templatecallback();
 	}

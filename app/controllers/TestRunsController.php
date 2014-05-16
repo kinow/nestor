@@ -84,7 +84,7 @@ class TestRunsController extends \NavigationTreeController {
 		$testplan = $this->testplans->find($test_plan_id);
 		$this->theme->breadcrumb()->
 			add('Home', URL::to('/'))->
-			add('Test Execution', URL::to('/execution'))->
+			add('Execution', URL::to('/execution'))->
 			add(sprintf('Test Runs for Test Plan %s', $testplan->name));
 		$testruns = $this->testruns->findByTestPlanId($test_plan_id);
 		$args = array();
@@ -104,7 +104,7 @@ class TestRunsController extends \NavigationTreeController {
 		$testplan = $this->testplans->find($test_plan_id);
 		$this->theme->breadcrumb()->
 			add('Home', URL::to('/'))->
-			add('Test Execution', URL::to('/execution'))->
+			add('Execution', URL::to('/execution'))->
 			add(sprintf('Create Test Run for Test Plan %s', $testplan->name));
 		$args = array();
 		$args['testplan'] = $testplan;
@@ -149,7 +149,7 @@ class TestRunsController extends \NavigationTreeController {
 		$testrun = $this->testruns->find($id);
 		$this->theme->breadcrumb()->
 			add('Home', URL::to('/'))->
-			add('Test Execution', URL::to('/execution'))->
+			add('Execution', URL::to('/execution'))->
 			add(sprintf('Test Run %s', $testrun->name));
 		$args['testrun'] = $testrun;
 		$args['testplan'] = $testrun->testplan;
@@ -168,7 +168,7 @@ class TestRunsController extends \NavigationTreeController {
 		$testrun = $this->testruns->find($id);
 		$this->theme->breadcrumb()->
 			add('Home', URL::to('/'))->
-			add('Test Execution', URL::to('/execution'))->
+			add('Execution', URL::to('/execution'))->
 			add(sprintf('Test Run %s', $testrun->name));
 		$args['testrun'] = $testrun;
 		$args['testplan'] = $testrun->testplan;
@@ -230,7 +230,7 @@ class TestRunsController extends \NavigationTreeController {
 
 		$this->theme->breadcrumb()->
 			add('Home', URL::to('/'))->
-			add('Test Execution', URL::to('/execution'))->
+			add('Execution', URL::to('/execution'))->
 			add(sprintf('Test Runs for Test Plan %s', $testplan->name), URL::to(sprintf('/execution/testruns?test_plan_id=%d', $testplan->id)))->
 			add(sprintf('Test Run %s', $testrun->name));
 
@@ -268,7 +268,7 @@ class TestRunsController extends \NavigationTreeController {
 
 		$this->theme->breadcrumb()->
 			add('Home', URL::to('/'))->
-			add('Test Execution', URL::to('/execution'))->
+			add('Execution', URL::to('/execution'))->
 			add(sprintf('Test Runs for Test Plan %s', $testplan->name), URL::to(sprintf('/execution/testruns?test_plan_id=%d', $testplan->id)))->
 			add(sprintf('Test Run %s', $testrun->name));
 
