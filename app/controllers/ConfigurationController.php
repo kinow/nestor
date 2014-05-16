@@ -24,16 +24,19 @@ class ConfigurationController extends BaseController {
 
 	public function postConfigure()
 	{
+		Log::info("User is updating configuration...");
 		$settings = Config::get('settings');
 		foreach ($settings->getConfig() as $name => $value)
 		{
 			$param = Input::get($name);
 			if (isset($param))
 			{
+				Log::debug("User is setting $name to $param");
 				$settings[$name] = $param;
 			}
 			else
 			{
+				Log::debug("Missing $name value. Setting it to NULL");
 				$settings[$name] = json_encode(NULL);
 			}
 		}
