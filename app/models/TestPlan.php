@@ -56,4 +56,11 @@ class TestPlan extends Magniloquent {
 		return $this->hasMany('TestRun');
 	}
 
+	public function hasExecutions()
+	{
+		return TestPlan::join('test_runs', 'test_runs.test_plan_id', '=', $this->id)
+			->join('executions', 'executions.test_run_id', '=', 'test_runs.id')
+			->count('test_plans.id');
+	}
+
 }

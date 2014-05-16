@@ -213,7 +213,7 @@ class TestRunsController extends \NavigationTreeController {
 	{
 		Log::info('Destroying test run...');
 		$testrun = $this->testruns->find($id);
-		$testplan = $testrun->testplan();
+		$testplan = $testrun->testplan()->first();
 		$this->testruns->delete($id);
 
 		return Redirect::to('execution/testruns?test_plan_id=' . $testplan->id)
