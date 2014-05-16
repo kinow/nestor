@@ -256,14 +256,14 @@ class TestRunsController extends \NavigationTreeController {
 		return $this->theme->scope('execution.testrun.run', $args)->render();
 	}
 
-	public function runTestCase($test_run_id, $test_case_id) 
+	public function runTestCase($testRunId, $testCaseId) 
 	{
-		Log::info(sprintf('Executing Test Run %d, Test Case %d', $test_run_id, $test_case_id));
+		Log::info(sprintf('Executing Test Run %d, Test Case %d', $testRunId, $testCaseId));
 		$currentProject = $this->getCurrentProject();
-		$testrun = $this->testruns->find($test_run_id);
+		$testrun = $this->testruns->find($testRunId);
 		$testplan = $testrun->testplan;
 		$testcases = $testplan->testcases;
-		$testcase = $this->testcases->find($test_case_id);
+		$testcase = $this->testcases->find($testCaseId);
 		$executionStatuses = $this->executionStatuses->all();
 
 		$this->theme->breadcrumb()->
@@ -281,13 +281,16 @@ class TestRunsController extends \NavigationTreeController {
 
 		$nodes = $this->nodes->children('1-'.$currentProject->id, 1 /* length*/);
 		$navigationTree = $this->createNavigationTree($nodes, '1-'.$currentProject->id);
-		$navigationTreeHtml = $this->createTestRunTreeHTML($navigationTree, $testrun->id, $showOnly, $test_case_id);
+		$navigationTreeHtml = $this->createTestRunTreeHTML($navigationTree, $testrun->id, $showOnly, $testCaseId);
 		
+		$executions = $this->executions->getExecutionsForTestCase($testCaseId, $testRunId);
+
 		$args = array();
 		$args['testrun'] = $testrun;
 		$args['testplan'] = $testplan;
 		$args['testcases'] = $testcases;
 		$args['testcase'] = $testcase;
+		$args['executions'] = $executions;
 		$args['executionStatuses'] = $executionStatuses;
 		$args['navigation_tree'] = $navigationTree;
 		$args['navigation_tree_html'] = $navigationTreeHtml;

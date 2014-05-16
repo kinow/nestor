@@ -14,6 +14,34 @@
 				<div class="col-xs-8" id="test_specification">
 					<div id='nodes_panel'>
 						<h4>{{ testcase.name }}</h4>
+						<h5>View execution history <button class='btn' id='sub-executions-btn'>&#x25BC;</button></h5>
+
+						<div id='sub-executions'>
+							<table class='table table-hover table-bordered'>
+								<colgroup>
+									<col width="20%" />
+									<col width="60%" />
+									<col width="20%" />
+								</colgroup>
+						    	<thead>
+						    		<tr>
+						    			<th>Execution status</th>
+						    			<th>Notes</th>
+						    			<th>Date</th>
+						    		</tr>
+						    	</thead>
+						    	<tbody>
+						    {% for execution in executions.reverse() %}
+						    		<tr>
+						    			<td>{{ execution.executionStatus.first.name }}</td>
+						    			<td>{{ execution.notes }}</td>
+						    			<td>{{ execution.created_at }}</td>
+						    		</tr>
+						    {% endfor %}
+						    	</tbody>
+						    </table>
+						</div>
+
 						<hr />
 						<h5>Description</h5>
 						<p>
@@ -38,7 +66,7 @@
 							    </div>
 							</div>
 
-							{% set lastExecutionStatus = testcase.lastExecutionStatus.first %}
+							{% set lastExecutionStatus = executions.last %}
 							{% if lastExecutionStatus == null %}
 								{% set lastExecutionStatusId = 1 %} {# FIXME magic number, 1 is NOT RUN #}
 							{% else %}
@@ -65,6 +93,19 @@
 	</div>
 </div>
 <script type='text/javascript'>
+YUI().use('node', 'sortable', 'template', 'dd-delegate', 'transition', function(Y) {
+	// used to toggle the test suite form visibility
+	var set_executions_btn = Y.one('#sub-executions-btn');
+	var sub_executions_div = Y.one('#sub-executions');
+	set_executions_btn.on('click', function(e) {
+	    e.preventDefault();
+	    sub_executions_div.toggleView();
+	    e.stopPropagation();
+	});
+	// Hide the test suites form
+    sub_executions_div.hide();
+});
+
 var templatecallback = function() {
 	$("#navigation_tree_panel").fancytree({
 		imagePath: "{{ URL.to('/themes/default/assets/icons/32x32') }}/",

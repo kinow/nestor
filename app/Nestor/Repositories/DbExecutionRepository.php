@@ -48,4 +48,12 @@ class DbExecutionRepository implements ExecutionRepository {
 		return Execution::where('id', $id)->delete();
 	}
 
+	public function getExecutionsForTestCase($testCaseId, $testRunId)
+	{
+		return Execution::where('test_case_id', '=', $testCaseId)
+			->where('test_run_id', '=', $testRunId)
+			->orderBy('executions.created_at')
+			->get();
+	}
+
 }

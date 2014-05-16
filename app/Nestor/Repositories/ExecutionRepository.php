@@ -18,4 +18,6 @@ interface ExecutionRepository {
 
 	public function delete($id);
 
+	public function getExecutionsForTestCase($testCaseId, $testRunId);
+
 }

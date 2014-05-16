@@ -54,7 +54,8 @@ class TestCase2 extends Magniloquent {
 	protected static $relationships = array(
 		'project' => array('belongsTo', 'Project', 'project_id'),
 		'testSuite' => array('belongsTo', 'TestSuite', 'test_suite_id'),
-		'executionType' => array('belongsTo', 'ExecutionType', 'execution_type_id')
+		'executionType' => array('belongsTo', 'ExecutionType', 'execution_type_id'),
+		'executions' => array('hasMany', 'Execution', 'test_case_id')
 	);
 
 	protected static $purgeable = [''];
@@ -62,12 +63,6 @@ class TestCase2 extends Magniloquent {
 	public function executionType()
 	{
 		return $this->belongsTo('ExecutionType', 'execution_type_id');
-	}
-
-	public function lastExecutionStatus() 
-	{
-		return Execution::where('test_case_id', $this->id)
-			->orderBy('id', 'DESC');
 	}
 
 	public function steps()

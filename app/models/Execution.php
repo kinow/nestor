@@ -18,6 +18,10 @@ class Execution extends Magniloquent {
 	 */
 	protected $fillable = array('id', 'test_run_id', 'test_case_id', 'execution_status_id', 'notes');
 
+	protected static $relationships = array(
+		'executionStatus' => array('belongsTo', 'ExecutionStatus', 'execution_status_id')
+	);
+
 	/**
 	 * The attributes excluded from the model's JSON form.
 	 *
