@@ -201,7 +201,7 @@ YUI().use('node', 'sortable', 'template', 'dd-delegate', 'transition', function(
     e.stopPropagation();
   };
 
-  {% for step in testcase.steps.get() %}
+  {% for step in testcase.sortedSteps() %}
   addExistingStep({
     'id': '{{ step.id }}',
     'order': "{{ step.order }}",

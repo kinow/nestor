@@ -1,7 +1,7 @@
 {% block content %}
 <div class='row'>
 	<div class='col-xs-12'>
-		{{ HTML.link('execution/testruns/create?test_plan_id=' ~ testplan.id, 'Create new Test Run', {'class': 'btn btn-primary'}) }}
+		{{ HTML.link('execution/testruns/create?test_plan_id=' ~ testplan.id, 'New Test Run', {'class': 'btn btn-primary'}) }}
 	</div>
 </div>
 <br/>
@@ -55,17 +55,7 @@
 							</div>
 						</td>
 						<td class="vert-align">
-							<a href="{{ URL.to('execution/testruns/' ~ testrun.id ~ '/run') }}"><i class="icon-play"></i></a>
-							<div class="btn-group">
-							  <button type="button" class="btn">Action</button>
-							  <button type="button" class="btn dropdown-toggle" data-toggle="dropdown">
-							    <span class="caret"></span>
-							    <span class="sr-only">Toggle Dropdown</span>
-							  </button>
-							  <ul class="dropdown-menu" role="menu">
-							    <li>{{ HTML.link('execution/testruns/' ~ testrun.id ~ '/run', 'Run') }}</li>
-							  </ul>
-							</div>
+							<a href="{{ URL.to('execution/testruns/' ~ testrun.id ~ '/run') }}" class="btn btn-success"><span class="glyphicon glyphicon-play"></span> Run</a>
 						</td>
 					</tr>
 					{% endfor %}

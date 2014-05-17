@@ -19,6 +19,11 @@ class DbStepExecutionRepository implements StepExecutionRepository {
 		return StepExecution::where('execution_id', $executionId)->get();
 	}
 
+	public function findByStepIdAndExecutionId($testCaseStepId, $executionId)
+	{
+		return StepExecution::where('test_case_step_id', $testCaseStepId)->where('execution_id', $executionId)->get();
+	}
+
 	public function findByTestCaseStepId($test_case_step_id)
 	{
 		return StepExecution::where('test_case_step_id', $test_case_step_id)->get();

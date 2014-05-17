@@ -56,13 +56,14 @@ class TestCase2 extends Magniloquent {
 		'testSuite' => array('belongsTo', 'TestSuite', 'test_suite_id'),
 		'executionType' => array('belongsTo', 'ExecutionType', 'execution_type_id'),
 		'executions' => array('hasMany', 'Execution', 'test_case_id'),
+		'steps' => array('hasMany', 'TestCaseStep', 'test_case_id')
 	);
 
 	protected static $purgeable = [''];
 	
-	public function steps()
+	public function sortedSteps()
 	{
-		return TestCase2::hasMany('TestCaseStep', 'test_case_id')->orderBy('order');
+		return TestCase2::hasMany('TestCaseStep', 'test_case_id')->orderBy('order')->get();
 	}
 
 }

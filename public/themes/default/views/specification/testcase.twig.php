@@ -10,8 +10,9 @@
 <p>{{ testcase.execution_type_name }}</p>
 <hr/>
 <label>Test Steps</label>
-{% if testcase.steps is defined and testcase.steps.results is not empty %}
-	{% for step in testcase.steps.get() %}
+{% set steps = testcase.sortedSteps() %}
+{% if steps.count() > 0 %}
+	{% for step in steps %}
 <table class='table table-bordered table-hover'>
 	<thead>
 		<colgroup>

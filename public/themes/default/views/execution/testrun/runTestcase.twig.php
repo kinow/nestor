@@ -17,6 +17,7 @@
 						<h5>View execution history <button class='btn' id='sub-executions-btn'>&#x25BC;</button></h5>
 
 						<div id='sub-executions'>
+							{% if executions.count() > 0 %}
 							<table class='table table-hover table-bordered'>
 								<colgroup>
 									<col width="20%" />
@@ -40,6 +41,9 @@
 						    {% endfor %}
 						    	</tbody>
 						    </table>
+						    {% else %}
+						    <p>This test hasn't been executed yet.</p>
+						    {% endif %}
 						</div>
 						<hr />
 						<p>Execution Type: {{ testcase.executionType.first.name }}</p>
@@ -59,7 +63,7 @@
 						
 							<h4>Test Case Steps</h4>
 
-							{% set testCaseSteps = testcase.steps().get() %}
+							{% set testCaseSteps = steps %}
 
 							{% if testCaseSteps[0] is defined %}
 								{% for step in testCaseSteps %}
@@ -85,17 +89,15 @@
 										<tr>
 											<th>Execution Status</th>
 											<td>
-												{% set stepExecutions = step.executions.get() %}
-												{% set stepLastExecutionStatus = stepExecutions.last %}
-												{% if stepLastExecutionStatus == null %}
-													{% set stepLastExecutionStatusId = 1 %} {# FIXME magic number, 1 is NOT RUN #}
+												{% if step.lastExecutionStatusId is defined %}
+													{% set lastExecutionStatusId = step.lastExecutionStatusId %}
 												{% else %}
-													{% set stepLastExecutionStatusId = stepLastExecutionStatus.execution_status_id %} {# FIXME magic number, 1 is NOT RUN #}
+													{% set lastExecutionStatusId = 1 %} {# FIXME magic number, 1 is NOT RUN #}
 												{% endif %}
 												{% for executionStatus in executionStatuses %}
 												<div class='radio col-xs-12'>
 													<label>
-														{{ Form.radio('step_execution_status_id_' ~ step.order, executionStatus.id, stepLastExecutionStatusId == executionStatus.id) }} {{ executionStatus.name }}
+														{{ Form.radio('step_execution_status_id_' ~ step.order, executionStatus.id, lastExecutionStatusId == executionStatus.id) }} {{ executionStatus.name }}
 													</label>
 												</div>
 												{% endfor %}
@@ -117,12 +119,7 @@
 							    </div>
 							</div>
 
-							{% set lastExecutionStatus = executions.last %}
-							{% if lastExecutionStatus == null %}
-								{% set lastExecutionStatusId = 1 %} {# FIXME magic number, 1 is NOT RUN #}
-							{% else %}
-								{% set lastExecutionStatusId = lastExecutionStatus.execution_status_id %} {# FIXME magic number, 1 is NOT RUN #}
-							{% endif %}
+							{% set lastExecutionStatusId = last_execution_status_id %}
 							{% for executionStatus in executionStatuses %}
 							<div class='radio col-xs-12'>
 								<label>

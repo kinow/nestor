@@ -295,13 +295,40 @@ class TestRunsController extends \NavigationTreeController {
 		
 		$executions = $this->executions->getExecutionsForTestCase($testCaseId, $testRunId)->get();
 
+		$lastExecution = $executions->last();
+		$lastExecutionStatusId = 1; // FIXME magic number, 1 is NOT RUN
+		if ($lastExecution != NULL)
+		{
+			$lastExecutionStatusId = $lastExecution->execution_status_id;
+		}
+
+		$steps = $testcase->steps()->get();
+	
+		foreach ($steps as $step)
+		{
+			if ($lastExecutionStatusId > 1)
+			{
+				$stepLastExecution = $this->stepExecutions->findByStepIdAndExecutionId($step->id, $lastExecution->id)->first();
+				if ($stepLastExecution)
+					$step->lastExecutionStatusId = $stepLastExecution->execution_status_id;
+				else
+					$step->lastExecutionStatusId = 1;
+			}
+			else
+			{
+				$step->lastExecutionStatusId = 1; // FIXME magic number
+			}
+		}
+
 		$args = array();
 		$args['testrun'] = $testrun;
 		$args['testplan'] = $testplan;
 		$args['testcases'] = $testcases;
 		$args['testcase'] = $testcase;
+		$args['steps'] = $steps;
 		$args['executions'] = $executions;
 		$args['executionStatuses'] = $executionStatuses;
+		$args['last_execution_status_id'] = $lastExecutionStatusId;
 		$args['navigation_tree'] = $navigationTree;
 		$args['navigation_tree_html'] = $navigationTreeHtml;
 		$args['current_project'] = $this->currentProject;

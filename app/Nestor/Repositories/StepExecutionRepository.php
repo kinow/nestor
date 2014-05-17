@@ -8,6 +8,8 @@ interface StepExecutionRepository {
 
 	public function findByExecutionId($execution_id);
 
+	public function findByStepIdAndExecutionId($testCaseStepId, $executionId);
+
 	public function findByTestCaseStepId($test_case_step_id);
 
 	public function findByExecutionStatusId($execution_status_id);

@@ -56,5 +56,5 @@ class TestCaseStep extends Magniloquent {
 	);
 
 	protected static $purgeable = [''];
-
+	
 }
