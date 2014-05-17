@@ -1,7 +1,7 @@
 @servers(['web' => 'www-data@162.243.246.75'])
 
 @task('deploy', ['on' => 'web'])
-    cd /var/www/nestor/public_html/
+    cd /var/www/nestor-qa/public_html/
     git reset --hard HEAD
     git clean -f
     git pull origin master
