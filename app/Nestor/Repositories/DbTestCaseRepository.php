@@ -23,7 +23,7 @@ class DbTestCaseRepository implements TestCaseRepository {
 	 */
 	public function find($id)
 	{
-		return TestCase2::findOrFail($id);
+		return TestCase2::with('steps')->findOrFail($id);
 	}
 
 	/**

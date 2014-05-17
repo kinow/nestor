@@ -52,8 +52,7 @@ class DbExecutionRepository implements ExecutionRepository {
 	{
 		return Execution::where('test_case_id', '=', $testCaseId)
 			->where('test_run_id', '=', $testRunId)
-			->orderBy('executions.created_at')
-			->get();
+			->orderBy('executions.created_at');
 	}
 
 }

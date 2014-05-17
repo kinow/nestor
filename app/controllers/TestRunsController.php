@@ -9,6 +9,7 @@ use Nestor\Repositories\TestRunRepository;
 use Nestor\Repositories\NavigationTreeRepository;
 use Nestor\Repositories\ExecutionStatusRepository;
 use Nestor\Repositories\ExecutionRepository;
+use Nestor\Repositories\StepExecutionRepository;
 
 class TestRunsController extends \NavigationTreeController {
 
@@ -48,6 +49,13 @@ class TestRunsController extends \NavigationTreeController {
 	protected $executions;
 
 	/**
+	 * The step execution repository implementation.
+	 *
+	 * @var Nestor\Repositories\StepExecutionRepository
+	 */
+	protected $stepExecutions;
+
+	/**
 	 * @var Nestor\Repositories\NavigationTreeRepository
 	 */
 	protected $nodes;
@@ -61,7 +69,8 @@ class TestRunsController extends \NavigationTreeController {
 		TestRunRepository $testruns, 
 		NavigationTreeRepository $nodes, 
 		ExecutionStatusRepository $executionStatuses,
-		ExecutionRepository $executions)
+		ExecutionRepository $executions,
+		StepExecutionRepository $stepExecutions)
 	{
 		parent::__construct();
 		$this->testplans = $testplans;
@@ -70,6 +79,7 @@ class TestRunsController extends \NavigationTreeController {
 		$this->nodes = $nodes;
 		$this->executionStatuses = $executionStatuses;
 		$this->executions = $executions;
+		$this->stepExecutions = $stepExecutions;
 		$this->theme->setActive('execution');
 	}
 
@@ -283,7 +293,7 @@ class TestRunsController extends \NavigationTreeController {
 		$navigationTree = $this->createNavigationTree($nodes, '1-'.$currentProject->id);
 		$navigationTreeHtml = $this->createTestRunTreeHTML($navigationTree, $testrun->id, $showOnly, $testCaseId);
 		
-		$executions = $this->executions->getExecutionsForTestCase($testCaseId, $testRunId);
+		$executions = $this->executions->getExecutionsForTestCase($testCaseId, $testRunId)->get();
 
 		$args = array();
 		$args['testrun'] = $testrun;
@@ -309,20 +319,75 @@ class TestRunsController extends \NavigationTreeController {
 				->withInput()
 				->withErrors($messages);
 		}
-		$testrun = $this->testruns->find($testRunId);
 		$testcase = $this->testcases->find($testCaseId);
-		$execution = $this->executions->create($testrun->id, 
-			$testcase->id, 
-			Input::get('execution_status_id'), 
-			Input::get('notes'));
-
-		if ($execution->isValid() && $execution->isSaved())
+		$steps = $testcase->steps()->get();
+		$stepResults = array();
+		foreach ($_POST as $key => $value)
 		{
-			return Redirect::to(Request::url())->with('success', 'Test executed');
-		} else {
+			$matches = array();
+			if (preg_match('^step_execution_status_id_(\d+)^', $key, $matches))
+			{
+				$stepResults[substr($key, strlen('step_execution_status_id_'))] = $value;
+			}
+		}
+		if (count($stepResults) != $steps->count())
+		{
+			// Never supposed to happen
+			Log::warning('Internal error. Wrong number of test steps execution statuses.');
+			$messages = new Illuminate\Support\MessageBag;
+			$messages->add('nestor.customError', 'Internal error. Wrong number of test steps execution statuses.');
 			return Redirect::to(sprintf('/execution/testruns/%d/run/testcase/%d', $testRunId, $testCaseId))
 				->withInput()
-				->withErrors($execution->errors());
+				->withErrors($messages);
+		}
+		foreach ($stepResults as $key => $value) 
+		{
+			if ($value == 1) // FIXME use constants
+			{
+				$messages = new Illuminate\Support\MessageBag;
+				$messages->add('nestor.customError', sprintf('You cannot set step %d execution status to Not Run', $key));
+				return Redirect::to(sprintf('/execution/testruns/%d/run/testcase/%d', $testRunId, $testCaseId))
+					->withInput()
+					->withErrors($messages);
+			}
+		}
+
+		DB::beginTransaction();
+
+		try 
+		{
+			$testrun = $this->testruns->find($testRunId);
+			$execution = $this->executions->create($testrun->id, 
+				$testcase->id, 
+				Input::get('execution_status_id'), 
+				Input::get('notes'));
+
+			if ($execution->isValid() && $execution->isSaved())
+			{
+				// save its steps execution statuses
+				foreach ($stepResults as $key => $value) 
+				{
+					$stepExecution = $this->stepExecutions->create($execution->id, $key, $value);
+					if (!$stepExecution->isValid() || !$stepExecution->isSaved())
+					{
+						Log::error(var_export($stepExecution->errors(), TRUE));
+						throw new Exception(sprintf("Failed to save step %d with execution status %d", $key, $value));
+					}
+				}
+				DB::commit();
+				return Redirect::to(Request::url())->with('success', 'Test executed');
+			} else {
+				Log::error(var_export($execution->errors(), TRUE));
+				throw new Exception(sprintf("Failed to save step %d with execution status %d", $key, $value));
+			}
+		} catch (Exception $e)
+		{
+			DB::rollback();
+			$messages = new Illuminate\Support\MessageBag;
+			$messages->add('nestor.customError', $e->getMessage());
+			return Redirect::to(sprintf('/execution/testruns/%d/run/testcase/%d', $testRunId, $testCaseId))
+				->withInput()
+				->withErrors($messages);
 		}
 	}
 

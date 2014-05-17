@@ -51,7 +51,8 @@ class TestCaseStep extends Magniloquent {
 	);
 
 	protected static $relationships = array(
-		'executionStatus' => array('belongsTo', 'ExecutionStatus', 'execution_status_id')
+		'executionStatus' => array('belongsTo', 'ExecutionStatus', 'execution_status_id'),
+		'executions' => array('hasMany', 'StepExecution', 'test_case_step_id')
 	);
 
 	protected static $purgeable = [''];

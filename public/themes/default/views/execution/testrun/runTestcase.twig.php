@@ -41,23 +41,74 @@
 						    	</tbody>
 						    </table>
 						</div>
-
 						<hr />
-						<h5>Description</h5>
-						<p>
-							{{ testcase.description }}
-						</p>
-						<hr />
-						<h5>Prerequisite</h5>
-						<p>
-							{{ testcase.prerequisite }}
-						</p>
-						<hr/>
 						<p>Execution Type: {{ testcase.executionType.first.name }}</p>
-						<hr/>
-						<h5>Execution Status</h5>
+						<br/>
+						<h4>Description</h4>
+						<p>
+							{{ testcase.description|default('No description provided') }}
+						</p>
+						<br/>
+						<h4>Prerequisite</h4>
+						<p>
+							{{ testcase.prerequisite|default('No prerequisites provided') }}
+						</p>
+						<br/>
 
 						{{ Form.open({'action': Request.url(), 'method': 'post', 'class': 'form-vertical'}) }}
+						
+							<h4>Test Case Steps</h4>
+
+							{% set testCaseSteps = testcase.steps().get() %}
+
+							{% if testCaseSteps[0] is defined %}
+								{% for step in testCaseSteps %}
+								<table class='table table-bordered table-hover'>
+									<thead>
+										<colgroup>
+											<col style="width: 20%;" />
+											<col style="width: 80%;" />
+										</colgroup>
+									</thead>
+									<tbody>
+										<tr>
+											<th colspan='2'>Step #{{ step.order }}</th>
+										</tr>
+										<tr>
+											<th>Description</th>
+											<td>{{ step.description }}</td>
+										</tr>
+										<tr>
+											<th>Expected Result</th>
+											<td>{{ step.expected_result }}</td>
+										</tr>
+										<tr>
+											<th>Execution Status</th>
+											<td>
+												{% set stepExecutions = step.executions.get() %}
+												{% set stepLastExecutionStatus = stepExecutions.last %}
+												{% if stepLastExecutionStatus == null %}
+													{% set stepLastExecutionStatusId = 1 %} {# FIXME magic number, 1 is NOT RUN #}
+												{% else %}
+													{% set stepLastExecutionStatusId = stepLastExecutionStatus.execution_status_id %} {# FIXME magic number, 1 is NOT RUN #}
+												{% endif %}
+												{% for executionStatus in executionStatuses %}
+												<div class='radio col-xs-12'>
+													<label>
+														{{ Form.radio('step_execution_status_id_' ~ step.order, executionStatus.id, stepLastExecutionStatusId == executionStatus.id) }} {{ executionStatus.name }}
+													</label>
+												</div>
+												{% endfor %}
+											</td>
+										</tr>
+									</tbody>
+								</table>
+								{% endfor %}
+							{% else %}
+							<p>This case step has no steps</p>
+							{% endif %}
+
+							<h4>Execution Status</h4>
 
 							<div class="form-group">
 							    {{ Form.label('notes', 'Notes', {'class': 'control-label col-xs-12'}) }}

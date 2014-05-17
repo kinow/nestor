@@ -55,16 +55,11 @@ class TestCase2 extends Magniloquent {
 		'project' => array('belongsTo', 'Project', 'project_id'),
 		'testSuite' => array('belongsTo', 'TestSuite', 'test_suite_id'),
 		'executionType' => array('belongsTo', 'ExecutionType', 'execution_type_id'),
-		'executions' => array('hasMany', 'Execution', 'test_case_id')
+		'executions' => array('hasMany', 'Execution', 'test_case_id'),
 	);
 
 	protected static $purgeable = [''];
-
-	public function executionType()
-	{
-		return $this->belongsTo('ExecutionType', 'execution_type_id');
-	}
-
+	
 	public function steps()
 	{
 		return TestCase2::hasMany('TestCaseStep', 'test_case_id')->orderBy('order');
