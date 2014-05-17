@@ -1,4 +1,4 @@
-@servers(['web' => 'www-data@66.175.222.55'])
+@servers(['web' => 'www-data@162.243.246.75'])
 
 @task('deploy', ['on' => 'web'])
     cd /var/www/nestor/
