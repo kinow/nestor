@@ -3,13 +3,7 @@
 	[
 		{
 			"follow_symlinks": true,
-			"path": ""
+			"path": "."
 		}
-	],
-	"settings": {
-        "xdebug": {
-             "url": "http://localhost:8000/",
-             "port": 19001
-        }
-    }
+	]
 }

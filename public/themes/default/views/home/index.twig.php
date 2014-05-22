@@ -4,4 +4,5 @@
 		<p>Utilize the top menu to navigate your projects or create test cases.</p>
 		<p><a class="btn btn-primary btn-large" href="http://nestor-qa.org" title="Nestor QA">Learn more &raquo;</a></p>
 	</div>
+	<h1>Teste: {{ TESTE }}</h1>
 </div>

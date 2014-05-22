@@ -24,10 +24,12 @@ class BackendServiceProvider extends ServiceProvider {
 		$this->app->singleton('Nestor\Repositories\ExecutionRepository', 'Nestor\Repositories\DbExecutionRepository');
 		$this->app->singleton('Nestor\Repositories\TestCaseStepRepository', 'Nestor\Repositories\DbTestCaseStepRepository');
 		$this->app->singleton('Nestor\Repositories\StepExecutionRepository', 'Nestor\Repositories\DbStepExecutionRepository');
+		$this->app->singleton('Nestor\Repositories\PluginCategoryRepository', 'Nestor\Repositories\DbPluginCategoryRepository');
+		$this->app->singleton('Nestor\Repositories\PluginRepository', 'Nestor\Repositories\DbPluginRepository');
 
 		$this->app->bind('Nestor', function()
 		{
-			return new \Nestor\Facades\Nestor();
+			return new \Nestor\Model\Nestor();
 		});
 	}
 
