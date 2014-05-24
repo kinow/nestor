@@ -1,12 +1,23 @@
 {
-    "name": "nestor/wysiwyg-editor",
+    "name": "kinow/wysiwyg-editor",
     "description": "Nestor WYSIWYG Editor Plug-in",
+    "version": "0.1",
     "authors": [
         {
             "name": "Bruno P. Kinoshita",
             "email": "brunodepaulak@yahoo.com.br"
         }
     ],
+    "homepage": "http://kinoshita.eti.br",
+    "time": "2014-05-24",
+    "license": "MIT License",
+    "extra": {
+        "nestorqa": {
+            "provides": {
+                "Nestor\\Model\\Editor": "Kinow\\WysiwygEditor\\WysiwygEditor"
+            }
+        }
+    },
     "require": {
         "php": ">=5.3.0",
         "illuminate/support": "4.1.*"
@@ -16,7 +27,7 @@
             "src/migrations"
         ],
         "psr-0": {
-            "Nestor\\WysiwygEditor\\": "src/"
+            "Kinow\\WysiwygEditor\\": "src/"
         }
     },
     "minimum-stability": "stable"

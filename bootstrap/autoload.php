@@ -73,3 +73,8 @@ if (is_dir($workbench = __DIR__.'/../workbench'))
 {
 	Illuminate\Workbench\Starter::start($workbench);
 }
+
+if (is_dir($plugins = __DIR__.'/../plugins'))
+{
+	Illuminate\Workbench\Starter::start($plugins);
+}

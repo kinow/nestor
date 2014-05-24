@@ -12,7 +12,7 @@ class PluginManagerController extends BaseController {
 	{
 		$this->theme->breadcrumb()->
 			add('Home', URL::to('/'))->
-			add('Manage Nestor', URL::to('/pluginManager'))->
+			add('Manage Nestor', URL::to('/manage'))->
 			add('Manage Plug-ins');
 		return $this->theme->scope('plugin.index')->render();
 	}
@@ -21,7 +21,7 @@ class PluginManagerController extends BaseController {
 	{
 		$this->theme->breadcrumb()->
 			add('Home', URL::to('/'))->
-			add('Manage Nestor', URL::to('/pluginManager'))->
+			add('Manage Nestor', URL::to('/manage'))->
 			add('Manage Plug-ins');
 		return $this->theme->scope('plugin.advanced')->render();
 	}
@@ -57,6 +57,8 @@ class PluginManagerController extends BaseController {
 				  		->with('success', sprintf('Plugin installed!', $filename));
 				} else {
 				  	Log::error(sprintf("Error unzipping %s", $uploadedFile));
+				  	return Redirect::to('/pluginManager/installed')
+				  		->with('warning', sprintf('Error unzipping plug-in file', $filename));
 				}
 			}
 			else
@@ -71,7 +73,26 @@ class PluginManagerController extends BaseController {
 				->withInput()
 				->withErrors($messages);
         }
+	}
 
+	public function postRebuildCache()
+	{
+		$pluginManager = Nestor::getPluginManager();
+		try
+		{
+			$pluginManager->rebuildCache();
+			return Redirect::to('/pluginManager/advanced')
+		  		->with('success', sprintf('Cache rebuilt!'));
+		}
+		catch (Exception $e)
+		{
+			Log::error("Failed to rebuild cache: " . $e->getMessage());
+			$messages = new Illuminate\Support\MessageBag;
+			$messages->add('nestor.customError', 'Failed to rebuild cache: ' . $e->getMessage());
+			return Redirect::to('/pluginManager/advanced')
+				->withInput()
+				->withErrors($messages);
+		}
 	}
 
 }

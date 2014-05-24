@@ -8,10 +8,7 @@
 			<div class="form-group">
 				<label class="col-xs-2 control-label" for="editor">Editor</label>
 				<div class="col-xs-10">
-			    <select id="editor" name="editor" class="form-control">
-			      <!--<option value="1">Option one</option>
-			      <option value="2">Option two</option>-->
-			    </select>
+				{{ Form.select('editor', editors, settings.editor, {'id': "editor", 'class': "form-control"}) }}
 			  </div>
 			</div>
 			<h4 class='page-header configuration-entry'>

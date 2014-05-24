@@ -11,7 +11,7 @@ class ConfigurationSeeder extends Seeder {
 
 		$settings = Config::get('settings');
 
-		$settings['editor'] = json_encode(NULL);
+		$settings['editor'] = json_encode("Nestor\\Model\\TextareaEditor");
 
 		$settings['security_enabled'] = json_encode(NULL);
 		$settings['security_provider'] = json_encode(NULL);

@@ -25,6 +25,7 @@ Route::controller('/pluginManager/available', 'WIPController');
 Route::controller('/pluginManager/installed', 'WIPController');
 Route::get('/pluginManager/advanced', 'PluginManagerController@getAdvanced');
 Route::post('/pluginManager/upload', 'PluginManagerController@postUpload');
+Route::post('/pluginManager/rebuildCache', 'PluginManagerController@postRebuildCache');
 
 // Projects
 Route::get('projects/position', 'ProjectsController@position');

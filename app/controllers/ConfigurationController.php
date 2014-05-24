@@ -18,6 +18,13 @@ class ConfigurationController extends BaseController {
 		$settings = Config::get('settings');
 		$args = array();
 		$args['settings'] = $settings;
+		$editorsImplementations = Nestor::getPluginManager()->getProviders("Nestor\\Model\\Editor");
+		$editors = array();
+		foreach ($editorsImplementations as $editorImplementation)
+		{
+			$editors[$editorImplementation] = $editorImplementation;
+		}
+		$args['editors'] = $editors;
 
 		return $this->theme->scope('configuration.index', $args)->render();
 	}

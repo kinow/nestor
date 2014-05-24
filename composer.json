@@ -9,7 +9,8 @@
 		"philf/setting" : "dev-master",
 		"magniloquent/magniloquent": "dev-master",
 		"doctrine/dbal": "2.5.*@dev",
-		"clue/graph": "0.7.*"
+		"clue/graph": "0.7.*",
+		"composer/composer": "1.*"
 	},
 	"autoload" : {
 		"psr-0" : {

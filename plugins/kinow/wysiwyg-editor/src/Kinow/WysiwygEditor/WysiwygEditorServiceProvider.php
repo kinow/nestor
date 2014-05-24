@@ -1,5 +1,7 @@
-<?php namespace Nestor\WysiwygEditor;
+<?php namespace Kinow\WysiwygEditor;
 
+use Exception;
+use App;
 use Illuminate\Support\ServiceProvider;
 
 class WysiwygEditorServiceProvider extends ServiceProvider {
@@ -18,7 +20,7 @@ class WysiwygEditorServiceProvider extends ServiceProvider {
 	 */
 	public function boot()
 	{
-		$this->package('nestor/wysiwyg-editor');
+		$this->package('kinow/wysiwyg-editor');
 	}
 
 	/**
@@ -38,7 +40,7 @@ class WysiwygEditorServiceProvider extends ServiceProvider {
 	 */
 	public function provides()
 	{
-		return array();
+		
 	}
 
 }

@@ -65,7 +65,7 @@ return array(
 	|
 	*/
 
-	'key' => 'BMAqa3vFMZsPsL17s9xkQx4pCdFE2V78',
+	'key' => 'Vb7qXbPm8lVSZlIxZc1w71U5l2PTJJp6',
 
 	/*
 	|--------------------------------------------------------------------------
@@ -111,6 +111,7 @@ return array(
 		'Philf\Setting\SettingServiceProvider',
 		'Teepluss\Theme\ThemeServiceProvider',
 		'Nestor\BackendServiceProvider',
+		'Kinow\WysiwygEditor\WysiwygEditorServiceProvider',
 	),
 
 	/*

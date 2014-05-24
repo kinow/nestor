@@ -30,4 +30,18 @@
 		{{ Form.close() }}
 	</div>
 </div>
+<div class='row'>
+	<div class='col-xs-12'>
+		{{ Form.open({'url': '/pluginManager/rebuildCache', 'class': 'form-horizontal', 'files': true}) }}
+			<fieldset>
+				<legend class="scheduler-border">Rebuild plug-in cache</legend>
+            <div class="form-group">
+                <div class="col-xs-10 col-xs-offset-2">
+                    {{ Form.submit('Rebuild', {'class': "btn"}) }}
+                </div>
+            </div>
+            </fieldset>
+		{{ Form.close() }}
+	</div>
+</div>
 {% endblock %}

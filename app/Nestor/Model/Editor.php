@@ -5,4 +5,6 @@
  */
 interface Editor {
 
+	public function getName();
+
 }
