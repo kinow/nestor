@@ -18,6 +18,14 @@ Route::get('/manage', 'ManageController@getIndex');
 Route::get('/configure', 'ConfigurationController@getConfigure');
 Route::post('/configure', 'ConfigurationController@postConfigure');
 
+// Manage Plugins
+Route::get('/pluginManager', 'PluginManagerController@getIndex');
+Route::get('/pluginManager/updates', 'PluginManagerController@getIndex');
+Route::controller('/pluginManager/available', 'WIPController');
+Route::controller('/pluginManager/installed', 'WIPController');
+Route::get('/pluginManager/advanced', 'PluginManagerController@getAdvanced');
+Route::post('/pluginManager/upload', 'PluginManagerController@postUpload');
+
 // Projects
 Route::get('projects/position', 'ProjectsController@position');
 Route::resource('projects', 'ProjectsController');
@@ -49,7 +57,6 @@ Route::resource('execution', 'ExecutionsController');
 Route::controller('requirements', 'WIPController');
 Route::controller('reports', 'WIPController');
 Route::controller('themeManager', 'WIPController');
-Route::controller('pluginManager', 'WIPController');
 
 
 if (Config::get('database.log', false))
