@@ -32,7 +32,7 @@ class PluginManagerController extends BaseController {
 
 		$file = Input::file('plugin_file');
 
-		$rules = array('plugin_file'  => 'mimes:zip,gzip');
+		$rules = array('plugin_file'  => 'required|mimes:zip,gzip');
 		$data  = array('plugin_file' => Input::file('plugin_file'));
 
 		$validation = Validator::make($data, $rules);
