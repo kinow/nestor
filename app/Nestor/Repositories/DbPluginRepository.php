@@ -14,6 +14,12 @@ class DbPluginRepository implements PluginRepository {
 		return Plugin::all();
 	}
 
+	public function installed()
+	{
+		return Plugin::where('status', '=', 'INSTALLED')
+			->get();
+	}
+
 	/**
 	 * Get a Plugin by their primary key.
 	 *

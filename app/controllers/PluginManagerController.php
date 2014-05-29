@@ -1,10 +1,15 @@
 <?php
 
+use Nestor\Repositories\PluginRepository;
+use Nestor\Repositories\PluginCategoryRepository;
+
 class PluginManagerController extends BaseController {
 
-	public function __construct()
+	public function __construct(PluginRepository $plugins, PluginCategoryRepository $pluginCategories)
 	{
 		parent::__construct();
+		$this->plugins = $plugins;
+		$this->pluginCategories = $pluginCategories;
 		$this->theme->setActive('manage');
 	}
 
@@ -93,6 +98,26 @@ class PluginManagerController extends BaseController {
 				->withInput()
 				->withErrors($messages);
 		}
+	}
+
+	public function getInstalled()
+	{
+		$plugins = $this->plugins->installed();
+		$args = array('plugins' => $plugins);
+		$this->theme->breadcrumb()->
+			add('Home', URL::to('/'))->
+			add('Manage Nestor', URL::to('/manage'))->
+			add('Manage Plug-ins');
+		return $this->theme->scope('plugin.installed', $args)->render();
+	}
+
+	public function getAvailable()
+	{
+		$this->theme->breadcrumb()->
+			add('Home', URL::to('/'))->
+			add('Manage Nestor', URL::to('/manage'))->
+			add('Manage Plug-ins');
+		return $this->theme->scope('plugin.available')->render();
 	}
 
 }

@@ -21,11 +21,11 @@ Route::post('/configure', 'ConfigurationController@postConfigure');
 // Manage Plugins
 Route::get('/pluginManager', 'PluginManagerController@getIndex');
 Route::get('/pluginManager/updates', 'PluginManagerController@getIndex');
-Route::controller('/pluginManager/available', 'WIPController');
-Route::controller('/pluginManager/installed', 'WIPController');
 Route::get('/pluginManager/advanced', 'PluginManagerController@getAdvanced');
 Route::post('/pluginManager/upload', 'PluginManagerController@postUpload');
 Route::post('/pluginManager/rebuildCache', 'PluginManagerController@postRebuildCache');
+Route::get('/pluginManager/installed', 'PluginManagerController@getInstalled');
+Route::get('/pluginManager/available', 'PluginManagerController@getAvailable');
 
 // Projects
 Route::get('projects/position', 'ProjectsController@position');

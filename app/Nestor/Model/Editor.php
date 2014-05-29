@@ -7,4 +7,6 @@ interface Editor {
 
 	public function getName();
 
+	public function render($name, $value, array $options);
+
 }

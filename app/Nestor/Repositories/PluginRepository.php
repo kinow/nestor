@@ -9,6 +9,8 @@ interface PluginRepository {
 	 */
 	public function all();
 
+	public function installed();
+
 	/**
 	 * Get a Plugin by their primary key.
 	 *

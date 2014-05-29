@@ -130,7 +130,7 @@ class PluginManager {
 						}
 					}
 				}
-				$pluginsCache[] = $plugin;
+				$pluginsCache[] = $plugin; // FIXME: build a reverse cache too, by provided extension point
 			}
 			Log::info("Adding plugins to cache");
 			Log::debug(var_export($pluginsCache, TRUE));
@@ -144,23 +144,42 @@ class PluginManager {
 
 	public function getProviders($interface)
 	{
+		$providers = array();
 		Log::debug(sprintf('Getting %s providers from plugin cache', $interface));
 		// call the cache to get the providers
-		if (Cache::has('pluginProviders')) 
+		if (Cache::has('plugins')) 
 		{
-			$pluginProviders = Cache::get('pluginProviders');
-			if (isset($pluginProviders[$interface]))
+			$plugins = Cache::get('plugins');
+			foreach ($plugins as $plugin)
 			{
-				return $pluginProviders[$interface];
+				$provides = $plugin->provides;
+				foreach ($provides as $provided => $value)
+				{
+					if (strcasecmp($provided, $interface) === 0)
+					{
+						$providers[] = $plugin;
+					}
+				}
 			}
-			else
-			{
-				Log::debug(sprintf('No providers for %s found', $interface));
-				return array();
-			}
+			return $providers;
 		}
 		Log::warn('Empty plug-in cache');
 		return array();
+	}
+
+	public function getByPluginId($pluginId)
+	{
+		// call the cache to get the providers
+		if (Cache::has('plugins')) 
+		{
+			$plugins = Cache::get('plugins');
+			foreach ($plugins as $plugin)
+			{
+				if ($plugin->id == $pluginId)
+					return $plugin;
+			}
+		}
+		return NULL;
 	}
 
 }

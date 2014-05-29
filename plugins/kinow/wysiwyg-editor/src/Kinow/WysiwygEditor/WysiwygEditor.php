@@ -9,4 +9,11 @@ class WysiwygEditor implements Editor {
 		return "WYSIWYG Editor";
 	}
 
+	public function render($name, $value, array $options)
+	{
+		$str = \View::make('kinow/wysiwyg-editor::editor')->render();
+		$editorUI = \Theme::twigy($str, array('name' => $name, 'value' => $value, 'options' => $options));
+		return $editorUI;
+	}
+
 }

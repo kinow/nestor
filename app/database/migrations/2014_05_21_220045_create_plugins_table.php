@@ -19,7 +19,7 @@ class CreatePluginsTable extends Migration {
 			$table->string('slug', 50)->unique();
 			$table->string('description', 200)->nullable();
 			$table->string('version', 10);
-			$table->string('author', 50);
+			$table->string('author', 500);
 			$table->string('url', 255)->nullable();
 			$table->string('status', 20);
 			$table->date('released_at');

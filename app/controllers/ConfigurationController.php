@@ -22,7 +22,7 @@ class ConfigurationController extends BaseController {
 		$editors = array();
 		foreach ($editorsImplementations as $editorImplementation)
 		{
-			$editors[$editorImplementation] = $editorImplementation;
+			$editors[$editorImplementation->id] = $editorImplementation->name;
 		}
 		$args['editors'] = $editors;
 

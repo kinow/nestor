@@ -21,6 +21,7 @@ class WysiwygEditorServiceProvider extends ServiceProvider {
 	public function boot()
 	{
 		$this->package('kinow/wysiwyg-editor');
+		\View::addNamespace('kinow/wysiwyg-editor', app_path() . '/views/packages/kinow/wysiwyg-editor/');
 	}
 
 	/**
