@@ -3,6 +3,8 @@
 use Plugin;
 use Cache;
 use Log;
+use DB;
+use Exception;
 use Nestor\Repositories\PluginRepository;
 use Nestor\Repositories\PluginCategoryRepository;
 use Symfony\Component\Finder\Finder;
@@ -10,20 +12,20 @@ use Composer\Json\JsonFile;
 
 class PluginManager {
 
-	protected $pluginsRepository;
+	protected $plugins;
 
-	protected $pluginCategoriesRepository;
+	protected $pluginCategories;
 
-	public function __construct(PluginRepository $pluginsRepository, PluginCategoryRepository $pluginCategoriesRepository)
+	public function __construct(PluginRepository $plugins, PluginCategoryRepository $pluginCategories)
 	{
-		$this->pluginsRepository = $pluginsRepository;
-		$this->pluginCategoriesRepository = $pluginCategoriesRepository;
+		$this->plugins = $plugins;
+		$this->pluginCategories = $pluginCategories;
 		$this->finder = new Finder();
 	}
 
 	public function getCategories()
 	{
-		return $this->pluginCategoriesRepository->all();
+		return $this->pluginCategories->all();
 	}
 
 	public function getByCategory() 
@@ -64,7 +66,8 @@ class PluginManager {
 
 	public function rebuildCache()
 	{
-		$pluginProviders = array();
+		Cache::forget('plugins');
+		$pluginsCache = array();
 		if (is_dir($plugins = __DIR__.'/../../../plugins'))
 		{
 			$iterator = $this->finder
@@ -82,16 +85,40 @@ class PluginManager {
 					continue;
 				}
 
+				$name = $contents['name'];
+				if ($index = strpos($name, '/'))
+					$slug = substr($name, $index, strlen($name));
+				else
+					$slug = $name;
+				$description = isset($contents['description']) ? $contents['description'] : '';
+				$version = $contents['version'];
+				$authors = isset($contents['authors']) ? json_encode($contents['authors']) : json_encode(array());
+				$url = isset($contents['homepage']) ? $contents['homepage'] : '';
+				$status = 'INSTALLED'; // TODO: constants
+				$releasedAt = isset($contents['time']) ? $contents['time'] : '';
 				$nestorqaInfo = $contents['extra']['nestorqa'];
+				$categoryId = $nestorqaInfo['category_id'];
+
+				$plugin = $this->plugins->findByName($name);
+				Log::info('Reloading existing plug-in');
+				if (!$plugin)
+				{
+					Log::debug(sprintf('Plug-in %s not found in database', $name));
+					Log::info('Creating new plug-in');
+					$plugin = $this->plugins->create($name, $slug, $description, $version, $authors, $url, $status, $releasedAt, $categoryId);
+					if (!$plugin->isValid() || !$plugin->isSaved())
+						throw new Exception(var_export($plugin->errors(), TRUE));
+				}
+
 				if (isset($nestorqaInfo['provides']))
 				{
 					foreach ($nestorqaInfo['provides'] as $interface => $classes)
 					{
 						Log::debug(sprintf("Entry %s found for %s", $classes, $interface));
 						$entry = NULL;
-						if (isset($pluginProviders[$interface]))
+						if (isset($plugin->provides[$interface]))
 						{
-							$entry = $pluginProviders[$interface];
+							$entry = $plugin->provides[$interface];
 							if (!in_array($classes))
 							{
 								$entry[] = $classes;
@@ -99,18 +126,20 @@ class PluginManager {
 						}
 						else
 						{
-							$entry = is_array($classes) ? $classes : array($classes);
-							$pluginProviders[$interface] = $entry;
+							$plugin->provides[$interface] = is_array($classes) ? $classes : array($classes);
 						}
 					}
 				}
+				$pluginsCache[] = $plugin;
 			}
+			Log::info("Adding plugins to cache");
+			Log::debug(var_export($pluginsCache, TRUE));
+			Cache::forever('plugins', $pluginsCache);
 		} 
 		else
 		{
 			throw new Exception('Missing plugins folder');
 		}
-		Cache::forever('pluginProviders', $pluginProviders);
 	}
 
 	public function getProviders($interface)

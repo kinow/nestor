@@ -92,5 +92,3 @@ require app_path().'/filters.php';
 */
 
 require app_path().'/theme_helper.php';
-
-require app_path().'/plugins/sample.php';

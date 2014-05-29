@@ -17,6 +17,8 @@ interface PluginRepository {
 	 */
 	public function find($id);
 
+	public function findByName($name);
+
 	/**
 	 * Create a plugin
 	 *

@@ -1,5 +1,7 @@
 <?php namespace Nestor\Repositories;
 
+use \Plugin;
+
 class DbPluginRepository implements PluginRepository {
 
 	/**
@@ -21,6 +23,12 @@ class DbPluginRepository implements PluginRepository {
 	public function find($id)
 	{
 		return Plugin::findOrFail($id);
+	}
+
+	public function findByName($name)
+	{
+		return Plugin::where('name', '=', $name)
+			->first();
 	}
 
 	/**

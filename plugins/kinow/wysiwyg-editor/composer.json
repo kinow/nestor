@@ -13,6 +13,7 @@
     "license": "MIT License",
     "extra": {
         "nestorqa": {
+            "category_id": 1,
             "provides": {
                 "Nestor\\Model\\Editor": "Kinow\\WysiwygEditor\\WysiwygEditor"
             }

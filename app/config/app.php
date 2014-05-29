@@ -109,8 +109,7 @@ return array(
 		
 		'Philf\Setting\SettingServiceProvider',
 		'Teepluss\Theme\ThemeServiceProvider',
-		'Nestor\BackendServiceProvider',
-		'Kinow\WysiwygEditor\WysiwygEditorServiceProvider',
+		'Nestor\BackendServiceProvider'
 	),
 
 	/*
