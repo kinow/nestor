@@ -55,7 +55,6 @@ class TestPlansController extends \NavigationTreeController {
 		$project = $this->getCurrentProject();
 		$projectId = $project->id;
 		$args['testplans'] = $this->testplans->findByProjectId($projectId);
-		$queries = DB::getQueryLog();
 		return $this->theme->scope('testplan.index', $args)->render();
 	}
 
@@ -116,7 +115,7 @@ class TestPlansController extends \NavigationTreeController {
 			add(sprintf('Test plan %s', $testplan->name));
 		$args = array();
 		$args['testplan'] = $testplan;
-		$args['testcases'] = $testplan->testcases;
+		$args['testcases'] = $testplan->testcaseVersions();
 		return $this->theme->scope('testplan.show', $args)->render();
 	}
 
@@ -197,7 +196,7 @@ class TestPlansController extends \NavigationTreeController {
 			add('Add Test Cases');
 		$currentProject = $this->getCurrentProject();
 		$nodesSelected = array();
-		$testcases = $testplan->testcases;
+		$testcases = $testplan->testcases();
 
 		foreach ($testcases as $testcase)
 		{
@@ -220,7 +219,7 @@ class TestPlansController extends \NavigationTreeController {
 	public function storeTestCases($id)
 	{
 		$testplan = $this->testplans->find($id);
-		$existingTestcases = $testplan->testcases()->get();
+		$existingTestcaseVersions = $testplan->testcaseVersions()->get();
 		$length = count($_POST);
 		$nodesSelected = array();
 		$testcases = array();
@@ -246,12 +245,12 @@ class TestPlansController extends \NavigationTreeController {
 		}
 		// What to remove?
 		$testcasesForRemoval = array();
-		foreach ($existingTestcases as $existing)
+		foreach ($existingTestcaseVersions as $existing)
 		{
 			$found = FALSE;
 			foreach ($testcases as $testcase)
 			{
-				if ($existing->id == $testcase->id) 
+				if ($existing->test_case_id == $testcase->id) 
 				{
 					$found = TRUE;
 				}
@@ -266,29 +265,29 @@ class TestPlansController extends \NavigationTreeController {
 		foreach ($testcases as $testcase)
 		{
 			$found = FALSE;
-			foreach ($existingTestcases as $existing)
+			foreach ($existingTestcaseVersions as $existing)
 			{
-				if ($testcase->id == $existing->id) 
+				if ($existing->test_case_id == $testcase->id) 
 				{
 					$found = TRUE;
 				}
 			}
 			if (!$found)
 			{
-				$testcasesForAdding[] = $testcase;
+				$testcasesForAdding[] = $testcase->latestVersion();
 			}
 		}
 
 		foreach ($testcasesForAdding as $addMe)
 		{
-			Log::info(sprintf('Adding testcase %s to test plan %s', $addMe->name, $testplan->name));
-			$testplan->testcases()->attach($addMe);
+			Log::info(sprintf('Adding testcase %s version %s to test plan %s', $addMe->name, $addMe->version, $testplan->name));
+			$testplan->testcaseVersions()->attach($addMe);
 		}
 
 		foreach ($testcasesForRemoval as $removeMe)
 		{
-			Log::info(sprintf('Removing testcase %s from test plan %s', $removeMe->name, $testplan->name));
-			$testplan->testcases()->detach($removeMe);
+			Log::info(sprintf('Removing test case %s version %s from test plan %s', $removeMe->name, $removeMe->version, $testplan->name));
+			$testplan->testcaseVersions()->detach($removeMe);
 		}
 
 		return Redirect::to('/planning/' . $id)

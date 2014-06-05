@@ -1,7 +1,6 @@
 <?php
 
 use Magniloquent\Magniloquent\Magniloquent;
-use \Execution;
 
 class TestCase2 extends Magniloquent {
 
@@ -17,7 +16,7 @@ class TestCase2 extends Magniloquent {
 	 *
 	 * @var array
 	 */
-	protected $fillable = array('id', 'name', 'description', 'prerequisite', 'test_suite_id', 'project_id', 'execution_type_id');
+	protected $fillable = array('id', 'test_suite_id', 'project_id');
 
 	/**
 	 * The attributes excluded from the model's JSON form.
@@ -26,44 +25,47 @@ class TestCase2 extends Magniloquent {
 	 */
 	protected $hidden = array('');
 
+	protected static $purgeable = [];
+
 	protected static $rules = array(
 		"save" => array(
-				'name' => 'required|min:2',
-				'description' => '',
-				'prerequisite' => '',
-				'test_suite_id' => 'required',
-				'project_id' => 'required',
-				'execution_type_id' => 'required'
+			'test_suite_id' => 'required',
+			'project_id' => 'required'
 		),
 		"create" => array(
-				'description' => '',
-				'prerequisite' => '',
-				'test_suite_id' => 'required',
-				'project_id' => 'required',
-				'execution_type_id' => 'required'
 		),
 		"update" => array(
-				'description' => '',
-				'prerequisite' => '',
-				'test_suite_id' => 'required',
-				'project_id' => 'required',
-				'execution_type_id' => 'required'
 		),
 	);
 
-	protected static $relationships = array(
-		'project' => array('belongsTo', 'Project', 'project_id'),
-		'testSuite' => array('belongsTo', 'TestSuite', 'test_suite_id'),
-		'executionType' => array('belongsTo', 'ExecutionType', 'execution_type_id'),
-		'executions' => array('hasMany', 'Execution', 'test_case_id'),
-		'steps' => array('hasMany', 'TestCaseStep', 'test_case_id')
-	);
+	protected static $relationships = array();
 
-	protected static $purgeable = [''];
-	
-	public function sortedSteps()
+	public function project()
 	{
-		return TestCase2::hasMany('TestCaseStep', 'test_case_id')->orderBy('order')->get();
+		return $this->belongsTo('Project', 'project_id');
+	}
+
+	public function testSuite()
+	{
+		return $this->belongsTo('TestSuite', 'test_suite_id');
+	}
+
+	public function testCaseVersions()
+	{
+		return $this->hasMany('TestCaseVersion', 'test_case_id');
+	}
+
+	public function latestVersion()
+	{
+		return $this->hasMany('TestCaseVersion', 'test_case_id')
+			->orderBy('version', 'desc')
+			->take(1)
+			->firstOrFail();
+	}
+
+	public function steps()
+	{
+		return $this->hasManyThrough('TestCaseStepVersion', 'TestCaseVersion', 'test_case_id', 'test_case_version_id');
 	}
 
 }

@@ -1,18 +1,18 @@
 <div>
 <h4>Test Case {{ node.display_name }}</h4>
 <label>Name</label>
-<p>{{ testcase.name }}</p>
+<p>{{ testcase.latestVersion.name }}</p>
 <label>Description</label>
-<p>{{ testcase.description }}</p>
+<p>{{ testcase.latestVersion.description }}</p>
 <label>Prerequisite</label>
-<p>{{ testcase.prerequisite }}</p>
+<p>{{ testcase.latestVersion.prerequisite }}</p>
 <label>Execution Type</label>
-<p>{{ testcase.execution_type_name }}</p>
+<p>{{ testcase.latestVersion.executionType.first.name }}</p>
 <hr/>
 <label>Test Steps</label>
-{% set steps = testcase.sortedSteps() %}
+{% set steps = testcase.latestVersion.sortedSteps() %}
 {% if steps.count() > 0 %}
-	{% for step in steps %}
+	{% for step in steps.get() %}
 <table class='table table-bordered table-hover'>
 	<thead>
 		<colgroup>
