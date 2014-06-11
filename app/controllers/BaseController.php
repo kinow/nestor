@@ -1,7 +1,5 @@
 <?php
 
-use \Session;
-
 class BaseController extends Controller {
 
 	/**
@@ -26,16 +24,25 @@ class BaseController extends Controller {
 		$this->theme->set('current_project', $this->currentProject);
 	}
 
+	public function isAuthenticated()
+	{
+		if (!Auth::check())
+		{
+			return Redirect::to('/users/login');
+		}
+	}
+
 	/**
 	 * Filter used to check if the current project is set in the session.
 	 * Redirects to home page if not set.
 	 */
-	public function isCurrentProjectSet() {
+	public function isCurrentProjectSet()
+	{
 		$currentProject = Session::get('current_project');
 		if (!isset($currentProject) || !$currentProject)
 		{
 			Session::forget('current_project');
-			return Redirect::to('/')->with('flash', 'Choose a project first');
+			return Redirect::to('/')->with('message', 'Choose a project first');
 		}
 	}
 

@@ -6,6 +6,7 @@ class ManageController extends BaseController {
 	{
 		parent::__construct();
 		$this->theme->setActive('manage');
+		$this->beforeFilter('@isAuthenticated');
 	}
 
 	public function getIndex()

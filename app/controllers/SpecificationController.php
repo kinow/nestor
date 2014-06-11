@@ -1,7 +1,5 @@
 <?php
 
-use \Input;
-use \HTML;
 use Nestor\Repositories\ProjectRepository;
 use Nestor\Repositories\TestCaseRepository;
 use Nestor\Repositories\ExecutionTypeRepository;

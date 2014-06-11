@@ -84,4 +84,6 @@ interface UserRepository {
 	 */
 	public function delete($id);
 
+	public function paginate($perPage);
+
 }

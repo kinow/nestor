@@ -27,6 +27,12 @@ Route::post('/pluginManager/rebuildCache', 'PluginManagerController@postRebuildC
 Route::get('/pluginManager/installed', 'PluginManagerController@getInstalled');
 Route::get('/pluginManager/available', 'PluginManagerController@getAvailable');
 
+// Manage users
+Route::get('/users/login', 'UsersController@getLogin');
+Route::post('/users/login', 'UsersController@postLogin');
+Route::get('/users/logout', 'UsersController@getLogout');
+Route::resource('users', 'UsersController');
+
 // Projects
 Route::get('projects/position', 'ProjectsController@position');
 Route::resource('projects', 'ProjectsController');

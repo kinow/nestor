@@ -17,6 +17,7 @@ class NavigationTreeController extends \BaseController {
 	{
 		parent::__construct();
 		// Check if the current project has been set
+		$this->beforeFilter('@isAuthenticated');
 		$this->beforeFilter('@isCurrentProjectSet');
 	}
 

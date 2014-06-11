@@ -1,7 +1,7 @@
 <?php namespace Nestor\Repositories;
 
 use Auth, Hash, Validator;
-use \User;
+use User;
 
 class DbUserRepository implements UserRepository {
 
@@ -170,6 +170,11 @@ class DbUserRepository implements UserRepository {
 	public function delete($id)
 	{
 		return User::where('id', $id)->delete();
+	}
+
+	public function paginate($perPage = 0)
+	{
+		return User::paginate($perPage);
 	}
 
 }

@@ -1,8 +1,5 @@
 <?php
 
-use \Theme;
-use \Input;
-use \DB;
 use Nestor\Repositories\ProjectRepository;
 use Nestor\Repositories\NavigationTreeRepository;
 
@@ -31,6 +28,7 @@ class ProjectsController extends \BaseController {
 		parent::__construct();
 		$this->projects = $projects;
 		$this->nodes = $nodes;
+		$this->beforeFilter('@isAuthenticated');
 		$this->theme->setActive('projects');
 	}
 

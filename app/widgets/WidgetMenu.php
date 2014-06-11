@@ -52,11 +52,14 @@ class WidgetMenu extends Widget {
 
         //$theme->asset()->usePath()->add('widget-name', 'js/widget-execute.js', array('jquery', 'jqueryui'));
         //$this->setAttribute('user', User::find($this->getAttribute('userId')));
-        $this->projects = App::make('Nestor\Repositories\ProjectRepository');
         $this->setAttribute('active', $theme->getActive());
-        $theme->setProjects($this->projects->all());
-        $current_project = unserialize(Session::get('current_project'));
-        $this->setAttribute('current_project', $current_project);
+        if (Auth::check())
+        {
+            $this->projects = App::make('Nestor\Repositories\ProjectRepository');
+            $theme->setProjects($this->projects->all());
+            $current_project = unserialize(Session::get('current_project'));
+            $this->setAttribute('current_project', $current_project);
+        }
         $this->theme = $theme;
     }
 
@@ -76,32 +79,45 @@ class WidgetMenu extends Widget {
         $currentProjectExists = FALSE; // The project may have been deleted...
 
     	$projectitems = '';
-    	if (!$projects || count($projects) <= 0) {
-    		$projectitems .= '<ul class="nav" style="float: right;"><li>'. HTML::link('/projects/create', 'Create a new project') . '</li></ul>';
-    	} else {
-    		$projectitems .= '<select class="form-control" name="project_id" style="margin: 5px 0px 0px 0px;" onchange="javascript:position_project(this);">';
-    		$projectitems .= '<option>-- Choose a project --</option>';
-    		foreach ($projects as $project) {
-    			if ($currentProject != null && strcmp($currentProject->name, $project->name) == 0) {
-                    $currentProjectExists = TRUE;
-    				$projectitems .= "<option value='$project->id' selected='selected'>$project->name</option>";
-    			} else {
-    				$projectitems .= "<option value='$project->id'>$project->name</option>";
-    			}
-    		}
-    		$projectitems .= '</select>';
-    	}
-        
+        if (Auth::check())
+        {
+            if (!$projects || count($projects) <= 0) {
+                $projectitems .= '<ul class="nav navbar-nav navbar-right"><li>'. HTML::link('/projects/create', 'Create a new project') . '</li></ul>';
+            } else {
+                $projectitems .= '<ul class="nav navbar-nav navbar-right">';
+                $projectitems .= '<li><select class="form-control" name="project_id" style="margin: 5px 0px 0px 0px;" onchange="javascript:position_project(this);">';
+                $projectitems .= '<option>-- Choose a project --</option>';
+                foreach ($projects as $project) {
+                    if ($currentProject != null && strcmp($currentProject->name, $project->name) == 0) {
+                        $currentProjectExists = TRUE;
+                        $projectitems .= "<option value='$project->id' selected='selected'>$project->name</option>";
+                    } else {
+                        $projectitems .= "<option value='$project->id'>$project->name</option>";
+                    }
+                }
+                $projectitems .= '</select></li>';
+                $projectitems .= '</ul>';
+            }
+        }
+        else
+        {
+            $projectitems .= '<ul class="nav navbar-nav navbar-right"><li>'. HTML::link('/users/login', 'Log in') . '</li></ul>';
+        }
+    	
         $items = array();
         $items['home'] = HTML::link('/', 'Home');
-        $items['projects'] = HTML::link('/projects/', 'Projects');
-        $action_links_attribute = $currentProjectExists ? '' : 'style="color: red; display: none;"';
-        $items['requirements'] = HTML::link('/requirements/', 'Requirements', $action_links_attribute);
-        $items['specification'] = HTML::link('/specification/', 'Specification', $action_links_attribute);
-        $items['planning'] = HTML::link('/planning/', 'Planning', $action_links_attribute);
-        $items['execution'] = HTML::link('/execution/', 'Execution', $action_links_attribute);
-        $items['reports'] = HTML::link('/reports/', 'Reports', $action_links_attribute);
-        $items['manage'] = HTML::link('/manage/', 'Manage Nestor');
+        if (Auth::check())
+        {
+            $items['projects'] = HTML::link('/projects/', 'Projects');
+            $action_links_attribute = $currentProjectExists ? '' : 'style="color: red; display: none;"';
+            $items['requirements'] = HTML::link('/requirements/', 'Requirements', $action_links_attribute);
+            $items['specification'] = HTML::link('/specification/', 'Specification', $action_links_attribute);
+            $items['planning'] = HTML::link('/planning/', 'Planning', $action_links_attribute);
+            $items['execution'] = HTML::link('/execution/', 'Execution', $action_links_attribute);
+            $items['reports'] = HTML::link('/reports/', 'Reports', $action_links_attribute);
+            $items['manage'] = HTML::link('/manage/', 'Manage Nestor');
+            $items['logout'] = HTML::link('/users/logout', 'Log out');
+        }
         $menuitems = '';
         foreach ($items as $key => $item) {
             if (strcmp($active, $key) == 0)

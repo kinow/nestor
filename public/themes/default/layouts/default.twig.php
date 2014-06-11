@@ -25,14 +25,14 @@
 			</div>
 			{% endif %}
             {% if Session.has('warning') %}
-            <div class="alert alert-block">
+            <div class="alert alert-warning">
                 <button type="button" class="close" data-dismiss="alert">&times;</button>
                 <h4>Warning!</h4>
                 <p>{{ Session.get('warning') }}</p>
             </div>
             {% endif %}
             {% if Session.has('error') %}
-            <div class="alert alert-error">
+            <div class="alert alert-danger">
                 <button type="button" class="close" data-dismiss="alert">&times;</button>
                 <p>{{ Session.get('error') }}</p>
             </div>
@@ -40,7 +40,7 @@
 
             {% if Theme.getContentArguments()['success'] is defined %}
                 {% for successes in Theme.getContentArguments()['successes'].all() %}
-                <div class="alert alert-error">
+                <div class="alert alert-danger">
                     <button type="button" class="close" data-dismiss="alert">&times;</button>
                     <p>{{ success }}</p>
                 </div>
@@ -49,7 +49,7 @@
 
             {% if Theme.getContentArguments()['warnings'] is defined %}
                 {% for warning in Theme.getContentArguments()['warnings'].all() %}
-                <div class="alert alert-error">
+                <div class="alert alert-danger">
                     <button type="button" class="close" data-dismiss="alert">&times;</button>
                     <p>{{ warning }}</p>
                 </div>
@@ -58,7 +58,7 @@
 
             {% if Theme.getContentArguments()['errors'] is defined %}
                 {% for error in Theme.getContentArguments()['errors'].all() %}
-                <div class="alert alert-error">
+                <div class="alert alert-danger">
                     <button type="button" class="close" data-dismiss="alert">&times;</button>
                     <p>{{ error }}</p>
                 </div>
@@ -67,7 +67,7 @@
 
             {% if errors is defined %}
                 {% for error in errors.all() %}
-                <div class="alert alert-error">
+                <div class="alert alert-danger">
                     <button type="button" class="close" data-dismiss="alert">&times;</button>
                     <p>{{ error }}</p>
                 </div>

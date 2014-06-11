@@ -17,6 +17,11 @@
         	<br/>
         	<small>Install or uninstall plug-ins to extend Nestor behaviour.</small>
 		  </li>
+		  <li class="list-group-item">
+		  	{{ HTML.link('/users', 'Manage Users') }}
+        	<br/>
+        	<small>Create/delete/modify users that can log in to this Nestor.</small>
+		  </li>
 		</ul>
 	</div>
 </div>
