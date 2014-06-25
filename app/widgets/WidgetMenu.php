@@ -110,7 +110,6 @@ class WidgetMenu extends Widget {
         {
             $items['projects'] = HTML::link('/projects/', 'Projects');
             $action_links_attribute = $currentProjectExists ? '' : 'style="color: red; display: none;"';
-            $items['requirements'] = HTML::link('/requirements/', 'Requirements', $action_links_attribute);
             $items['specification'] = HTML::link('/specification/', 'Specification', $action_links_attribute);
             $items['planning'] = HTML::link('/planning/', 'Planning', $action_links_attribute);
             $items['execution'] = HTML::link('/execution/', 'Execution', $action_links_attribute);
