@@ -55,6 +55,8 @@ class UsersController extends \BaseController {
 		$user = null;
 		Log::info('Creating user...');
 		$pdo = null;
+
+		//$hash = password_hash(Input::get('password'), PASSWORD_BCRYPT, array('cost' => 10));
 		try {
     		$pdo = DB::connection()->getPdo();
     		$pdo->beginTransaction();
@@ -65,28 +67,28 @@ class UsersController extends \BaseController {
 				1, 
 				Input::get('password')
 			);
-			if ($user->isValid() && $user->isSaved())
+			if ($user)
 			{
 				Log::debug('Comitting transaction');
 				$pdo->commit();
+
+				return Redirect::to('/users/')
+					->with('success', sprintf('User %s created', Input::get('first_name')));
+			}
+			else 
+			{
+				return Redirect::to('/users/create')
+					->withInput()
+					->withErrors($user->errors());
 			}
 		} catch (\Exception $e) {
 			if (!is_null($pdo))
 				try {
-					Log::warning('Rolling back transaction');
+					Log::warning('Rolling back transaction: ' . $e->getMessage());
 					$pdo->rollBack();
 				} catch (Exception $ignoreme) {}
 			return Redirect::to('/users/create')
 	 			->withInput();
-		}
-		if ($user->isSaved())
-		{
-			return Redirect::to('/users/')
-				->with('success', sprintf('User %s created', Input::get('first_name')));
-		} else {
-			return Redirect::to('/users/create')
-				->withInput()
-				->withErrors($user->errors());
 		}
 	}
 
@@ -216,10 +218,13 @@ class UsersController extends \BaseController {
 
 	public function postLogin()
 	{
-		if (Auth::attempt(array('email' => Input::get('email'), 'password' => Input::get('password')), Input::get('remember')))
+		//if (Auth::attempt(array('email' => Input::get('email'), 'password' => Input::get('password')), Input::get('remember')))
+		if ($this->users->login(Input::get('email'), Input::get('password'), Input::get('remember')))
 		{
+			Log::info(sprintf('User %s logged in', Input::get('email')));
 		    return Redirect::intended('/');
-		}		
+		}
+		Log::warning(sprintf('Invalid log in attempt from %s', Input::get('email')));
 		return Redirect::to('/users/login')
 			->with('error', 'Invalid credentials');
 	}

@@ -156,7 +156,6 @@ class DbUserRepository implements UserRepository {
 		if ($user and Hash::check($password, $user->password))
 		{
 			Auth::login($user, $remember);
-
 			return true;
 		}
 

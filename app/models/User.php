@@ -2,9 +2,8 @@
 
 use Illuminate\Auth\UserInterface;
 use Illuminate\Auth\Reminders\RemindableInterface;
-use Magniloquent\Magniloquent\Magniloquent;
 
-class User extends Magniloquent implements UserInterface, RemindableInterface {
+class User extends Eloquent implements UserInterface, RemindableInterface {
 
 	/**
 	 * The database table used by the model.
@@ -12,6 +11,8 @@ class User extends Magniloquent implements UserInterface, RemindableInterface {
 	 * @var string
 	 */
 	protected $table = 'users';
+
+	protected $primaryKey = 'id';
 
 	/**
 	 * The attributes that are mass assignable.
@@ -34,7 +35,8 @@ class User extends Magniloquent implements UserInterface, RemindableInterface {
 	 */
 	public function getAuthIdentifier()
 	{
-		return $this->getKey();
+		//return $this->getKey();
+		return $this->id;
 	}
 
 	/**
@@ -69,7 +71,7 @@ class User extends Magniloquent implements UserInterface, RemindableInterface {
 
 	public function getRememberTokenName()
 	{
-	    return 'remember_token';
+	    return 'remember';
 	}
 
 }
