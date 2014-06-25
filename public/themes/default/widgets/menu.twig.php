@@ -13,9 +13,9 @@
           		<ul class="nav navbar-nav">
 					{{ menuitems }}
 			    </ul>
-			    {{ Form.open({'url': '/projects/position', 'class': 'navbar-form navbar-right form-horizontal', 'role': 'projectPosition', 'method': 'GET', 'style': 'margin: 0px;'}) }}
-				{{ Theme.getProjectitems() }}
-			{{ Form.close() }}
+			    {{ Form.open({'url': '/projects/position', 'class': 'navbar-form navbar-right form-horizontal', 'role': 'projectPosition', 'method': 'GET', 'style': 'margin: 0px;', 'id': 'positionProjectForm'}) }}
+					{{ Theme.getProjectitems() }}
+				{{ Form.close() }}
 			</div>
 		</div>
 	</div>

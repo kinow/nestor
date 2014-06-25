@@ -1,7 +1,7 @@
 // position project
 // TODO: improve docs
-var position_project = function(select) {
-	var form = $(select).parent('form');
+var position_project = function() {
+	var form = $('#positionProjectForm');
 	$(form).submit();
 }
 
