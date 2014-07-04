@@ -46,7 +46,7 @@
 			<tbody>
 			{% for testcase in testcases.get() %}
 				<tr>
-					<td>{{ HTML.linkRoute('testcases.show', testcase.name, testcase.id) }}</td>
+					<td>{{ HTML.linkRoute('testcases.edit', testcase.name, testcase.test_case_id) }}</td>
 					<td>{{ testcase.executionType.first.name }}</td>
 				</tr>
 			{% endfor %}
