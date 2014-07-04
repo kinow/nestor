@@ -52,7 +52,10 @@ class TestRun extends Magniloquent {
 	{
 		return static::join('test_plans', 'test_plans.id', '=', 'test_runs.test_plan_id')
 			->join('test_plans_test_cases', 'test_plans_test_cases.test_plan_id', '=', 'test_plans.id')
-			->count('test_plans_test_cases.test_case_version_id');
+			->join('test_case_versions', 'test_case_versions.id', '=', 'test_plans_test_cases.test_case_version_id')
+			->join('test_cases', 'test_cases.id', '=', 'test_case_versions.test_case_id')
+			->where('test_plans.id', '=', $this->id)
+			->count('test_cases.id');
 	}
 
 	protected static $purgeable = [''];
@@ -64,7 +67,9 @@ class TestRun extends Magniloquent {
 		$total = $this->countTestCases();
 		$executions = Execution::select('executions.*')
 			->where('executions.test_run_id', $this->id)
-			->groupBy('test_case_version_id')->get();
+			->join('test_case_versions', 'test_case_versions.id', '=', 'executions.test_case_version_id')
+			->join('test_cases', 'test_cases.id', '=', 'test_case_versions.test_case_id')
+			->groupBy('test_cases.id')->get();
 
 		$executionStatuses = ExecutionStatus::all();
 		$executionStatusesCount = array();

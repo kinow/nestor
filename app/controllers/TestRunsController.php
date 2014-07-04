@@ -90,13 +90,13 @@ class TestRunsController extends \NavigationTreeController {
 	 */
 	public function index()
 	{
-		$test_plan_id = Input::get('test_plan_id');
-		$testplan = $this->testplans->find($test_plan_id);
+		$testPlanId = Input::get('test_plan_id');
+		$testplan = $this->testplans->find($testPlanId);
 		$this->theme->breadcrumb()->
 			add('Home', URL::to('/'))->
 			add('Execution', URL::to('/execution'))->
 			add(sprintf('Test Runs for Test Plan %s', $testplan->name));
-		$testruns = $this->testruns->findByTestPlanId($test_plan_id);
+		$testruns = $this->testruns->findByTestPlanId($testPlanId);
 		$args = array();
 		$args['testruns'] = $testruns;
 		$args['testplan'] = $testplan;
@@ -110,8 +110,8 @@ class TestRunsController extends \NavigationTreeController {
 	 */
 	public function create()
 	{
-		$test_plan_id = Input::get('test_plan_id');
-		$testplan = $this->testplans->find($test_plan_id);
+		$testPlanId = Input::get('test_plan_id');
+		$testplan = $this->testplans->find($testPlanId);
 		$this->theme->breadcrumb()->
 			add('Home', URL::to('/'))->
 			add('Execution', URL::to('/execution'))->
@@ -230,11 +230,11 @@ class TestRunsController extends \NavigationTreeController {
 			->with('success', sprintf('The test run %s has been deleted', $testrun->name));
 	}
 
-	public function runGet($test_run_id) 
+	public function runGet($testRunId) 
 	{
-		Log::info(sprintf('Executing Test Run %d', $test_run_id));
+		Log::info(sprintf('Executing Test Run %d', $testRunId));
 		$currentProject = $this->getCurrentProject();
-		$testrun = $this->testruns->find($test_run_id);
+		$testrun = $this->testruns->find($testRunId);
 		$testplan = $testrun->testplan;
 		$testcases = $testplan->testcases();
 
