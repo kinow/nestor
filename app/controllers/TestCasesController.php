@@ -234,13 +234,24 @@ class TestCasesController extends \BaseController {
 	 */
 	public function edit($id)
 	{
+		$testCaseVersionId = Input::get('version');
 		$testcase = $this->testcases->find($id);
+		if (isset($testCaseVersionId) && is_numeric($testCaseVersionId))
+		{
+			$testcaseVersion = $this->testcases->getVersion($testCaseVersionId);
+		}
+		else
+		{
+			$testcaseVersion = $testcase->latestVersion();
+		}
+		
 		$args = array();
 		$this->theme->breadcrumb()->
 			add('Home', URL::to('/'))->
 			add('Specification', URL::to('/specification/'))->
 			add(sprintf('Edit test case %s', $testcase->name));
 		$args['testcase'] = $testcase;
+		$args['testcaseVersion'] = $testcaseVersion;
 		$args['execution_types'] = $this->executionTypes->all();
 		$executionStatusesCol = $this->executionStatuses->all();
 		$executionStatuses = array();

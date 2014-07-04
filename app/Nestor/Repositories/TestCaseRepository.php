@@ -17,6 +17,8 @@ interface TestCaseRepository {
 	 */
 	public function find($id);
 
+	public function getVersion($version);
+
 	/**
 	 * Create a test case
 	 *

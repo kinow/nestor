@@ -86,23 +86,29 @@
 <div class="form-group">
     {{ Form.label('name', 'Name', {'class': 'control-label col-xs-2'}) }}
     <div class="col-xs-10">
-      {{ Form.input('text', 'name', testcase.latestVersion.name, {'id':"name", 'class': "form-control"}) }}
+      {{ Form.input('text', 'name', testcaseVersion.name, {'id':"name", 'class': "form-control"}) }}
+    </div>
+</div>
+<div class="form-group">
+    {{ Form.label('version', 'Version', {'class': 'control-label col-xs-2'}) }}
+    <div class="col-xs-10">
+      {{ Form.input('text', 'version', testcaseVersion.version, {'id':"version", 'class': "form-control", 'disabled': 'disabled', 'readonly': 'readonly'}) }}
     </div>
 </div>
 <div class="form-group">
     {{ Form.label('description', 'Description', {'class': 'control-label col-xs-2'}) }}
     <div class="col-xs-10">
-      {{ Form.textarea('description', testcase.latestVersion.description, {'id': "description", 'rows': "3",'class': "form-control"}) }}
+      {{ Form.textarea('description', testcaseVersion.description, {'id': "description", 'rows': "3",'class': "form-control"}) }}
     </div>
 </div>
 <div class="form-group">
     {{ Form.label('prerequisite', 'Prerequisite', {'class': 'control-label col-xs-2'}) }}
-    <div class="col-xs-10">{{ Form.textarea('prerequisite', testcase.latestVersion.prerequisite, {'id': "prerequisite", 'rows': "3",
+    <div class="col-xs-10">{{ Form.textarea('prerequisite', testcaseVersion.prerequisite, {'id': "prerequisite", 'rows': "3",
         'class': "form-control"}) }}</div>
 </div>
 <div class="form-group">
     {{ Form.label('execution_type_id', 'Execution Type', {'class': 'control-label col-xs-2'}) }}
-    <div class="col-xs-10">{{ Form.select('execution_type_id', execution_type_ids, testcase.latestVersion.execution_type_id, {'id': "execution_type_id",
+    <div class="col-xs-10">{{ Form.select('execution_type_id', execution_type_ids, testcaseVersion.execution_type_id, {'id': "execution_type_id",
         'class': "form-control"}) }}</div>
 </div>
 <div class="form-group">
@@ -201,7 +207,7 @@ YUI().use('node', 'sortable', 'template', 'dd-delegate', 'transition', function(
     e.stopPropagation();
   };
 
-  {% for step in testcase.latestVersion.sortedSteps.get() %}
+  {% for step in testcaseVersion.sortedSteps.get() %}
    addExistingStep({
     'id': '{{ step.test_case_step_id }}',
     'order': "{{ step.order }}",

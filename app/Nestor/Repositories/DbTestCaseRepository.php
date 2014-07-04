@@ -35,6 +35,11 @@ class DbTestCaseRepository implements TestCaseRepository {
 			->findOrFail($id);
 	}
 
+	public function getVersion($version)
+	{
+		return TestCaseVersion::where('version','=',$version)->firstOrFail();
+	}
+
 	/**
 	 * Create a test case
 	 *
