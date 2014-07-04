@@ -258,7 +258,15 @@ class NavigationTreeController extends \BaseController {
 				}
 				$buffer .= "</li>";
 			} else if (array_key_exists($node->node_id, $testcases)) {
-				$buffer .= sprintf ( "<li data-icon='mimetypes/text-x-generic.png' class='%s'>%s</li>", $extra_classes, HTML::link ('/execution/testruns/' . $testrun_id . "/run/testcase/" . $node->node_id, $node->display_name, array('target' => '_self')));
+				$testcaseVersion = $testcases[$node->node_id];
+				$executionTypeId = $testcaseVersion->execution_type_id;
+				if ($executionTypeId == 2)
+				{
+				}
+				else 
+				{
+					$buffer .= sprintf ( "<li data-icon='mimetypes/text-x-generic.png' class='%s'>%s</li>", $extra_classes, HTML::link ('/execution/testruns/' . $testrun_id . "/run/testcase/" . $node->node_id, $node->display_name, array('target' => '_self')));
+				}
 			}
 		}
 

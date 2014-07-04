@@ -237,6 +237,7 @@ class TestRunsController extends \NavigationTreeController {
 		$testrun = $this->testruns->find($testRunId);
 		$testplan = $testrun->testplan;
 		$testcases = $testplan->testcases();
+		$testcaseVersions = $testplan->testcaseVersions();
 
 		Log::debug('Creating breadcrumb');
 		$this->theme->breadcrumb()->
@@ -247,9 +248,9 @@ class TestRunsController extends \NavigationTreeController {
 
 		$showOnly = array(); // Our filter
 
-		foreach ($testcases as $testcase)
+		foreach ($testcaseVersions as $testcaseVersion)
 		{
-			$showOnly[$testcase->id] = TRUE;
+			$showOnly[$testcaseVersion->test_case_id] = $testcaseVersion;
 		}
 
 		$nodes = $this->nodes->children('1-'.$currentProject->id, 1 /* length*/);
@@ -273,6 +274,7 @@ class TestRunsController extends \NavigationTreeController {
 		$currentProject = $this->getCurrentProject();
 		$testrun = $this->testruns->find($testRunId);
 		$testplan = $testrun->testplan;
+		$testcaseVersions = $testplan->testcaseVersions()->get();
 		$testcases = $testplan->testcases();
 		$testcase = $this->testcases->find($testCaseId);
 		$testcaseVersion = $testcase->latestVersion();
@@ -286,9 +288,9 @@ class TestRunsController extends \NavigationTreeController {
 
 		$showOnly = array(); // Our filter
 
-		foreach ($testcases as $tempTestcase)
+		foreach ($testcaseVersions as $testcaseVersion2)
 		{
-			$showOnly[$tempTestcase->id] = TRUE;
+			$showOnly[$testcaseVersion2->test_case_id] = $testcaseVersion2;
 		}
 
 		$nodes = $this->nodes->children('1-'.$currentProject->id, 1 /* length*/);
