@@ -1,5 +1,7 @@
 <div>
 <h4>Test Case {{ node.display_name }}</h4>
+<label>Version</label>
+<p>{{ testcase.latestVersion.version }}</p>
 <label>Name</label>
 <p>{{ testcase.latestVersion.name }}</p>
 <label>Description</label>
