@@ -45,4 +45,9 @@ class TestSuite extends Magniloquent {
 
 	protected static $purgeable = [''];
 
+	public function labels() 
+	{
+		return $this->belongsToMany('Label', 'test_suites_labels')->withTimestamps();
+	}
+
 }

@@ -9,6 +9,7 @@ use Nestor\Repositories\ExecutionTypeRepository;
 use Nestor\Repositories\NavigationTreeRepository;
 use Nestor\Repositories\TestCaseStepRepository;
 use Nestor\Repositories\ExecutionStatusRepository;
+use Nestor\Repositories\LabelRepository;
 
 class TestCasesController extends \BaseController {
 
@@ -47,6 +48,13 @@ class TestCasesController extends \BaseController {
 	 */
 	protected $executionStatuses;
 
+	/**
+	 * The labels repository implementation.
+	 *
+	 * @var Nestor\Repositories\LabelRepository
+	 */
+	protected $labels;
+
 	protected $theme;
 
 	public $restful = true;
@@ -56,7 +64,8 @@ class TestCasesController extends \BaseController {
 		ExecutionTypeRepository $executionTypes, 
 		NavigationTreeRepository $nodes, 
 		TestCaseStepRepository $testcaseSteps, 
-		ExecutionStatusRepository $executionStatuses)
+		ExecutionStatusRepository $executionStatuses,
+		LabelRepository $labels)
 	{
 		parent::__construct();
 		$this->testcases = $testcases;
@@ -64,6 +73,7 @@ class TestCasesController extends \BaseController {
 		$this->nodes = $nodes;
 		$this->testcaseSteps = $testcaseSteps;
 		$this->executionStatuses = $executionStatuses;
+		$this->labels = $labels;
 		$this->theme->setActive('testcases');
 	}
 
@@ -94,6 +104,8 @@ class TestCasesController extends \BaseController {
 	 */
 	public function store()
 	{
+		$currentProject = $this->getCurrentProject();
+		$labels = $this->labels->all($currentProject->id)->get();
 		$testcase = null;
 		$testcaseVersion = null;
 		$navigationTreeNode = null;
@@ -147,6 +159,30 @@ class TestCasesController extends \BaseController {
 			else
 			{
 				Log::debug('No test steps created');
+			}
+			$newLabels = Input::get('labels');
+			if (isset($newLabels) && is_array($newLabels))
+			{
+				for($i = 0; $i < count($newLabels); ++$i)
+				{
+					$labelName = $newLabels[$i];
+					$found = FALSE;
+					foreach ($labels as $existingLabel)
+					{
+						if ($labelName == $existingLabel->name)
+						{
+							$found = TRUE;
+							$label = $existingLabel;
+							break;
+						}
+					}
+					if (!$found)
+					{
+						$label = $this->labels->create($currentProject->id, $labelName, 'gray');
+					}
+					$testcaseVersion->labels()->attach($label->id);
+					Log::debug(sprintf('Label %s added to test case version id %d', $labelName, $testcaseVersion->id));
+				}
 			}
 
 			$ancestor = Input::get('ancestor');

@@ -4,8 +4,8 @@ use Nestor\Repositories\ProjectRepository;
 use Nestor\Repositories\TestCaseRepository;
 use Nestor\Repositories\ExecutionTypeRepository;
 use Nestor\Repositories\NavigationTreeRepository;
-
 use Nestor\Repositories\ExecutionStatusRepository;
+use Nestor\Repositories\LabelRepository;
 
 class SpecificationController extends \NavigationTreeController {
 
@@ -41,6 +41,13 @@ class SpecificationController extends \NavigationTreeController {
 	protected $executionStatuses;
 
 	/**
+	 * The labels repository implementation.
+	 *
+	 * @var Nestor\Repositories\LabelRepository
+	 */
+	protected $labels;
+
+	/**
 	 * Current project in Session.
 	 * @var Project
 	 */
@@ -50,8 +57,11 @@ class SpecificationController extends \NavigationTreeController {
 	 * Constructor.
 	 *
 	 * @param Nestor\Repositories\ProjectRepository         $projects
+	 * @param Nestor\Repositories\TestCaseRepository        $testcases
 	 * @param Nestor\Repositories\ExecutionTypeRepository   $executionTypes
 	 * @param Nestor\Repositories\NavigationTreeRepository  $nodes
+	 * @param Nestor\Repositories\ExecutionStatusRepository $executionStatuses
+	 * @param Nestor\Repositories\LabelRepository           $labels
 	 * @return SpecificationController
 	 */
 	public function __construct(
@@ -59,7 +69,8 @@ class SpecificationController extends \NavigationTreeController {
 		TestCaseRepository $testcases, 
 		ExecutionTypeRepository $executionTypes, 
 		NavigationTreeRepository $nodes, 
-		ExecutionStatusRepository $executionStatuses)
+		ExecutionStatusRepository $executionStatuses,
+		LabelRepository $labels)
 	{
 		parent::__construct();
 		$this->projects = $projects;
@@ -67,6 +78,7 @@ class SpecificationController extends \NavigationTreeController {
 		$this->executionTypes = $executionTypes;
 		$this->nodes = $nodes;
 		$this->executionStatuses = $executionStatuses;
+		$this->labels = $labels;
 		$this->theme->setActive('specification');
 	}
 
@@ -152,6 +164,7 @@ class SpecificationController extends \NavigationTreeController {
 		{
 			$execution_types = $this->executionTypes->all();
 			$testcase = $this->testcases->find($node->node_id);
+			$labels = $testcase->latestVersion()->labels();
 			if (isset($testcase) && !is_null($testcase))
 			{
 				foreach ($execution_types as $execution_type)
@@ -163,6 +176,7 @@ class SpecificationController extends \NavigationTreeController {
 				}
 			}
 			$args['testcase'] = $testcase;
+			$args['labels'] = $labels;
 		}
 		$args['navigation_tree_html'] = $navigationTreeHtml;
 		$args['navigation_tree'] = $navigationTree;

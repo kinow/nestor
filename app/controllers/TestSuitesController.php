@@ -61,6 +61,7 @@ class TestSuitesController extends \BaseController {
 	 */
 	public function store()
 	{
+		dd($_POST);
 		$testsuite = null;
 		$navigationTreeNode = null;
 		Log::info('Creating test suite...');

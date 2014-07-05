@@ -44,7 +44,8 @@ class TestCaseVersion extends Magniloquent {
 		'testcase' => array('belongsTo', 'TestCase2', 'test_case_id'),
 		'executionType' => array('belongsTo', 'ExecutionType', 'execution_type_id'),
 		'executions' => array('hasMany', 'Execution', 'test_case_id'),
-		'steps' => array('belongsToMany', 'TestCaseStep', 'test_case_step_versions')
+		'steps' => array('belongsToMany', 'TestCaseStep', 'test_case_step_versions'),
+		'labels' => array('belongsToMany', 'Label', 'test_case_versions_labels')
 	);
 
 	protected static $purgeable = [''];
@@ -53,6 +54,11 @@ class TestCaseVersion extends Magniloquent {
 	{
 		return TestCaseVersion::
 			hasMany('TestCaseStepVersion', 'test_case_version_id', 'id');
+	}
+
+	public function labels()
+	{
+		return $this->belongsToMany('Label', 'test_case_versions_labels')->withTimestamps();
 	}
 
 }

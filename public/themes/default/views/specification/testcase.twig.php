@@ -1,3 +1,15 @@
+<style>
+.label_wrapper {
+  display: inline-block;
+}
+#labels {
+	clear: both;
+	display: block;
+	white-space: nowrap;
+	overflow: hidden;
+}
+</style>
+
 <div>
 <h4>Test Case {{ node.display_name }}</h4>
 <label>Version</label>
@@ -10,6 +22,18 @@
 <p>{{ testcase.latestVersion.prerequisite }}</p>
 <label>Execution Type</label>
 <p>{{ testcase.latestVersion.executionType.first.name }}</p>
+<label>Labels</label>
+<div id="labels">
+<!-- Test Case steps go here -->
+{% if labels.count() > 0 %}
+	{% for label in labels.get() %}
+<div class='label_wrapper'>
+  <span class="label label-default">{{ label.name }}</span>
+  <input type='hidden' name='labels[]' value='{{ label.name }}' />
+</div>
+	{% endfor %}
+{% endif %}
+</div>
 <hr/>
 <label>Test Steps</label>
 {% set steps = testcase.latestVersion.sortedSteps() %}
