@@ -209,8 +209,7 @@ class TestCasesController extends \BaseController {
 			}
 			else
 			{
-				Log::debug('Failed to create test case. Rolling back transaction');
-				$pdo->rollBack();
+				throw new Exception('Failed to create test case. Rolling back transaction');
 			}
 		} catch (\PDOException $e) {
 			if (!is_null($pdo))
@@ -286,7 +285,9 @@ class TestCasesController extends \BaseController {
 			add('Home', URL::to('/'))->
 			add('Specification', URL::to('/specification/'))->
 			add(sprintf('Edit test case %s', $testcase->name));
+		$labels = $testcaseVersion->labels();
 		$args['testcase'] = $testcase;
+		$args['labels'] = $labels;
 		$args['testcaseVersion'] = $testcaseVersion;
 		$args['execution_types'] = $this->executionTypes->all();
 		$executionStatusesCol = $this->executionStatuses->all();
@@ -327,6 +328,8 @@ class TestCasesController extends \BaseController {
 	 */
 	public function update($id)
 	{
+		$currentProject = $this->getCurrentProject();
+		$labels = $this->labels->all($currentProject->id)->get();
 		$testcase = null;
 		$testcaseVersion = null;
 		$navigationTreeNode = null;
@@ -404,17 +407,76 @@ class TestCasesController extends \BaseController {
 			{
 				top: foreach ($existingSteps as $existingStep) 
 				{
-					$remove = true;
 					foreach ($stepIds as $stepId)
 					{
 						if ($stepId == $existingStep->id)
 						{
-							$remove = false;
 							continue 2;
 						}
 					}
 					Log::info("Deleting test case step: " . $existingStep->id);
 					$this->testcaseSteps->delete($existingStep->id);
+				}
+			}
+
+			$existingLabels = $testcaseVersion->labels()->get();
+			$theLabels = Input::get('labels');
+			if (isset($theLabels) && is_array($theLabels))
+			{
+				for($i = 0; $i < count($theLabels); ++$i)
+				{
+					$labelName = $theLabels[$i];
+					$found = FALSE;
+					foreach ($labels as $projectLabel)
+					{
+						if ($labelName == $projectLabel->name)
+						{
+							$found = TRUE;
+							$label = $projectLabel;
+							break;
+						}
+					}
+					if (!$found)
+					{
+						$label = $this->labels->create($currentProject->id, $labelName, 'gray');
+					}
+					$found = FALSE;
+					foreach ($existingLabels as $existingLabel)
+					{
+						if ($labelName == $existingLabel->name)
+						{
+							$found = TRUE;
+							$label = $existingLabel;
+							break;
+						}
+					}
+					if (!$found)
+					{
+						$testcaseVersion->labels()->attach($label->id);
+						Log::debug(sprintf('Label %s added to test case version id %d', $labelName, $testcaseVersion->id));
+					}
+				}
+			}
+			if (empty($theLabels))
+			{
+				foreach ($existingLabels as $existingLabel)
+				{
+					$testcaseVersion->labels()->detach($existingLabel->id);
+				}
+			}
+			else
+			{
+				top2: foreach ($existingLabels as $existingLabel) 
+				{
+					foreach ($theLabels as $theLabel)
+					{
+						if ($theLabel == $existingLabel->name)
+						{
+							continue 2;
+						}
+					}
+					Log::info("Deleting label " . $existingLabel->id);
+					$testcaseVersion->labels()->dettach($existingLabel->id);
 				}
 			}
 

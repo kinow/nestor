@@ -6,6 +6,7 @@ use Nestor\Repositories\ExecutionTypeRepository;
 use Nestor\Repositories\NavigationTreeRepository;
 use Nestor\Repositories\ExecutionStatusRepository;
 use Nestor\Repositories\LabelRepository;
+use Nestor\Repositories\TestSuiteRepository;
 
 class SpecificationController extends \NavigationTreeController {
 
@@ -48,6 +49,13 @@ class SpecificationController extends \NavigationTreeController {
 	protected $labels;
 
 	/**
+	 * The test suites repository implementation.
+	 * 
+	 * @var Nestor\Repositories\TestSuiteRepository
+	 */
+	protected $testsuites;
+
+	/**
 	 * Current project in Session.
 	 * @var Project
 	 */
@@ -62,6 +70,7 @@ class SpecificationController extends \NavigationTreeController {
 	 * @param Nestor\Repositories\NavigationTreeRepository  $nodes
 	 * @param Nestor\Repositories\ExecutionStatusRepository $executionStatuses
 	 * @param Nestor\Repositories\LabelRepository           $labels
+	 * @param Nestor\Repositories\TestSuiteRepository       $testsuites
 	 * @return SpecificationController
 	 */
 	public function __construct(
@@ -70,7 +79,8 @@ class SpecificationController extends \NavigationTreeController {
 		ExecutionTypeRepository $executionTypes, 
 		NavigationTreeRepository $nodes, 
 		ExecutionStatusRepository $executionStatuses,
-		LabelRepository $labels)
+		LabelRepository $labels,
+		TestSuiteRepository $testsuites)
 	{
 		parent::__construct();
 		$this->projects = $projects;
@@ -79,6 +89,7 @@ class SpecificationController extends \NavigationTreeController {
 		$this->nodes = $nodes;
 		$this->executionStatuses = $executionStatuses;
 		$this->labels = $labels;
+		$this->testsuites = $testsuites;
 		$this->theme->setActive('specification');
 	}
 
@@ -142,6 +153,8 @@ class SpecificationController extends \NavigationTreeController {
 		if (isset($node) && $node->node_type_id == 2) // Test Suite?
 		{
 			$execution_types = $this->executionTypes->all();
+			$testsuite = $this->testsuites->find($node->node_id);
+			$labels = $testsuite->labels();
 			$args['execution_types'] = $execution_types;
 			$execution_types_ids = array();
 			foreach ($args['execution_types'] as $execution_type)
@@ -158,7 +171,9 @@ class SpecificationController extends \NavigationTreeController {
 					continue; // Skip NOT RUN
 				$execution_statuses_ids[$execution_status->id] = $execution_status->name;
 			}
+			$args['testsuite'] = $testsuite;
 			$args['execution_statuses_ids'] = $execution_statuses_ids;
+			$args['labels'] = $labels;
 		}
 		else if (isset($node) && $node->node_type_id == 3) // Test Case?
 		{

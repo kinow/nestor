@@ -5,6 +5,7 @@ use \Input;
 use \DB;
 use Nestor\Repositories\TestSuiteRepository;
 use Nestor\Repositories\NavigationTreeRepository;
+use Nestor\Repositories\LabelRepository;
 
 class TestSuitesController extends \BaseController {
 
@@ -22,15 +23,26 @@ class TestSuitesController extends \BaseController {
 	 */
 	protected $nodes;
 
+	/**
+	 * The labels repository implementation.
+	 *
+	 * @var Nestor\Repositories\LabelRepository
+	 */
+	protected $labels;
+
 	protected $theme;
 
 	public $restful = true;
 
-	public function __construct(TestSuiteRepository $testsuites, NavigationTreeRepository $nodes)
+	public function __construct(
+		TestSuiteRepository $testsuites, 
+		NavigationTreeRepository $nodes,
+		LabelRepository $labels)
 	{
 		parent::__construct();
 		$this->testsuites = $testsuites;
 		$this->nodes = $nodes;
+		$this->labels = $labels;
 		$this->theme->setActive('testsuites');
 	}
 
@@ -61,7 +73,8 @@ class TestSuitesController extends \BaseController {
 	 */
 	public function store()
 	{
-		dd($_POST);
+		$currentProject = $this->getCurrentProject();
+		$labels = $this->labels->all($currentProject->id)->get();
 		$testsuite = null;
 		$navigationTreeNode = null;
 		Log::info('Creating test suite...');
@@ -74,13 +87,41 @@ class TestSuitesController extends \BaseController {
 					Input::get('name'),
 					Input::get('description')
 			);
+
+			Log::debug('Processing test suite labels');
+			$newLabels = Input::get('labels');
+			if (isset($newLabels) && is_array($newLabels))
+			{
+				for($i = 0; $i < count($newLabels); ++$i)
+				{
+					$labelName = $newLabels[$i];
+					$found = FALSE;
+					foreach ($labels as $existingLabel)
+					{
+						if ($labelName == $existingLabel->name)
+						{
+							$found = TRUE;
+							$label = $existingLabel;
+							break;
+						}
+					}
+					if (!$found)
+					{
+						$label = $this->labels->create($currentProject->id, $labelName, 'gray');
+					}
+					$testsuite->labels()->attach($label->id);
+					Log::debug(sprintf('Label %s added to test suite id %d', $labelName, $testsuite->id));
+				}
+			}
+
+			Log::debug('Inserting test suite into navigation tree');
 			$ancestor = Input::get('ancestor');
 			if ($testsuite->isValid() && $testsuite->isSaved())
 			{
 				$navigationTreeNode = $this->nodes->create(
 						$ancestor,
-						'2-' . $pdo->lastInsertId(),
-						$pdo->lastInsertId(),
+						'2-' . $testsuite->id,
+						$testsuite->id,
 						2,
 						$testsuite->name
 				);
@@ -89,17 +130,34 @@ class TestSuitesController extends \BaseController {
 					$pdo->commit();
 				}
 			}
-		} catch (\PDOException $e) {
+			else
+			{
+				throw new Exception('Failed to create test case. Rolling back transaction');
+			}
+		} 
+		catch (\PDOException $e) 
+		{
 			if (!is_null($pdo))
 				$pdo->rollBack();
 			return Redirect::to(URL::previous())
 	 			->withInput();
+		} 
+		catch (\Exception $e) 
+		{
+			if (!is_null($pdo))
+				$pdo->rollBack();
+			Log::warning('Failed to store new Test Suite. Error: ' . $e->getMessage());
+			$messages = new Illuminate\Support\MessageBag;
+			$messages->add('nestor.customError', $e->getMessage());
+			return Redirect::to('/specification/')->withInput()->withErrors($messages);
 		}
 		if ($testsuite->isSaved() && $navigationTreeNode)
 		{
+			Log::debug(sprintf('Test suite %s created!', $testsuite->name));
 			return Redirect::to('/specification/nodes/' . '2-' . $testsuite->id)
 				->with('success', 'A new test suite has been created');
 		} else {
+			Log::debug('Failed to create test suite and insert into navigationt tree.');
 			return Redirect::to(URL::previous())
 				->withInput()
 				->withErrors($testsuite->errors());
@@ -120,7 +178,9 @@ class TestSuitesController extends \BaseController {
 			add('Specification', URL::to('/specification'))->
 			add(sprintf('Test Suite %s', $testsuite->name));
 		$args = array();
+		$labels = $testsuite->labels()->get();
 		$args['testsuite'] = $testsuite;
+		$args['labels'] = $labels;
 		return $this->theme->scope('testsuite.show', $args)->render();
 	}
 
@@ -138,7 +198,9 @@ class TestSuitesController extends \BaseController {
 			add('Specification', URL::to('/specification'))->
 			add(sprintf('Test Suite %s', $testsuite->name));
 		$args = array();
+		$labels = $testsuite->labels()->get();
 		$args['testsuite'] = $testsuite;
+		$args['labels'] = $labels;
 		return $this->theme->scope('testsuite.edit', $args)->render();
 	}
 
@@ -150,6 +212,8 @@ class TestSuitesController extends \BaseController {
 	 */
 	public function update($id)
 	{
+		$currentProject = $this->getCurrentProject();
+		$labels = $this->labels->all($currentProject->id)->get();
 		$testsuite = null;
 		$navigationTreeNode = null;
 		Log::info('Updating test suite...');
@@ -162,6 +226,68 @@ class TestSuitesController extends \BaseController {
 							Input::get('project_id'),
 							Input::get('name'),
 							Input::get('description'));
+
+			$existingLabels = $testsuite->labels()->get();
+			$theLabels = Input::get('labels');
+			if (isset($theLabels) && is_array($theLabels))
+			{
+				for($i = 0; $i < count($theLabels); ++$i)
+				{
+					$labelName = $theLabels[$i];
+					$found = FALSE;
+					foreach ($labels as $projectLabel)
+					{
+						if ($labelName == $projectLabel->name)
+						{
+							$found = TRUE;
+							$label = $projectLabel;
+							break;
+						}
+					}
+					if (!$found)
+					{
+						$label = $this->labels->create($currentProject->id, $labelName, 'gray');
+					}
+					$found = FALSE;
+					foreach ($existingLabels as $existingLabel)
+					{
+						if ($labelName == $existingLabel->name)
+						{
+							$found = TRUE;
+							$label = $existingLabel;
+							break;
+						}
+					}
+					if (!$found)
+					{
+						$testsuite->labels()->attach($label->id);
+						Log::debug(sprintf('Label %s added to test suite id %d', $labelName, $testsuite->id));
+					}
+				}
+			}
+			if (empty($theLabels))
+			{
+				foreach ($existingLabels as $existingLabel)
+				{
+					$testsuite->labels()->dettach($existingLabel->id);
+				}
+			}
+			else
+			{
+				top2: foreach ($existingLabels as $existingLabel) 
+				{
+					foreach ($theLabels as $theLabel)
+					{
+						if ($theLabel == $existingLabel->name)
+						{
+							continue 2;
+						}
+					}
+					Log::info("Deleting label " . $existingLabel->id);
+					$testsuite->labels()->detach($existingLabel->id);
+				}
+			}
+
 			if ($testsuite->isValid() && $testsuite->isSaved())
 			{
 				$navigationTreeNode = $this->nodes->updateDisplayNameByDescendant(

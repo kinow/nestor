@@ -24,7 +24,6 @@
 <p>{{ testcase.latestVersion.executionType.first.name }}</p>
 <label>Labels</label>
 <div id="labels">
-<!-- Test Case steps go here -->
 {% if labels.count() > 0 %}
 	{% for label in labels.get() %}
 <div class='label_wrapper'>
