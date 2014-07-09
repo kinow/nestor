@@ -237,7 +237,7 @@ class TestRunsController extends \NavigationTreeController {
 		$testrun = $this->testruns->find($testRunId);
 		$testplan = $testrun->testplan;
 		$testcases = $testplan->testcases();
-		$testcaseVersions = $testplan->testcaseVersions();
+		$testcaseVersions = $testplan->testcaseVersions()->get();
 
 		Log::debug('Creating breadcrumb');
 		$this->theme->breadcrumb()->
@@ -247,7 +247,6 @@ class TestRunsController extends \NavigationTreeController {
 			add(sprintf('Test Run %s', $testrun->name));
 
 		$showOnly = array(); // Our filter
-
 		foreach ($testcaseVersions as $testcaseVersion)
 		{
 			$showOnly[$testcaseVersion->test_case_id] = $testcaseVersion;
@@ -256,7 +255,7 @@ class TestRunsController extends \NavigationTreeController {
 		$nodes = $this->nodes->children('1-'.$currentProject->id, 1 /* length*/);
 		$navigationTree = $this->createNavigationTree($nodes, '1-'.$currentProject->id);
 		$navigationTreeHtml = $this->createTestRunTreeHTML($navigationTree, $testrun->id, $showOnly);
-		
+
 		$args = array();
 		$args['testrun'] = $testrun;
 		$args['testplan'] = $testplan;
@@ -430,6 +429,68 @@ class TestRunsController extends \NavigationTreeController {
 				->withInput()
 				->withErrors($messages);
 		}
+	}
+
+	public function getJUnit($testRunId)
+	{
+		Log::info(sprintf('Retrieving JUnit report for Test Run %d', $testRunId));
+		$currentProject = $this->getCurrentProject();
+		$testrun = $this->testruns->find($testRunId);
+		$testplan = $testrun->testplan()->firstOrFail();
+		$executionStatuses = $this->executionStatuses->all();
+
+        // TODO's:
+		// get test suites
+		// create right array
+
+		$testsuites = $this->testruns->getTestSuites($testRunId)->get();
+		$testcases = $this->testruns->getTestCases($testRunId);
+
+		$ts = array();
+		foreach ($testsuites as $testsuite)
+		{
+			$tcs = array();
+			foreach ($testcases as $testcase)
+			{
+				if ($testcase->test_suite_id == $testsuite->id)
+				{
+					$testcaseObj = $testcase;
+					$tcs[$testcase->id] = $testcaseObj;
+				}
+			}
+			$testsuiteObj = (object) $testsuite->toArray(); // detach
+			$testsuiteObj->testcases = $tcs;
+			$ts[$testsuite->id] = $testsuiteObj;
+		}
+
+		$producer = new \Nestor\Util\JUnitProducer();
+
+		$document = $producer->produce($ts);
+		// Create doc and put in args
+
+		$download = Input::get('download');
+		if (isset($download) && $download == 'true')
+		{
+			return Response::make($document->saveXML(), '200', array(
+			    'Content-Type' => 'application/octet-stream',
+			    'Content-Disposition' => 'attachment; filename="junit.xml"'
+			));
+		}
+
+		$this->theme->breadcrumb()->
+			add('Home', URL::to('/'))->
+			add('Execution', URL::to('/execution'))->
+			add(sprintf('Test Runs for Test Plan %s', $testplan->name), URL::to(sprintf('/execution/testruns?test_plan_id=%d', $testplan->id)))->
+			add(sprintf('Test Run %s', $testrun->name), URL::to('/execution/testruns/' . $testRunId));
+
+		$args = array();
+		$args['testrun'] = $testrun;
+		$args['testplan'] = $testplan;
+		$args['document'] = $document->saveXML();
+		$args['current_project'] = $this->currentProject;
+		$args['execution_statuses'] = $executionStatuses;
+
+		return $this->theme->scope('execution.testrun.junit', $args)->render();
 	}
 
 }

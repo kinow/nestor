@@ -19,11 +19,6 @@ $(function() {
 
   $('[data-toggle="tooltip"]').tooltip();
 
-  // function called within template blocks
-	if (window.templatecallback) {
-		templatecallback();
-	}
-
 });
 
 // http://stackoverflow.com/questions/14062368/new-recommended-jquery-templates
@@ -46,4 +41,8 @@ YUI_config = {
 };
 
 YUI().use('node', 'event', function (Y) {
+  // function called within template blocks
+  if (window.templatecallback) {
+    templatecallback(Y);
+  }
 });

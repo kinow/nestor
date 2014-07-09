@@ -15,8 +15,8 @@
 					<col width="10%" />
 					<col width="30%" />
 					<col width="10%" />
-					<col width="40%" />
-					<col width="10%" />
+					<col width="30%" />
+					<col width="20%" />
 				</colgroup>
 				<thead>
 					<tr>
@@ -55,7 +55,8 @@
 							</div>
 						</td>
 						<td class="vert-align">
-							<a href="{{ URL.to('execution/testruns/' ~ testrun.id ~ '/run') }}" class="btn btn-success"><span class="glyphicon glyphicon-play"></span> Run</a>
+							<a href="{{ URL.to('execution/testruns/' ~ testrun.id ~ '/run') }}" title="Run Test Run" class="btn btn-success"><span class="glyphicon glyphicon-play"></span> Run</a> 
+							<a href="{{ URL.to('execution/testruns/' ~ testrun.id ~ '/junit') }}" title="Download JUnit report" class="btn btn-primary"><span class="glyphicon glyphicon-download"></span> JUnit</a>
 						</td>
 					</tr>
 					{% endfor %}

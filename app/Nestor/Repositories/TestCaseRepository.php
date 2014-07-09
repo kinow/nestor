@@ -5,7 +5,7 @@ interface TestCaseRepository {
 	/**
 	 * Get all test cases
 	 *
-	 * @return TestCase
+	 * @return TestCase2
 	 */
 	public function all();
 
@@ -13,7 +13,7 @@ interface TestCaseRepository {
 	 * Get a TestCase by their primary key.
 	 *
 	 * @param  int   $id
-	 * @return TestCase
+	 * @return TestCase2
 	 */
 	public function find($id);
 

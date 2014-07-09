@@ -57,6 +57,7 @@ Route::post('planning/{id}/addTestCases', 'TestPlansController@storeTestCases');
 Route::get('execution/testruns/{test_run_id}/run/testcase/{test_case_id}', 'TestRunsController@runTestCase');
 Route::post('execution/testruns/{test_run_id}/run/testcase/{test_case_id}', 'TestRunsController@runTestCasePost');
 Route::get('execution/testruns/{id}/run', 'TestRunsController@runGet');
+Route::get('execution/testruns/{id}/junit', 'TestRunsController@getJUnit');
 Route::resource('execution/testruns', 'TestRunsController');
 Route::resource('execution', 'ExecutionsController');
 

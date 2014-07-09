@@ -260,8 +260,10 @@ class NavigationTreeController extends \BaseController {
 			} else if (array_key_exists($node->node_id, $testcases)) {
 				$testcaseVersion = $testcases[$node->node_id];
 				$executionTypeId = $testcaseVersion->execution_type_id;
+				// TODO: add special icons
 				if ($executionTypeId == 2)
 				{
+					$buffer .= sprintf ( "<li data-icon='mimetypes/text-x-generic.png' class='%s'>%s</li>", $extra_classes, HTML::link ('/execution/testruns/' . $testrun_id . "/run/testcase/" . $node->node_id, $node->display_name, array('target' => '_self')));
 				}
 				else 
 				{
