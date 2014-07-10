@@ -10,6 +10,7 @@ use Nestor\Repositories\NavigationTreeRepository;
 use Nestor\Repositories\ExecutionStatusRepository;
 use Nestor\Repositories\ExecutionRepository;
 use Nestor\Repositories\StepExecutionRepository;
+use Nestor\Repositories\UserRepository;
 
 class TestRunsController extends \NavigationTreeController {
 
@@ -60,6 +61,11 @@ class TestRunsController extends \NavigationTreeController {
 	 */
 	protected $nodes;
 
+	/**
+	 * @var Nestor\Repositories\UserRepository
+	 */
+	protected $users;
+
 	protected $theme;
 
 	public $restful = true;
@@ -70,7 +76,8 @@ class TestRunsController extends \NavigationTreeController {
 		NavigationTreeRepository $nodes, 
 		ExecutionStatusRepository $executionStatuses,
 		ExecutionRepository $executions,
-		StepExecutionRepository $stepExecutions)
+		StepExecutionRepository $stepExecutions,
+		UserRepository $users)
 	{
 		parent::__construct();
 		$this->testplans = $testplans;
@@ -80,6 +87,7 @@ class TestRunsController extends \NavigationTreeController {
 		$this->executionStatuses = $executionStatuses;
 		$this->executions = $executions;
 		$this->stepExecutions = $stepExecutions;
+		$this->users = $users;
 		$this->theme->setActive('execution');
 	}
 
@@ -287,9 +295,23 @@ class TestRunsController extends \NavigationTreeController {
 
 		$showOnly = array(); // Our filter
 
+		$assignee = null;
 		foreach ($testcaseVersions as $testcaseVersion2)
 		{
 			$showOnly[$testcaseVersion2->test_case_id] = $testcaseVersion2;
+			if ($testcaseVersion2->id == $testcaseVersion->id)
+			{
+				$assigneeId = $testcaseVersion2->assignee();
+				if (is_null($assigneeId))
+				{
+					$assignee = "Not assigned";
+				}
+				else
+				{
+					$user = $this->users->find($assigneeId);
+					$assignee = $user->fullname;
+				}
+			}
 		}
 
 		$nodes = $this->nodes->children('1-'.$currentProject->id, 1 /* length*/);
@@ -329,6 +351,7 @@ class TestRunsController extends \NavigationTreeController {
 		$args['testcases'] = $testcases;
 		$args['testcase'] = $testcase;
 		$args['testcaseVersion'] = $testcaseVersion;
+		$args['assignee'] = $assignee;
 		$args['steps'] = $steps;
 		$args['executions'] = $executions;
 		$args['executionStatuses'] = $executionStatuses;

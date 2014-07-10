@@ -47,6 +47,7 @@
 						</div>
 						<hr />
 						<p>Execution Type: {{ testcaseVersion.executionType.first.name }}</p>
+						<p>Assignee: {{ assignee }}</p>
 						<br/>
 						<h4>Description</h4>
 						<p>
