@@ -6,6 +6,7 @@ use \DB;
 use Nestor\Repositories\TestPlanRepository;
 use Nestor\Repositories\TestCaseRepository;
 use Nestor\Repositories\NavigationTreeRepository;
+use Nestor\Repositories\UserRepository;
 
 class TestPlansController extends \NavigationTreeController {
 
@@ -28,16 +29,26 @@ class TestPlansController extends \NavigationTreeController {
 	 */
 	protected $nodes;
 
+	/**
+	 * @var Nestor\Repositories\UserRepository
+	 */
+	protected $users;
+
 	protected $theme;
 
 	public $restful = true;
 
-	public function __construct(TestPlanRepository $testplans, TestCaseRepository $testcases, NavigationTreeRepository $nodes)
+	public function __construct(
+		TestPlanRepository $testplans, 
+		TestCaseRepository $testcases, 
+		NavigationTreeRepository $nodes,
+		UserRepository $users)
 	{
 		parent::__construct();
 		$this->testplans = $testplans;
 		$this->testcases = $testcases;
 		$this->nodes = $nodes;
+		$this->users = $users;
 		$this->theme->setActive('planning');
 	}
 
@@ -113,9 +124,11 @@ class TestPlansController extends \NavigationTreeController {
 			add('Home', URL::to('/'))->
 			add('Planning', URL::to('/planning'))->
 			add(sprintf('Test plan %s', $testplan->name));
+		$users = $this->users->all();
 		$args = array();
 		$args['testplan'] = $testplan;
-		$args['testcases'] = $testplan->testcaseVersions();
+		$args['testcases'] = $testplan->testcaseVersions()->get();
+		$args['users'] = $users;
 		return $this->theme->scope('testplan.show', $args)->render();
 	}
 
@@ -310,6 +323,27 @@ class TestPlansController extends \NavigationTreeController {
 				$this->getTestCasesFrom($children, $testcases);
 			}
 		}
+	}
+
+	public function postAssingTestCases($testPlanId)
+	{
+		$testcases = Input::get('testcases');
+		$users = Input::get('users');
+
+		for ($i = 0; $i < count($testcases); ++$i)
+		{
+			$testcaseVersionId = $testcases[$i];
+			$userId = $users[$i];
+
+			if ($userId == 0)
+			{
+				$userId = NULL;
+			}
+			$this->testplans->assign($testPlanId, $testcaseVersionId, $userId);
+		}
+
+		return Redirect::to('/planning/' . $testPlanId)
+			->with('success', 'Tests assigned!');
 	}
 
 }

@@ -52,6 +52,7 @@ Route::resource('planning', 'TestPlansController');
 Route::resource('testplans', 'TestPlansController');
 Route::get('planning/{id}/addTestCases', 'TestPlansController@addTestCases');
 Route::post('planning/{id}/addTestCases', 'TestPlansController@storeTestCases');
+Route::post('planning/{id}/assign', 'TestPlansController@postAssingTestCases');
 
 // Test Execution
 Route::get('execution/testruns/{test_run_id}/run/testcase/{test_case_id}', 'TestRunsController@runTestCase');

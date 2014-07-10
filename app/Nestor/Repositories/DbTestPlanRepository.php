@@ -1,7 +1,8 @@
 <?php namespace Nestor\Repositories;
 
 use Auth, Hash, Validator;
-use \TestPlan;
+use TestPlan;
+use TestCaseVersion;
 
 class DbTestPlanRepository implements TestPlanRepository {
 
@@ -90,6 +91,13 @@ class DbTestPlanRepository implements TestPlanRepository {
 			->join('test_plans_test_cases', 'test_plans.id', '=', 'test_plans_test_cases.test_plan_id')
 			->groupBy('test_plans.id')
 			->paginate(10);
+	}
+
+	public function assign($testPlanId, $testcaseVersionId, $userId)
+	{
+		return TestCaseVersion::find($testcaseVersionId)
+			->testplans()
+			->updateExistingPivot($testPlanId, array('assignee' => $userId), /*touch*/ true);
 	}
 
 }

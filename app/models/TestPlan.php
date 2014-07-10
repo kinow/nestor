@@ -98,6 +98,7 @@ EOF;
 	public function testcaseVersions()
 	{
 		return $this->belongsToMany('TestCaseVersion', 'test_plans_test_cases', 'test_plan_id', 'test_case_version_id')
+			->withPivot('assignee')
 			->withTimestamps();
 	}
 

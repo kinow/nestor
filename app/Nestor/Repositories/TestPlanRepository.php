@@ -57,4 +57,6 @@ interface TestPlanRepository {
 
 	public function findForExecutionByProjectId($projectId);
 
+	public function assign($testPlanId, $testcaseVersionId, $userId);
+
 }

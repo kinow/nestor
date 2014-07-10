@@ -61,4 +61,16 @@ class TestCaseVersion extends Magniloquent {
 		return $this->belongsToMany('Label', 'test_case_versions_labels')->withTimestamps();
 	}
 
+	public function testplans()
+	{
+		return $this->belongsToMany('TestPlan', 'test_plans_test_cases', 'test_case_version_id', 'test_plan_id')
+			->withPivot('assignee')
+			->withTimestamps();
+	}
+
+	public function assignee()
+	{
+		return $this->pivot->assignee;
+	}
+
 }
