@@ -21,12 +21,12 @@ class DbStepExecutionRepository implements StepExecutionRepository {
 
 	public function findByStepIdAndExecutionId($testCaseStepId, $executionId)
 	{
-		return StepExecution::where('test_case_step_id', $testCaseStepId)->where('execution_id', $executionId)->get();
+		return StepExecution::where('test_case_step_version_id', $testCaseStepId)->where('execution_id', $executionId)->get();
 	}
 
-	public function findByTestCaseStepId($test_case_step_id)
+	public function findByTestCaseStepId($test_case_step_version_id)
 	{
-		return StepExecution::where('test_case_step_id', $test_case_step_id)->get();
+		return StepExecution::where('test_case_step_version_id', $test_case_step_id)->get();
 	}
 
 	public function findByExecutionStatusId($execution_status_id)
@@ -34,16 +34,16 @@ class DbStepExecutionRepository implements StepExecutionRepository {
 		return StepExecution::where('execution_status_id', $execution_status_id)->get();
 	}
 
-	public function create($execution_id, $test_case_step_id, $execution_status_id)
+	public function create($execution_id, $test_case_step_version_id, $execution_status_id)
 	{
-		return StepExecution::create(compact('execution_id', 'test_case_step_id', 'execution_status_id'));
+		return StepExecution::create(compact('execution_id', 'test_case_step_version_id', 'execution_status_id'));
 	}
 
-	public function update($id, $execution_id, $test_case_step_id, $execution_status_id)
+	public function update($id, $execution_id, $test_case_step_version_id, $execution_status_id)
 	{
 		$stepExecution = $this->find($id);
 
-		$stepExecution->fill(compact('execution_id', 'test_case_step_id', 'execution_status_id'))->save();
+		$stepExecution->fill(compact('execution_id', 'test_case_step_version_id', 'execution_status_id'))->save();
 
 		return $stepExecution;
 	}

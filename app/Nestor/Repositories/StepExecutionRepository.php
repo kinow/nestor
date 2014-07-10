@@ -10,13 +10,13 @@ interface StepExecutionRepository {
 
 	public function findByStepIdAndExecutionId($testCaseStepId, $executionId);
 
-	public function findByTestCaseStepId($test_case_step_id);
+	public function findByTestCaseStepId($test_case_step_version_id);
 
 	public function findByExecutionStatusId($execution_status_id);
 
-	public function create($execution_id, $test_case_step_id, $execution_status_id);
+	public function create($execution_id, $test_case_step_version_id, $execution_status_id);
 
-	public function update($id, $execution_id, $test_case_step_id, $execution_status_id);
+	public function update($id, $execution_id, $test_case_step_version_id, $execution_status_id);
 
 	public function delete($id);
 
