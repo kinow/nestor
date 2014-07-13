@@ -4,10 +4,15 @@ use \Theme;
 use \Input;
 use \DB;
 use Nestor\Repositories\TestSuiteRepository;
+use Nestor\Repositories\TestCaseRepository;
 use Nestor\Repositories\NavigationTreeRepository;
 use Nestor\Repositories\LabelRepository;
+use Fhaculty\Graph\Graph as Graph;
+use Fhaculty\Graph\Algorithm\Search\BreadthFirst;
+//use \Fhaculty\Graph\GraphViz;
+use Fhaculty\Graph\Walk;
 
-class TestSuitesController extends \BaseController {
+class TestSuitesController extends NavigationTreeController {
 
 	/**
 	 * The test suite repository implementation.
@@ -15,6 +20,13 @@ class TestSuitesController extends \BaseController {
 	 * @var Nestor\Repositories\TestSuiteRepository
 	 */
 	protected $testsuites;
+
+	/**
+	 * The test case repository implementation.
+	 *
+	 * @var Nestor\Repositories\TestCaseRepository
+	 */
+	protected $testcases;
 
 	/**
 	 * The navigation tree node repository implementation.
@@ -36,11 +48,13 @@ class TestSuitesController extends \BaseController {
 
 	public function __construct(
 		TestSuiteRepository $testsuites, 
+		TestCaseRepository $testcases, 
 		NavigationTreeRepository $nodes,
 		LabelRepository $labels)
 	{
 		parent::__construct();
 		$this->testsuites = $testsuites;
+		$this->testcases = $testcases;
 		$this->nodes = $nodes;
 		$this->labels = $labels;
 		$this->theme->setActive('testsuites');
@@ -338,7 +352,84 @@ class TestSuitesController extends \BaseController {
 		}
 
 		return Redirect::to('/specification')
-			->with('flash', sprintf('The test suite %s has been deleted', $testsuite->name));
+			->with('success', sprintf('The test suite %s has been deleted', $testsuite->name));
+	}
+
+	public function postCopy()
+	{
+		$from = Input::get('copy_name');
+		$to = Input::get('copy_new_name');
+		$currentProject = $this->getCurrentProject();
+		$ancestor = Input::get('ancestor');
+		$navigationTreeNode = NULL;
+
+		Log::info(sprintf('Copying test suite %s into %s', $from, $to));
+
+		$pdo = null;
+		try {
+			$pdo = DB::connection()->getPdo();
+			$pdo->beginTransaction();
+			list($old, $testsuite) = $this->testsuites->copy($from, $to, $this->testcases);
+			Log::info(sprintf('Test suite %s copied successfully into %s', $from, $to));
+			Log::debug('Inserting test suite into navigation tree...');
+			$navigationTreeNode = $this->nodes->create(
+				$ancestor,
+				'2-' . $testsuite->id,
+				$testsuite->id,
+				2,
+				$testsuite->name
+			);
+
+			if ($navigationTreeNode)
+			{
+				// copy the children nodes
+				$children = $this->nodes->children('2-' . $old->id);
+				// foreach ($children as $child)
+				// {
+				// 	if ($child->ancestor == $child->descendant && !($child->node_type_id == 2 && $child->node_id == $old->id))
+				// 		Log::info('COPY ME!');
+				// 	// FIXME
+				// }
+				//$pdo->commit();
+
+				$tree = $this->createNavigationTree($children, '2-' . $old->id);
+				dd($tree);
+			}
+			$pdo->rollBack();
+			dd('ok');
+		} catch (\PDOException $e) {
+			if (!is_null($pdo))
+				$pdo->rollBack();
+			return Redirect::to('/specification/nodes/1-'.$currentProject->id)->withInput();
+		}
+
+		return Redirect::to('/specification/nodes/2-' . $testsuite->id)
+			->with('success', sprintf('The test suite %s has been copied into %s', $from, $to));
+	}
+
+	private function copyNodes($nodes, $ancestor)
+	{
+		foreach ($nodes->children as $node) 
+		{
+			if ($node->node_type_id == 2) 
+			{ 
+				// copy child test suite
+
+				// insert it under the ancestor
+			} 
+			else if ($node->node_type_id == 3) 
+			{
+				// copy child test case
+
+				// insert it under the ancestor
+			}
+
+			if (!empty($node->children)) 
+			{
+				// the inserted node is the new ancestor
+				$this->copyNodes($node->children, NULL /* FIXME */);
+			}
+		}
 	}
 
 }

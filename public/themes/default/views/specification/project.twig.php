@@ -48,61 +48,101 @@
   <h4>Project {{ HTML.link('/projects/' ~ node.node_id, node.display_name, {'class': ''}) }}</h4>
   <h5>Create a test suite</h5>
 
-  {{ Form.open({'route': 'testsuites.store', 'class': 'form-horizontal'}) }}
-    {{ Form.hidden('project_id', current_project.id) }}
-    {{ Form.hidden('ancestor', node.descendant) }}
-    <div class="form-group">
-      {{ Form.label('name', 'Name', {'class': 'control-label col-xs-2'}) }}
-      <div class="col-xs-10">
-        {{ Form.input('text', 'name', old.name, {'id':"name", 'class': "form-control", 'placeholder': 'Name'}) }}
-      </div>
-    </div>
-    <div class="form-group">
-      {{ Form.label('description', 'Description', {'class': 'control-label col-xs-2'}) }}
-      <div class="col-xs-10">
-        {{ Form.textarea('description', old.description, {'id': "description", 'rows': "3", 'class': "form-control", 'placeholder': 'Description'}) }}
-      </div>
-    </div>
-    <div class="form-group yui3-skin-sam">
-      {{ Form.label('labels', 'Labels', {'class': 'control-label col-xs-2'}) }}
-      <div class='col-xs-1'>
-        <span id='addLabelButton' class='glyphicon glyphicon-plus'></span>
-      </div>
-      <div class="col-xs-9">
-        <div id="labels">
-        <!-- Test Case steps go here -->
+  <!-- Nav tabs -->
+  <ul class="nav nav-tabs" role="tablist">
+    <li class="active"><a href="#new-test-suite" role="tab" data-toggle="tab">New</a></li>
+    <li><a href="#copy-test-suite" role="tab" data-toggle="tab">Copy</a></li>
+    <li><a href="#import-test-suite" role="tab" data-toggle="tab">Import</a></li>
+  </ul>
+  <!-- Tab panes -->
+  <div class="tab-content">
+    <div class="tab-pane active" id="new-test-suite">
+      <br/>
+      {{ Form.open({'route': 'testsuites.store', 'class': 'form-horizontal'}) }}
+        {{ Form.hidden('project_id', current_project.id) }}
+        {{ Form.hidden('ancestor', node.descendant) }}
+        <div class="form-group">
+          {{ Form.label('name', 'Name', {'class': 'control-label col-xs-2'}) }}
+          <div class="col-xs-10">
+            {{ Form.input('text', 'name', old.name, {'id':"name", 'class': "form-control", 'placeholder': 'Name'}) }}
+          </div>
+        </div>
+        <div class="form-group">
+          {{ Form.label('description', 'Description', {'class': 'control-label col-xs-2'}) }}
+          <div class="col-xs-10">
+            {{ Form.textarea('description', old.description, {'id': "description", 'rows': "3", 'class': "form-control", 'placeholder': 'Description'}) }}
+          </div>
+        </div>
+        <div class="form-group yui3-skin-sam">
+          {{ Form.label('labels', 'Labels', {'class': 'control-label col-xs-2'}) }}
+          <div class='col-xs-1'>
+            <span id='addLabelButton' class='glyphicon glyphicon-plus'></span>
+          </div>
+          <div class="col-xs-9">
+            <div id="labels">
+            <!-- Test Case steps go here -->
+            </div>
+          </div>
+        </div>
+        <div class="form-group">
+          <div class='col-xs-8 col-xs-offset-2'>
+            {{ Form.submit('Create', {'class': "btn btn-primary"}) }}
+          </div>
+        </div>
+      {{ Form.close() }}
+      <div id="labelsDiv" class="yui3-overlay-loading">
+        <div class="yui3-widget-hd">Add label</div>
+        <div class="yui3-widget-bd">
+          {{ Form.open({'class': 'form-horizontal', 'role': 'form', 'onsubmit': 'return false;'}) }}
+            <div class='form-group'>
+              <label for='label_name' class='control-label col-xs-2'>Name</label>
+              <div class='col-xs-10'>
+                <input class='form-control' name='name' id='label_name' />
+              </div>
+            </div>
+            <div class='form-group'>
+              <div class='col-xs-10 col-xs-offset-2'>
+                <input type='button' value='Add' id='add_label_button' class='btn btn-primary' /> 
+              </div>
+            </div>
+          {{ Form.close() }}
         </div>
       </div>
     </div>
-    <div class="form-group">
-      <div class='col-xs-8 col-xs-offset-2'>
-        {{ Form.submit('Create', {'class': "btn btn-primary"}) }}
-      </div>
+    <div class="tab-pane" id="copy-test-suite">
+      <br/>
+      {{ Form.open({'url': '/testsuites/copy', 'class': 'form-horizontal'}) }}
+        {{ Form.hidden('project_id', current_project.id) }}
+        {{ Form.hidden('ancestor', node.descendant) }}
+        <div class="form-group">
+          {{ Form.label('copy_name', 'From', {'class': 'control-label col-xs-2'}) }}
+          <div class="col-xs-10 yui3-skin-sam">
+            {{ Form.input('text', 'copy_name', old.copy_name, {'id':"copy_name", 'class': "form-control", 'placeholder': 'From', 'required': 'required'}) }}
+          </div>
+        </div>
+        <div class="form-group">
+          {{ Form.label('copy_new_name', 'New Name', {'class': 'control-label col-xs-2'}) }}
+          <div class="col-xs-10">
+            {{ Form.input('text', 'copy_new_name', old.copy_new_name, {'id':"copy_new_name", 'class': "form-control", 'placeholder': 'New Name',  'required': 'required'}) }}
+          </div>
+        </div>
+        <div class="form-group">
+          <div class='col-xs-8 col-xs-offset-2'>
+            {{ Form.submit('Copy', {'class': "btn btn-primary"}) }}
+          </div>
+        </div>
+      {{ Form.close() }}
     </div>
-  {{ Form.close() }}
-  <div id="labelsDiv" class="yui3-overlay-loading">
-      <div class="yui3-widget-hd">Add label</div>
-      <div class="yui3-widget-bd">
-        {{ Form.open({'class': 'form-horizontal', 'role': 'form', 'onsubmit': 'return false;'}) }}
-          <div class='form-group'>
-            <label for='label_name' class='control-label col-xs-2'>Name</label>
-            <div class='col-xs-10'>
-              <input class='form-control' name='name' id='label_name' />
-            </div>
-          </div>
-          <div class='form-group'>
-            <div class='col-xs-10 col-xs-offset-2'>
-              <input type='button' value='Add' id='add_label_button' class='btn btn-primary' /> 
-            </div>
-          </div>
-        {{ Form.close() }}
-      </div>
+    <div class="tab-pane" id="import-test-suite">
+      Import
+    </div>
   </div>
 </div>
 
 <script>
-YUI().use('node', 'template', 'overlay', 'event', 'event-outside', function(Y) {
+YUI().use('node', 'template', 'overlay', 'event', 'event-outside', 'autocomplete', 'autocomplete-filters', function(Y) {
   var xy = Y.one("#addLabelButton").getXY();
+  console.log(xy);
 
   var overlay = new Y.Overlay({
     srcNode:"#labelsDiv",
@@ -133,6 +173,20 @@ YUI().use('node', 'template', 'overlay', 'event', 'event-outside', function(Y) {
       o.remove();
       e.stopPropagation();
     });
+  });
+  var testsuiteNames = [
+    {% if testsuites is defined %}
+      {% for testsuite in testsuites %}
+      '{{ testsuite.name }}',
+      {% endfor %}
+    {% endif %}
+  ];
+
+  // Auto complete for copying test suites
+  Y.one('#copy_name').plug(Y.Plugin.AutoComplete, {
+    resultFilters    : 'phraseMatch',
+    resultHighlighter: 'phraseMatch',
+    source           : testsuiteNames
   });
 
 });

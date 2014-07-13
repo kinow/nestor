@@ -39,6 +39,7 @@ Route::resource('projects', 'ProjectsController');
 
 // Test Suites
 Route::resource('testsuites', 'TestSuitesController');
+Route::post('testsuites/copy', 'TestSuitesController@postCopy');
 
 // Test Cases
 Route::resource('testcases', 'TestCasesController');

@@ -104,6 +104,10 @@ class ProjectsController extends \BaseController {
 		}
 		if ($project->isSaved() && $navigationTreeNode)
 		{
+			if (Input::get('position') == 'true')
+			{
+				Session::put('current_project', serialize($project));
+			}
 			return Redirect::to('/projects/')
 				->with('success', sprintf('Project %s created', Input::get('name')));
 		} else {

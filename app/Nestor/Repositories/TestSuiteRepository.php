@@ -45,4 +45,6 @@ interface TestSuiteRepository {
 	 */
 	public function delete($id);
 
+	public function copy($oldName, $newName, $testcaseRepository);
+
 }

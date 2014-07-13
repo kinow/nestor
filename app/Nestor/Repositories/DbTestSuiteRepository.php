@@ -1,7 +1,8 @@
 <?php namespace Nestor\Repositories;
 
 use Auth, Hash, Validator;
-use \TestSuite;
+use TestSuite;
+use Label;
 
 class DbTestSuiteRepository implements TestSuiteRepository {
 
@@ -64,6 +65,20 @@ class DbTestSuiteRepository implements TestSuiteRepository {
 	public function delete($id)
 	{
 		return TestSuite::where('id', $id)->delete();
+	}
+
+	public function copy($oldName, $newName, $testcaseRepository)
+	{
+		$testsuite = TestSuite::where(
+			new \Illuminate\Database\Query\Expression("lower(test_suites.name)"), '=', strtolower($oldName))
+			->firstOrFail();
+		$labels = $testsuite->labels()->get();
+		$newTestsuite = $this->create($testsuite->project_id, $newName, $testsuite->description);
+		foreach ($labels as $label)
+		{
+			$newTestsuite->labels()->attach($label->id);
+		}
+		return array($testsuite, $newTestsuite);
 	}
 
 }

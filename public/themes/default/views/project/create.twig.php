@@ -15,6 +15,13 @@
                 </div>
             </div>
             <div class="form-group">
+                <div class="col-xs-10 col-xs-offset-2">
+                    <label class='checkbox'>
+                        {{ Form.checkbox('position', 'true', true) }} Position project?
+                    </label>
+                </div>
+            </div>
+            <div class="form-group">
                 <div class='col-xs-12 col-xs-offset-2'>
                     {{ Form.submit('Add', {'class': "btn btn-primary"}) }}&nbsp; {{ HTML.link(URL.previous(), 'Cancel', {'class': 'btn'}) }}
                 </div>

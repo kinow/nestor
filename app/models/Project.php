@@ -41,6 +41,7 @@ class Project extends Magniloquent {
 
 	protected static $relationships = array(
 		'projectStatus' => array('belongsTo', 'ProjectStatus', 'project_statuses_id'),
+		'testsuites' => array('hasMany', 'TestSuite', 'project_id')
 	);
 
 	protected static $purgeable = [''];

@@ -150,48 +150,56 @@ class SpecificationController extends \NavigationTreeController {
 			add(sprintf('Node %s-%s', $node->node_type_id, $node->node_id));
 
 		// Create specific parameters depending on execution type
-		if (isset($node) && $node->node_type_id == 2) // Test Suite?
+		if (isset($node))
 		{
-			$execution_types = $this->executionTypes->all();
-			$testsuite = $this->testsuites->find($node->node_id);
-			$labels = $testsuite->labels();
-			$args['execution_types'] = $execution_types;
-			$execution_types_ids = array();
-			foreach ($args['execution_types'] as $execution_type)
+			if ($node->node_type_id == 1) // Project?
 			{
-				$execution_types_ids[$execution_type->id] = $execution_type->name;
+				$testsuites = $currentProject->testsuites()->get();
+				$args['testsuites'] = $testsuites;
 			}
-			$args['execution_type_ids'] = $execution_types_ids;
-			$execution_statuses = $this->executionStatuses->all();
-			$args['execution_statuses'] = $execution_statuses;
-			$execution_statuses_ids = array();
-			foreach ($args['execution_statuses'] as $execution_status) 
+			else if ($node->node_type_id == 2) // Test Suite?
 			{
-				if ($execution_status->id == 1 || $execution_status->id == 2)
-					continue; // Skip NOT RUN
-				$execution_statuses_ids[$execution_status->id] = $execution_status->name;
-			}
-			$args['testsuite'] = $testsuite;
-			$args['execution_statuses_ids'] = $execution_statuses_ids;
-			$args['labels'] = $labels;
-		}
-		else if (isset($node) && $node->node_type_id == 3) // Test Case?
-		{
-			$execution_types = $this->executionTypes->all();
-			$testcase = $this->testcases->find($node->node_id);
-			$labels = $testcase->latestVersion()->labels();
-			if (isset($testcase) && !is_null($testcase))
-			{
-				foreach ($execution_types as $execution_type)
+				$execution_types = $this->executionTypes->all();
+				$testsuite = $this->testsuites->find($node->node_id);
+				$labels = $testsuite->labels();
+				$args['execution_types'] = $execution_types;
+				$execution_types_ids = array();
+				foreach ($args['execution_types'] as $execution_type)
 				{
-					if ($execution_type->id == $testcase->execution_type_id)
+					$execution_types_ids[$execution_type->id] = $execution_type->name;
+				}
+				$args['execution_type_ids'] = $execution_types_ids;
+				$execution_statuses = $this->executionStatuses->all();
+				$args['execution_statuses'] = $execution_statuses;
+				$execution_statuses_ids = array();
+				foreach ($args['execution_statuses'] as $execution_status) 
+				{
+					if ($execution_status->id == 1 || $execution_status->id == 2)
+						continue; // Skip NOT RUN
+					$execution_statuses_ids[$execution_status->id] = $execution_status->name;
+				}
+				$args['testsuite'] = $testsuite;
+				$args['execution_statuses_ids'] = $execution_statuses_ids;
+				$args['labels'] = $labels;
+			}
+			else if ($node->node_type_id == 3) // Test Case?
+			{
+				$execution_types = $this->executionTypes->all();
+				$testcase = $this->testcases->find($node->node_id);
+				$labels = $testcase->latestVersion()->labels();
+				if (isset($testcase) && !is_null($testcase))
+				{
+					foreach ($execution_types as $execution_type)
 					{
-						$testcase->execution_type_name = $execution_type->name;
+						if ($execution_type->id == $testcase->execution_type_id)
+						{
+							$testcase->execution_type_name = $execution_type->name;
+						}
 					}
 				}
+				$args['testcase'] = $testcase;
+				$args['labels'] = $labels;
 			}
-			$args['testcase'] = $testcase;
-			$args['labels'] = $labels;
 		}
 		$args['navigation_tree_html'] = $navigationTreeHtml;
 		$args['navigation_tree'] = $navigationTree;
