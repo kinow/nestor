@@ -40,7 +40,7 @@ YUI_config = {
     //root: 'yui3/'
 };
 
-YUI().use('node', 'event', function (Y) {
+YUI().use('node', 'sortable', 'template', 'dd-delegate', 'transition', 'overlay', 'event', 'event-outside', function (Y) {
   // function called within template blocks
   if (window.templatecallback) {
     templatecallback(Y);

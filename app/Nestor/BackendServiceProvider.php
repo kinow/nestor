@@ -27,6 +27,8 @@ class BackendServiceProvider extends ServiceProvider {
 		$this->app->singleton('Nestor\Repositories\PluginCategoryRepository', 'Nestor\Repositories\DbPluginCategoryRepository');
 		$this->app->singleton('Nestor\Repositories\PluginRepository', 'Nestor\Repositories\DbPluginRepository');
 		$this->app->singleton('Nestor\Repositories\LabelRepository', 'Nestor\Repositories\DbLabelRepository');
+		$this->app->singleton('Nestor\Repositories\ReportTypeRepository', 'Nestor\Repositories\DbReportTypeRepository');
+		$this->app->singleton('Nestor\Repositories\ReportRepository', 'Nestor\Repositories\DbReportRepository');
 
 		$this->app->bind('Nestor', function()
 		{

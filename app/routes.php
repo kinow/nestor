@@ -63,9 +63,11 @@ Route::get('execution/testruns/{id}/junit', 'TestRunsController@getJUnit');
 Route::resource('execution/testruns', 'TestRunsController');
 Route::resource('execution', 'ExecutionsController');
 
+// Reports
+Route::resource('reports', 'ReportsController');
+
 // WIP
 Route::controller('requirements', 'WIPController');
-Route::controller('reports', 'WIPController');
 Route::controller('themeManager', 'WIPController');
 
 

@@ -28,7 +28,7 @@ class AddAssigneeColumnToTestPlansTestCases extends Migration {
 	{
 		Schema::table('test_plans_test_cases', function(Blueprint $table)
 		{
-			Schema::drop('assignee');
+			$table->dropColumn('assignee');
 		});
 	}
 

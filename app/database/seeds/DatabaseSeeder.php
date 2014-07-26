@@ -3,6 +3,7 @@
 use Nestor\Repositories\ProjectStatusRepository;
 use Nestor\Repositories\ExecutionTypeRepository;
 use Nestor\Repositories\ExecutionStatusRepository;
+use Nestor\Repositories\ReportTypeRepository;
 
 class DatabaseSeeder extends Seeder {
 
@@ -13,12 +14,14 @@ class DatabaseSeeder extends Seeder {
 	protected $executionStatuses;
 
 	public function __construct(ProjectStatusRepository $projectStatuses,
-						ExecutionTypeRepository $executionTypes,
-						ExecutionStatusRepository $executionStatuses)
+		ExecutionTypeRepository $executionTypes,
+		ExecutionStatusRepository $executionStatuses,
+		ReportTypeRepository $reportTypes)
 	{
 		$this->projectStatuses = $projectStatuses;
 		$this->executionTypes = $executionTypes;
 		$this->executionStatuses = $executionStatuses;
+		$this->reportTypes = $reportTypes;
 	}
 
 	/**
@@ -41,6 +44,11 @@ class DatabaseSeeder extends Seeder {
 		$this->executionStatuses->create('Passed', 'A test case that passed');
 		$this->executionStatuses->create('Failed', 'A test case that failed');
 		$this->executionStatuses->create('Blocked', 'A test case that is blocked');
+
+		$this->reportTypes->create(1, 'SQL', 'A report created based on a SQL query');
+		$this->reportTypes->create(2, 'PHP', 'A report created based on a PHP script');
+
+		$this->call('SampleDataSeeder');
 	}
 
 }
