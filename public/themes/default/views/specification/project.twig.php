@@ -80,7 +80,7 @@
           </div>
           <div class="col-xs-9">
             <div id="labels">
-            <!-- Test Case steps go here -->
+            <!-- Labels go here -->
             </div>
           </div>
         </div>
@@ -142,7 +142,6 @@
 <script>
 YUI().use('node', 'template', 'overlay', 'event', 'event-outside', 'autocomplete', 'autocomplete-filters', function(Y) {
   var xy = Y.one("#addLabelButton").getXY();
-  console.log(xy);
 
   var overlay = new Y.Overlay({
     srcNode:"#labelsDiv",
