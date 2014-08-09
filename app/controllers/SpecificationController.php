@@ -181,6 +181,8 @@ class SpecificationController extends \NavigationTreeController {
 				$args['testsuite'] = $testsuite;
 				$args['execution_statuses_ids'] = $execution_statuses_ids;
 				$args['labels'] = $labels;
+				$testsuites = $currentProject->testsuites()->get();
+				$args['testsuites'] = $testsuites;
 			}
 			else if ($node->node_type_id == 3) // Test Case?
 			{
