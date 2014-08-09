@@ -121,12 +121,12 @@ class TestCasesController extends \BaseController {
 			$pdo = DB::connection()->getPdo();
     		$pdo->beginTransaction();
 			list($testcase, $testcaseVersion) = $this->testcases->create(
-					Input::get('project_id'),
-					Input::get('test_suite_id'),
-					Input::get('execution_type_id'),
-					Input::get('name'),
-					Input::get('description'),
-					Input::get('prerequisite')
+				Input::get('project_id'),
+				Input::get('test_suite_id'),
+				Input::get('execution_type_id'),
+				Input::get('name'),
+				Input::get('description'),
+				Input::get('prerequisite')
 			);
 			
 			$stepOrders = Input::get('step_order');

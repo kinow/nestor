@@ -1,10 +1,8 @@
 <?php
 
-use \Theme;
-use \Input;
-use \DB;
 use Nestor\Repositories\TestSuiteRepository;
 use Nestor\Repositories\TestCaseRepository;
+use Nestor\Repositories\TestCaseStepRepository;
 use Nestor\Repositories\NavigationTreeRepository;
 use Nestor\Repositories\LabelRepository;
 use Fhaculty\Graph\Graph as Graph;
@@ -50,13 +48,15 @@ class TestSuitesController extends NavigationTreeController {
 		TestSuiteRepository $testsuites, 
 		TestCaseRepository $testcases, 
 		NavigationTreeRepository $nodes,
-		LabelRepository $labels)
+		LabelRepository $labels,
+		TestCaseStepRepository $testcaseSteps)
 	{
 		parent::__construct();
 		$this->testsuites = $testsuites;
 		$this->testcases = $testcases;
 		$this->nodes = $nodes;
 		$this->labels = $labels;
+		$this->testcaseSteps = $testcaseSteps;
 		$this->theme->setActive('testsuites');
 	}
 
@@ -146,7 +146,7 @@ class TestSuitesController extends NavigationTreeController {
 			}
 			else
 			{
-				throw new Exception('Failed to create test case. Rolling back transaction');
+				return Redirect::to('/specification/')->withInput()->withErrors($testsuite->errors());
 			}
 		} 
 		catch (\PDOException $e) 
@@ -357,79 +357,38 @@ class TestSuitesController extends NavigationTreeController {
 
 	public function postCopy()
 	{
+		// parameters from the screen
 		$from = Input::get('copy_name');
 		$to = Input::get('copy_new_name');
-		$currentProject = $this->getCurrentProject();
 		$ancestor = Input::get('ancestor');
-		$navigationTreeNode = NULL;
+
+		$currentProject = $this->getCurrentProject();
 
 		Log::info(sprintf('Copying test suite %s into %s', $from, $to));
 
 		$pdo = null;
 		try {
+			// DB transaction
 			$pdo = DB::connection()->getPdo();
 			$pdo->beginTransaction();
-			list($old, $testsuite) = $this->testsuites->copy($from, $to, $this->testcases);
+			// copy root node 
+			list($old, $testsuite) = $this->testsuites->copy($from, $to, $ancestor, $currentProject->id, $this->nodes, $this->testcases, $this->testcaseSteps);
+			
 			Log::info(sprintf('Test suite %s copied successfully into %s', $from, $to));
-			Log::debug('Inserting test suite into navigation tree...');
-			$navigationTreeNode = $this->nodes->create(
-				$ancestor,
-				'2-' . $testsuite->id,
-				$testsuite->id,
-				2,
-				$testsuite->name
-			);
-
-			if ($navigationTreeNode)
-			{
-				// copy the children nodes
-				$children = $this->nodes->children('2-' . $old->id);
-				// foreach ($children as $child)
-				// {
-				// 	if ($child->ancestor == $child->descendant && !($child->node_type_id == 2 && $child->node_id == $old->id))
-				// 		Log::info('COPY ME!');
-				// 	// FIXME
-				// }
-				//$pdo->commit();
-
-				$tree = $this->createNavigationTree($children, '2-' . $old->id);
-				dd($tree);
-			}
-			$pdo->rollBack();
-			dd('ok');
-		} catch (\PDOException $e) {
+			$pdo->commit();
+		} catch (\Exception $e) {
+			Log::error("Error copying test suite: " . $e->getMessage());
 			if (!is_null($pdo))
 				$pdo->rollBack();
-			return Redirect::to('/specification/nodes/1-'.$currentProject->id)->withInput();
+			$messages = new Illuminate\Support\MessageBag;
+			$messages->add('nestor.customError', $e->getMessage());
+			return Redirect::to('/specification/nodes/1-'.$currentProject->id)
+				->withInput()
+				->withErrors($messages);
 		}
 
 		return Redirect::to('/specification/nodes/2-' . $testsuite->id)
 			->with('success', sprintf('The test suite %s has been copied into %s', $from, $to));
-	}
-
-	private function copyNodes($nodes, $ancestor)
-	{
-		foreach ($nodes->children as $node) 
-		{
-			if ($node->node_type_id == 2) 
-			{ 
-				// copy child test suite
-
-				// insert it under the ancestor
-			} 
-			else if ($node->node_type_id == 3) 
-			{
-				// copy child test case
-
-				// insert it under the ancestor
-			}
-
-			if (!empty($node->children)) 
-			{
-				// the inserted node is the new ancestor
-				$this->copyNodes($node->children, NULL /* FIXME */);
-			}
-		}
 	}
 
 }

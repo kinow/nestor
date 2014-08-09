@@ -122,7 +122,7 @@ order by a.length
 		$created_at = $created_at->format('Y-m-d H:m:s');
 		$updated_at = $created_at;
 		//return NavigationTreeNode::create(compact('ancestor', 'descendant', 'length', 'node_id', 'node_type_id', 'parent_id', 'display_name'));
-		return DB::insert(sprintf(
+		$created =  DB::insert(sprintf(
 				"INSERT INTO %s(" .
 				"ancestor, descendant, length, node_id, node_type_id, display_name, created_at, updated_at) " .
 				"SELECT t.ancestor, '%s', t.length+1, %d, %d, '%s', '%s', '%s' " .
@@ -148,6 +148,7 @@ order by a.length
 				$created_at,
 				$updated_at
 			));
+		return $this->find($ancestor, $descendant);
 	}
 
 	/**

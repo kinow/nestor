@@ -60,6 +60,8 @@ class DbTestCaseRepository implements TestCaseRepository {
 		$version = 1;
 		Log::debug(sprintf('Creating initial test case version for test case %d', $testcase->id));
 		$testcaseVersion = TestCaseVersion::create(compact('version', 'test_case_id', 'execution_type_id', 'name', 'description', 'prerequisite'));
+		$test_case_version_id = $pdo->lastInsertId();
+		$testcaseVersion->id = $test_case_version_id;
 		Log::debug('Version 1 created');
 		return array($testcase, $testcaseVersion);
 	}

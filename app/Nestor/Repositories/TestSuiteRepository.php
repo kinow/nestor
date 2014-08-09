@@ -17,6 +17,8 @@ interface TestSuiteRepository {
 	 */
 	public function find($id);
 
+	public function findByName($name, $project_id);
+
 	/**
 	 * Create a test suite
 	 *
@@ -45,6 +47,6 @@ interface TestSuiteRepository {
 	 */
 	public function delete($id);
 
-	public function copy($oldName, $newName, $testcaseRepository);
+	public function copy($oldName, $newName, $ancestor, $projectId, $nodesRepository, $testcaseRepository, $testcaseSteps);
 
 }

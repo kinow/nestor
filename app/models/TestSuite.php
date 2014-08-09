@@ -32,7 +32,7 @@ class TestSuite extends Magniloquent {
 				'project_id' => 'required|numeric'
 		),
 		"create" => array(
-				'name' => 'unique:test_suites,name,project_id,:project_id|required|min:2',
+				'name' => 'required|min:2',
 				'description' => '',
 				'project_id' => ''
 		),

@@ -98,7 +98,7 @@
 												{% for executionStatus in executionStatuses %}
 												<div class='radio col-xs-12'>
 													<label>
-														{{ Form.radio('step_execution_status_id_' ~ step.order, executionStatus.id, lastExecutionStatusId == executionStatus.id) }} {{ executionStatus.name }}
+														{{ Form.radio('step_execution_status_id_' ~ step.id, executionStatus.id, lastExecutionStatusId == executionStatus.id) }} {{ executionStatus.name }}
 													</label>
 												</div>
 												{% endfor %}
