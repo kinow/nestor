@@ -193,78 +193,94 @@
   </div>
   <hr/>
   <h5>Create a test case</h5>
-  {{ Form.open({'route': 'testcases.store', 'class': 'form-horizontal'}) }}
-    {{ Form.hidden('project_id', current_project.id) }}
-    {{ Form.hidden('test_suite_id', node.node_id) }}
-    {{ Form.hidden('ancestor', node.descendant) }}
-    <div class="form-group">
-      {{ Form.label('name', 'Name', {'class': 'control-label col-xs-2'}) }}
-        <div class="col-xs-10">
-          {{ Form.input('text', 'name', old.name, {'id':"name", 'class': "form-control", 'placeholder': 'Name'}) }}
-        </div>
-    </div>
-    <div class="form-group">
-      {{ Form.label('description', 'Description', {'class': 'control-label col-xs-2'}) }}
-      <div class="col-xs-10">
-        {{ Form.textarea('description', old.description, {'id': "description", 'rows': "3", 'class': "form-control", 'placeholder': 'Description'}) }}</div>
-    </div>
-    <div class="form-group">
-      {{ Form.label('prerequisite', 'Prerequisite', {'class': 'control-label col-xs-2'}) }}
-      <div class="col-xs-10">
-        {{ Form.textarea('prerequisite', old.prerequisite, {'id': "prerequisite", 'rows': "3", 'class': "form-control", 'placeholder': 'Prerequisite'}) }}
-      </div>
-    </div>
-    <div class="form-group">
-      {{ Form.label('test_case_execution_id', 'Execution Type', {'class': 'control-label col-xs-2'}) }}
-      <div class="col-xs-10">
-      	{{ Form.select('execution_type_id', execution_type_ids, null, {'id': 'test_case_execution_id', 'class': 'form-control'}) }}
-      </div>
-    </div>
-    <div class="form-group yui3-skin-sam">
-      {{ Form.label('labels', 'Labels', {'class': 'control-label col-xs-2'}) }}
-      <div class='col-xs-1'>
-        <span id='addLabelButton' class='glyphicon glyphicon-plus'></span>
-      </div>
-      <div class="col-xs-9">
-        <div id="labels">
-        <!-- Test Case steps go here -->
-        </div>
-      </div>
-    </div>
-    <div class="form-group">
-      <label class='control-label col-xs-2' for='add_step'>Test Case Steps</label>
-      <div class="col-xs-10">
-        <div id="test-case-steps">
-        <!-- Test Case steps go here -->
-        </div>
-        <button id='add-test-case-step' class='btn'><i class='icon-plus'></i> Add step</button>
-      </div>
-    </div>
-
-    <div class="form-group">
-      <div class='col-xs-10 col-xs-offset-2'>
-        {{ Form.submit('Create', {'class': "btn btn-primary"}) }}
-      </div>
-    </div>
-  {{ Form.close() }}
-  <div id="labelsDiv" class="yui3-overlay-loading">
-      <div class="yui3-widget-hd">Add label</div>
-      <div class="yui3-widget-bd">
-        {{ Form.open({'class': 'form-horizontal', 'role': 'form', 'onsubmit': 'return false;'}) }}
-          <div class='form-group'>
-            <label for='label_name' class='control-label col-xs-2'>Name</label>
-            <div class='col-xs-10'>
-              <input class='form-control' name='name' id='label_name' />
+  <!-- Nav tabs -->
+  <ul class="nav nav-tabs" role="tablist">
+    <li class="active"><a href="#new-test-case" role="tab" data-toggle="tab">New</a></li>
+    <li><a href="#copy-test-case" role="tab" data-toggle="tab">Copy</a></li>
+    <li><a href="#import-test-case" role="tab" data-toggle="tab">Import</a></li>
+  </ul>
+  <!-- Tab panes -->
+    <div class="tab-content">
+      <div class="tab-pane active" id="new-test-case">
+        <br/>
+        {{ Form.open({'route': 'testcases.store', 'class': 'form-horizontal'}) }}
+          {{ Form.hidden('project_id', current_project.id) }}
+          {{ Form.hidden('test_suite_id', node.node_id) }}
+          {{ Form.hidden('ancestor', node.descendant) }}
+          <div class="form-group">
+            {{ Form.label('name', 'Name', {'class': 'control-label col-xs-2'}) }}
+              <div class="col-xs-10">
+                {{ Form.input('text', 'name', old.name, {'id':"name", 'class': "form-control", 'placeholder': 'Name'}) }}
+              </div>
+          </div>
+          <div class="form-group">
+            {{ Form.label('description', 'Description', {'class': 'control-label col-xs-2'}) }}
+            <div class="col-xs-10">
+              {{ Form.textarea('description', old.description, {'id': "description", 'rows': "3", 'class': "form-control", 'placeholder': 'Description'}) }}</div>
+          </div>
+          <div class="form-group">
+            {{ Form.label('prerequisite', 'Prerequisite', {'class': 'control-label col-xs-2'}) }}
+            <div class="col-xs-10">
+              {{ Form.textarea('prerequisite', old.prerequisite, {'id': "prerequisite", 'rows': "3", 'class': "form-control", 'placeholder': 'Prerequisite'}) }}
             </div>
           </div>
-          <div class='form-group'>
+          <div class="form-group">
+            {{ Form.label('test_case_execution_id', 'Execution Type', {'class': 'control-label col-xs-2'}) }}
+            <div class="col-xs-10">
+            	{{ Form.select('execution_type_id', execution_type_ids, null, {'id': 'test_case_execution_id', 'class': 'form-control'}) }}
+            </div>
+          </div>
+          <div class="form-group yui3-skin-sam">
+            {{ Form.label('labels', 'Labels', {'class': 'control-label col-xs-2'}) }}
+            <div class='col-xs-1'>
+              <span id='addLabelButton' class='glyphicon glyphicon-plus'></span>
+            </div>
+            <div class="col-xs-9">
+              <div id="labels">
+              <!-- Test Case steps go here -->
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class='control-label col-xs-2' for='add_step'>Test Case Steps</label>
+            <div class="col-xs-10">
+              <div id="test-case-steps">
+              <!-- Test Case steps go here -->
+              </div>
+              <button id='add-test-case-step' class='btn'><i class='icon-plus'></i> Add step</button>
+            </div>
+          </div>
+
+          <div class="form-group">
             <div class='col-xs-10 col-xs-offset-2'>
-              <input type='button' value='Add' id='add_label_button' class='btn btn-primary' /> 
+              {{ Form.submit('Create', {'class': "btn btn-primary"}) }}
             </div>
           </div>
         {{ Form.close() }}
+        <div id="labelsDiv" class="yui3-overlay-loading">
+            <div class="yui3-widget-hd">Add label</div>
+            <div class="yui3-widget-bd">
+              {{ Form.open({'class': 'form-horizontal', 'role': 'form', 'onsubmit': 'return false;'}) }}
+                <div class='form-group'>
+                  <label for='label_name' class='control-label col-xs-2'>Name</label>
+                  <div class='col-xs-10'>
+                    <input class='form-control' name='name' id='label_name' />
+                  </div>
+                </div>
+                <div class='form-group'>
+                  <div class='col-xs-10 col-xs-offset-2'>
+                    <input type='button' value='Add' id='add_label_button' class='btn btn-primary' /> 
+                  </div>
+                </div>
+              {{ Form.close() }}
+            </div>
+        </div>
       </div>
-  </div>
+      <div class="tab-pane active" id="copy-test-case">
+        Copy
+      </div>
+      <div class="tab-pane active" id="import-test-case">
+      </div>
 </div>
 <script>
 YUI().use('node', 'sortable', 'template', 'dd-delegate', 'transition', 'overlay', 'event', 'event-outside', function(Y) {
