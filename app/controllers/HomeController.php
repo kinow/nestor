@@ -20,7 +20,6 @@ class HomeController extends BaseController {
 		{
 			$args['TESTE'] = $e->getMessage();
 		}
-
 		return $this->theme->scope('home.index', $args)->render();
 	}
 

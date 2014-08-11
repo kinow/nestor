@@ -12,7 +12,7 @@ class BackendServiceProvider extends ServiceProvider {
 	public function register()
 	{
 		$this->app->singleton('Nestor\Repositories\UserRepository', 'Nestor\Repositories\DbUserRepository');
-		$this->app->singleton('Nestor\Repositories\ProjectRepository', 'Nestor\Repositories\DbProjectRepository');
+		$this->app->singleton('Nestor\Repositories\ProjectRepositoryInterface', 'Nestor\Repositories\DbProjectRepository');
 		$this->app->singleton('Nestor\Repositories\ProjectStatusRepository', 'Nestor\Repositories\DbProjectStatusRepository');
 		$this->app->singleton('Nestor\Repositories\TestSuiteRepository', 'Nestor\Repositories\DbTestSuiteRepository');
 		$this->app->singleton('Nestor\Repositories\ExecutionTypeRepository', 'Nestor\Repositories\DbExecutionTypeRepository');

@@ -26,7 +26,7 @@
         {{ Form.close() }}
     </div>
 </div>
-
+<!-- FIXME: move to manage
 <div class='row'>
     <div class='col-xs-12'>
         {{ Form.open({'route': ['projects.destroy', project.id], 'method': 'DELETE', 'class': 'form-horizontal'}) }}
@@ -38,4 +38,5 @@
         {{ Form.close() }}
     </div>
 </div>
+-->
 {% endblock %}

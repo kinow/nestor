@@ -8,7 +8,7 @@
 <div class='row'>
 	<div class='col-xs-12'>
 		<div id="projects">
-			{% if projects[0] is defined %}
+			{% if projects['data'] is defined %}
 			<table class='table table-bordered table-hover'>
 				<thead>
 					<tr>
@@ -18,11 +18,13 @@
 					</tr>
 				</thead>
 				<tbody>
-					{% for project in projects %}
+					{% for project in projects['data'] %}
 					<tr>
 						<td>{{ HTML.linkRoute('projects.show', project.name, [project.id]) }}</td>
 						<td>{{ project.description }}</td>
-						<td>{{ project.projectStatus.first.name }}</td>
+						<td>
+						{{ project.project_status.name }}
+						</td>
 					</tr>
 					{% endfor %}
 				</tbody>

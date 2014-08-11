@@ -2,16 +2,11 @@
 
 use Teepluss\Theme\Theme;
 use Teepluss\Theme\Widget;
-use Nestor\Repositories\ProjectRepository;
+use Nestor\Repositories\ProjectRepositoryInterface;
 use \Session;
 
 class WidgetMenu extends Widget {
 
-	/**
-	 * The project repository implementation.
-	 *
-	 * @var Nestor\Repositories\ProjectRepository
-	 */
 	protected $projects;
 
     /**
@@ -55,7 +50,7 @@ class WidgetMenu extends Widget {
         $this->setAttribute('active', $theme->getActive());
         if (Auth::check())
         {
-            $this->projects = App::make('Nestor\Repositories\ProjectRepository');
+            $this->projects = App::make('Nestor\Repositories\ProjectRepositoryInterface');
             $theme->setProjects($this->projects->all());
             $current_project = unserialize(Session::get('current_project'));
             $this->setAttribute('current_project', $current_project);
@@ -88,11 +83,11 @@ class WidgetMenu extends Widget {
                 $projectitems .= '<li><select class="form-control" name="project_id" style="margin: 5px 0px 0px 0px;" onchange="javascript:position_project(this);">';
                 $projectitems .= '<option>-- Choose a project --</option>';
                 foreach ($projects as $project) {
-                    if ($currentProject != null && strcmp($currentProject->name, $project->name) == 0) {
+                    if ($currentProject && strcmp($currentProject['name'], $project['name']) == 0) {
                         $currentProjectExists = TRUE;
-                        $projectitems .= "<option value='$project->id' selected='selected'>$project->name</option>";
+                        $projectitems .= "<option value='{$project["id"]}' selected='selected'>{$project['name']}</option>";
                     } else {
-                        $projectitems .= "<option value='$project->id'>$project->name</option>";
+                        $projectitems .= "<option value='{$project['id']}'>{$project['name']}</option>";
                     }
                 }
                 $projectitems .= '</select></li>';

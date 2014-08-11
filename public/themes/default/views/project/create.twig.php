@@ -2,6 +2,7 @@
 <div class='row'>
     <div class='col-xs-12'>
         {{ Form.open({'route': 'projects.store', 'class': 'form-horizontal', 'role': 'form'}) }}
+            {{ Form.hidden('project_statuses_id', 1) }}
             <div class="form-group">
                 {{ Form.label('name', 'Name', {'class': 'col-xs-2 control-label'}) }}
                 <div class="col-xs-10">

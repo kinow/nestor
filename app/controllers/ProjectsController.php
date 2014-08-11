@@ -1,29 +1,31 @@
 <?php
 
-use Nestor\Repositories\ProjectRepository;
+use Nestor\Repositories\ProjectRepositoryInterface;
 use Nestor\Repositories\NavigationTreeRepository;
+use Nestor\Util\ValidationException;
 
-class ProjectsController extends \BaseController {
-
+class ProjectsController extends \BaseController 
+{
 	/**
-	 * The project repository implementation.
+	 * Project repository.
 	 *
-	 * @var Nestor\Repositories\ProjectRepository
+	 * @var Nestor\Repositories\ProjectRepositoryInterface
 	 */
 	protected $projects;
-
 	/**
-	 * The navigation tree node repository implementation.
+	 * Navigation tree node repository.
 	 *
 	 * @var Nestor\Repositories\NavigationTreeRepository
 	 */
 	protected $nodes;
-
+	/**
+	 * UI Theme.
+	 */
 	protected $theme;
 
 	public $restful = true;
 
-	public function __construct(ProjectRepository $projects, NavigationTreeRepository $nodes)
+	public function __construct(ProjectRepositoryInterface $projects, NavigationTreeRepository $nodes)
 	{
 		parent::__construct();
 		$this->projects = $projects;
@@ -43,7 +45,8 @@ class ProjectsController extends \BaseController {
 			add('Home', URL::to('/'))->
 			add('Projects');
 		$args = array();
-		$args['projects'] = $this->projects->paginate(10);
+		$projects = $this->projects->paginateWith(10, array('projectStatus'));
+		$args['projects'] = $projects;
 		return $this->theme->scope('project.index', $args)->render();
 	}
 
@@ -68,53 +71,33 @@ class ProjectsController extends \BaseController {
 	 */
 	public function store()
 	{
-		$project = null;
-		$navigationTreeNode = null;
-		Log::info('Creating project...');
-		$pdo = null;
+		DB::beginTransaction();
 		try {
-    		$pdo = DB::connection()->getPdo();
-    		$pdo->beginTransaction();
-			$project = $this->projects->create(
-					Input::get('name'),
-					Input::get('description'),
-					1
-			);
-			if ($project->isValid() && $project->isSaved())
-			{
-				$navigationTreeNode = $this->nodes->create(
-						'1-' . $pdo->lastInsertId(),
-						'1-' . $pdo->lastInsertId(),
-						$pdo->lastInsertId(),
-						1,
-						$project->name
-				);
-				if ($navigationTreeNode)
-				{
-					$pdo->commit();
-				}
-			}
-		} catch (\PDOException $e) {
-			if (!is_null($pdo))
-				try {
-					$pdo->rollBack();
-				} catch (Exception $ignoreme) {}
-			return Redirect::to('/projects/create')
-	 			->withInput();
+			$project = $this->projects->create(Input::all());
+			// FIXME: insert into tree!
+			// 		$navigationTreeNode = $this->nodes->create(
+			// 				'1-' . $pdo->lastInsertId(),
+			// 				'1-' . $pdo->lastInsertId(),
+			// 				$pdo->lastInsertId(),
+			// 				1,
+			// 				$project->name
+			// 		);
+			DB::commit();
+		} catch (ValidationException $ve) {
+			DB::rollback();
+			return Redirect::to(URL::previous())->withInput()->withErrors($ve->getErrors());
+		} catch (Exception $e) {
+			DB::rollback();
+			throw $e;
 		}
-		if ($project->isSaved() && $navigationTreeNode)
-		{
-			if (Input::get('position') == 'true')
-			{
-				Session::put('current_project', serialize($project));
-			}
-			return Redirect::to('/projects/')
-				->with('success', sprintf('Project %s created', Input::get('name')));
-		} else {
-			return Redirect::to('/projects/create')
-				->withInput()
-				->withErrors($project->errors());
+
+		// auto position project
+		if (Input::get('position') == 'true') {
+			Session::put('current_project', serialize($project));
 		}
+
+		return Redirect::to('/projects/')
+			->with('success', sprintf('Project %s created', Input::get('name')));
 	}
 
 	/**
@@ -125,11 +108,11 @@ class ProjectsController extends \BaseController {
 	 */
 	public function show($id)
 	{
-		$project = $this->projects->find($id);
+		$project = $this->projects->findWith($id, array('projectStatus'));
 		$this->theme->breadcrumb()->
 			add('Home', URL::to('/'))->
 			add('Projects', URL::to('/projects'))->
-			add(sprintf('Project %s', $project->name));
+			add(sprintf('Project %s', $project['name']));
 		$args = array();
 		$args['project'] = $project;
 		return $this->theme->scope('project.show', $args)->render();
@@ -148,13 +131,9 @@ class ProjectsController extends \BaseController {
 		$this->theme->breadcrumb()->
 			add('Home', URL::to('/'))->
 			add('Projects', URL::to('/projects'))->
-			add(sprintf('Project %s', $project->name));
+			add(sprintf('Project %s', $project['name']));
 		$args = array();
 		$args['project'] = $project;
-		// $editorPluginId = $settings['editor'];
-		// $editorPlugin = Nestor::getPluginManager()->getByPluginId($editorPluginId);
-		// $editor = new $editorPlugin->provides['Nestor\Model\Editor'][0];
-		// $args['editor'] = $editor;
 		return $this->theme->scope('project.edit', $args)->render();
 	}
 
