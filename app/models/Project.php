@@ -11,12 +11,12 @@ class Project extends BaseModel
 		"create" => array(
 			'name' => 'unique:projects|required|min:2',
 			'description' => '',
-			'project_statuses_id' => 'sometimes|required|numeric'
+			'project_statuses_id' => 'sometimes|numeric'
 		),
 		"update" => array(
 			'name' => 'required|min:2',
 			'description' => '',
-			'project_statuses_id' => 'sometimes|required|numeric'
+			'project_statuses_id' => 'numeric'
 		)
 	);
 

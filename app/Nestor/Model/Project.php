@@ -15,7 +15,7 @@ class Project extends BaseModel {
 		"update" => array(
 			'name' => 'required|min:2',
 			'description' => '',
-			'project_statuses_id' => 'required|numeric'
+			'project_statuses_id' => 'sometimes|numeric'
 		)
 	);
 

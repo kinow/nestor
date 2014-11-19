@@ -74,6 +74,7 @@ class ProjectsController extends \BaseController
 		DB::beginTransaction();
 		try {
 			$project = $this->projects->create(Input::all());
+			Log::debug('Creating project...');
 			// FIXME: insert into tree!
 			// 		$navigationTreeNode = $this->nodes->create(
 			// 				'1-' . $pdo->lastInsertId(),
@@ -127,7 +128,6 @@ class ProjectsController extends \BaseController
 	public function edit($id)
 	{
 		$project = $this->projects->find($id);
-		$settings = Config::get('settings');
 		$this->theme->breadcrumb()->
 			add('Home', URL::to('/'))->
 			add('Projects', URL::to('/projects'))->
@@ -145,45 +145,46 @@ class ProjectsController extends \BaseController
 	 */
 	public function update($id)
 	{
-		$project = null;
-		$navigationTreeNode = null;
 		Log::info('Updating project...');
-		$pdo = null;
+		DB::beginTransaction();
 		try {
-			$pdo = DB::connection()->getPdo();
-			$pdo->beginTransaction();
-			$project = $this->projects->update(
-							$id,
-							Input::get('name'),
-							Input::get('description'),
-							1);
-			if ($project->isValid() && $project->isSaved())
-			{
-				$navigationTreeNode = $this->nodes->find('1-'.$project->id, '1-'.$project->id);
-				$navigationTreeNode->display_name = $project->name;
-				$navigationTreeNode = $this->nodes->update(
-						'1-'.$project->id,
-						'1-'.$project->id,
-						$navigationTreeNode->node_id,
-						$navigationTreeNode->node_type_id,
-						$navigationTreeNode->display_name);
-				$pdo->commit();
-			}
-		} catch (\PDOException $e) {
-			if (!is_null($pdo))
-				$pdo->rollBack();
-			return Redirect::to('/specification/')
-				->withInput();
-		}
+			$updated = $this->projects->update(
+				$id,
+				array(
+					'name' => Input::get('name'),
+					'description' => Input::get('description')
+				)
+			);
 
-		if ($project->isSaved())
-		{
+			Log::info('Updated!!!');
+
+			Log::info('Updating navigation tree...');
+			// $navigationTreeNode = $this->nodes->find('1-'.$project->id, '1-'.$project->id);
+			// $navigationTreeNode->display_name = $project->name;
+			// $navigationTreeNode = $this->nodes->update(
+			// 	'1-'.$project->id,
+			// 	'1-'.$project->id,
+			// 	$navigationTreeNode->node_id,
+			// 	$navigationTreeNode->node_type_id,
+			// 	$navigationTreeNode->display_name
+			// );
+			
+			DB::commit();
+
+			Log::info('Updated!!!');
+
 			return Redirect::route('projects.show', $id)
 				->with('success', 'The project was updated');
-		} else {
-			return Redirect::route('projects.edit', $id)
-				->withInput()
-				->withErrors($project->errors());
+		} catch (\PDOException $e) {
+			DB::rollback();
+			return Redirect::to('/specification/')
+				->withInput();
+		} catch (ValidationException $ve) {
+			DB::rollback();
+			return Redirect::to(URL::previous())->withInput()->withErrors($ve->getErrors());
+		} catch (Exception $e) {
+			DB::rollback();
+			return Redirect::to(URL::previous())->withInput(); // FIXME: display error in UI
 		}
 	}
 

@@ -1,12 +1,6 @@
 {% block content %}
 <div class='row'>
 	<div class='col-xs-12'>
-		{{ HTML.link('/projects/create', 'New Project', {'class': 'btn btn-primary'}) }}
-	</div>
-</div>
-<br/>
-<div class='row'>
-	<div class='col-xs-12'>
 		<div id="projects">
 			{% if projects['data'] is defined %}
 			<table class='table table-bordered table-hover'>
@@ -14,6 +8,7 @@
 					<tr>
 						<th>Name</th>
 						<th>Description</th>
+						<th>Status</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -21,6 +16,7 @@
 					<tr>
 						<td>{{ HTML.linkRoute('projects.show', project.name, [project.id]) }}</td>
 						<td>{{ project.description }}</td>
+						<td>{{ project.project_status.name }}</td>
 					</tr>
 					{% endfor %}
 				</tbody>

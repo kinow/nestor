@@ -14,9 +14,13 @@
 // Main app
 Route::get('/', 'HomeController@getIndex');
 Route::controller('install', 'InstallController');
-Route::get('/manage', 'ManageController@getIndex');
 Route::get('/configure', 'ConfigurationController@getConfigure');
 Route::post('/configure', 'ConfigurationController@postConfigure');
+
+// Management
+Route::get('/manage', 'ManageController@getIndex');
+Route::get('/manage/projects', 'ManageProjectsController@getIndex');
+Route::get('/manage/projects/{id}', 'ManageProjectsController@show')
 
 // Manage Plugins
 Route::get('/pluginManager', 'PluginManagerController@getIndex');

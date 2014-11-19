@@ -3,9 +3,14 @@
 	<div class='col-xs-12'>
 		<ul class="list-group">
 		  <li class="list-group-item">
-		  	{{ HTML.link('/configure', 'Configuration System') }}
+		  	{{ HTML.link('/configure', 'Configure System') }}
 		    <br/>
 		    <small>Configure global settings</small>
+		  </li>
+		  <li class="list-group-item">
+		  	{{ HTML.link('/manage/projects', 'Manage projects') }}
+        	<br/>
+        	<small>Add, remove, disable or enable projects.</small>
 		  </li>
 		  <li class="list-group-item">
 		  	{{ HTML.link('/themeManager', 'Manage Themes') }}
