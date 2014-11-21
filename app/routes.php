@@ -20,7 +20,7 @@ Route::post('/configure', 'ConfigurationController@postConfigure');
 // Management
 Route::get('/manage', 'ManageController@getIndex');
 Route::get('/manage/projects', 'ManageProjectsController@getIndex');
-Route::get('/manage/projects/{id}', 'ManageProjectsController@show')
+Route::get('/manage/projects/{id}', 'ManageProjectsController@show');
 
 // Manage Plugins
 Route::get('/pluginManager', 'PluginManagerController@getIndex');
