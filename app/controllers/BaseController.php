@@ -22,6 +22,17 @@ class BaseController extends Controller {
 		}
 		$this->currentProject = $this->getCurrentProject();
 		$this->theme->set('current_project', $this->currentProject);
+		$this->theme->breadcrumb()->setTemplate('
+			<ul class="breadcrumb">
+		    @foreach ($crumbs as $i => $crumb)
+		        @if ($i != (count($crumbs) - 1))
+		        <li><a href="{{ $crumb["url"] }}">{{ $crumb["label"] }}</a><span class="divider"></span></li>
+		        @else
+		        <li class="active">{{ $crumb["label"] }}</li>
+		        @endif
+		    @endforeach
+		    </ul>
+		');
 	}
 
 	public function isAuthenticated()
