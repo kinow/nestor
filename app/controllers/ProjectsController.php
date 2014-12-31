@@ -1,15 +1,16 @@
 <?php
 
-use Nestor\Repositories\ProjectRepositoryInterface;
+use Nestor\Repositories\ProjectRepository;
 use Nestor\Repositories\NavigationTreeRepository;
 use Nestor\Util\ValidationException;
+use Nestor\Model\ProjectStatus;
 
 class ProjectsController extends \BaseController 
 {
 	/**
 	 * Project repository.
 	 *
-	 * @var Nestor\Repositories\ProjectRepositoryInterface
+	 * @var Nestor\Repositories\ProjectRepository
 	 */
 	protected $projects;
 	/**
@@ -25,7 +26,7 @@ class ProjectsController extends \BaseController
 
 	public $restful = true;
 
-	public function __construct(ProjectRepositoryInterface $projects, NavigationTreeRepository $nodes)
+	public function __construct(ProjectRepository $projects, NavigationTreeRepository $nodes)
 	{
 		parent::__construct();
 		$this->projects = $projects;
@@ -45,7 +46,9 @@ class ProjectsController extends \BaseController
 			add('Home', URL::to('/'))->
 			add('Projects');
 		$args = array();
-		$projects = $this->projects->paginateWith(10, array('projectStatus'));
+		$projects = $this
+			->projects
+			->paginateProjectsWithProjectStatusWith(ProjectStatus::ACTIVE, 10, array('projectStatus'));
 		$args['projects'] = $projects;
 		return $this->theme->scope('project.index', $args)->render();
 	}

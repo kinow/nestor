@@ -2,7 +2,9 @@
 <div class='row'>
 	<div class='col-xs-12'>
 		<div id="projects">
-			{% if projects['data'] is defined %}
+			{% if projects.total == 0 %}
+			<p>No projects found. {{ HTML.link('/projects/create', 'Create a new project') }}</p>
+			{% else %}
 			<table class='table table-bordered table-hover'>
 				<thead>
 					<tr>
@@ -14,15 +16,13 @@
 				<tbody>
 					{% for project in projects['data'] %}
 					<tr>
-						<td>{{ HTML.linkRoute('projects.show', project.name, [project.id]) }}</td>
+						<td>{{ HTML.link('manage/projects/' ~ project.id, project.name) }}</td>
 						<td>{{ project.description }}</td>
 						<td>{{ project.project_status.name }}</td>
 					</tr>
 					{% endfor %}
 				</tbody>
 			</table>
-			{% else %}
-			<p>No projects found. {{ HTML.link('/projects/create', 'Create a new project') }}</p>
 			{% endif %}
 		</div>
 	</div>

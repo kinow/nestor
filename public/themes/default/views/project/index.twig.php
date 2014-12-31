@@ -8,7 +8,9 @@
 <div class='row'>
 	<div class='col-xs-12'>
 		<div id="projects">
-			{% if projects['data'] is defined %}
+			{% if projects.total == 0 %}
+			<p>No projects found. {{ HTML.link('/projects/create', 'Create a new project') }}</p>
+			{% else %}
 			<table class='table table-bordered table-hover'>
 				<thead>
 					<tr>
@@ -25,8 +27,6 @@
 					{% endfor %}
 				</tbody>
 			</table>
-			{% else %}
-			<p>No projects found. {{ HTML.link('/projects/create', 'Create a new project') }}</p>
 			{% endif %}
 		</div>
 	</div>

@@ -24,7 +24,7 @@ class Project extends BaseModel {
 
 	public function projectStatus()
 	{
-		return $this->belongsTo('Nestor\\Model\\ProjectStatus', 'project_statuses_id');
+		return $this->belongsTo('Nestor\\Model\\ProjectStatus', 'project_statuses_id', 'id');
 	}
 
 	public function testsuites()

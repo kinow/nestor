@@ -2,7 +2,8 @@
 
 use Teepluss\Theme\Theme;
 use Teepluss\Theme\Widget;
-use Nestor\Repositories\ProjectRepositoryInterface;
+use Nestor\Repositories\ProjectRepository;
+use Nestor\Model\ProjectStatus;
 use \Session;
 
 class WidgetMenu extends Widget {
@@ -50,8 +51,8 @@ class WidgetMenu extends Widget {
         $this->setAttribute('active', $theme->getActive());
         if (Auth::check())
         {
-            $this->projects = App::make('Nestor\Repositories\ProjectRepositoryInterface');
-            $theme->setProjects($this->projects->all());
+            $this->projects = App::make('Nestor\Repositories\ProjectRepository');
+            $theme->setProjects($this->projects->allWithProjectStatus(ProjectStatus::ACTIVE));
             $current_project = unserialize(Session::get('current_project'));
             $this->setAttribute('current_project', $current_project);
         }

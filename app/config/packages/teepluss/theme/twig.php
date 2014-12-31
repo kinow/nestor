@@ -57,6 +57,7 @@ return array(
     	$fns = array(
     		'print_r',
     		'var_dump',
+            'var_export',
     		'isset',
     		'count',
             'current',

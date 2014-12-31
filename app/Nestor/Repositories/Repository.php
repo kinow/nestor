@@ -1,6 +1,6 @@
 <?php namespace Nestor\Repositories;
 
-interface BaseRepositoryInterface {
+interface Repository {
 
 	public function all();
 

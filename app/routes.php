@@ -19,8 +19,6 @@ Route::post('/configure', 'ConfigurationController@postConfigure');
 
 // Management
 Route::get('/manage', 'ManageController@getIndex');
-Route::get('/manage/projects', 'ManageProjectsController@getIndex');
-Route::get('/manage/projects/{id}', 'ManageProjectsController@show');
 
 // Manage Plugins
 Route::get('/pluginManager', 'PluginManagerController@getIndex');
@@ -31,15 +29,25 @@ Route::post('/pluginManager/rebuildCache', 'PluginManagerController@postRebuildC
 Route::get('/pluginManager/installed', 'PluginManagerController@getInstalled');
 Route::get('/pluginManager/available', 'PluginManagerController@getAvailable');
 
+// Projects
+Route::get('projects/position', 'ProjectsController@position');
+Route::resource('projects', 'ProjectsController');
+
+// Manage Projects
+//Route::get('/manage/projects', 'ManageProjectsController@getIndex');
+//Route::get('/manage/projects/{id}', 'ManageProjectsController@show');
+Route::get('manage/projects', 'ManageProjectsController@index');
+Route::get('manage/projects/{id}/', 'ManageProjectsController@show');
+Route::get('manage/projects/{id}/edit', 'ManageProjectsController@edit');
+Route::put('manage/projects/{id}', 'ManageProjectsController@update');
+Route::get('manage/projects/{id}/destroy', 'ManageProjectsController@destroy');
+Route::delete('manage/projects/{id}', 'ManageProjectsController@confirmDestroy');
+
 // Manage users
 Route::get('/users/login', 'UsersController@getLogin');
 Route::post('/users/login', 'UsersController@postLogin');
 Route::get('/users/logout', 'UsersController@getLogout');
 Route::resource('users', 'UsersController');
-
-// Projects
-Route::get('projects/position', 'ProjectsController@position');
-Route::resource('projects', 'ProjectsController');
 
 // Test Suites
 Route::resource('testsuites', 'TestSuitesController');
