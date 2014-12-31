@@ -20,11 +20,12 @@ interface ProjectStatusRepository {
 	/**
 	 * Create a project status
 	 *
+	 * @param  integer $id
 	 * @param  string  $name
 	 * @param  string  $description
 	 * @return Project
 	 */
-	public function create($name, $description);
+	public function create($id, $name, $description);
 
 	/**
 	 * Update a project status

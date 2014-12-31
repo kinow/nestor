@@ -5,6 +5,7 @@ use Nestor\Repositories\ExecutionTypeRepository;
 use Nestor\Repositories\ExecutionStatusRepository;
 use Nestor\Repositories\ReportTypeRepository;
 use Nestor\Repositories\ParameterTypeRepository;
+use Nestor\Model\ProjectStatus;
 
 class DatabaseSeeder extends Seeder {
 
@@ -37,8 +38,8 @@ class DatabaseSeeder extends Seeder {
 		$this->call('PluginSeeder');
 		$this->call('ConfigurationSeeder');
 
-		$this->projectStatuses->create('Active', 'Active project');
-		$this->projectStatuses->create('Inactive', 'Inactive project');
+		$this->projectStatuses->create(ProjectStatus::ACTIVE, 'Active', 'Active project');
+		$this->projectStatuses->create(ProjectStatus::INACTIVE, 'Inactive', 'Inactive project');
 
 		$this->executionTypes->create('Manual', 'Manual test');
 		$this->executionTypes->create('Automated', 'Automated test');

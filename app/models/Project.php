@@ -20,7 +20,6 @@ class Project extends BaseModel
 		)
 	);
 
-
 	public function projectStatus()
 	{
 		return $this->belongsTo('ProjectStatus', 'project_statuses_id');
