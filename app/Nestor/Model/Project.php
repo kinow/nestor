@@ -1,5 +1,7 @@
 <?php namespace Nestor\Model;
 
+use Nestor\Model\ProjectStatus;
+
 class Project extends BaseModel {
 
 	protected $table = 'projects';
@@ -22,7 +24,7 @@ class Project extends BaseModel {
 
 	public function projectStatus()
 	{
-		return $this->belongsTo('ProjectStatus', 'project_statuses_id');
+		return $this->belongsTo('Nestor\\Model\\ProjectStatus', 'project_statuses_id');
 	}
 
 	public function testsuites()

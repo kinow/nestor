@@ -14,8 +14,8 @@
 		"n98/junit-xml": "dev-master"
 	},
 	"autoload" : {
-		"psr-0" : {
-			"Nestor" : "app/"
+		"psr-4": {
+			"Nestor\\": "app/Nestor"
 		},
 		"classmap" : [
 			"app/commands",
