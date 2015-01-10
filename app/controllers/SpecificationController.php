@@ -1,95 +1,16 @@
 <?php
 
-use Nestor\Repositories\ProjectRepository;
-use Nestor\Repositories\TestCaseRepository;
-use Nestor\Repositories\ExecutionTypeRepository;
-use Nestor\Repositories\NavigationTreeRepository;
-use Nestor\Repositories\ExecutionStatusRepository;
-use Nestor\Repositories\LabelRepository;
-use Nestor\Repositories\TestSuiteRepository;
+use Nestor\Gateways\SpecificationGateway;
+use Nestor\Model\Nodes;
 
-class SpecificationController extends \NavigationTreeController {
+class SpecificationController extends NavigationTreeController {
 
-	/**
-	 *
-	 * @var Nestor\Repositories\ProjectRepository;
-	 */
-	protected $projects;
-
-	/**
-	 *
-	 * @var Nestor\Repositories\TestCaseRepository;
-	 */
-	protected $testcases;
-
-	/**
-	 * The execution type repository implementation.
-	 *
-	 * @var Nestor\Repositories\ExecutionTypeRepository
-	 */
-	protected $executionTypes;
-
-	/**
-	 * @var Nestor\Repositories\NavigationTreeRepository
-	 */
-	protected $nodes;
-
-	/**
-	 * The execution status repository implementation.
-	 *
-	 * @var Nestor\Repositories\ExecutionStatusRepository
-	 */
-	protected $executionStatuses;
-
-	/**
-	 * The labels repository implementation.
-	 *
-	 * @var Nestor\Repositories\LabelRepository
-	 */
-	protected $labels;
-
-	/**
-	 * The test suites repository implementation.
-	 * 
-	 * @var Nestor\Repositories\TestSuiteRepository
-	 */
-	protected $testsuites;
-
-	/**
-	 * Current project in Session.
-	 * @var Project
-	 */
+	protected $specificationGateway;
 	protected $currentProject;
 
-	/**
-	 * Constructor.
-	 *
-	 * @param Nestor\Repositories\ProjectRepository         $projects
-	 * @param Nestor\Repositories\TestCaseRepository        $testcases
-	 * @param Nestor\Repositories\ExecutionTypeRepository   $executionTypes
-	 * @param Nestor\Repositories\NavigationTreeRepository  $nodes
-	 * @param Nestor\Repositories\ExecutionStatusRepository $executionStatuses
-	 * @param Nestor\Repositories\LabelRepository           $labels
-	 * @param Nestor\Repositories\TestSuiteRepository       $testsuites
-	 * @return SpecificationController
-	 */
-	public function __construct(
-		ProjectRepository $projects, 
-		TestCaseRepository $testcases, 
-		ExecutionTypeRepository $executionTypes, 
-		NavigationTreeRepository $nodes, 
-		ExecutionStatusRepository $executionStatuses,
-		LabelRepository $labels,
-		TestSuiteRepository $testsuites)
+	public function __construct()
 	{
 		parent::__construct();
-		$this->projects = $projects;
-		$this->testcases = $testcases;
-		$this->executionTypes = $executionTypes;
-		$this->nodes = $nodes;
-		$this->executionStatuses = $executionStatuses;
-		$this->labels = $labels;
-		$this->testsuites = $testsuites;
 		$this->theme->setActive('specification');
 	}
 
@@ -104,15 +25,21 @@ class SpecificationController extends \NavigationTreeController {
 			add('Home', URL::to('/'))->
 			add('Specification');
 		$currentProject = $this->getCurrentProject();
-		$nodes = $this->nodes->children('1-'.$currentProject->id, 1 /* length*/);
-//  		$queries = DB::getQueryLog();
-//  		$last_query = end($queries);
-		$navigationTree = $this->createNavigationTree($nodes, '1-'.$currentProject->id);
-		$navigationTreeHtml = $this->createTreeHTML($navigationTree, "", $this->theme->getThemeName());
+		$nodeId = Nodes::id(Nodes::PROJECT_TYPE, $currentProject['id']);
+		$nodes = HMVC::get("api/v1/nodes/$nodeId", Input::all());
+
+
+
+		// 	$navigationTree = $this->createNavigationTree($nodes, '1-'.$currentProject->id);
+		// 	$navigationTreeHtml = $this->createTreeHTML($navigationTree, "", $this->theme->getThemeName());
+		// } else {
+		// 	$nodes = array();
+		// }
 		$args = array();
-		$args['navigation_tree'] = $navigationTree;
-		$args['navigation_tree_html'] = $navigationTreeHtml;
-		$args['current_project'] = $this->currentProject;
+		$args['nodes'] = $nodes;
+		//$args['navigation_tree'] = $navigationTree;
+		//$args['navigation_tree_html'] = $navigationTreeHtml;
+		//$args['current_project'] = $this->currentProject;
 		return $this->theme->scope('specification.index', $args)->render();
 	}
 
