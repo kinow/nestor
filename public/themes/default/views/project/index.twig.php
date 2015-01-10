@@ -19,7 +19,7 @@
 					</tr>
 				</thead>
 				<tbody>
-					{% for project in projects['data'] %}
+					{% for project in projects.data %}
 					<tr>
 						<td>{{ HTML.linkRoute('projects.show', project.name, [project.id]) }}</td>
 						<td>{{ project.description }}</td>

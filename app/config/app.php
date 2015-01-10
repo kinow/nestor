@@ -109,7 +109,9 @@ return array(
 		
 		'Philf\Setting\SettingServiceProvider',
 		'Teepluss\Theme\ThemeServiceProvider',
-		'Nestor\BackendServiceProvider'
+		'Teepluss\Restable\RestableServiceProvider',
+		'Teepluss\Hmvc\HmvcServiceProvider',
+		'Nestor\BackendServiceProvider',
 	),
 
 	/*
@@ -177,6 +179,7 @@ return array(
 		'View'            => 'Illuminate\Support\Facades\View',
 
 		'Theme'           => 'Teepluss\Theme\Facades\Theme',
+		'Restable'        => 'Teepluss\Restable\Facades\Restable',
 		'Nestor'          => 'Nestor\Facades\NestorFacade',
 
 	),

@@ -4,7 +4,7 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "c8a94615fc1a90f738222506281f0505",
+    "hash": "918900257097394519502da15e5fa6c9",
     "packages": [
         {
             "name": "classpreloader/classpreloader",
@@ -107,16 +107,16 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/composer/composer.git",
-                "reference": "095dc6129550de93cd98170c8e6c6ccd4558e983"
+                "reference": "c58b7d917c65692eeb00c22b2fbaaa251cb390dc"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/composer/composer/zipball/095dc6129550de93cd98170c8e6c6ccd4558e983",
-                "reference": "095dc6129550de93cd98170c8e6c6ccd4558e983",
+                "url": "https://api.github.com/repos/composer/composer/zipball/c58b7d917c65692eeb00c22b2fbaaa251cb390dc",
+                "reference": "c58b7d917c65692eeb00c22b2fbaaa251cb390dc",
                 "shasum": ""
             },
             "require": {
-                "justinrainbow/json-schema": "~1.1",
+                "justinrainbow/json-schema": "~1.3",
                 "php": ">=5.3.2",
                 "seld/jsonlint": "~1.0",
                 "symfony/console": "~2.3",
@@ -167,7 +167,7 @@
                 "dependency",
                 "package"
             ],
-            "time": "2014-12-29 20:29:13"
+            "time": "2015-01-05 16:31:16"
         },
         {
             "name": "d11wtq/boris",
@@ -413,12 +413,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/common.git",
-                "reference": "e946d100217927a4950e5f95c2da7730d0977105"
+                "reference": "c819359fc0babd36620e4b48d2eb0c6dacbc48a2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/common/zipball/e946d100217927a4950e5f95c2da7730d0977105",
-                "reference": "e946d100217927a4950e5f95c2da7730d0977105",
+                "url": "https://api.github.com/repos/doctrine/common/zipball/c819359fc0babd36620e4b48d2eb0c6dacbc48a2",
+                "reference": "c819359fc0babd36620e4b48d2eb0c6dacbc48a2",
                 "shasum": ""
             },
             "require": {
@@ -478,7 +478,7 @@
                 "persistence",
                 "spl"
             ],
-            "time": "2014-12-26 16:04:31"
+            "time": "2015-01-01 17:37:36"
         },
         {
             "name": "doctrine/dbal",
@@ -560,12 +560,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/inflector.git",
-                "reference": "0bcb2e79d8571787f18b7eb036ed3d004908e604"
+                "reference": "e5eaf8c7ded0877195b5d2848491e17b1c0a6c4d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/inflector/zipball/0bcb2e79d8571787f18b7eb036ed3d004908e604",
-                "reference": "0bcb2e79d8571787f18b7eb036ed3d004908e604",
+                "url": "https://api.github.com/repos/doctrine/inflector/zipball/e5eaf8c7ded0877195b5d2848491e17b1c0a6c4d",
+                "reference": "e5eaf8c7ded0877195b5d2848491e17b1c0a6c4d",
                 "shasum": ""
             },
             "require": {
@@ -619,7 +619,7 @@
                 "singularize",
                 "string"
             ],
-            "time": "2014-12-20 21:24:13"
+            "time": "2015-01-01 18:34:57"
         },
         {
             "name": "doctrine/lexer",
@@ -725,6 +725,98 @@
                 "zf2"
             ],
             "time": "2013-12-04 14:19:30"
+        },
+        {
+            "name": "guzzle/guzzle",
+            "version": "v3.9.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/guzzle/guzzle3.git",
+                "reference": "92d9934f2fca1da15178c91239576ae26e505e60"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/guzzle/guzzle3/zipball/92d9934f2fca1da15178c91239576ae26e505e60",
+                "reference": "92d9934f2fca1da15178c91239576ae26e505e60",
+                "shasum": ""
+            },
+            "require": {
+                "ext-curl": "*",
+                "php": ">=5.3.3",
+                "symfony/event-dispatcher": "~2.1"
+            },
+            "replace": {
+                "guzzle/batch": "self.version",
+                "guzzle/cache": "self.version",
+                "guzzle/common": "self.version",
+                "guzzle/http": "self.version",
+                "guzzle/inflection": "self.version",
+                "guzzle/iterator": "self.version",
+                "guzzle/log": "self.version",
+                "guzzle/parser": "self.version",
+                "guzzle/plugin": "self.version",
+                "guzzle/plugin-async": "self.version",
+                "guzzle/plugin-backoff": "self.version",
+                "guzzle/plugin-cache": "self.version",
+                "guzzle/plugin-cookie": "self.version",
+                "guzzle/plugin-curlauth": "self.version",
+                "guzzle/plugin-error-response": "self.version",
+                "guzzle/plugin-history": "self.version",
+                "guzzle/plugin-log": "self.version",
+                "guzzle/plugin-md5": "self.version",
+                "guzzle/plugin-mock": "self.version",
+                "guzzle/plugin-oauth": "self.version",
+                "guzzle/service": "self.version",
+                "guzzle/stream": "self.version"
+            },
+            "require-dev": {
+                "doctrine/cache": "~1.3",
+                "monolog/monolog": "~1.0",
+                "phpunit/phpunit": "3.7.*",
+                "psr/log": "~1.0",
+                "symfony/class-loader": "~2.1",
+                "zendframework/zend-cache": "2.*,<2.3",
+                "zendframework/zend-log": "2.*,<2.3"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "3.8-dev"
+                }
+            },
+            "autoload": {
+                "psr-0": {
+                    "Guzzle": "src/",
+                    "Guzzle\\Tests": "tests/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Michael Dowling",
+                    "email": "mtdowling@gmail.com",
+                    "homepage": "https://github.com/mtdowling"
+                },
+                {
+                    "name": "Guzzle Community",
+                    "homepage": "https://github.com/guzzle/guzzle/contributors"
+                }
+            ],
+            "description": "Guzzle is a PHP HTTP client library and framework for building RESTful web service clients",
+            "homepage": "http://guzzlephp.org/",
+            "keywords": [
+                "client",
+                "curl",
+                "framework",
+                "http",
+                "http client",
+                "rest",
+                "web service"
+            ],
+            "time": "2014-05-07 17:04:22"
         },
         {
             "name": "ircmaxell/password-compat",
@@ -1054,12 +1146,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/Seldaek/monolog.git",
-                "reference": "17f651bb96692b084b3e0361d45aeb75e0a25ac0"
+                "reference": "b18a6eff04b15184375a6875ef2aa54bc5a7c9f2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Seldaek/monolog/zipball/17f651bb96692b084b3e0361d45aeb75e0a25ac0",
-                "reference": "17f651bb96692b084b3e0361d45aeb75e0a25ac0",
+                "url": "https://api.github.com/repos/Seldaek/monolog/zipball/b18a6eff04b15184375a6875ef2aa54bc5a7c9f2",
+                "reference": "b18a6eff04b15184375a6875ef2aa54bc5a7c9f2",
                 "shasum": ""
             },
             "require": {
@@ -1118,7 +1210,7 @@
                 "logging",
                 "psr-3"
             ],
-            "time": "2014-12-30 10:39:23"
+            "time": "2015-01-07 15:29:03"
         },
         {
             "name": "n98/junit-xml",
@@ -1253,12 +1345,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/tchwork/utf8.git",
-                "reference": "abae29343b1b0e1bfbcb48bf3d59f34189c6e783"
+                "reference": "0d196eb09d60921c9df385a4d33e9cf36b88074b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/tchwork/utf8/zipball/abae29343b1b0e1bfbcb48bf3d59f34189c6e783",
-                "reference": "abae29343b1b0e1bfbcb48bf3d59f34189c6e783",
+                "url": "https://api.github.com/repos/tchwork/utf8/zipball/0d196eb09d60921c9df385a4d33e9cf36b88074b",
+                "reference": "0d196eb09d60921c9df385a4d33e9cf36b88074b",
                 "shasum": ""
             },
             "require": {
@@ -1296,7 +1388,7 @@
                 "utf-8",
                 "utf8"
             ],
-            "time": "2014-11-10 20:40:47"
+            "time": "2015-01-05 22:58:05"
         },
         {
             "name": "philf/setting",
@@ -1348,12 +1440,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpseclib/phpseclib.git",
-                "reference": "c3a8f98dcb19b86f873f321f0949eae44b8c2f4e"
+                "reference": "09ccfdbcb9c57eb9e099e1a3b3bb2f1cabbadb33"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpseclib/phpseclib/zipball/c3a8f98dcb19b86f873f321f0949eae44b8c2f4e",
-                "reference": "c3a8f98dcb19b86f873f321f0949eae44b8c2f4e",
+                "url": "https://api.github.com/repos/phpseclib/phpseclib/zipball/09ccfdbcb9c57eb9e099e1a3b3bb2f1cabbadb33",
+                "reference": "09ccfdbcb9c57eb9e099e1a3b3bb2f1cabbadb33",
                 "shasum": ""
             },
             "require": {
@@ -1438,7 +1530,7 @@
                 "x.509",
                 "x509"
             ],
-            "time": "2014-12-27 19:24:27"
+            "time": "2015-01-09 12:08:59"
         },
         {
             "name": "predis/predis",
@@ -1535,16 +1627,16 @@
         },
         {
             "name": "seld/jsonlint",
-            "version": "1.3.0",
+            "version": "1.3.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Seldaek/jsonlint.git",
-                "reference": "a7bc2ec9520ad15382292591b617c43bdb1fec35"
+                "reference": "863ae85c6d3ef60ca49cb12bd051c4a0648c40c4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Seldaek/jsonlint/zipball/a7bc2ec9520ad15382292591b617c43bdb1fec35",
-                "reference": "a7bc2ec9520ad15382292591b617c43bdb1fec35",
+                "url": "https://api.github.com/repos/Seldaek/jsonlint/zipball/863ae85c6d3ef60ca49cb12bd051c4a0648c40c4",
+                "reference": "863ae85c6d3ef60ca49cb12bd051c4a0648c40c4",
                 "shasum": ""
             },
             "require": {
@@ -1577,7 +1669,7 @@
                 "parser",
                 "validator"
             ],
-            "time": "2014-09-05 15:36:20"
+            "time": "2015-01-04 21:18:15"
         },
         {
             "name": "stack/builder",
@@ -1954,16 +2046,16 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/EventDispatcher.git",
-                "reference": "fb1e482e75cca7eb24e6ed4a8c0b75756fcd3e5a"
+                "reference": "eab88ace7a54741087fe4e0c7acd737d1f6186bf"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/EventDispatcher/zipball/fb1e482e75cca7eb24e6ed4a8c0b75756fcd3e5a",
-                "reference": "fb1e482e75cca7eb24e6ed4a8c0b75756fcd3e5a",
+                "url": "https://api.github.com/repos/symfony/EventDispatcher/zipball/eab88ace7a54741087fe4e0c7acd737d1f6186bf",
+                "reference": "eab88ace7a54741087fe4e0c7acd737d1f6186bf",
                 "shasum": ""
             },
             "require": {
-                "php": ">=5.3.3"
+                "php": ">=5.3.9"
             },
             "require-dev": {
                 "psr/log": "~1.0",
@@ -2003,7 +2095,7 @@
             ],
             "description": "Symfony EventDispatcher Component",
             "homepage": "http://symfony.com",
-            "time": "2014-12-27 11:44:51"
+            "time": "2015-01-09 06:51:41"
         },
         {
             "name": "symfony/filesystem",
@@ -2012,16 +2104,16 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/Filesystem.git",
-                "reference": "ed229b7d4f31c344fcaa29ca9e9ae12c574f2617"
+                "reference": "e681ca515e1e668a551b089177867e62e03d7d2d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/Filesystem/zipball/ed229b7d4f31c344fcaa29ca9e9ae12c574f2617",
-                "reference": "ed229b7d4f31c344fcaa29ca9e9ae12c574f2617",
+                "url": "https://api.github.com/repos/symfony/Filesystem/zipball/e681ca515e1e668a551b089177867e62e03d7d2d",
+                "reference": "e681ca515e1e668a551b089177867e62e03d7d2d",
                 "shasum": ""
             },
             "require": {
-                "php": ">=5.3.3"
+                "php": ">=5.3.9"
             },
             "type": "library",
             "extra": {
@@ -2050,7 +2142,7 @@
             ],
             "description": "Symfony Filesystem Component",
             "homepage": "http://symfony.com",
-            "time": "2014-12-30 13:34:24"
+            "time": "2015-01-09 06:51:41"
         },
         {
             "name": "symfony/finder",
@@ -2457,6 +2549,108 @@
             "time": "2014-09-23 05:24:59"
         },
         {
+            "name": "teepluss/hmvc",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/teepluss/laravel-hmvc.git",
+                "reference": "548ef1d59b30dd41398001be30d5ed500f8ac18e"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/teepluss/laravel-hmvc/zipball/548ef1d59b30dd41398001be30d5ed500f8ac18e",
+                "reference": "548ef1d59b30dd41398001be30d5ed500f8ac18e",
+                "shasum": ""
+            },
+            "require": {
+                "guzzle/guzzle": "3.9.1",
+                "php": ">=5.3.0"
+            },
+            "require-dev": {
+                "illuminate/support": "4.1.x"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.x-dev"
+                }
+            },
+            "autoload": {
+                "classmap": [
+                    "src/Teepluss/Hmvc/Exceptions.php"
+                ],
+                "psr-0": {
+                    "Teepluss\\Hmvc": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Teepluss",
+                    "email": "teepluss@gmail.com"
+                }
+            ],
+            "description": "Laravel HMVC.",
+            "homepage": "https://github.com/teepluss/laravel-hmvc",
+            "keywords": [
+                "hmvc",
+                "laravel"
+            ],
+            "time": "2014-12-22 08:00:12"
+        },
+        {
+            "name": "teepluss/restable",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/teepluss/laravel4-restable.git",
+                "reference": "7b762708e4888d08f0af16db8e6f609414539d1d"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/teepluss/laravel4-restable/zipball/7b762708e4888d08f0af16db8e6f609414539d1d",
+                "reference": "7b762708e4888d08f0af16db8e6f609414539d1d",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.0"
+            },
+            "require-dev": {
+                "illuminate/support": "4.1.x"
+            },
+            "type": "library",
+            "autoload": {
+                "classmap": [
+                    "src/migrations"
+                ],
+                "psr-0": {
+                    "Teepluss\\Restable": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Teepluss",
+                    "email": "admin@laravel.in.th"
+                }
+            ],
+            "description": "Laravel4 RESTful API format",
+            "homepage": "https://github.com/teepluss/laravel4-restable",
+            "keywords": [
+                "api",
+                "laravel",
+                "laravel4",
+                "restful"
+            ],
+            "time": "2014-12-01 15:53:28"
+        },
+        {
             "name": "teepluss/theme",
             "version": "dev-master",
             "source": {
@@ -2576,9 +2770,12 @@
         "philf/setting": 20,
         "magniloquent/magniloquent": 20,
         "doctrine/dbal": 20,
-        "n98/junit-xml": 20
+        "n98/junit-xml": 20,
+        "teepluss/hmvc": 20,
+        "teepluss/restable": 20
     },
     "prefer-stable": false,
+    "prefer-lowest": false,
     "platform": [],
     "platform-dev": []
 }

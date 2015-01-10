@@ -20,7 +20,7 @@ class Nestor {
 	 */
 	public function __construct()
 	{
-		$this->pluginManager = new PluginManager(App::make('Nestor\Repositories\PluginRepository'), App::make('Nestor\Repositories\PluginCategoryRepository'));
+		//$this->pluginManager = new PluginManager(App::make('Nestor\Repositories\PluginRepository'), App::make('Nestor\Repositories\PluginCategoryRepository'));
 	}
 
 	/**

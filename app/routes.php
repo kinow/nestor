@@ -109,3 +109,5 @@ if (Config::get('database.log', false))
         Log::info($query, $data);
     });
 }
+
+require_once 'routes_api.php';

@@ -1,38 +1,22 @@
 <?php
 
-use Nestor\Repositories\ProjectRepository;
-use Nestor\Repositories\NavigationTreeRepository;
 use Nestor\Util\ValidationException;
 use Nestor\Model\ProjectStatus;
 
 class ProjectsController extends \BaseController 
 {
-	/**
-	 * Project repository.
-	 *
-	 * @var Nestor\Repositories\ProjectRepository
-	 */
-	protected $projects;
-	/**
-	 * Navigation tree node repository.
-	 *
-	 * @var Nestor\Repositories\NavigationTreeRepository
-	 */
+
 	protected $nodes;
-	/**
-	 * UI Theme.
-	 */
 	protected $theme;
 
 	public $restful = true;
 
-	public function __construct(ProjectRepository $projects, NavigationTreeRepository $nodes)
+	public function __construct()
 	{
 		parent::__construct();
-		$this->projects = $projects;
-		$this->nodes = $nodes;
 		$this->beforeFilter('@isAuthenticated');
 		$this->theme->setActive('projects');
+
 	}
 
 	/**
@@ -46,9 +30,7 @@ class ProjectsController extends \BaseController
 			add('Home', URL::to('/'))->
 			add('Projects');
 		$args = array();
-		$projects = $this
-			->projects
-			->paginateProjectsWithProjectStatusWith(ProjectStatus::ACTIVE, 10, array('projectStatus'));
+		$projects = HMVC::get('api/v1/projects/');
 		$args['projects'] = $projects;
 		return $this->theme->scope('project.index', $args)->render();
 	}
