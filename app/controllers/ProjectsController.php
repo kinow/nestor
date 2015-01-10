@@ -30,7 +30,11 @@ class ProjectsController extends \BaseController
 			add('Home', URL::to('/'))->
 			add('Projects');
 		$args = array();
-		$projects = HMVC::get('api/v1/projects/');
+		$projects = HMVC::get('api/v1/projects/', Input::all());
+		//if (isset($projects['data']) && isset($projects['total']) && isset($projects['per_page'])) {
+		$paginator = Paginator::make($projects['data'], $projects['total'], $projects['per_page']);
+		$args['paginator'] = $paginator;
+		//}
 		$args['projects'] = $projects;
 		return $this->theme->scope('project.index', $args)->render();
 	}
@@ -56,34 +60,19 @@ class ProjectsController extends \BaseController
 	 */
 	public function store()
 	{
-		DB::beginTransaction();
-		try {
-			$project = $this->projects->create(Input::all());
-			Log::debug('Creating project...');
-			// FIXME: insert into tree!
-			// 		$navigationTreeNode = $this->nodes->create(
-			// 				'1-' . $pdo->lastInsertId(),
-			// 				'1-' . $pdo->lastInsertId(),
-			// 				$pdo->lastInsertId(),
-			// 				1,
-			// 				$project->name
-			// 		);
-			DB::commit();
-		} catch (ValidationException $ve) {
-			DB::rollback();
-			return Redirect::to(URL::previous())->withInput()->withErrors($ve->getErrors());
-		} catch (Exception $e) {
-			DB::rollback();
-			throw $e;
+		$project = HMVC::post('api/v1/projects/', Input::all());
+
+		if (!$project || (isset($project['code']) && $project['code'] != 200)) {
+			return Redirect::to(URL::previous())->withInput()->withErrors($project['description']);
 		}
 
 		// auto position project
-		if (Input::get('position') == 'true') {
+		if (Input::get('position') == 'true' && isset($project['id'])) {
 			Session::put('current_project', serialize($project));
 		}
 
 		return Redirect::to('/projects/')
-			->with('success', sprintf('Project %s created', Input::get('name')));
+			->with('success', sprintf('Project %s created', $project['name']));
 	}
 
 	/**
@@ -94,7 +83,7 @@ class ProjectsController extends \BaseController
 	 */
 	public function show($id)
 	{
-		$project = $this->projects->findWith($id, array('projectStatus'));
+		$project = HMVC::get("api/v1/projects/$id");
 		$this->theme->breadcrumb()->
 			add('Home', URL::to('/'))->
 			add('Projects', URL::to('/projects'))->
@@ -112,7 +101,7 @@ class ProjectsController extends \BaseController
 	 */
 	public function edit($id)
 	{
-		$project = $this->projects->find($id);
+		$project = HMVC::get("api/v1/projects/$id");
 		$this->theme->breadcrumb()->
 			add('Home', URL::to('/'))->
 			add('Projects', URL::to('/projects'))->
@@ -130,47 +119,14 @@ class ProjectsController extends \BaseController
 	 */
 	public function update($id)
 	{
-		Log::info('Updating project...');
-		DB::beginTransaction();
-		try {
-			$updated = $this->projects->update(
-				$id,
-				array(
-					'name' => Input::get('name'),
-					'description' => Input::get('description')
-				)
-			);
+		$project = HMVC::put("api/v1/projects/$id", Input::all());
 
-			Log::info('Updated!!!');
-
-			Log::info('Updating navigation tree...');
-			// $navigationTreeNode = $this->nodes->find('1-'.$project->id, '1-'.$project->id);
-			// $navigationTreeNode->display_name = $project->name;
-			// $navigationTreeNode = $this->nodes->update(
-			// 	'1-'.$project->id,
-			// 	'1-'.$project->id,
-			// 	$navigationTreeNode->node_id,
-			// 	$navigationTreeNode->node_type_id,
-			// 	$navigationTreeNode->display_name
-			// );
-			
-			DB::commit();
-
-			Log::info('Updated!!!');
-
-			return Redirect::route('projects.show', $id)
-				->with('success', 'The project was updated');
-		} catch (\PDOException $e) {
-			DB::rollback();
-			return Redirect::to('/specification/')
-				->withInput();
-		} catch (ValidationException $ve) {
-			DB::rollback();
-			return Redirect::to(URL::previous())->withInput()->withErrors($ve->getErrors());
-		} catch (Exception $e) {
-			DB::rollback();
-			return Redirect::to(URL::previous())->withInput(); // FIXME: display error in UI
+		if (!$project || (isset($project['code']) && $project['code'] != 200)) {
+			return Redirect::to(URL::previous())->withInput()->withErrors($project['description']);
 		}
+
+		return Redirect::route('projects.show', $id)
+			->with('success', sprintf('The project %s was updated', $project['name']));
 	}
 
 	/**

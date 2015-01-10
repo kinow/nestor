@@ -72,6 +72,10 @@ class WidgetMenu extends Widget {
     	}
     	$projects = $this->theme->getProjects();
     	$currentProject = $this->getAttribute('current_project');
+        // if any other object was set as currentProject...
+        if ($currentProject && !isset($currentProject['name'])) {
+            $currentProject = NULL;
+        }
         $currentProjectExists = FALSE; // The project may have been deleted...
 
     	$projectitems = '';

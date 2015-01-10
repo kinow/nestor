@@ -31,5 +31,5 @@
 		</div>
 	</div>
 </div>
-{{ projects.links() }}
+{{ paginator.links() }}
 {% endblock %}
