@@ -123,4 +123,23 @@ class NavigationTreeUtil
 		return $buffer;
 	}
 
+	public static function containsNode($tree, $node) 
+	{
+		if ($node == NULL || !isset($node))
+			return FALSE;
+
+		foreach ($tree as $entry) {
+			if ($entry->ancestor === $node['ancestor'] && $entry->descendant === $node['descendant']) {
+				return TRUE;
+			}
+			if (isset($entry->children) && !empty($entry->children)) {
+				if ($this->containsNode($entry['children'], $node)) {
+					return TRUE;
+				}
+			}
+		}
+
+		return FALSE;
+	}
+
 }

@@ -25,14 +25,17 @@ class SpecificationController extends NavigationTreeController {
 		$this->theme->breadcrumb()->
 			add('Home', URL::to('/'))->
 			add('Specification');
+		// current project in the section to retrieve its children nodes
 		$currentProject = $this->getCurrentProject();
 		$nodeId = Nodes::id(Nodes::PROJECT_TYPE, $currentProject['id']);
 		$nodes = HMVC::get("api/v1/nodes/$nodeId");
 
+		// create a navigation tree
 		$navigationTree = NavigationTreeUtil::createNavigationTree(
 			$nodes, Nodes::id(Nodes::PROJECT_TYPE, $currentProject['id'])
 		);
 
+		// use it to create the HTML version
 		$navigationTreeHtml = NavigationTreeUtil::createNavigationTreeHtml(
 			$navigationTree, 
 			NULL, 
@@ -53,41 +56,48 @@ class SpecificationController extends NavigationTreeController {
 	 */
 	public function getNodes($nodeId)
 	{
+		// current project in the section to retrieve its children nodes
 		$currentProject = $this->getCurrentProject();
-		$nodes = $this->nodes->children('1-'.$currentProject->id, 1 /* length*/);
-		$navigationTree = $this->createNavigationTree($nodes, '1-'.$currentProject->id);
-		$navigationTreeHtml = $this->createTreeHTML($navigationTree, $nodeId, $this->theme->getThemeName());
-		$args = array();
+		$nodeId = Nodes::id(Nodes::PROJECT_TYPE, $currentProject['id']);
+		$nodes = HMVC::get("api/v1/nodes/$nodeId");
 
-		try
-		{
-			$node = $this->nodes->find($nodeId, $nodeId);
-		}
-		catch (Exception $mnfe)
+		// create a navigation tree
+		$navigationTree = NavigationTreeUtil::createNavigationTree(
+			$nodes, Nodes::id(Nodes::PROJECT_TYPE, $currentProject['id'])
+		);
+
+		// use it to create the HTML version
+		$navigationTreeHtml = NavigationTreeUtil::createNavigationTreeHtml(
+			$navigationTree, 
+			$nodeId, 
+			$this->theme->getThemeName()
+		);
+
+		$node = HMVC::get("api/v1/nodes/$nodeId");
+		$node = $node[0];
+
+		$args = array();
+		if (!NavigationTreeUtil::containsNode($navigationTree, $node))
 		{
 			return Redirect::to('/specification/')
-				->with('flash', sprintf('The node %s does not belong to the current selected project', $nodeId));
-		}
-		if (!$this->isNodeInTree($navigationTree, $node))
-		{
-			return Redirect::to('/specification/')
-				->with('flash', sprintf('The node %s does not belong to the current selected project', $nodeId));
+				->with('error', sprintf('The node %s does not belong to the current selected project', $nodeId));
 		}
 		$args['node'] = $node;
 		$this->theme->breadcrumb()->
 			add('Home', URL::to('/'))->
 			add('Specification', URL::to('/specification/'))->
-			add(sprintf('Node %s-%s', $node->node_type_id, $node->node_id));
+			add(sprintf('Node %s-%s', $node['node_type_id'], $node['node_id']));
 
 		// Create specific parameters depending on execution type
 		if (isset($node))
 		{
-			if ($node->node_type_id == 1) // Project?
+			if ($node['node_type_id'] == 1) // Project?
 			{
-				$testsuites = $currentProject->testsuites()->get();
+				//$testsuites = $currentProject->testsuites()->get();
+				$testsuites = HMVC::get('api/v1/testsuites/');
 				$args['testsuites'] = $testsuites;
 			}
-			else if ($node->node_type_id == 2) // Test Suite?
+			else if ($node['node_type_id'] == 2) // Test Suite?
 			{
 				$execution_types = $this->executionTypes->all();
 				$testsuite = $this->testsuites->find($node->node_id);
