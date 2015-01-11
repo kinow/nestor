@@ -6,9 +6,11 @@ use Input;
 use Restable;
 use Log;
 use Db;
-use Nestor\Util\ValidationException;
+
 use Exception;
+
 use Nestor\Gateways\ProjectGateway;
+use Nestor\Util\ValidationException;
 
 class ProjectsController extends BaseController
 {

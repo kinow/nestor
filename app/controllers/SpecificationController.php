@@ -94,7 +94,9 @@ class SpecificationController extends NavigationTreeController {
 			if ($node['node_type_id'] == 1) // Project?
 			{
 				//$testsuites = $currentProject->testsuites()->get();
-				$testsuites = HMVC::get('api/v1/testsuites/');
+				$currentProject = $this->getCurrentProject();
+				$currentProjectId = $currentProject['id'];
+				$testsuites = HMVC::get("api/v1/projects/$currentProjectId/testsuites/");
 				$args['testsuites'] = $testsuites;
 			}
 			else if ($node['node_type_id'] == 2) // Test Suite?

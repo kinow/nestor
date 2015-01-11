@@ -1,81 +1,33 @@
-<?php namespace Nestor\Repositories;
+<?php
+namespace Nestor\Repositories;
 
-use Auth, Hash, Validator, Log, DB;
-use TestSuite;
+use Auth;
+use Hash;
+use Validator;
+use Log;
+use DB;
 use Label;
+
+use Nestor\Model\TestSuite;
 use Nestor\Util\NavigationTreeUtil;
+
 use Fhaculty\Graph\Graph as Graph;
 use Fhaculty\Graph\Algorithm\Search\BreadthFirst;
 
-class DbTestSuiteRepository implements TestSuiteRepository {
-
-	/**
-	 * Get all of the test suites.
-	 *
-	 * @return array
-	 */
-	public function all()
+class DbTestSuiteRepository extends DbBaseRepository implements TestSuiteRepository
+{
+	public function __construct(TestSuite $model)
 	{
-		return TestSuite::all();
+		parent::__construct($model);
 	}
 
-	/**
-	 * Get a TestSuite by their primary key.
-	 *
-	 * @param  int   $id
-	 * @return TestSuite
-	 */
-	public function find($id)
+	public function findByProject($projectId)
 	{
-		return TestSuite::findOrFail($id);
-	}
-
-	public function findByName($name, $project_id)
-	{
-		return TestSuite::where(
-			new \Illuminate\Database\Query\Expression("lower(test_suites.name)"), '=', strtolower($name))
-			->where('project_id', '=', $project_id)
-			->firstOrFail();
-	}
-
-	/**
-	 * Create a test suite
-	 *
-	 * @param  int     $project_id
-	 * @param  string  $name
-	 * @param  string  $description
-	 * @return TestSuite
-	 */
-	public function create($project_id, $name, $description)
-	{
-		$testsuite = TestSuite::create(compact('project_id', 'name', 'description'));
-		$testsuite->id = DB::getPdo()->lastInsertId();
-		return $testsuite;
-	}
-
-	/**
-	 * Update a test suite
-	 *
-	 * @param  int     $id
-	 * @param  int     $project_id
-	 * @param  string  $name
-	 * @param  string  $description
-	 * @return TestSuite
-	 */
-	public function update($id, $project_id, $name, $description)
-	{
-		$test_suite = $this->find($id);
-		$test_suite->fill(compact('project_id', 'name', 'description'))->save();
-		return $test_suite;
-	}
-
-	/**
-	 * Delete a test suite
-	 * @param int $id
-	 */
-	public function delete($id)
-	{
-		return TestSuite::where('id', $id)->delete();
+		return $this
+			->model
+			->where('project_id', $projectId)
+			->get()
+			->toArray();
 	}
 
 	public function copy($oldName, $newName, $ancestor, $projectId, $nodesRepository, $testcaseRepository, $testcaseSteps)

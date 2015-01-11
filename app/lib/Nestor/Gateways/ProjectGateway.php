@@ -117,5 +117,5 @@ class ProjectGateway
 			return FALSE;
 		}
 	}
-	
+
 }
