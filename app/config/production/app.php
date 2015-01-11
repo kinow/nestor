@@ -110,7 +110,10 @@ return array(
 
 		'Philf\Setting\SettingServiceProvider',
 		'Teepluss\Theme\ThemeServiceProvider',
+		'Teepluss\Restable\RestableServiceProvider',
+		'Teepluss\Hmvc\HmvcServiceProvider',
 		'Nestor\BackendServiceProvider',
+		//'Kinow\WysiwygEditor\WysiwygEditorServiceProvider'
 	),
 
 	/*
@@ -180,6 +183,8 @@ return array(
 		'URL'             => 'Illuminate\Support\Facades\URL',
 		'Validator'       => 'Illuminate\Support\Facades\Validator',
 		'View'            => 'Illuminate\Support\Facades\View',
+
+		'Restable'        => 'Teepluss\Restable\Facades\Restable',
 
 	),
 
