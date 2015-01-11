@@ -30,6 +30,18 @@ class DbTestSuiteRepository extends DbBaseRepository implements TestSuiteReposit
 			->toArray();
 	}
 
+	public function addLabels($id, $labels) 
+	{
+		foreach($labels as $label) {
+			$this
+				->model
+				->find($id)
+				->labels()
+				->attach($label['id']);
+			Log::debug(sprintf('Label %s added to test suite %d', $$label['name'], $id));
+		}
+	}
+
 	public function copy($oldName, $newName, $ancestor, $projectId, $nodesRepository, $testcaseRepository, $testcaseSteps)
 	{
 		$testsuite  = $this->findByName($oldName, $projectId);

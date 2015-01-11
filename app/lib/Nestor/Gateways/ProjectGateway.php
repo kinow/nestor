@@ -37,13 +37,17 @@ class ProjectGateway
 		return $project;
 	}
 
-	public function createProject($projectArray) 
+	public function createProject($name, $description) 
 	{
 		DB::beginTransaction();
 		$project = NULL;
 		try {
 			Log::debug('Creating project...');
-			$project = $this->projectRepository->create($projectArray);
+			$project = $this->projectRepository->create(array(
+				'name' => $name,
+				'description' => $description,
+				'project_statuses_id' => ProjectStatus::ACTIVE
+			));
 			Log::debug('Inserting project into the navigation tree...');
 
 			$node = $this->nodeRepository->create(
@@ -57,10 +61,6 @@ class ProjectGateway
 			Log::info(sprintf('New node %s inserted into the navigation tree', $node['node_id']));
 			DB::commit();
 			return $project;
-		} catch (\ValidationException $ve) {
-			Log::error($ve);
-			DB::rollback();
-			throw $ve;
 		} catch (\Exception $e) {
 			Log::error($e);
 			DB::rollback();

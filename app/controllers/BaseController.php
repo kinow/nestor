@@ -76,6 +76,12 @@ class BaseController extends Controller {
 		}
 	}
 
+	public function getCurrentProjectId()
+	{
+		$currentProject = $this->getCurrentProject();
+		return $currentProject['id'];
+	}
+
 	/**
 	 * Setup the layout used by the controller.
 	 *

@@ -24,12 +24,12 @@ class TestSuite extends BaseModel
 
 	public function projects()
 	{
-		return $this->belongsTo('Project', 'project_id');
+		return $this->belongsTo('Nestor\\Model\\Project', 'project_id');
 	}
 
 	public function labels() 
 	{
-		return $this->belongsToMany('Label', 'test_suites_labels')->withTimestamps();
+		return $this->belongsToMany('Nestor\\Model\\Label', 'test_suites_labels')->withTimestamps();
 	}
 
 }

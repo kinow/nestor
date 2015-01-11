@@ -41,13 +41,37 @@ class DatabaseSeeder extends Seeder {
 		$this->projectStatuses->create(ProjectStatus::ACTIVE, 'Active', 'Active project');
 		$this->projectStatuses->create(ProjectStatus::INACTIVE, 'Inactive', 'Inactive project');
 
-		$this->executionTypes->create('Manual', 'Manual test');
-		$this->executionTypes->create('Automated', 'Automated test');
+		$this->executionTypes->create(array(
+			'id'=> 1,
+			'name' => 'Manual', 
+			'description' => 'Manual test'
+		));
+		$this->executionTypes->create(array(
+			'id' => 2,
+			'name' => 'Automated', 
+			'description' => 'Automated test'
+		));
 
-		$this->executionStatuses->create('Not Run', 'A test case not run yet');
-		$this->executionStatuses->create('Passed', 'A test case that passed');
-		$this->executionStatuses->create('Failed', 'A test case that failed');
-		$this->executionStatuses->create('Blocked', 'A test case that is blocked');
+		$this->executionStatuses->create(array(
+			'id' => 1,
+			'name' => 'Not Run', 
+			'description' => 'A test case not run yet'
+		));
+		$this->executionStatuses->create(array(
+			'id' => 2,
+			'name' => 'Passed', 
+			'description' => 'A test case that passed'
+		));
+		$this->executionStatuses->create(array(
+			'id' => 3,
+			'name' => 'Failed', 
+			'description' => 'A test case that failed'
+		));
+		$this->executionStatuses->create(array(
+			'id' => 4,
+			'name' => 'Blocked', 
+			'description' => 'A test case that is blocked'
+		));
 
 		$this->reportTypes->create(1, 'SQL', 'A report created based on a SQL query');
 		$this->reportTypes->create(2, 'PHP', 'A report created based on a PHP script');

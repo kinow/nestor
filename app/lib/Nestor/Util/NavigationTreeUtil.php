@@ -93,7 +93,7 @@ class NavigationTreeUtil
 				));
 				if (! empty ( $node->children )) {
 					$buffer .= "<ul>";
-					$buffer .= $this->createTreeHTML($node->children, $nodeId, $themeName);
+					$buffer .= static::createNavigationTreeHtml($node->children, $nodeId, $themeName);
 					$buffer .= "</ul>";
 				}
 				$buffer .= "</li></ul>";
@@ -106,7 +106,7 @@ class NavigationTreeUtil
 				));
 				if (! empty ( $node->children )) {
 					$buffer .= "<ul>";
-					$buffer .= $this->createTreeHTML($node->children, $nodeId, $themeName);
+					$buffer .= static::createNavigationTreeHtml($node->children, $nodeId, $themeName);
 					$buffer .= "</ul>";
 				}
 				$buffer .= "</li>";
@@ -133,7 +133,7 @@ class NavigationTreeUtil
 				return TRUE;
 			}
 			if (isset($entry->children) && !empty($entry->children)) {
-				if ($this->containsNode($entry['children'], $node)) {
+				if (static::containsNode($entry->children, $node)) {
 					return TRUE;
 				}
 			}

@@ -2,6 +2,7 @@
 
 use Nestor\Gateways\SpecificationGateway;
 use Nestor\Model\Nodes;
+use Nestor\Model\ExecutionStatus;
 use Nestor\Util\NavigationTreeUtil;
 
 class SpecificationController extends NavigationTreeController {
@@ -58,8 +59,8 @@ class SpecificationController extends NavigationTreeController {
 	{
 		// current project in the section to retrieve its children nodes
 		$currentProject = $this->getCurrentProject();
-		$nodeId = Nodes::id(Nodes::PROJECT_TYPE, $currentProject['id']);
-		$nodes = HMVC::get("api/v1/nodes/$nodeId");
+		$rootNodeId = Nodes::id(Nodes::PROJECT_TYPE, $currentProject['id']);
+		$nodes = HMVC::get("api/v1/nodes/$rootNodeId");
 
 		// create a navigation tree
 		$navigationTree = NavigationTreeUtil::createNavigationTree(
@@ -93,40 +94,46 @@ class SpecificationController extends NavigationTreeController {
 		{
 			if ($node['node_type_id'] == 1) // Project?
 			{
-				//$testsuites = $currentProject->testsuites()->get();
-				$currentProject = $this->getCurrentProject();
-				$currentProjectId = $currentProject['id'];
-				$testsuites = HMVC::get("api/v1/projects/$currentProjectId/testsuites/");
-				$args['testsuites'] = $testsuites;
+				$currentProjectId = $this->getCurrentProjectId();
+				$testSuites = HMVC::get("api/v1/projects/$currentProjectId/testsuites/");
+				$args['testsuites'] = $testSuites;
 			}
 			else if ($node['node_type_id'] == 2) // Test Suite?
 			{
-				$execution_types = $this->executionTypes->all();
-				$testsuite = $this->testsuites->find($node->node_id);
-				$labels = $testsuite->labels();
-				$args['execution_types'] = $execution_types;
-				$execution_types_ids = array();
-				foreach ($args['execution_types'] as $execution_type)
-				{
-					$execution_types_ids[$execution_type->id] = $execution_type->name;
-				}
-				$args['execution_type_ids'] = $execution_types_ids;
-				$execution_statuses = $this->executionStatuses->all();
-				$args['execution_statuses'] = $execution_statuses;
-				$execution_statuses_ids = array();
-				foreach ($args['execution_statuses'] as $execution_status) 
-				{
-					if ($execution_status->id == 1 || $execution_status->id == 2)
-						continue; // Skip NOT RUN
-					$execution_statuses_ids[$execution_status->id] = $execution_status->name;
-				}
-				$args['testsuite'] = $testsuite;
-				$args['execution_statuses_ids'] = $execution_statuses_ids;
+				$currentProjectId = $this->getCurrentProjectId();
+				$testSuites = HMVC::get("api/v1/projects/$currentProjectId/testsuites/");
+				$args['testsuites'] = $testSuites;
+
+				$testSuite = HMVC::get(sprintf("api/v1/testsuites/%s", $node['node_id']));
+				$args['testsuite'] = $testSuite;
+
+				$labels = $testSuite['labels'];
 				$args['labels'] = $labels;
-				$testsuites = $currentProject->testsuites()->get();
-				$args['testsuites'] = $testsuites;
+
+				$executionTypes = HMVC::get("api/v1/executiontypes/");
+				$args['execution_types'] = $executionTypes;
+
+				$executionTypesIds = array();
+				foreach ($executionTypes as $executionType)
+				{
+					$executionTypesIds[$executionType['id']] = $executionType['name'];
+				}
+				$args['execution_type_ids'] = $executionTypesIds;
+
+				$executionStatuses = HMVC::get("api/v1/executionstatuses/");
+				$args['execution_statuses'] = $executionStatuses;
+
+				$executionStatusesIds = array();
+				foreach ($executionStatuses as $executionStatus) 
+				{
+					if ($executionStatus['id'] == ExecutionStatus::NOT_RUN)
+						continue; // Skip NOT RUN
+					$executionStatusesIds[$executionStatus['id']] = $executionStatus['name'];
+				}
+				$args['execution_statuses_ids'] = $executionStatusesIds;
+				
 			}
-			else if ($node->node_type_id == 3) // Test Case?
+			else if ($node['node_type_id'] == 3) // Test Case?
 			{
 				$execution_types = $this->executionTypes->all();
 				$testcase = $this->testcases->find($node->node_id);

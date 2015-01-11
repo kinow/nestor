@@ -5,6 +5,8 @@ use Nestor\Repositories\TestCaseRepository;
 use Nestor\Repositories\TestCaseStepRepository;
 use Nestor\Repositories\NavigationTreeRepository;
 use Nestor\Repositories\LabelRepository;
+use Nestor\Model\Nodes;
+
 use Fhaculty\Graph\Graph as Graph;
 use Fhaculty\Graph\Algorithm\Search\BreadthFirst;
 //use \Fhaculty\Graph\GraphViz;
@@ -12,51 +14,13 @@ use Fhaculty\Graph\Walk;
 
 class TestSuitesController extends NavigationTreeController {
 
-	/**
-	 * The test suite repository implementation.
-	 *
-	 * @var Nestor\Repositories\TestSuiteRepository
-	 */
-	protected $testsuites;
-
-	/**
-	 * The test case repository implementation.
-	 *
-	 * @var Nestor\Repositories\TestCaseRepository
-	 */
-	protected $testcases;
-
-	/**
-	 * The navigation tree node repository implementation.
-	 *
-	 * @var Nestor\Repositories\NavigationTreeRepository
-	 */
-	protected $nodes;
-
-	/**
-	 * The labels repository implementation.
-	 *
-	 * @var Nestor\Repositories\LabelRepository
-	 */
-	protected $labels;
-
 	protected $theme;
 
 	public $restful = true;
 
-	public function __construct(
-		TestSuiteRepository $testsuites, 
-		TestCaseRepository $testcases, 
-		NavigationTreeRepository $nodes,
-		LabelRepository $labels,
-		TestCaseStepRepository $testcaseSteps)
+	public function __construct()
 	{
 		parent::__construct();
-		$this->testsuites = $testsuites;
-		$this->testcases = $testcases;
-		$this->nodes = $nodes;
-		$this->labels = $labels;
-		$this->testcaseSteps = $testcaseSteps;
 		$this->theme->setActive('testsuites');
 	}
 
@@ -80,102 +44,16 @@ class TestSuitesController extends NavigationTreeController {
 		return Redirect::to('/specification');
 	}
 
-	/**
-	 * Store a newly created resource in storage.
-	 *
-	 * @return Response
-	 */
 	public function store()
 	{
-		$currentProject = $this->getCurrentProject();
-		$labels = $this->labels->all($currentProject->id)->get();
-		$testsuite = null;
-		$navigationTreeNode = null;
-		Log::info('Creating test suite...');
-		$pdo = null;
-		try {
-			$pdo = DB::connection()->getPdo();
-    		$pdo->beginTransaction();
-			$testsuite = $this->testsuites->create(
-					Input::get('project_id'),
-					Input::get('name'),
-					Input::get('description')
-			);
+		$testSuite = HMVC::post('api/v1/testsuites/', Input::all());
 
-			Log::debug('Processing test suite labels');
-			$newLabels = Input::get('labels');
-			if (isset($newLabels) && is_array($newLabels))
-			{
-				for($i = 0; $i < count($newLabels); ++$i)
-				{
-					$labelName = $newLabels[$i];
-					$found = FALSE;
-					foreach ($labels as $existingLabel)
-					{
-						if ($labelName == $existingLabel->name)
-						{
-							$found = TRUE;
-							$label = $existingLabel;
-							break;
-						}
-					}
-					if (!$found)
-					{
-						$label = $this->labels->create($currentProject->id, $labelName, 'gray');
-					}
-					$testsuite->labels()->attach($label->id);
-					Log::debug(sprintf('Label %s added to test suite id %d', $labelName, $testsuite->id));
-				}
-			}
+		if (!$testSuite || (isset($testSuite['code']) && $testSuite['code'] != 200)) {
+			return Redirect::to(URL::previous())->withInput()->withErrors($testSuite['description']);
+		}
 
-			Log::debug('Inserting test suite into navigation tree');
-			$ancestor = Input::get('ancestor');
-			if ($testsuite->isValid() && $testsuite->isSaved())
-			{
-				$navigationTreeNode = $this->nodes->create(
-						$ancestor,
-						'2-' . $testsuite->id,
-						$testsuite->id,
-						2,
-						$testsuite->name
-				);
-				if ($navigationTreeNode)
-				{
-					$pdo->commit();
-				}
-			}
-			else
-			{
-				return Redirect::to('/specification/')->withInput()->withErrors($testsuite->errors());
-			}
-		} 
-		catch (\PDOException $e) 
-		{
-			if (!is_null($pdo))
-				$pdo->rollBack();
-			return Redirect::to(URL::previous())
-	 			->withInput();
-		} 
-		catch (\Exception $e) 
-		{
-			if (!is_null($pdo))
-				$pdo->rollBack();
-			Log::warning('Failed to store new Test Suite. Error: ' . $e->getMessage());
-			$messages = new Illuminate\Support\MessageBag;
-			$messages->add('nestor.customError', $e->getMessage());
-			return Redirect::to('/specification/')->withInput()->withErrors($messages);
-		}
-		if ($testsuite->isSaved() && $navigationTreeNode)
-		{
-			Log::debug(sprintf('Test suite %s created!', $testsuite->name));
-			return Redirect::to('/specification/nodes/' . '2-' . $testsuite->id)
-				->with('success', 'A new test suite has been created');
-		} else {
-			Log::debug('Failed to create test suite and insert into navigationt tree.');
-			return Redirect::to(URL::previous())
-				->withInput()
-				->withErrors($testsuite->errors());
-		}
+		return Redirect::to(sprintf('/specification/nodes/%s', Nodes::id(Nodes::TEST_SUITE_TYPE, $testSuite['id'])))
+			->with('success', sprintf('New test suite %s created', $testSuite['name']));
 	}
 
 	/**

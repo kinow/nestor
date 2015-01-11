@@ -3,7 +3,7 @@
 use Nestor\Util\ValidationException;
 use Nestor\Model\ProjectStatus;
 
-class ProjectsController extends \BaseController 
+class ProjectsController extends BaseController 
 {
 
 	protected $nodes;

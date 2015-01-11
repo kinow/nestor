@@ -38,15 +38,18 @@ class ProjectsController extends BaseController
 
 	public function store()
 	{
+		$project = NULL;
 		try {
 			$project = $this
 				->projectGateway
-				->createProject(Input::all());
+				->createProject(
+					Input::get('name'),
+					Input::get('description')
+				);
 		} catch (ValidationException $ve) {
 			return Restable::error($ve->getErrors())->render();
 		} catch (Exception $e) {
-			DB::rollback();
-			throw $e;
+			return Restable::bad($e->getMessage())->render();
 		}
 		return Restable::created($project)->render();
 	}

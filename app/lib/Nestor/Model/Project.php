@@ -6,7 +6,6 @@ use Nestor\Model\ProjectStatus;
 class Project extends BaseModel {
 
 	protected $table = 'projects';
-
 	protected $fillable = array('name', 'description', 'project_statuses_id');
 
 	protected static $_rules = array(
