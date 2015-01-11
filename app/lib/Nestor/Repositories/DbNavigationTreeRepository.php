@@ -1,8 +1,14 @@
 <?php namespace Nestor\Repositories;
 
-use Auth, Hash, Validator, DB, Log;
+use Auth;
+use Hash;
+use Validator;
+use DB;
+use Log;
+use Eloquent;
 use Magniloquent\Magniloquent\Magniloquent;
-use NavigationTreeNode;
+use NavigationTreeNode; // FIXME remove me
+use Nestor\Model\Node;
 use Nestor\Model\Nodes;
 
 //http://www.mysqlperformanceblog.com/2011/02/14/moving-subtrees-in-closure-table/
@@ -32,10 +38,10 @@ class DbNavigationTreeRepository implements NavigationTreeRepository {
 			->get();
 
 		$navigationTreeNodes = array();
-		Magniloquent::unguard();
+		Eloquent::unguard();
 		foreach ($children as $child)
 		{
-			$navigationTreeNodes[] = new NavigationTreeNode(get_object_vars($child));
+			$navigationTreeNodes[] = new Node(get_object_vars($child));
 		}
 
 		return new Nodes($navigationTreeNodes);
@@ -93,10 +99,10 @@ order by a.length
 	 */
 	public function find($ancestorId, $descendantId)
 	{
-		return NavigationTreeNode::
-				where('ancestor', '=', $ancestorId)->
-				where('descendant', '=', $descendantId)->
-				firstOrFail();
+		return Node::where('ancestor', '=', $ancestorId)
+				->where('descendant', '=', $descendantId)
+				->firstOrFail()
+				->toArray();
 	}
 
 	/**
@@ -156,11 +162,11 @@ order by a.length
 	*/
 	public function update($ancestor, $descendant, $node_id, $node_type_id, $display_name)
 	{
-		$navigation_tree_node = $this->find($ancestor, $descendant);
-
-		$navigation_tree_node->fill(compact('ancestor', 'descendant', 'node_id', 'node_type_id', 'display_name'))->save();
-
-		return $navigation_tree_node;
+		$node = Node::where('ancestor', '=', $ancestor)
+				->where('descendant', '=', $descendant)
+				->firstOrFail();
+		$node->fill(compact('ancestor', 'descendant', 'node_id', 'node_type_id', 'display_name'))->save();
+		return $node;
 	}
 
 	/**

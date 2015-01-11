@@ -3,16 +3,16 @@ namespace Nestor\Controllers;
 
 use BaseController;
 use Restable;
-use Nestor\Gateways\SpecificationGateway;
+use Nestor\Gateways\NodeGateway;
 
 class NodesController extends BaseController
 {
 
-	protected $specificationGateway;
+	protected $nodeGateway;
 
-	public function __construct(SpecificationGateway $specificationGateway)
+	public function __construct(NodeGateway $nodeGateway)
 	{
-		$this->specificationGateway = $specificationGateway;
+		$this->nodeGateway = $nodeGateway;
 	}
 
 	public function index()
@@ -22,7 +22,7 @@ class NodesController extends BaseController
 
 	public function show($nodeId)
 	{
-		$nodes = $this->specificationGateway->findNodes($nodeId);
+		$nodes = $this->nodeGateway->findNodes($nodeId);
 		return Restable::listing($nodes)->render();
 	}
 

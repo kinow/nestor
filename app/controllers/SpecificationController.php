@@ -2,6 +2,7 @@
 
 use Nestor\Gateways\SpecificationGateway;
 use Nestor\Model\Nodes;
+use Nestor\Util\NavigationTreeUtil;
 
 class SpecificationController extends NavigationTreeController {
 
@@ -26,20 +27,22 @@ class SpecificationController extends NavigationTreeController {
 			add('Specification');
 		$currentProject = $this->getCurrentProject();
 		$nodeId = Nodes::id(Nodes::PROJECT_TYPE, $currentProject['id']);
-		$nodes = HMVC::get("api/v1/nodes/$nodeId", Input::all());
+		$nodes = HMVC::get("api/v1/nodes/$nodeId");
 
+		$navigationTree = NavigationTreeUtil::createNavigationTree(
+			$nodes, Nodes::id(Nodes::PROJECT_TYPE, $currentProject['id'])
+		);
 
+		$navigationTreeHtml = NavigationTreeUtil::createNavigationTreeHtml(
+			$navigationTree, 
+			NULL, 
+			$this->theme->getThemeName()
+		);
 
-		// 	$navigationTree = $this->createNavigationTree($nodes, '1-'.$currentProject->id);
-		// 	$navigationTreeHtml = $this->createTreeHTML($navigationTree, "", $this->theme->getThemeName());
-		// } else {
-		// 	$nodes = array();
-		// }
 		$args = array();
 		$args['nodes'] = $nodes;
-		//$args['navigation_tree'] = $navigationTree;
-		//$args['navigation_tree_html'] = $navigationTreeHtml;
-		//$args['current_project'] = $this->currentProject;
+		$args['navigation_tree'] = $navigationTree;
+		$args['navigation_tree_html'] = $navigationTreeHtml;
 		return $this->theme->scope('specification.index', $args)->render();
 	}
 

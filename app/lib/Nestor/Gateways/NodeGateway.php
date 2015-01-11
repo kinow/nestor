@@ -11,7 +11,7 @@ use Nestor\Repositories\TestSuiteRepository;
 
 use Nestor\Model\Nodes;
 
-class SpecificationGateway 
+class NodeGateway 
 {
 
 	protected $projectRepository;
@@ -43,6 +43,7 @@ class SpecificationGateway
 	public function findNodes($nodeId) 
 	{
 		$nodes = $this->nodeRepository->children($nodeId, 1 /* length*/);
+		return $nodes;
 	}
 
 }

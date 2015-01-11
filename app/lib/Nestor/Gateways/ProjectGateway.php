@@ -2,18 +2,25 @@
 namespace Nestor\Gateways;
 
 use Nestor\Repositories\ProjectRepository;
+use Nestor\Repositories\NavigationTreeRepository;
 use Nestor\Model\ProjectStatus;
-use \DB;
-use \Log;
+use Nestor\Model\Nodes;
+use DB;
+use Log;
+use Session;
 
 class ProjectGateway 
 {
 
 	protected $projectRepository;
+	protected $nodeRepository;
 
-	public function __construct(ProjectRepository $projectRepository) 
+	public function __construct(
+		ProjectRepository $projectRepository,
+		NavigationTreeRepository $nodeRepository) 
 	{
 		$this->projectRepository = $projectRepository;
+		$this->nodeRepository = $nodeRepository;
 	}
 
 	public function paginateActiveProjects($perPage) 
@@ -35,23 +42,27 @@ class ProjectGateway
 		DB::beginTransaction();
 		$project = NULL;
 		try {
-			$project = $this->projectRepository->create($projectArray);
 			Log::debug('Creating project...');
-			// FIXME: insert into tree!
-			// 		$navigationTreeNode = $this->nodes->create(
-			// 				'1-' . $pdo->lastInsertId(),
-			// 				'1-' . $pdo->lastInsertId(),
-			// 				$pdo->lastInsertId(),
-			// 				1,
-			// 				$project->name
-			// 		);
+			$project = $this->projectRepository->create($projectArray);
+			Log::debug('Inserting project into the navigation tree...');
+
+			$node = $this->nodeRepository->create(
+				Nodes::id(Nodes::PROJECT_TYPE, $project['id']),
+				Nodes::id(Nodes::PROJECT_TYPE, $project['id']),
+				$project['id'],
+				Nodes::PROJECT_TYPE,
+				$project['name']
+			);
+
+			Log::info(sprintf('New node %s inserted into the navigation tree', $node['node_id']));
 			DB::commit();
 			return $project;
 		} catch (\ValidationException $ve) {
+			Log::error($ve);
 			DB::rollback();
-			//return Redirect::to(URL::previous())->withInput()->withErrors($ve->getErrors());
 			throw $ve;
 		} catch (\Exception $e) {
+			Log::error($e);
 			DB::rollback();
 			throw $e;
 		}
@@ -59,9 +70,9 @@ class ProjectGateway
 
 	public function updateProject($id, $name, $description)
 	{
-		Log::info('Updating project...');
 		DB::beginTransaction();
 		try {
+			Log::debug('Updating project...');
 			$project = $this->projectRepository->update(
 				$id,
 				array(
@@ -70,23 +81,17 @@ class ProjectGateway
 				)
 			);
 
-			Log::info('Updated!!!');
+			Log::debug('Updating project in the navigation tree...');
+			$node = $this->nodeRepository->update(
+				Nodes::id(Nodes::PROJECT_TYPE, $id),
+				Nodes::id(Nodes::PROJECT_TYPE, $id),
+				$id,
+				Nodes::PROJECT_TYPE,
+				$name
+			);
 
-			Log::info('Updating navigation tree...');
-			// $navigationTreeNode = $this->nodes->find('1-'.$project->id, '1-'.$project->id);
-			// $navigationTreeNode->display_name = $project->name;
-			// $navigationTreeNode = $this->nodes->update(
-			// 	'1-'.$project->id,
-			// 	'1-'.$project->id,
-			// 	$navigationTreeNode->node_id,
-			// 	$navigationTreeNode->node_type_id,
-			// 	$navigationTreeNode->display_name
-			// );
-			
+			Log::info(sprintf('Node %s updated in the navigation tree', $node['node_id']));
 			DB::commit();
-
-			Log::info('Updated!!!');
-
 			return $project;
 		} catch (\PDOException $pe) {
 			DB::rollback();
@@ -100,5 +105,17 @@ class ProjectGateway
 		}
 	}
 
+	public function positionProject($projectId) 
+	{
+		try {
+			$project = $this->projectRepository->find($projectId);
+			Session::put('current_project', serialize($project));
+			return TRUE;
+		} catch (Exception $e) {
+			Log::error($e);
+			Session::forget('current_project');
+			return FALSE;
+		}
+	}
 	
 }

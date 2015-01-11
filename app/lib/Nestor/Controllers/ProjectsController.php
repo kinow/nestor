@@ -64,4 +64,11 @@ class ProjectsController extends BaseController
 		return Restable::updated($project)->render();
 	}
 
+	// used to position projects in the session, receives a POST method
+	public function position($id)
+	{
+		$value = $this->projectGateway->positionProject($id);
+		return json_encode($value);
+	}
+
 }

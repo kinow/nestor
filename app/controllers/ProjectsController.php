@@ -202,15 +202,9 @@ class ProjectsController extends \BaseController
 
 	public function position()
 	{
-		$project_id = Input::get('project_id');
-		try {
-			$project = $this->projects->find($project_id);
-			Session::put('current_project', serialize($project));
-			return Redirect::back();
-		} catch (Exception $e) {
-			Session::forget('current_project');
-			return Redirect::back();
-		}
+		$projectId = Input::get('project_id');
+		$response = HMVC::post("api/v1/projects/position/$projectId");
+		return Redirect::back();
 	}
 
 }
