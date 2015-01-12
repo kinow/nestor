@@ -1,10 +1,13 @@
 <?php namespace Nestor\Repositories;
 
-use Auth, Hash, Validator;
-use TestCase2;
+use Auth;
+use Hash;
+use Validator;
 use DB;
 use Log;
-use TestCaseVersion;
+
+use Nestor\Model\TestCase2;
+use Nestor\Model\TestCaseVersion;
 
 class DbTestCaseRepository extends DbBaseRepository implements TestCaseRepository {
 

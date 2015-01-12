@@ -46,4 +46,9 @@ class NodeGateway
 		return $nodes;
 	}
 
+	public function moveNode($descendant, $ancestor)
+	{
+		$this->nodeRepository->move($descendant, $ancestor);
+	}
+
 }

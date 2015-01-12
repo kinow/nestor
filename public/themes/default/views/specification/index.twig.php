@@ -127,17 +127,17 @@ var templatecallback = function() {
 	          	var selectedNode = data.otherNode; // the selected node
 	          	var descendant = '' + selectedNode.data.nodeType + '-' + selectedNode.data.nodeId;
 	          	var ancestor = '' + node.data.nodeType + '-' + node.data.nodeId;
-	          	var url = '{{ URL.to("specification/moveNode") }}';
+	          	var url = '{{ URL.to("api/v1/nodes/move") }}';
 	          	$.ajax({
 				  type: "POST",
 				  url: url,
 				  data: {descendant: descendant, ancestor: ancestor},
-				  success: function(data, textStatus, jqXHR) {
-				  	selectedNode.moveTo(node, data.hitMode);
+				  success: function(jqXHR, textStatus, data) {
+				  	selectedNode.moveTo(node, jqXHR.hitMode);
 				  	var rootNode = node.tree.rootNode;
 			    	rootNode.sortChildren(sortCmp, true);
 				  },
-				  error: function(data, textStatus, jqXHR) {
+				  error: function(jqXHR, textStatus, data) {
 				  	console.log(data);
 				  	console.log(textStatus);
 				  	alert(data);

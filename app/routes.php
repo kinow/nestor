@@ -57,7 +57,6 @@ Route::post('testsuites/copy', 'TestSuitesController@postCopy');
 Route::resource('testcases', 'TestCasesController');
 
 // Specification
-Route::post('specification/moveNode', 'SpecificationController@postMoveNode');
 Route::controller('/specification', 'SpecificationController');
 
 // Test Plans

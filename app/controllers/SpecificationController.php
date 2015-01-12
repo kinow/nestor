@@ -158,13 +158,4 @@ class SpecificationController extends NavigationTreeController {
 		return $this->theme->scope('specification.index', $args)->render();
 	}
 
-	public function postMoveNode() 
-	{
-		$descendant = Input::get('descendant');
-		$ancestor = Input::get('ancestor');
-		Log::debug(sprintf('Moving %s under %s', $descendant, $ancestor));
-		$this->nodes->move($descendant, $ancestor);
-		return Response::json('OK');
-	}
-
 }
