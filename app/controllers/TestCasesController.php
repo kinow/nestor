@@ -13,46 +13,11 @@ use Nestor\Repositories\LabelRepository;
 
 class TestCasesController extends \BaseController {
 
-	/**
-	 * The test case repository implementation.
-	 *
-	 * @var Nestor\Repositories\TestCaseRepository
-	 */
 	protected $testcases;
-
-	/**
-	 * The execution type repository implementation.
-	 *
-	 * @var Nestor\Repositories\ExecutionTypeRepository
-	 */
 	protected $executionTypes;
-
-	/**
-	 * The navigation tree node repository implementation.
-	 *
-	 * @var Nestor\Repositories\NavigationTreeRepository
-	 */
 	protected $nodes;
-
-	/**
-	 * The test case repository implementation.
-	 *
-	 * @var Nestor\Repositories\TestCaseStepRepository
-	 */
 	protected $testcaseSteps;
-
-	/**
-	 * The execution status repository implementation.
-	 *
-	 * @var Nestor\Repositories\ExecutionStatusRepository
-	 */
 	protected $executionStatuses;
-
-	/**
-	 * The labels repository implementation.
-	 *
-	 * @var Nestor\Repositories\LabelRepository
-	 */
 	protected $labels;
 
 	protected $theme;
