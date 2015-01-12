@@ -1,30 +1,17 @@
-<?php namespace Nestor\Repositories;
+<?php
+namespace Nestor\Repositories;
 
-use Auth, Hash, Validator;
+use Auth;
+use Hash;
+use Validator;
 use TestPlan;
 use TestCaseVersion;
 
-class DbTestPlanRepository implements TestPlanRepository {
+class DbTestPlanRepository extends DbBaseRepository implements TestPlanRepository {
 
-	/**
-	 * Get all of the test plans.
-	 *
-	 * @return array
-	 */
-	public function all()
+	public function __construct(TestPlan $model)
 	{
-		return TestPlan::all();
-	}
-
-	/**
-	 * Get a TestPlan by their primary key.
-	 *
-	 * @param  int   $id
-	 * @return TestPlan
-	 */
-	public function find($id)
-	{
-		return TestPlan::findOrFail($id);
+		parent::__construct($model);
 	}
 
 	/**
