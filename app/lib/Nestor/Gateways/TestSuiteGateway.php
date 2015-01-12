@@ -65,7 +65,7 @@ class TestSuiteGateway
 
 			foreach ($newLabelsNames as $newLabelName) {
 				$label = $this->labelRepository->create(array(
-					'project_id' => $currentProject->id, 
+					'project_id' => $projectId, 
 					'name' => $newLabelName, 
 					'color' => 'gray'
 				));

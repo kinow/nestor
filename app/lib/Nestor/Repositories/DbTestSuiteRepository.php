@@ -38,7 +38,7 @@ class DbTestSuiteRepository extends DbBaseRepository implements TestSuiteReposit
 				->find($id)
 				->labels()
 				->attach($label['id']);
-			Log::debug(sprintf('Label %s added to test suite %d', $$label['name'], $id));
+			Log::debug(sprintf('Label %s added to test suite %d', $label['name'], $id));
 		}
 	}
 
