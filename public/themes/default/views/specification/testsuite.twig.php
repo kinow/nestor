@@ -276,11 +276,6 @@
             </div>
         </div>
       </div>
-      <div class="tab-pane active" id="copy-test-case">
-        Copy
-      </div>
-      <div class="tab-pane active" id="import-test-case">
-      </div>
 </div>
 <script>
 YUI().use('node', 'sortable', 'template', 'dd-delegate', 'transition', 'overlay', 'event', 'event-outside', function(Y) {
