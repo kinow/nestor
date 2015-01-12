@@ -1,32 +1,16 @@
 <?php
+namespace Nestor\Model;
 
-use Magniloquent\Magniloquent\Magniloquent;
-
-class TestCaseVersion extends Magniloquent {
-
-	/**
-	 * The database table used by the model.
-	 *
-	 * @var string
-	 */
+public class TestCaseVersion extends BaseModel
+{
 	protected $table = 'test_case_versions';
-
-	/**
-	 * The attributes that are mass assignable.
-	 *
-	 * @var array
-	 */
 	protected $fillable = array('id', 'version', 'name', 'description', 'prerequisite', 'test_case_id', 'execution_type_id');
-
-	/**
-	 * The attributes excluded from the model's JSON form.
-	 *
-	 * @var array
-	 */
 	protected $hidden = array('');
 
-	protected static $rules = array(
-		"save" => array(
+	protected static $purgeable = [''];
+
+	protected static $_rules = array(
+		"create" => array(
 			'version' => 'required|numeric|min:1',
 			'name' => 'required|min:2',
 			'description' => '',
@@ -34,22 +18,30 @@ class TestCaseVersion extends Magniloquent {
 			'test_case_id' => 'required|numeric',
 			'execution_type_id' => 'required'
 		),
-		"create" => array(
-		),
 		"update" => array(
 		),
 	);
 
-	protected static $relationships = array(
-		'testcase' => array('belongsTo', 'TestCase2', 'test_case_id'),
-		'executionType' => array('belongsTo', 'ExecutionType', 'execution_type_id'),
-		'executions' => array('hasMany', 'Execution', 'test_case_id'),
-		'steps' => array('belongsToMany', 'TestCaseStep', 'test_case_step_versions'),
-		'labels' => array('belongsToMany', 'Label', 'test_case_versions_labels')
-	);
+	public function testcase()
+	{
+		return $this->belongsTo('TestCase2', 'test_case_id');
+	}
 
-	protected static $purgeable = [''];
-	
+	public function executionType()
+	{
+		return $this->belongsTo('ExecutionType', 'execution_type_id');
+	}
+
+	public function executions()
+	{
+		return $this->hasMany('Execution', 'test_case_id');
+	}
+
+	public function steps()
+	{
+		return $this->belongsToMany('TestCaseStep', 'test_case_step_versions');
+	}
+
 	public function sortedSteps()
 	{
 		return TestCaseVersion::
@@ -72,5 +64,4 @@ class TestCaseVersion extends Magniloquent {
 	{
 		return $this->pivot->assignee;
 	}
-
 }

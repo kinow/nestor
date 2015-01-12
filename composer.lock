@@ -4,7 +4,7 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "918900257097394519502da15e5fa6c9",
+    "hash": "7930468057d247e27df20683a26b1ecb",
     "packages": [
         {
             "name": "classpreloader/classpreloader",
@@ -107,12 +107,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/composer/composer.git",
-                "reference": "c58b7d917c65692eeb00c22b2fbaaa251cb390dc"
+                "reference": "0662036f5ebc0bd33b4300fa68c3263c5e4ef584"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/composer/composer/zipball/c58b7d917c65692eeb00c22b2fbaaa251cb390dc",
-                "reference": "c58b7d917c65692eeb00c22b2fbaaa251cb390dc",
+                "url": "https://api.github.com/repos/composer/composer/zipball/0662036f5ebc0bd33b4300fa68c3263c5e4ef584",
+                "reference": "0662036f5ebc0bd33b4300fa68c3263c5e4ef584",
                 "shasum": ""
             },
             "require": {
@@ -167,7 +167,7 @@
                 "dependency",
                 "package"
             ],
-            "time": "2015-01-05 16:31:16"
+            "time": "2015-01-11 23:38:42"
         },
         {
             "name": "d11wtq/boris",
@@ -277,12 +277,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/cache.git",
-                "reference": "803a41469d948bc120a6c913399e8bfc8b5d9650"
+                "reference": "23210e0381057c5976b15dae52ef389fa180e09f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/cache/zipball/803a41469d948bc120a6c913399e8bfc8b5d9650",
-                "reference": "803a41469d948bc120a6c913399e8bfc8b5d9650",
+                "url": "https://api.github.com/repos/doctrine/cache/zipball/23210e0381057c5976b15dae52ef389fa180e09f",
+                "reference": "23210e0381057c5976b15dae52ef389fa180e09f",
                 "shasum": ""
             },
             "require": {
@@ -339,7 +339,7 @@
                 "cache",
                 "caching"
             ],
-            "time": "2014-12-08 23:13:26"
+            "time": "2015-01-11 19:26:38"
         },
         {
             "name": "doctrine/collections",
@@ -1090,57 +1090,6 @@
             "time": "2014-09-08 18:40:03"
         },
         {
-            "name": "magniloquent/magniloquent",
-            "version": "dev-master",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/philipbrown/magniloquent.git",
-                "reference": "5900c271972b2886385b0d29eaacc2137a46659a"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/philipbrown/magniloquent/zipball/5900c271972b2886385b0d29eaacc2137a46659a",
-                "reference": "5900c271972b2886385b0d29eaacc2137a46659a",
-                "shasum": ""
-            },
-            "require": {
-                "illuminate/database": "4.x",
-                "illuminate/support": "4.x",
-                "illuminate/validation": "4.x",
-                "php": ">=5.3.0"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-0": {
-                    "Magniloquent\\Magniloquent": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Philip Brown",
-                    "email": "phil@ipbrown.com",
-                    "role": "Creator/Developer"
-                },
-                {
-                    "name": "Alex Sears",
-                    "email": "alexwsears@gmail.com",
-                    "homepage": "http://alexsears.com",
-                    "role": "Developer"
-                }
-            ],
-            "description": "Self-validating models for Laravel 4's Eloquent",
-            "keywords": [
-                "eloquent",
-                "laravel"
-            ],
-            "abandoned": "dwightwatson/validating",
-            "time": "2014-08-11 20:02:41"
-        },
-        {
             "name": "monolog/monolog",
             "version": "dev-master",
             "source": {
@@ -1345,12 +1294,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/tchwork/utf8.git",
-                "reference": "0d196eb09d60921c9df385a4d33e9cf36b88074b"
+                "reference": "f26cc98847add84cb27c5d77e2e0dff715944ac6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/tchwork/utf8/zipball/0d196eb09d60921c9df385a4d33e9cf36b88074b",
-                "reference": "0d196eb09d60921c9df385a4d33e9cf36b88074b",
+                "url": "https://api.github.com/repos/tchwork/utf8/zipball/f26cc98847add84cb27c5d77e2e0dff715944ac6",
+                "reference": "f26cc98847add84cb27c5d77e2e0dff715944ac6",
                 "shasum": ""
             },
             "require": {
@@ -1388,7 +1337,7 @@
                 "utf-8",
                 "utf8"
             ],
-            "time": "2015-01-05 22:58:05"
+            "time": "2015-01-11 12:41:11"
         },
         {
             "name": "philf/setting",
@@ -1440,12 +1389,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpseclib/phpseclib.git",
-                "reference": "09ccfdbcb9c57eb9e099e1a3b3bb2f1cabbadb33"
+                "reference": "fd6aa5258c29792924e9034ff58679d9c65bfdf3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpseclib/phpseclib/zipball/09ccfdbcb9c57eb9e099e1a3b3bb2f1cabbadb33",
-                "reference": "09ccfdbcb9c57eb9e099e1a3b3bb2f1cabbadb33",
+                "url": "https://api.github.com/repos/phpseclib/phpseclib/zipball/fd6aa5258c29792924e9034ff58679d9c65bfdf3",
+                "reference": "fd6aa5258c29792924e9034ff58679d9c65bfdf3",
                 "shasum": ""
             },
             "require": {
@@ -1530,7 +1479,7 @@
                 "x.509",
                 "x509"
             ],
-            "time": "2015-01-09 12:08:59"
+            "time": "2015-01-11 15:05:19"
         },
         {
             "name": "predis/predis",
@@ -2768,7 +2717,6 @@
     "stability-flags": {
         "teepluss/theme": 20,
         "philf/setting": 20,
-        "magniloquent/magniloquent": 20,
         "doctrine/dbal": 20,
         "n98/junit-xml": 20,
         "teepluss/hmvc": 20,

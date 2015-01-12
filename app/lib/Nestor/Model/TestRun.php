@@ -1,36 +1,15 @@
 <?php
+namespace Nestor\Model;
 
-use Magniloquent\Magniloquent\Magniloquent;
+class TestRun extends BaseModel {
 
-class TestRun extends Magniloquent {
-
-	/**
-	 * The database table used by the model.
-	 *
-	 * @var string
-	 */
 	protected $table = 'test_runs';
-
-	/**
-	 * The attributes that are mass assignable.
-	 *
-	 * @var array
-	 */
 	protected $fillable = array('id', 'name', 'description', 'test_plan_id');
-
-	/**
-	 * The attributes excluded from the model's JSON form.
-	 *
-	 * @var array
-	 */
 	protected $hidden = array('');
 
-	protected static $rules = array(
-		"save" => array(
-				'name' => 'required|min:2',
-				'description' => '',
-				'test_plan_id' => 'required'
-		),
+	protected static $purgeable = [''];
+
+	protected static $_rules = array(
 		"create" => array(
 				'name' => 'required|min:2',
 				'description' => '',
@@ -43,10 +22,15 @@ class TestRun extends Magniloquent {
 		)
 	);
 
-	protected static $relationships = array(
-		'testplan' => array('belongsTo', 'TestPlan', 'test_plan_id'),
-		'executions' => array('hasMany', 'Execution', 'test_run_id')
-	);
+	public function testPlan()
+	{
+		return $this->belongsTo('TestPlan', 'test_plan_id');
+	}
+
+	public function executions()
+	{
+		return $this->hasMany('Execution', 'test_run_id');
+	}
 
 	public function countTestCases()
 	{
@@ -57,8 +41,6 @@ class TestRun extends Magniloquent {
 			->where('test_plans.id', '=', $this->id)
 			->count('test_cases.id');
 	}
-
-	protected static $purgeable = [''];
 
 	public function progress()
 	{
