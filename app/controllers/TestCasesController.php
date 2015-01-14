@@ -4,41 +4,16 @@ use \Theme;
 use \Input;
 use \DB;
 use \Validator;
-use Nestor\Repositories\TestCaseRepository;
-use Nestor\Repositories\ExecutionTypeRepository;
-use Nestor\Repositories\NavigationTreeRepository;
-use Nestor\Repositories\TestCaseStepRepository;
-use Nestor\Repositories\ExecutionStatusRepository;
-use Nestor\Repositories\LabelRepository;
 
 class TestCasesController extends \BaseController {
-
-	protected $testcases;
-	protected $executionTypes;
-	protected $nodes;
-	protected $testcaseSteps;
-	protected $executionStatuses;
-	protected $labels;
 
 	protected $theme;
 
 	public $restful = true;
 
-	public function __construct(
-		TestCaseRepository $testcases, 
-		ExecutionTypeRepository $executionTypes, 
-		NavigationTreeRepository $nodes, 
-		TestCaseStepRepository $testcaseSteps, 
-		ExecutionStatusRepository $executionStatuses,
-		LabelRepository $labels)
+	public function __construct()
 	{
 		parent::__construct();
-		$this->testcases = $testcases;
-		$this->executionTypes = $executionTypes;
-		$this->nodes = $nodes;
-		$this->testcaseSteps = $testcaseSteps;
-		$this->executionStatuses = $executionStatuses;
-		$this->labels = $labels;
 		$this->theme->setActive('testcases');
 	}
 
@@ -69,6 +44,7 @@ class TestCasesController extends \BaseController {
 	 */
 	public function store()
 	{
+		exit;
 		$currentProject = $this->getCurrentProject();
 		$labels = $this->labels->all($currentProject->id)->get();
 		$testcase = null;
