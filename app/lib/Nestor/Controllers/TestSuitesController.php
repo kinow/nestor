@@ -52,7 +52,6 @@ class TestSuitesController extends BaseController
 			return Restable::bad($e->getMessage())->render();
 		}
 		return Restable::created($testSuite)->render();
-
 	}
 
 }

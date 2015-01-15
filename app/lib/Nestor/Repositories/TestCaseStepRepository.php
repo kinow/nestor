@@ -10,4 +10,6 @@ interface TestCaseStepRepository {
 	 */
 	public function findByTestCaseVersion($testCaseVersionId);
 
+	public function createNewVersion(array $testCaseStepArray, array $testCaseStepVersionArray);
+
 }

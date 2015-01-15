@@ -78,8 +78,7 @@ class SpecificationController extends NavigationTreeController {
 		$node = $node[0];
 
 		$args = array();
-		if (!NavigationTreeUtil::containsNode($navigationTree, $node))
-		{
+		if (!NavigationTreeUtil::containsNode($navigationTree, $node)) {
 			return Redirect::to('/specification/')
 				->with('error', sprintf('The node %s does not belong to the current selected project', $nodeId));
 		}
@@ -90,16 +89,14 @@ class SpecificationController extends NavigationTreeController {
 			add(sprintf('Node %s-%s', $node['node_type_id'], $node['node_id']));
 
 		// Create specific parameters depending on execution type
-		if (isset($node))
-		{
-			if ($node['node_type_id'] == 1) // Project?
-			{
+		if (isset($node)) {
+			// Project?
+			if ($node['node_type_id'] == 1) {
 				$currentProjectId = $this->getCurrentProjectId();
 				$testSuites = HMVC::get("api/v1/projects/$currentProjectId/testsuites/");
 				$args['testsuites'] = $testSuites;
-			}
-			else if ($node['node_type_id'] == 2) // Test Suite?
-			{
+			// Test Suite?
+			} else if ($node['node_type_id'] == 2) {
 				$currentProjectId = $this->getCurrentProjectId();
 				$testSuites = HMVC::get("api/v1/projects/$currentProjectId/testsuites/");
 				$args['testsuites'] = $testSuites;
@@ -131,25 +128,11 @@ class SpecificationController extends NavigationTreeController {
 					$executionStatusesIds[$executionStatus['id']] = $executionStatus['name'];
 				}
 				$args['execution_statuses_ids'] = $executionStatusesIds;
-				
-			}
-			else if ($node['node_type_id'] == 3) // Test Case?
-			{
-				$execution_types = $this->executionTypes->all();
-				$testcase = $this->testcases->find($node->node_id);
-				$labels = $testcase->latestVersion()->labels();
-				if (isset($testcase) && !is_null($testcase))
-				{
-					foreach ($execution_types as $execution_type)
-					{
-						if ($execution_type->id == $testcase->execution_type_id)
-						{
-							$testcase->execution_type_name = $execution_type->name;
-						}
-					}
-				}
-				$args['testcase'] = $testcase;
-				$args['labels'] = $labels;
+			// Test Case?	
+			} else if ($node['node_type_id'] == 3) {
+				$executionTypes = HMVC::get("api/v1/executiontypes/");
+				$testCase = HMVC::get(sprintf("api/v1/testcases/%s", $node['node_id']));
+				$args['testcase'] = $testCase;
 			}
 		}
 		$args['navigation_tree_html'] = $navigationTreeHtml;

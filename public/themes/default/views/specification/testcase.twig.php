@@ -13,29 +13,27 @@
 <div>
 <h4>Test Case {{ node.display_name }}</h4>
 <label>Version</label>
-<p>{{ testcase.latestVersion.version }}</p>
+<p>{{ testcase.version.version }}</p>
 <label>Name</label>
-<p>{{ testcase.latestVersion.name }}</p>
+<p>{{ testcase.version.name }}</p>
 <label>Description</label>
-<p>{{ testcase.latestVersion.description }}</p>
+<p>{{ testcase.version.description }}</p>
 <label>Prerequisite</label>
-<p>{{ testcase.latestVersion.prerequisite }}</p>
+<p>{{ testcase.version.prerequisite }}</p>
 <label>Execution Type</label>
-<p>{{ testcase.latestVersion.executionType.first.name }}</p>
+<p>{{ testcase.version.executionType.first.name }}</p>
 <label>Labels</label>
 <div id="labels">
-{% if labels.count() > 0 %}
-	{% for label in labels.get() %}
+{% for label in testcase.version.labels %}
 <div class='label_wrapper'>
   <span class="label label-default">{{ label.name }}</span>
   <input type='hidden' name='labels[]' value='{{ label.name }}' />
 </div>
-	{% endfor %}
-{% endif %}
+{% endfor %}
 </div>
 <hr/>
 <label>Test Steps</label>
-{% set steps = testcase.latestVersion.sortedSteps() %}
+{% set steps = testcase.version.sortedSteps() %}
 {% if steps.count() > 0 %}
 	{% for step in steps.get() %}
 <table class='table table-bordered table-hover'>

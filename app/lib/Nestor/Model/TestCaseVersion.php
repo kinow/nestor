@@ -1,7 +1,7 @@
 <?php
 namespace Nestor\Model;
 
-public class TestCaseVersion extends BaseModel
+class TestCaseVersion extends BaseModel
 {
 	protected $table = 'test_case_versions';
 	protected $fillable = array('id', 'version', 'name', 'description', 'prerequisite', 'test_case_id', 'execution_type_id');
@@ -24,38 +24,38 @@ public class TestCaseVersion extends BaseModel
 
 	public function testcase()
 	{
-		return $this->belongsTo('TestCase2', 'test_case_id');
+		return $this->belongsTo('Nestor\\Model\\TestCase2', 'test_case_id');
 	}
 
 	public function executionType()
 	{
-		return $this->belongsTo('ExecutionType', 'execution_type_id');
+		return $this->belongsTo('Nestor\\Model\\ExecutionType', 'execution_type_id');
 	}
 
 	public function executions()
 	{
-		return $this->hasMany('Execution', 'test_case_id');
+		return $this->hasMany('Nestor\\Model\\Execution', 'test_case_id');
 	}
 
 	public function steps()
 	{
-		return $this->belongsToMany('TestCaseStep', 'test_case_step_versions');
+		return $this->belongsToMany('Nestor\\Model\\TestCaseStep', 'test_case_step_versions');
 	}
 
 	public function sortedSteps()
 	{
 		return TestCaseVersion::
-			hasMany('TestCaseStepVersion', 'test_case_version_id', 'id');
+			hasMany('Nestor\\Model\\TestCaseStepVersion', 'test_case_version_id', 'id');
 	}
 
 	public function labels()
 	{
-		return $this->belongsToMany('Label', 'test_case_versions_labels')->withTimestamps();
+		return $this->belongsToMany('Nestor\\Model\\Label', 'test_case_versions_labels')->withTimestamps();
 	}
 
 	public function testplans()
 	{
-		return $this->belongsToMany('TestPlan', 'test_plans_test_cases', 'test_case_version_id', 'test_plan_id')
+		return $this->belongsToMany('Nestor\\Model\\TestPlan', 'test_plans_test_cases', 'test_case_version_id', 'test_plan_id')
 			->withPivot('assignee')
 			->withTimestamps();
 	}

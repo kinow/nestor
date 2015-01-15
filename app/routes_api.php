@@ -20,6 +20,11 @@ Route::group(array('prefix' => 'api/v1'/*, 'before' => 'auth.basic'*/), function
     Route::resource('testsuites', 'Nestor\Controllers\TestSuitesController');
 
     /*
+     * Test cases
+     */
+    Route::resource('testcases', 'Nestor\Controllers\TestCasesController');
+
+    /*
      * Execution types.
      */
     Route::resource('executiontypes', 'Nestor\Controllers\ExecutionTypesController');

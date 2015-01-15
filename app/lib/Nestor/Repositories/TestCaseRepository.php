@@ -14,4 +14,10 @@ interface TestCaseRepository {
 	 */
 	public function isNameAvailable($id, $test_suite_id, $name);
 
+	public function addLabels($id, $labels);
+
+	public function createNewVersion(array $testCaseArray, array $testCaseVersionArray);
+
+	public function findTestCase($id);
+
 }

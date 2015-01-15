@@ -48,7 +48,10 @@ class TestSuitesController extends NavigationTreeController {
 	{
 		$testSuite = HMVC::post('api/v1/testsuites/', Input::all());
 
-		if (!$testSuite || (isset($testSuite['code']) && $testSuite['code'] != 200)) {
+		if (!$testSuite) {
+			Session::flash('error', 'Failed to create Test Suite');
+			return Redirect::to(URL::previous())->withInput();
+		} else if (isset($testSuite['code']) && $testSuite['code'] != 200) {
 			return Redirect::to(URL::previous())->withInput()->withErrors($testSuite['description']);
 		}
 
