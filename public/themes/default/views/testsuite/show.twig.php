@@ -17,7 +17,7 @@
 		<p class='pull-right'><strong>Project</strong></p>
 	</div>
 	<div class='col-xs-10'>
-		<p>{{ testsuite.project.first.name }}</p>
+		<p>{{ testsuite.project.name }}</p>
 	</div>
 </div>
 <div class='row'>
@@ -33,8 +33,8 @@
 		<p class='pull-right'><strong>Labels</strong></p>
 	</div>
 	<div class='col-xs-10'>
-		{% if labels.count() > 0 %}
-			{% for label in labels %}
+		{% if testsuite.labels[0] %}
+			{% for label in testsuite.labels %}
 		<div class='label_wrapper'>
 		  <span class="label label-default">{{ label.name }}</span>
 		  <input type='hidden' name='labels[]' value='{{ label.name }}' />

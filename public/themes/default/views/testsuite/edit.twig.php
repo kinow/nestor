@@ -50,11 +50,11 @@
 <div class='row'>
     <div class='col-xs-12'>
         {{ Form.open({'route': ['testsuites.update', testsuite.id], 'method': 'PUT', 'class': 'form-horizontal'}) }}
-            {{ Form.hidden('project_id', project.id) }}
+            {{ Form.hidden('project_id', testsuite.project.id) }}
             <div class='form-group'>
                 {{ Form.label('project', 'Project', {'class': 'col-xs-2 control-label'}) }}
                 <div class='col-xs-10'>
-                    {{ Form.input('text', 'project', project.name, {'id':"project", 'class': "form-control", 'readonly': 'readonly'}) }}
+                    {{ Form.input('text', 'project', testsuite.project.name, {'id':"project", 'class': "form-control", 'readonly': 'readonly'}) }}
                 </div>
             </div>
             <div class="form-group">
@@ -156,8 +156,8 @@ YUI().use('node', 'template', 'overlay', 'event', 'event-outside', function(Y) {
     });
   });
 
-  {% if labels.count() > 0 %}
-    {% for label in labels %}
+  {% if testsuite.labels[0] %}
+    {% for label in testsuite.labels %}
   var existingLabel = Y.Template.Micro.compile(Y.one('#new-label-template').getHTML());
   var labelName = '{{ label.name }}';
   var o = Y.one('#labels').appendChild(existingLabel({name: labelName}));

@@ -7,6 +7,8 @@ interface TestSuiteRepository {
 
 	public function addLabels($id, $labels);
 
+	public function removeLabels($id, $labels);
+
 	public function copy($oldName, $newName, $ancestor, $projectId, $nodesRepository, $testcaseRepository, $testcaseSteps);
 
 }

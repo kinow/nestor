@@ -1,13 +1,16 @@
 <?php 
 namespace Nestor\Gateways;
 
+use Exception;
+
+use DB;
+use Log;
+use Session;
+
 use Nestor\Repositories\ProjectRepository;
 use Nestor\Repositories\NavigationTreeRepository;
 use Nestor\Model\ProjectStatus;
 use Nestor\Model\Nodes;
-use DB;
-use Log;
-use Session;
 
 class ProjectGateway 
 {
@@ -61,7 +64,7 @@ class ProjectGateway
 			Log::info(sprintf('New node %s inserted into the navigation tree', $node['node_id']));
 			DB::commit();
 			return $project;
-		} catch (\Exception $e) {
+		} catch (Exception $e) {
 			Log::error($e);
 			DB::rollback();
 			throw $e;
@@ -93,12 +96,6 @@ class ProjectGateway
 			Log::info(sprintf('Node %s updated in the navigation tree', $node['node_id']));
 			DB::commit();
 			return $project;
-		} catch (\PDOException $pe) {
-			DB::rollback();
-			throw $pe;
-		} catch (ValidationException $ve) {
-			DB::rollback();
-			throw $ve;
 		} catch (Exception $e) {
 			DB::rollback();
 			throw $e;

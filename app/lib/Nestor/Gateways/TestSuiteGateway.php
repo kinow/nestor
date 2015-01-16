@@ -36,7 +36,7 @@ class TestSuiteGateway
 
 	public function findTestSuite($testSuiteId) 
 	{
-		$testSuite = $this->testSuiteRepository->findWith($testSuiteId, array('labels'));
+		$testSuite = $this->testSuiteRepository->findWith($testSuiteId, array('labels', 'project'));
 		return $testSuite;
 	}
 
@@ -45,10 +45,11 @@ class TestSuiteGateway
 		if (!$labels || is_null($labels) || !is_array($labels))
 			$labels = array();
 
+		DB::beginTransaction();
+
 		// we retrieve all the labels already created for the current project
 		$projectLabels = $this->labelRepository->findByProject($projectId);
 
-		DB::beginTransaction();
 		$testSuite = NULL;
 		try {
 			Log::debug('Creating test suite...');
@@ -92,6 +93,85 @@ class TestSuiteGateway
 			DB::rollback();
 			throw $e;
 		}
+	}
+
+	public function updateTestSuite($id, $projectId, $name, $description, $labels)
+	{
+		if (!$labels || is_null($labels) || !is_array($labels))
+			$labels = array();
+
+		DB::beginTransaction();
+
+		// we retrieve all the labels already created for the current project
+		$projectLabels = $this->labelRepository->findByProject($projectId);
+
+		$oldVersion = $this->findTestSuite($id);
+
+		try {
+			Log::debug('Updating test suite...');
+			$this->testSuiteRepository->update(
+				$id,
+				array(
+					'name' => $name, 
+					'description' => $description
+				)
+			);
+
+			$testSuite = array();
+			$testSuite['name'] = $name;
+			$testSuite['description'] = $description;
+			$testSuite['id'] = $id;
+
+			Log::debug('Updating labels for test suite...');
+			// here we check which labels will be created - IOW the project doesn't contain this label
+			// and get a list of new label names to create, and an array of existing labels DB objects
+			list($newLabelsNames, $oldLabels) = LabelsUtil::splitNewLabels($projectLabels, $labels);
+
+			$addLabels = array();
+			foreach ($newLabelsNames as $newLabelName) {
+				$label = $this->labelRepository->create(array(
+					'project_id' => $projectId, 
+					'name' => $newLabelName, 
+					'color' => 'gray'
+				));
+				$addLabels[] = $label;
+				Log::debug(sprintf('New label %s with color %s created for project %s', $newLabelName, $label['color'], $label['project_id']));
+			}
+
+			$existingLabels = $oldVersion['labels'];
+
+			// here we get the list of labels that are missing from the user's selection. Thus, it means
+			// that these issues must be removed
+			$unwantedLabels = LabelsUtil::subtractLabels($existingLabels, $labels);
+
+			// add newly created labels
+			$this->testSuiteRepository->addLabels($testSuite['id'], $addLabels);
+			// remove unwanted labels
+			$this->testSuiteRepository->removeLabels($testSuite['id'], $unwantedLabels);
+
+			Log::debug('Updating test suite in the navigation tree...');
+			$node = $this->nodeRepository->update(
+				Nodes::id(Nodes::TEST_SUITE_TYPE, $id),
+				Nodes::id(Nodes::TEST_SUITE_TYPE, $id),
+				$id,
+				Nodes::TEST_SUITE_TYPE,
+				$name
+			);
+
+			Log::info(sprintf('Node %s updated in the navigation tree', $node['node_id']));
+			DB::commit();
+			return $testSuite;
+		} catch (Exception $e) {
+			DB::rollback();
+			throw $e;
+		}
+	}
+
+	public function findLabels($id)
+	{
+		$labels = array();
+		$testSuite = $this->testSuiteRepository->findWith($testSuiteId, array('labels', 'project'));
+		return $testSuite;
 	}
 
 }

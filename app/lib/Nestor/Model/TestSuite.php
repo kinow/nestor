@@ -22,7 +22,7 @@ class TestSuite extends BaseModel
 		)
 	);
 
-	public function projects()
+	public function project()
 	{
 		return $this->belongsTo('Nestor\\Model\\Project', 'project_id');
 	}

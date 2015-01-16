@@ -44,6 +44,18 @@ class DbTestSuiteRepository extends DbBaseRepository implements TestSuiteReposit
 		}
 	}
 
+	public function removeLabels($id, $labels) 
+	{
+		foreach($labels as $label) {
+			$this
+				->model
+				->find($id)
+				->labels()
+				->detach($label['id']);
+			Log::debug(sprintf('Label %s removed %d', $label['name'], $id));
+		}
+	}
+
 	public function copy($oldName, $newName, $ancestor, $projectId, $nodesRepository, $testcaseRepository, $testcaseSteps)
 	{
 		$testsuite  = $this->findByName($oldName, $projectId);

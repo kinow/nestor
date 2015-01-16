@@ -32,4 +32,20 @@ class LabelsUtil
 		return array($newLabelsNames, $oldLabels);
 	}
 
+	public static function subtractLabels($existingLabels, $allLabels) 
+	{
+		$diff = array();
+
+		foreach ($existingLabels as $key => $existingLabel) {
+			foreach ($allLabels as $key => $label) {
+				if ($existingLabel['name'] == $label) {
+					continue 2;
+				}
+			}
+			$diff[] = $existingLabel;
+		}
+
+		return $diff;
+	}
+
 }

@@ -54,4 +54,18 @@ class TestSuitesController extends BaseController
 		return Restable::created($testSuite)->render();
 	}
 
+	public function update($id)
+	{
+		try {
+			$testSuite = $this
+				->testSuiteGateway
+				->updateTestSuite($id, Input::get('project_id'), Input::get('name'), Input::get('description'), Input::get('labels'));
+		} catch (ValidationException $ve) {
+			return Restable::error($ve->getErrors())->render();
+		} catch (Exception $e) {
+			return Restable::bad($e->getMessage())->render();
+		}
+		return Restable::updated($testSuite)->render();			
+	}
+
 }
