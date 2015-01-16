@@ -2,6 +2,7 @@
 namespace Nestor\Repositories;
 
 use DateTime;
+use Exception;
 
 use Auth;
 use Hash;
@@ -146,11 +147,31 @@ order by a.length
 			->delete();
 	}
 
+	public function containsChildrenWithName($ancestor, $name)
+	{
+		Log::info(sprintf('Retrieving children for %s, length %d', $ancestor, 1));
+
+		$children = DB::table('navigation_tree AS a')
+			->select(DB::raw("b.*"))
+			->leftJoin('navigation_tree AS b', 'a.ancestor', '=', 'b.descendant')
+			->where('b.ancestor', '=', $ancestor)
+			->where('b.length', '<=', 1)
+			->where('b.display_name', $name)
+			->groupBy('a.ancestor')->groupBy('a.descendant')->groupBy('a.length')
+			->orderBy('a.ancestor')
+			->get();
+		Log::debug(var_export($children, true));
+		return ($children && !empty($children));
+	}
+
 	public function move($descendant, $ancestor)
 	{
+		$node = $this->find($descendant, $descendant);
+		if ($this->containsChildrenWithName($ancestor, $node['display_name'])) {
+			throw new Exception(sprintf('Duplicate node name %s', $node['display_name']));
+		}
 		DB::beginTransaction();
 		try {
-			$node = $this->find($descendant, $descendant);
 			// Log::debug($node);
 			$this->delete($descendant);
 			// $ancestor, $descendant, $node_id, $node_type_id, $display_name

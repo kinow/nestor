@@ -39,4 +39,9 @@ class Nodes
 		return sprintf("%s-%s", $nodeType, $nodeId);
 	}
 
+	public static function getType($node)
+	{
+
+	}
+
 }

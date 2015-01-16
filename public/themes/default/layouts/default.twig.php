@@ -18,25 +18,27 @@
         </div>
 
         <div class="container">
-        	{% if Session.has('success') %}
-			<div class="alert alert-success">
-			    <button type="button" class="close" data-dismiss="alert">&times;</button>
-			    <p>{{ Session.get('success') }}</p>
-			</div>
-			{% endif %}
-            {% if Session.has('warning') %}
-            <div class="alert alert-warning">
-                <button type="button" class="close" data-dismiss="alert">&times;</button>
-                <h4>Warning!</h4>
-                <p>{{ Session.get('warning') }}</p>
+            <div id="messages-holder">
+            	{% if Session.has('success') %}
+    			<div class="alert alert-success">
+    			    <button type="button" class="close" data-dismiss="alert">&times;</button>
+    			    <p>{{ Session.get('success') }}</p>
+    			</div>
+    			{% endif %}
+                {% if Session.has('warning') %}
+                <div class="alert alert-warning">
+                    <button type="button" class="close" data-dismiss="alert">&times;</button>
+                    <h4>Warning!</h4>
+                    <p>{{ Session.get('warning') }}</p>
+                </div>
+                {% endif %}
+                {% if Session.has('error') %}
+                <div class="alert alert-danger">
+                    <button type="button" class="close" data-dismiss="alert">&times;</button>
+                    <p>{{ Session.get('error') }}</p>
+                </div>
+                {% endif %}
             </div>
-            {% endif %}
-            {% if Session.has('error') %}
-            <div class="alert alert-danger">
-                <button type="button" class="close" data-dismiss="alert">&times;</button>
-                <p>{{ Session.get('error') }}</p>
-            </div>
-            {% endif %}
 
             {% if Theme.getContentArguments()['success'] is defined %}
                 {% for successes in Theme.getContentArguments()['successes'].all() %}

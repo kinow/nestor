@@ -136,11 +136,26 @@ var templatecallback = function() {
 				  	selectedNode.moveTo(node, jqXHR.hitMode);
 				  	var rootNode = node.tree.rootNode;
 			    	rootNode.sortChildren(sortCmp, true);
+
+			    	var $messagesHolder = jQuery("#messages-holder");
+			    	$messagesHolder.empty();
+			    	console.log($messagesHolder);
+			    	$messagesHolder.append("<div class='alert alert-success'>\
+    			    <button type='button' class='close' data-dismiss='alert'>&times;</button>\
+    			    <p>Node moved successfully!</p>\
+    			    </div>");
 				  },
 				  error: function(jqXHR, textStatus, data) {
-				  	console.log(data);
-				  	console.log(textStatus);
-				  	alert(data);
+				  	var responseText = jQuery.parseJSON(jqXHR.responseText);
+				  	
+				  	//alert(responseText.error.message);
+				  	var $messagesHolder = jQuery("#messages-holder");
+			    	$messagesHolder.empty();
+			    	console.log($messagesHolder);
+			    	$messagesHolder.append("<div class='alert alert-danger'>\
+    			    <button type='button' class='close' data-dismiss='alert'>&times;</button>\
+    			    <p>"+responseText.error.message+"</p>\
+    			    </div>");
 				  }
 				});
 	        },
