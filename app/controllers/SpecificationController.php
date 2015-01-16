@@ -91,12 +91,12 @@ class SpecificationController extends NavigationTreeController {
 		// Create specific parameters depending on execution type
 		if (isset($node)) {
 			// Project?
-			if ($node['node_type_id'] == 1) {
+			if ($node['node_type_id'] == Nodes::PROJECT_TYPE) {
 				$currentProjectId = $this->getCurrentProjectId();
 				$testSuites = HMVC::get("api/v1/projects/$currentProjectId/testsuites/");
 				$args['testsuites'] = $testSuites;
 			// Test Suite?
-			} else if ($node['node_type_id'] == 2) {
+			} else if ($node['node_type_id'] == Nodes::TEST_SUITE_TYPE) {
 				$currentProjectId = $this->getCurrentProjectId();
 				$testSuites = HMVC::get("api/v1/projects/$currentProjectId/testsuites/");
 				$args['testsuites'] = $testSuites;
@@ -129,7 +129,7 @@ class SpecificationController extends NavigationTreeController {
 				}
 				$args['execution_statuses_ids'] = $executionStatusesIds;
 			// Test Case?	
-			} else if ($node['node_type_id'] == 3) {
+			} else if ($node['node_type_id'] == Nodes::TEST_CASE_TYPE) {
 				$executionTypes = HMVC::get("api/v1/executiontypes/");
 				$testCase = HMVC::get(sprintf("api/v1/testcases/%s", $node['node_id']));
 				$args['testcase'] = $testCase;

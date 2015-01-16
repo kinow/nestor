@@ -59,14 +59,30 @@ class DbTestCaseRepository extends DbBaseRepository implements TestCaseRepositor
 
 	public function findTestCase($id)
 	{
+		// test case
 		$testCase = $this
 			->model
+			->where('id', $id)
 			->firstOrFail();
 
+		// version
 		$version = $testCase->latestVersion();
+
+		// labels
+		$labels = $version->labels()->get();
+
+		// steps
+		$steps = $version->sortedSteps()->get();
+
+		$labels = $labels->toArray();
 		$testCase = $testCase->toArray();
 		$version = $version->toArray();
+		$steps = $steps->toArray();
+
+		$version['labels'] = $labels;
+		$version['steps'] = $steps;
 		$testCase['version'] = $version;
+
 		return $testCase;
 	}
 

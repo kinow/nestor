@@ -40,7 +40,6 @@ class TestCase2 extends BaseModel
 		return $this->hasMany('Nestor\\Model\\TestCaseVersion', 'test_case_id')
 			->orderBy('version', 'desc')
 			->take(1)
-			->with(array('labels'))
 			->firstOrFail();
 	}
 

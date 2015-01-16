@@ -13,6 +13,7 @@ class LabelsUtil
 		for($i = 0; $i < count($allLabels); ++$i) {
 			$labelName = $allLabels[$i];
 			$found = FALSE;
+			$label = NULL;
 			foreach ($existingLabels as $existingLabel) {
 				if ($labelName == $existingLabel['name']) {
 					$found = TRUE;
@@ -23,12 +24,8 @@ class LabelsUtil
 
 			if (!$found) {
 				$newLabelsNames[] = $labelName;
-			}
-		}
-
-		foreach ($existingLabels as $existingLabel) {
-			if (!in_array($existingLabel['name'], $newLabelsNames)) {
-				$oldLabels[] = $existingLabel;
+			} else {
+				$oldLabels[] = $label;
 			}
 		}
 

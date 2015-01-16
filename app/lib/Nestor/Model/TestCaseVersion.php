@@ -50,7 +50,7 @@ class TestCaseVersion extends BaseModel
 
 	public function labels()
 	{
-		return $this->belongsToMany('Nestor\\Model\\Label', 'test_case_versions_labels')->withTimestamps();
+		return $this->belongsToMany('Nestor\\Model\\Label', 'test_case_versions_labels', 'test_case_version_id')->withTimestamps();
 	}
 
 	public function testplans()

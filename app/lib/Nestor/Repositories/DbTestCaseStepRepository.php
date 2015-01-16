@@ -26,13 +26,13 @@ class DbTestCaseStepRepository extends DbBaseRepository implements TestCaseStepR
 		$testCaseStepId = $pdo->lastInsertId();
 		$testCaseStep['id'] = $testCaseStepId;
 		$version = 1;
-		Log::debug(sprintf('Creating initial test case step version for test case step %d', $testcaseStep['id']));
-		$testCaseVersionArray['test_case_step_id'] = $testcaseStep['id'];
-		$version = TestCaseStepVersion::create($testCaseVersionArray)->toArray();
+		Log::debug(sprintf('Creating initial test case step version for test case step %s', $testCaseStep['id']));
+		$testCaseStepVersionArray['test_case_step_id'] = $testCaseStep['id'];
+		$version = TestCaseStepVersion::create($testCaseStepVersionArray)->toArray();
 		$versionId = $pdo->lastInsertId();
 		$version['id'] = $versionId;
 		Log::debug('Version 1 created');
-		return array($testcaseStep, $version);
+		return array($testCaseStep, $version);
 	}
 
 }

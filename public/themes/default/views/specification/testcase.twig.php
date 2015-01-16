@@ -33,9 +33,8 @@
 </div>
 <hr/>
 <label>Test Steps</label>
-{% set steps = testcase.version.sortedSteps() %}
-{% if steps.count() > 0 %}
-	{% for step in steps.get() %}
+{% if testcase.version.steps[0] %}
+	{% for step in testcase.version.steps %}
 <table class='table table-bordered table-hover'>
 	<thead>
 		<colgroup>
