@@ -15,7 +15,6 @@ use Fhaculty\Graph\Walk;
 class TestSuitesController extends NavigationTreeController {
 
 	protected $theme;
-
 	public $restful = true;
 
 	public function __construct()
@@ -87,26 +86,14 @@ class TestSuitesController extends NavigationTreeController {
 
 	public function destroy($id)
 	{
-		$testsuite = null;
-		$navigationTreeNode = null;
-		Log::info('Destroying test suite...');
-		$pdo = null;
-		try {
-			$pdo = DB::connection()->getPdo();
-			$pdo->beginTransaction();
-			$testsuite = $this->testsuites->find($id);
-			$this->testsuites->delete($id);
-			$navigationTreeNode = $this->nodes->find('2-' . $testsuite->id, '2-' . $testsuite->id);
-			$this->nodes->deleteWithAllChildren($navigationTreeNode->ancestor, $navigationTreeNode->descendant);
-			$pdo->commit();
-		} catch (\PDOException $e) {
-			if (!is_null($pdo))
-				$pdo->rollBack();
-			return Redirect::to('/specification/')->withInput();
+		$testSuite = HMVC::delete("api/v1/testsuites/$id", Input::all());
+
+		if (!$testSuite || (isset($testSuite['code']) && $testSuite['code'] != 200)) {
+			return Redirect::to(URL::previous())->withInput()->withErrors($testSuite['description']);
 		}
 
 		return Redirect::to('/specification')
-			->with('success', sprintf('The test suite %s has been deleted', $testsuite->name));
+			->with('success', sprintf('The test suite %s has been deleted', $testSuite['name']));
 	}
 
 	public function postCopy()

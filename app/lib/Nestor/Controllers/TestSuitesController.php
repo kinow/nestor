@@ -6,6 +6,7 @@ use Exception;
 use BaseController;
 use Restable;
 use Input;
+use Log;
 
 use Nestor\Gateways\TestSuiteGateway;
 use Nestor\Util\ValidationException;
@@ -63,6 +64,19 @@ class TestSuitesController extends BaseController
 		} catch (ValidationException $ve) {
 			return Restable::error($ve->getErrors())->render();
 		} catch (Exception $e) {
+			return Restable::bad($e->getMessage())->render();
+		}
+		return Restable::updated($testSuite)->render();			
+	}
+
+	public function destroy($id)
+	{
+		try {
+			$testSuite = $this
+				->testSuiteGateway
+				->deleteTestSuite($id);
+		} catch (Exception $e) {
+			Log::error($e);
 			return Restable::bad($e->getMessage())->render();
 		}
 		return Restable::updated($testSuite)->render();			

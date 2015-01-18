@@ -33,8 +33,7 @@ abstract class DbBaseRepository extends BaseRepository {
 	{
 		$model = $this->model->find($id);
 
-		if($model)
-		{
+		if($model) {
 			return $model->toArray();
 		}
 

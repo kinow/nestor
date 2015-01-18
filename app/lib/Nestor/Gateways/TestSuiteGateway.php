@@ -174,4 +174,29 @@ class TestSuiteGateway
 		return $testSuite;
 	}
 
+	public function deleteTestSuite($id)
+	{
+		DB::beginTransaction();
+		$testSuite = $this->findTestSuite($id);
+		$b = $this->testSuiteRepository->delete($id);
+		if ($b) {
+			Log::debug(sprintf("Test suite %s deleted successfully", $testSuite['name']));
+			$node = $this->nodeRepository->find(
+				Nodes::id(Nodes::TEST_SUITE_TYPE, $id), 
+				Nodes::id(Nodes::TEST_SUITE_TYPE, $id)
+			);
+			Log::debug(var_export($node, TRUE));
+			$b = $this->nodeRepository->deleteWithAllChildren($node['ancestor'], $node['descendant']);
+
+			if ($b) {
+				DB::commit();
+				return $testSuite;
+			}
+			DB::rollback();
+			throw new Exception(sprintf("Failed to delete node [%s-%s]", $node['ancestor'], $node['descendant']));
+		}
+		DB::rollback();
+		throw new Exception(sprintf("Failed to delete test suite %s", $id));
+	}
+
 }

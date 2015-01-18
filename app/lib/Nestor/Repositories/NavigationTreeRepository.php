@@ -42,7 +42,7 @@ interface NavigationTreeRepository {
 	 * @param  int   $descendantId
 	 * @return NavigationTreeNode
 	 */
-	public function find($nodeId, $nodeTypeId);
+	public function find($ancestorId, $descendantId);
 
 	/**
 	 * Create a navigation tree node
