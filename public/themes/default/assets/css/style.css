@@ -146,3 +146,13 @@ box-shadow: none;
     display: block;
     margin-top: 10px;
 }
+
+/* Labels */
+div.label_wrapper {
+  margin-right: 4px;
+}
+
+.clearfix {
+    display: inline-block;
+    width: 100%;
+}

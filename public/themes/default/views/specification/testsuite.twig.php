@@ -87,10 +87,13 @@
 
 <div>
   <h4>Test Suite {{ HTML.link('/testsuites/' ~ node.node_id, node.display_name, {'class': ''}) }}</h4>
-  <p>{{ testsuite.description }}</p>
-  {% if labels.count() > 0 %}
+  <dt>Description</dt>
+  <dd class='clearfix'>{{ testsuite.description }}</dd>
+  <dt>Labels</dt>
+  <dd class='clearfix'>
+  {% if testsuite.labels[0] %}
   <div style='margin: 4px 0px; display: table;'>
-    {% for label in labels.get() %}
+    {% for label in testsuite.labels %}
   <div class='label_wrapper'>
     <span class="label label-default">{{ label.name }}</span>
     <input type='hidden' name='labels[]' value='{{ label.name }}' />
@@ -98,6 +101,7 @@
     {% endfor %}
   </div>
   {% endif %}
+  </dd>
   <h5>Create a child test suite <button class='btn' id='sub-test-suite-btn'>&#x25BC;</button></h5>
 
   <div id='sub-test-suite'>
