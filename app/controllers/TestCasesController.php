@@ -2,7 +2,7 @@
 
 use Nestor\Model\Nodes;
 
-class TestCasesController extends \BaseController {
+class TestCasesController extends BaseController {
 
 	protected $theme;
 	public $restful = true;
@@ -15,12 +15,12 @@ class TestCasesController extends \BaseController {
 
 	public function index()
 	{
-		return Redirect::to('/specification/');
+		return Redirect::to('/specification');
 	}
 
 	public function create()
 	{
-		return Redirect::to('/specification/');
+		return Redirect::to('/specification');
 	}
 
 	public function store()
@@ -40,7 +40,7 @@ class TestCasesController extends \BaseController {
 
 	public function show($id)
 	{
-		return Redirect::to('/specification/nodes/3-' . $id);
+		return Redirect::to(sprintf('/specification/nodes/%s', Nodes::id(Nodes::TEST_CASE_TYPE, $id)));
 	}
 
 	public function edit($id)
