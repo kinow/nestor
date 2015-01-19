@@ -1,16 +1,6 @@
 <?php
 
-use Nestor\Repositories\TestSuiteRepository;
-use Nestor\Repositories\TestCaseRepository;
-use Nestor\Repositories\TestCaseStepRepository;
-use Nestor\Repositories\NavigationTreeRepository;
-use Nestor\Repositories\LabelRepository;
 use Nestor\Model\Nodes;
-
-use Fhaculty\Graph\Graph as Graph;
-use Fhaculty\Graph\Algorithm\Search\BreadthFirst;
-//use \Fhaculty\Graph\GraphViz;
-use Fhaculty\Graph\Walk;
 
 class TestSuitesController extends NavigationTreeController {
 

@@ -5,7 +5,6 @@ use Nestor\Model\Nodes;
 class TestCasesController extends \BaseController {
 
 	protected $theme;
-
 	public $restful = true;
 
 	public function __construct()
