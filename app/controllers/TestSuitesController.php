@@ -40,7 +40,7 @@ class TestSuitesController extends NavigationTreeController {
 
 	public function show($id)
 	{
-		$testSuite = HMVC::get("api/v1/testsuites/$id", Input::all());
+		$testSuite = HMVC::get("api/v1/testsuites/$id");
 		$this->theme->breadcrumb()->
 			add('Home', URL::to('/'))->
 			add('Specification', URL::to('/specification'))->

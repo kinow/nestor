@@ -1,5 +1,6 @@
 <?php
 
+use Nestor\Model\ExecutionStatus;
 use Nestor\Model\Nodes;
 
 class TestCasesController extends BaseController {
@@ -45,54 +46,34 @@ class TestCasesController extends BaseController {
 
 	public function edit($id)
 	{
-		$testCaseVersionId = Input::get('version');
-		$testcase = $this->testcases->find($id);
-		if (isset($testCaseVersionId) && is_numeric($testCaseVersionId))
-		{
-			$testcaseVersion = $this->testcases->getVersion($testCaseVersionId);
-		}
-		else
-		{
-			$testcaseVersion = $testcase->latestVersion();
-		}
-		
-		$args = array();
+		$testCase = HMVC::get("api/v1/testcases/$id");
 		$this->theme->breadcrumb()->
 			add('Home', URL::to('/'))->
-			add('Specification', URL::to('/specification/'))->
-			add(sprintf('Edit test case %s', $testcase->name));
-		$labels = $testcaseVersion->labels();
-		$args['testcase'] = $testcase;
-		$args['labels'] = $labels;
-		$args['testcaseVersion'] = $testcaseVersion;
-		$args['execution_types'] = $this->executionTypes->all();
-		$executionStatusesCol = $this->executionStatuses->all();
-		$executionStatuses = array();
-		foreach ($executionStatusesCol as $executionStatus)
-		{
-			if ($executionStatus->id != 1 && $executionStatus->id != 2) 
-			{
-				$o = new stdClass();
-				$o->name = $executionStatus->name;
-				$o->id = $executionStatus->id;
-				$executionStatuses[] = $o;
-			}
-		}
-		$args['execution_statuses'] = json_encode($executionStatuses);
-		$executionStatusesIds = array();
-		foreach ($executionStatusesCol as $executionStatus) 
-		{
-			if ($executionStatus->id == 1 || $executionStatus->id == 2)
-				continue; // Skip NOT RUN
-			$executionStatusesIds[$executionStatus->id] = $executionStatus->name;
-		}
-		$args['execution_statuses_ids'] = $executionStatusesIds;
+			add('Specification', URL::to('/specification'))->
+			add(sprintf('Test Case %s', $testCase['version']['name']));
+		$args = array();
+		$args['testcase'] = $testCase;
+		$executionTypes = HMVC::get("api/v1/executiontypes/");
+		$args['execution_types'] = $executionTypes;
+
 		$executionTypesIds = array();
-		foreach ($args['execution_types'] as $execution_type)
+		foreach ($executionTypes as $executionType)
 		{
-			$executionTypesIds[$execution_type->id] = $execution_type->name;
+			$executionTypesIds[$executionType['id']] = $executionType['name'];
 		}
 		$args['execution_type_ids'] = $executionTypesIds;
+
+		$executionStatuses = HMVC::get("api/v1/executionstatuses/");
+		$args['execution_statuses'] = $executionStatuses;
+
+		$executionStatusesIds = array();
+		foreach ($executionStatuses as $executionStatus) 
+		{
+			if ($executionStatus['id'] == ExecutionStatus::NOT_RUN)
+				continue; // Skip NOT RUN
+			$executionStatusesIds[$executionStatus['id']] = $executionStatus['name'];
+		}
+		$args['execution_statuses_ids'] = $executionStatusesIds;
 		return $this->theme->scope('testcase.edit', $args)->render();
 	}
 

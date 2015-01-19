@@ -249,7 +249,7 @@ YUI().use('node', 'sortable', 'template', 'dd-delegate', 'transition', 'overlay'
   var addStep = function() {
     var newStep = micro.compile(Y.one('#test-case-step-template').getHTML());
     var o = Y.one('#test-case-steps').appendChild(newStep({
-      'execution_statuses': {{ execution_statuses }}
+      'execution_statuses': {{ json_encode(execution_statuses) }}
     }));
     o.one('.btn-remove-test-case-step').on('click', removeTestCaseStep);
     // update order

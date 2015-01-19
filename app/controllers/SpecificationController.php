@@ -130,7 +130,6 @@ class SpecificationController extends NavigationTreeController {
 				$args['execution_statuses_ids'] = $executionStatusesIds;
 			// Test Case?	
 			} else if ($node['node_type_id'] == Nodes::TEST_CASE_TYPE) {
-				$executionTypes = HMVC::get("api/v1/executiontypes/");
 				$testCase = HMVC::get(sprintf("api/v1/testcases/%s", $node['node_id']));
 				$args['testcase'] = $testCase;
 			}

@@ -62,7 +62,8 @@ return array(
     		'count',
             'current',
             'next',
-            'dd'
+            'dd',
+            'json_encode'
     	);
 
     	foreach ($fns as $fn)
