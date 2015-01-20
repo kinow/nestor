@@ -132,29 +132,29 @@
 <div class="form-group">
     {{ Form.label('name', 'Name', {'class': 'control-label col-xs-2'}) }}
     <div class="col-xs-10">
-      {{ Form.input('text', 'name', testcaseVersion.name, {'id':"name", 'class': "form-control"}) }}
+      {{ Form.input('text', 'name', testcase.version.name, {'id':"name", 'class': "form-control"}) }}
     </div>
 </div>
 <div class="form-group">
     {{ Form.label('version', 'Version', {'class': 'control-label col-xs-2'}) }}
     <div class="col-xs-10">
-      {{ Form.input('text', 'version', testcaseVersion.version, {'id':"version", 'class': "form-control", 'disabled': 'disabled', 'readonly': 'readonly'}) }}
+      {{ Form.input('text', 'version', testcase.version.version, {'id':"Versionon", 'class': "form-control", 'disabled': 'disabled', 'readonly': 'readonly'}) }}
     </div>
 </div>
 <div class="form-group">
     {{ Form.label('description', 'Description', {'class': 'control-label col-xs-2'}) }}
     <div class="col-xs-10">
-      {{ Form.textarea('description', testcaseVersion.description, {'id': "description", 'rows': "3",'class': "form-control"}) }}
+      {{ Form.textarea('description', testcase.version.description, {'id': "description", 'rows': "3",'class': "form-control"}) }}
     </div>
 </div>
 <div class="form-group">
     {{ Form.label('prerequisite', 'Prerequisite', {'class': 'control-label col-xs-2'}) }}
-    <div class="col-xs-10">{{ Form.textarea('prerequisite', testcaseVersion.prerequisite, {'id': "prerequisite", 'rows': "3",
+    <div class="col-xs-10">{{ Form.textarea('prerequisite', testcase.version.prerequisite, {'id': "prerequisite", 'rows': "3",
         'class': "form-control"}) }}</div>
 </div>
 <div class="form-group">
     {{ Form.label('execution_type_id', 'Execution Type', {'class': 'control-label col-xs-2'}) }}
-    <div class="col-xs-10">{{ Form.select('execution_type_id', execution_type_ids, testcaseVersion.execution_type_id, {'id': "execution_type_id",
+    <div class="col-xs-10">{{ Form.select('execution_type_id', execution_type_ids, testcase.version.execution_type_id, {'id': "execution_type_id",
         'class': "form-control"}) }}</div>
 </div>
 <div class="form-group yui3-skin-sam">
@@ -249,7 +249,7 @@ YUI().use('node', 'sortable', 'template', 'dd-delegate', 'transition', 'overlay'
   var addStep = function() {
     var newStep = micro.compile(Y.one('#test-case-step-template').getHTML());
     var o = Y.one('#test-case-steps').appendChild(newStep({
-      'execution_statuses': {{ json_encode(execution_statuses) }}
+      'execution_statuses': {{ execution_statuses }}
     }));
     o.one('.btn-remove-test-case-step').on('click', removeTestCaseStep);
     // update order
@@ -282,7 +282,7 @@ YUI().use('node', 'sortable', 'template', 'dd-delegate', 'transition', 'overlay'
     e.stopPropagation();
   };
 
-  {% for step in testcaseVersion.sortedSteps.get() %}
+  {% for step in testcase.version.steps %}
    addExistingStep({
     'id': '{{ step.test_case_step_id }}',
     'order': "{{ step.order }}",
@@ -326,8 +326,8 @@ YUI().use('node', 'sortable', 'template', 'dd-delegate', 'transition', 'overlay'
     });
   });
 
-  {% if labels.count() > 0 %}
-    {% for label in labels.get() %}
+  {% if testcase.version.labels[0] %}
+    {% for label in testcase.version.labels %}
   var existingLabel = Y.Template.Micro.compile(Y.one('#new-label-template').getHTML());
   var labelName = '{{ label.name }}';
   var o = Y.one('#labels').appendChild(existingLabel({name: labelName}));
