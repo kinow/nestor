@@ -43,13 +43,26 @@ class DbTestCaseRepository extends DbBaseRepository implements TestCaseRepositor
 		}
 	}
 
-	public function createNewVersion(array $testCaseArray, array $testCaseVersionArray)
+	public function createNewTestCase(array $testCaseArray, array $testCaseVersionArray)
 	{
 		$pdo = DB::connection()->getPdo();
-		$testCase = TestCase2::create($testCaseArray)->toArray();
+		$testCase = $this->create($testCaseArray)->toArray();
 		$testCaseId = $pdo->lastInsertId();
 		$testCase['id'] = $testCaseId;
 		Log::debug(sprintf('Creating initial test case version for test case %d', $testCase['id']));
+		$testCaseVersionArray['test_case_id'] = $testCase['id'];
+		// TODO use a testCaseVersionRepository?
+		$version = TestCaseVersion::create($testCaseVersionArray)->toArray();
+		$versionId = $pdo->lastInsertId();
+		$version['id'] = $versionId;
+		return array($testCase, $version);
+	}
+
+	public function createNewVersion($id, array $testCaseVersionArray)
+	{
+		$pdo = DB::connection()->getPdo();
+		$testCase = $this->find($id);
+		Log::debug(sprintf('Creating a new test case version for test case %d', $testCase['id']));
 		$testCaseVersionArray['test_case_id'] = $testCase['id'];
 		$version = TestCaseVersion::create($testCaseVersionArray)->toArray();
 		$versionId = $pdo->lastInsertId();

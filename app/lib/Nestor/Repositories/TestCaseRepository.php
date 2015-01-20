@@ -16,7 +16,7 @@ interface TestCaseRepository {
 
 	public function addLabels($id, $labels);
 
-	public function createNewVersion(array $testCaseArray, array $testCaseVersionArray);
+	public function createNewTestCase(array $testCaseArray, array $testCaseVersionArray);
 
 	public function findTestCase($id);
 

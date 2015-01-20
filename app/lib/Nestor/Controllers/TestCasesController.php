@@ -6,6 +6,7 @@ use Exception;
 use BaseController;
 use Restable;
 use Input;
+use Log;
 
 use Nestor\Gateways\TestCaseGateway;
 use Nestor\Util\ValidationException;
@@ -54,6 +55,20 @@ class TestCasesController extends BaseController
 			return Restable::bad($e->getMessage())->render();
 		}
 		return Restable::created($testCase)->render();
+	}
+
+	public function update($id)
+	{
+		try {
+			$testCase = $this
+				->testCaseGateway
+				->updateTestCase($id, Input::get('project_id'), Input::get('name'), Input::get('description'), Input::get('labels'));
+		} catch (ValidationException $ve) {
+			return Restable::error($ve->getErrors())->render();
+		} catch (Exception $e) {
+			return Restable::bad($e->getMessage())->render();
+		}
+		return Restable::updated($testCase)->render();
 	}
 
 }
