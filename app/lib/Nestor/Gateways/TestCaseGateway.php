@@ -106,7 +106,7 @@ class TestCaseGateway
 							'version' => 1,
 							'order' => $stepOrder, 
 							'description' => $stepDescription,
-							'test_case_version_id' => $testCase['id'], 
+							'test_case_version_id' => $testCaseVersion['id'], 
 							'expected_result' => $stepExpectedResult, 
 							'execution_status_id' => $stepExecutionStatus
 						));
@@ -118,7 +118,7 @@ class TestCaseGateway
 			Log::debug('Inserting test case into the navigation tree...');
 			$node = $this->nodeRepository->create(
 				$ancestor,
-				Nodes::id(Nodes::TEST_CASE_TYPE, $testCaseVersion['id']),
+				Nodes::id(Nodes::TEST_CASE_TYPE, $testCase['id']),
 				$testCase['id'],
 				Nodes::TEST_CASE_TYPE,
 				$testCaseVersion['name']
@@ -135,7 +135,7 @@ class TestCaseGateway
 	}
 
 	public function updateTestCase($id, $projectId, $testSuiteId, $executionTypeId, $name,
-		$description, $prerequisite, $stepOrders, $stepDescriptions, $stepExpectedResults,
+		$description, $prerequisite, $stepIds, $stepOrders, $stepDescriptions, $stepExpectedResults,
 		$stepExecutionStatuses, $labels, $ancestor)
 	{
 		if (!$labels || is_null($labels) || !is_array($labels))
@@ -151,8 +151,10 @@ class TestCaseGateway
 		$testCase = NULL;
 		try {
 			Log::debug('Updating test case...');
-			if (!$this->testCaseRepository->isNameAvailable(0, $testSuiteId, $name))	{
-				throw new Exception('Name already taken. Please choose another name.');
+			if ($name != $oldVersion['version']['name']) {
+				if (!$this->testCaseRepository->isNameAvailable(0, $testSuiteId, $name))	{
+					throw new Exception('Name already taken. Please choose another name.');
+				}
 			}
 			list($testCase, $testCaseVersion) = $this->testCaseRepository->createNewVersion(
 				$id,
@@ -194,6 +196,7 @@ class TestCaseGateway
 				} else {
 					Log::debug('Creating steps for test case...');
 					for($i = 0; $i < count($stepOrders); ++$i) {
+						$stepId = $stepIds[$i];
 						$stepOrder = $stepOrders[$i];
 						$stepDescription = $stepDescriptions[$i];
 						$stepExpectedResult = $stepExpectedResults[$i];
@@ -207,7 +210,7 @@ class TestCaseGateway
 							'version' => 1,
 							'order' => $stepOrder, 
 							'description' => $stepDescription,
-							'test_case_version_id' => $testCase['id'], 
+							'test_case_version_id' => $testCaseVersion['id'], 
 							'expected_result' => $stepExpectedResult, 
 							'execution_status_id' => $stepExecutionStatus
 						));

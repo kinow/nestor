@@ -68,6 +68,7 @@ class TestCasesController extends BaseController
 				Input::get('name'),
 				Input::get('description'),
 				Input::get('prerequisite'),
+				Input::get('step_id'),
 				Input::get('step_order'),
 				Input::get('step_description'),
 				Input::get('step_expected_result'),

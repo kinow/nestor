@@ -46,7 +46,7 @@ class DbTestCaseRepository extends DbBaseRepository implements TestCaseRepositor
 	public function createNewTestCase(array $testCaseArray, array $testCaseVersionArray)
 	{
 		$pdo = DB::connection()->getPdo();
-		$testCase = $this->create($testCaseArray)->toArray();
+		$testCase = $this->create($testCaseArray);
 		$testCaseId = $pdo->lastInsertId();
 		$testCase['id'] = $testCaseId;
 		Log::debug(sprintf('Creating initial test case version for test case %d', $testCase['id']));

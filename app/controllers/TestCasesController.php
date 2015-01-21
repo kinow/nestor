@@ -64,6 +64,12 @@ class TestCasesController extends BaseController {
 		$args['execution_type_ids'] = $executionTypesIds;
 
 		$executionStatuses = HMVC::get("api/v1/executionstatuses/");
+		foreach ($executionStatuses as $key => $executionStatus) {
+			if ($executionStatus['id'] == ExecutionStatus::NOT_RUN) {
+				unset($executionStatuses[$key]);
+			}
+		}
+		$executionStatuses = array_values($executionStatuses);
 		$args['execution_statuses'] = json_encode($executionStatuses);
 
 		return $this->theme->scope('testcase.edit', $args)->render();

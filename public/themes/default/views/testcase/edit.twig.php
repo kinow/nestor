@@ -289,7 +289,7 @@ YUI().use('node', 'sortable', 'template', 'dd-delegate', 'transition', 'overlay'
     'description': "{{ step.description|e('js')}}",
     'expected_result': "{{ step.expected_result|e('js') }}",
     'execution_statuses': {{ execution_statuses }},
-    'execution_status_id': "{{ step.executionStatus.first.id }}"
+    'execution_status_id': "{{ step.execution_status_id }}"
    });
   {% endfor %}
 
