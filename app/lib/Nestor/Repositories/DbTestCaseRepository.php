@@ -85,15 +85,20 @@ class DbTestCaseRepository extends DbBaseRepository implements TestCaseRepositor
 		$labels = $version->labels()->get();
 
 		// steps
-		$steps = $version->sortedSteps()->get();
+		$steps = $version->sortedSteps()->with(array('executionStatus'))->get();
+
+		// execution type
+		$executionType = $version->executionType()->firstOrFail();
 
 		$labels = $labels->toArray();
 		$testCase = $testCase->toArray();
 		$version = $version->toArray();
 		$steps = $steps->toArray();
+		$executionType = $executionType->toArray();
 
 		$version['labels'] = $labels;
 		$version['steps'] = $steps;
+		$version['execution_type'] = $executionType;
 		$testCase['version'] = $version;
 
 		return $testCase;

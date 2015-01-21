@@ -21,7 +21,7 @@
 <label>Prerequisite</label>
 <p>{{ testcase.version.prerequisite }}</p>
 <label>Execution Type</label>
-<p>{{ testcase.version.executionType.first.name }}</p>
+<p>{{ testcase.version.execution_type.name }}</p>
 <label>Labels</label>
 <div id="labels">
 {% for label in testcase.version.labels %}
@@ -56,7 +56,7 @@
 		</tr>
 		<tr>
 			<th>Execution Status</th>
-			<td>{{ step.executionStatus.first.name }}</td>
+			<td>{{ step.execution_status.name }}</td>
 		</tr>
 	</tbody>
 </table>

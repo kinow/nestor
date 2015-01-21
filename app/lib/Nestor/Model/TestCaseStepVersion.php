@@ -26,22 +26,22 @@ class TestCaseStepVersion extends BaseModel
 
 	public function testCaseVersion()
 	{
-		return $this->belongsTo('TestCaseVersion', 'test_case_version_id');
+		return $this->belongsTo('Nestor\\Model\\TestCaseVersion', 'test_case_version_id');
 	}
 	
 	public function testCaseStep()
 	{
-		return $this->belongsTo('TestCaseStep', 'test_case_step_id');
+		return $this->belongsTo('Nestor\\Model\\TestCaseStep', 'test_case_step_id');
 	}
 
 	public function executionStatus()
 	{
-		return $this->belongsTo('ExecutionStatus', 'execution_status_id');
+		return $this->belongsTo('Nestor\\Model\\ExecutionStatus', 'execution_status_id');
 	}
 
 	public function executions()
 	{
-		return $this->hasMany('StepExecution', 'test_case_step_id');
+		return $this->hasMany('Nestor\\Model\\StepExecution', 'test_case_step_id');
 	}
 	
 }
