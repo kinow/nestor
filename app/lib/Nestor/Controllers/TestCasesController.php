@@ -32,7 +32,6 @@ class TestCasesController extends BaseController
 	public function store()
 	{
 		$testCase = NULL;
-		$testCaseVersion = NULL;
 		try {
 			list($testCase, $testCaseVersion) = $this->testCaseGateway->createTestCase(
 				Input::get('project_id'),
@@ -59,10 +58,24 @@ class TestCasesController extends BaseController
 
 	public function update($id)
 	{
+		$testCase = NULL;
 		try {
-			$testCase = $this
-				->testCaseGateway
-				->updateTestCase($id, Input::get('project_id'), Input::get('name'), Input::get('description'), Input::get('labels'));
+			list($testCase, $testCaseVersion) = $this->testCaseGateway->updateTestCase(
+				$id,
+				Input::get('project_id'),
+				Input::get('test_suite_id'),
+				Input::get('execution_type_id'),
+				Input::get('name'),
+				Input::get('description'),
+				Input::get('prerequisite'),
+				Input::get('step_order'),
+				Input::get('step_description'),
+				Input::get('step_expected_result'),
+				Input::get('step_execution_status'),
+				Input::get('labels'),
+				Input::get('ancestor')
+			);
+			$testCase['version'] = $testCaseVersion;
 		} catch (ValidationException $ve) {
 			return Restable::error($ve->getErrors())->render();
 		} catch (Exception $e) {
