@@ -1,6 +1,8 @@
 <?php
 namespace Nestor\Model;
 
+use DB;
+
 class TestPlan extends BaseModel
 {
 
@@ -29,6 +31,11 @@ class TestPlan extends BaseModel
 		return $this->hasMany('TestRun');
 	}
 
+	public function testCases()
+	{
+		return $this->belongsToMany('Nestor\\Model\\TestCaseVersion', 'test_plans_test_cases');
+	}
+
 	public function testcasesDetached()
 	{
 		$sql = <<<EOF
@@ -41,6 +48,13 @@ group by tc.id
 EOF;
 		$results = DB::select(DB::raw($sql), array('test_plan_id' => $this->id));
 		return $results;
+		// $collection = new \Illuminate\Database\Eloquent\Collection();
+		// foreach ($results as $rawObject)
+		// {
+		//      $model = new Model();
+		//      $collection->add($model->newFromBuilder($rawObject));
+		// }
+		// return $collection;
 	}
 
 	// public function testcases()
@@ -55,16 +69,16 @@ EOF;
 	// 	return $testcases;
 	// }
 
-	public function testcases()
-	{
-		$testcases = array();
-		$testcaseVersions = $this->testcaseVersions()->get();
-		foreach ($testcaseVersions as $testcaseVersion)
-		{
-			$testcases[] = $testcaseVersion->testcase()->first();
-		}
-		return new \Illuminate\Support\Collection($testcases);
-	}
+	// public function testcases()
+	// {
+	// 	$testcases = array();
+	// 	$testcaseVersions = $this->testcaseVersions()->get();
+	// 	foreach ($testcaseVersions as $testcaseVersion)
+	// 	{
+	// 		$testcases[] = $testcaseVersion->testcase()->first();
+	// 	}
+	// 	return new \Illuminate\Support\Collection($testcases);
+	// }
 
 	// public function testcaseVersions()
 	// {

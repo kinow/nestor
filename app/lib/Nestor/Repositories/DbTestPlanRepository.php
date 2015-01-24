@@ -36,11 +36,12 @@ class DbTestPlanRepository extends DbBaseRepository implements TestPlanRepositor
 		;
 	}
 
-	public function paginateTestPlansForProject($perPage, $projectId)
+	public function paginateTestPlansForProjectWith($perPage, $projectId, array $with)
 	{
 		return $this
 			->model
 			->where('project_id', $projectId)
+			->with($with)
 			->paginate($perPage)
 			->toArray();
 		;

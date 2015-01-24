@@ -1,6 +1,9 @@
 <?php
 namespace Nestor\Gateways;
 
+use DB;
+use Log;
+
 use Nestor\Repositories\TestPlanRepository;
 
 class TestPlanGateway
@@ -25,8 +28,30 @@ class TestPlanGateway
 	{
 		$testPlans = $this
 			->testPlanRepository
-			->paginateTestPlansForProject($perPage, $projectId, array());
+			->paginateTestPlansForProjectWith($perPage, $projectId, array('testCases'));
 		return $testPlans;
+	}
+
+	public function createTestPlan($projectId, $name, $description)
+	{
+		DB::beginTransaction();
+		$testPlan = NULL;
+		try {
+			Log::debug('Creating test plan...');
+			$testPlan = $this->testPlanRepository->create(array(
+				'project_id' => $projectId,
+				'name' => $name,
+				'description' => $description
+			));
+			Log::info(sprintf("Test Plan %s created", $testPlan['name']));
+
+			DB::commit();
+			return $testPlan;
+		} catch (Exception $e) {
+			Log::error($e);
+			DB::rollback();
+			throw $e;
+		}
 	}
 
 }

@@ -30,7 +30,7 @@ class ProjectGateway
 	{
 		$projects = $this
 			->projectRepository
-			->paginateProjectsWithProjectStatusWith(ProjectStatus::ACTIVE, $perPage, array('projectStatus'));
+			->paginateProjectsWithProjectStatusWith($perPage, ProjectStatus::ACTIVE, array('projectStatus'));
 		return $projects;
 	}
 

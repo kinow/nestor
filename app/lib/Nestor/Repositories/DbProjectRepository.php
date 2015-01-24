@@ -17,7 +17,7 @@ class DbProjectRepository extends DbBaseRepository implements ProjectRepository 
 		return $project;
 	}
 
-	public function paginateProjectsWithProjectStatusWith($projectStatusId, $perPage = 10, array $with)
+	public function paginateProjectsWithProjectStatusWith($perPage = 10, $projectStatusId, array $with)
 	{
 		return $this
 			->model

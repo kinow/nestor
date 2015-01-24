@@ -16,6 +16,6 @@ interface TestPlanRepository {
 
 	public function assign($testPlanId, $testcaseVersionId, $userId);
 
-	public function paginateTestPlansForProject($perPage, $projectId);
+	public function paginateTestPlansForProjectWith($perPage, $projectId, array $with);
 
 }

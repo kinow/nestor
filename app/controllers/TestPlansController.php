@@ -18,11 +18,6 @@ class TestPlansController extends BaseController {
 		$this->theme->setActive('planning');
 	}
 
-	/**
-	 * Display a listing of the resource.
-	 *
-	 * @return Response
-	 */
 	public function index()
 	{
 		$this->theme->breadcrumb()->
@@ -30,16 +25,11 @@ class TestPlansController extends BaseController {
 			add('Planning');
 		$args = array();
 		$projectId = $this->getCurrentProjectId();
-		$testPlans = HMVC::get("api/v1/projects/%s/testplans/", array_merge(Input::all(), array($projectId)));
+		$testPlans = HMVC::get("api/v1/projects/$projectId/testplans/", Input::all());
 		$args['testplans'] = $testPlans;
 		return $this->theme->scope('testplan.index', $args)->render();
 	}
 
-	/**
-	 * Show the form for creating a new resource.
-	 *
-	 * @return Response
-	 */
 	public function create()
 	{
 		$this->theme->breadcrumb()->
@@ -51,38 +41,18 @@ class TestPlansController extends BaseController {
 		return $this->theme->scope('testplan.create', $args)->render();
 	}
 
-	/**
-	 * Store a newly created resource in storage.
-	 *
-	 * @return Response
-	 */
 	public function store()
 	{
-		Log::info('Creating test plan...');
+		$testPlan = HMVC::post('api/v1/testplans/', Input::all());
 
-		$testplan = $this->testplans->create(
-				Input::get('project_id'),
-				Input::get('name'),
-				Input::get('description')
-		);
-
-		if ($testplan->isValid() && $testplan->isSaved())
-		{
-			return Redirect::to(sprintf('/planning/%s', $testplan->id))
-				->with('success', 'Test plan created. Add some tests to it now.');
-		} else {
-			return Redirect::to('/planning/create')
-				->withInput()
-				->withErrors($testplan->errors());
+		if (!$testPlan || (isset($testPlan['code']) && $testPlan['code'] != 200)) {
+			return Redirect::to(URL::previous())->withInput()->withErrors($testPlan['description']);
 		}
+
+		return Redirect::to('/testplans/')
+			->with('success', sprintf('Test Plan %s created', $testPlan['name']));
 	}
 
-	/**
-	 * Display the specified resource.
-	 *
-	 * @param  int  $id
-	 * @return Response
-	 */
 	public function show($id)
 	{
 		$testplan = $this->testplans->find($id);
@@ -98,12 +68,6 @@ class TestPlansController extends BaseController {
 		return $this->theme->scope('testplan.show', $args)->render();
 	}
 
-	/**
-	 * Show the form for editing the specified resource.
-	 *
-	 * @param  int  $id
-	 * @return Response
-	 */
 	public function edit($id)
 	{
 		$testplan = $this->testplans->find($id);
@@ -117,12 +81,6 @@ class TestPlansController extends BaseController {
 		return $this->theme->scope('testplan.edit', $args)->render();
 	}
 
-	/**
-	 * Update the specified resource in storage.
-	 *
-	 * @param  int  $id
-	 * @return Response
-	 */
 	public function update($id)
 	{
 		Log::info('Updating test plan...');
@@ -145,12 +103,6 @@ class TestPlansController extends BaseController {
 		}
 	}
 
-	/**
-	 * Remove the specified resource from storage.
-	 *
-	 * @param  int  $id
-	 * @return Response
-	 */
 	public function destroy($id)
 	{
 		Log::info('Destroying test plan...');
@@ -161,9 +113,6 @@ class TestPlansController extends BaseController {
 			->with('success', sprintf('The test plan %s has been deleted', $testplan->name));
 	}
 
-	/**
-	 * Displays navigation tree for managing test cases of a test plan.
-	 */
 	public function addTestCases($id)
 	{
 		// This is the current test plan

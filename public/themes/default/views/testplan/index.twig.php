@@ -8,7 +8,9 @@
 <div class='row'>
 	<div class='col-xs-12'>
 		<div id="testplans">
-			{% if testplans[0] is defined %}
+			{% if testplans.total == 0 %}
+			<p>No test plans found. {{ HTML.link('/testplans/create', 'Create a new test plan') }}</p>
+			{% else %}
 			<table class='table table-bordered table-hover'>
 				<thead>
 					<tr>
@@ -18,17 +20,15 @@
 					</tr>
 				</thead>
 				<tbody>
-					{% for testplan in testplans %}
+					{% for testplan in testplans.data %}
 					<tr>
 						<td>{{ HTML.linkRoute('planning.show', testplan.name, [testplan.id]) }}</td>
 						<td>{{ testplan.description }}</td>
-						<td>{{ testplan.testcasesDetached|length }}</td>
+						<td>{{ testplan.testCases|length }}</td>
 					</tr>
 					{% endfor %}
 				</tbody>
 			</table>
-			{% else %}
-			<p>No test plans found.</p>
 			{% endif %}
 		</div>
 	</div>
