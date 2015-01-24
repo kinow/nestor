@@ -1,54 +1,20 @@
 <?php
 
-use \Theme;
-use \Input;
-use \DB;
 use Nestor\Repositories\TestPlanRepository;
 use Nestor\Repositories\TestCaseRepository;
 use Nestor\Repositories\NavigationTreeRepository;
 use Nestor\Repositories\UserRepository;
 
-class TestPlansController extends \NavigationTreeController {
+class TestPlansController extends BaseController {
 
-	/**
-	 * The test plan repository implementation.
-	 *
-	 * @var Nestor\Repositories\TestPlanRepository
-	 */
-	protected $testplans;
-
-	/**
-	 * The test case repository implementation.
-	 *
-	 * @var Nestor\Repositories\TestCaseRepository
-	 */
-	protected $testcases;
-
-	/**
-	 * @var Nestor\Repositories\NavigationTreeRepository
-	 */
-	protected $nodes;
-
-	/**
-	 * @var Nestor\Repositories\UserRepository
-	 */
-	protected $users;
 
 	protected $theme;
 
 	public $restful = true;
 
-	public function __construct(
-		TestPlanRepository $testplans, 
-		TestCaseRepository $testcases, 
-		NavigationTreeRepository $nodes,
-		UserRepository $users)
+	public function __construct()
 	{
 		parent::__construct();
-		$this->testplans = $testplans;
-		$this->testcases = $testcases;
-		$this->nodes = $nodes;
-		$this->users = $users;
 		$this->theme->setActive('planning');
 	}
 
@@ -63,9 +29,9 @@ class TestPlansController extends \NavigationTreeController {
 			add('Home', URL::to('/'))->
 			add('Planning');
 		$args = array();
-		$project = $this->getCurrentProject();
-		$projectId = $project->id;
-		$args['testplans'] = $this->testplans->findByProjectId($projectId);
+		$projectId = $this->getCurrentProjectId();
+		$testPlans = HMVC::get("api/v1/projects/%s/testplans/", array_merge(Input::all(), array($projectId)));
+		$args['testplans'] = $testPlans;
 		return $this->theme->scope('testplan.index', $args)->render();
 	}
 

@@ -38,4 +38,11 @@ Route::group(array('prefix' => 'api/v1'/*, 'before' => 'auth.basic'*/), function
      * Specification
      */
     Route::post('nodes/move', 'Nestor\Controllers\NodesController@move');
+
+    /*
+     * Test plans
+     */
+    Route::resource('testplans', 'Nestor\Controllers\TestPlansController');
+
+    Route::get('projects/{projectId}/testplans', 'Nestor\Controllers\TestPlansController@indexForProject');
 });

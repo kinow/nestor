@@ -1,11 +1,8 @@
 <?php
 namespace Nestor\Repositories;
 
-use Auth;
-use Hash;
-use Validator;
-use TestPlan;
-use TestCaseVersion;
+use Nestor\Model\TestPlan;
+use Nestor\Model\TestCaseVersion;
 
 class DbTestPlanRepository extends DbBaseRepository implements TestPlanRepository {
 
@@ -22,53 +19,31 @@ class DbTestPlanRepository extends DbBaseRepository implements TestPlanRepositor
 	 */
 	public function findByProjectId($projectId)
 	{
-		return TestPlan::where('project_id', $projectId)
-				->paginate(10);
-	}
-
-	/**
-	 * Create a test plan
-	 *
-	 * @param  int     $project_id
-	 * @param  string  $name
-	 * @param  string  $description
-	 * @return TestPlan
-	 */
-	public function create($project_id, $name, $description)
-	{
-		return TestPlan::create(compact('project_id', 'name', 'description'));
-	}
-
-	/**
-	 * Update a test plan
-	 *
-	 * @param  int     $id
-	 * @param  int     $project_id
-	 * @param  string  $name
-	 * @param  string  $description
-	 * @return TestPlan
-	 */
-	public function update($id, $project_id, $name, $description)
-	{
-		$test_plan = $this->find($id);
-
-		$test_plan->fill(compact('project_id', 'name', 'description'))->save();
-
-		return $test_plan;
-	}
-
-	/**
-	 * Delete a test plan
-	 * @param int $id
-	 */
-	public function delete($id)
-	{
-		return TestPlan::where('id', $id)->delete();
+		return $this
+			->model
+			->where('project_id', $projectId)
+			->paginate(10)
+			->toArray()
+		;
 	}
 
 	public function paginate($perPage = 0)
 	{
-		return TestPlan::paginate($perPage);
+		return $this
+			->model
+			->paginate($perPage)
+			->toArray();
+		;
+	}
+
+	public function paginateTestPlansForProject($perPage, $projectId)
+	{
+		return $this
+			->model
+			->where('project_id', $projectId)
+			->paginate($perPage)
+			->toArray();
+		;
 	}
 
 	public function findForExecutionByProjectId($projectId)
@@ -77,14 +52,18 @@ class DbTestPlanRepository extends DbBaseRepository implements TestPlanRepositor
 			->where('test_plans.project_id', $projectId)
 			->join('test_plans_test_cases', 'test_plans.id', '=', 'test_plans_test_cases.test_plan_id')
 			->groupBy('test_plans.id')
-			->paginate(10);
+			->paginate(10)
+			->toArray()
+		;
 	}
 
 	public function assign($testPlanId, $testcaseVersionId, $userId)
 	{
 		return TestCaseVersion::find($testcaseVersionId)
 			->testplans()
-			->updateExistingPivot($testPlanId, array('assignee' => $userId), /*touch*/ true);
+			->updateExistingPivot($testPlanId, array('assignee' => $userId), /*touch*/ true)
+			->toArray()
+		;
 	}
 
 }
