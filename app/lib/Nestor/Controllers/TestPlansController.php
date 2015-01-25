@@ -54,4 +54,27 @@ class TestPlansController extends BaseController
 		return Restable::created($testPlan)->render();
 	}
 
+	public function show($id)
+	{
+		$testPlan = $this
+			->testPlanGateway
+			->findTestPlan($id);
+		return Restable::single($testPlan)->render();
+	}
+
+	public function update($id)
+	{
+		try {
+			$project = $this
+				->testPlanGateway
+				->updateTestPlan($id, Input::get('name'), Input::get('description'));
+		} catch (ValidationException $ve) {
+			return Restable::error($ve->getErrors())->render();
+		} catch (Exception $e) {
+			DB::rollback();
+			throw $e;
+		}
+		return Restable::updated($project)->render();
+	}
+
 }

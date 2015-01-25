@@ -54,4 +54,23 @@ class TestPlanGateway
 		}
 	}
 
+	public function findTestPlan($testPlanId)
+	{
+		$testPlan = $this->testPlanRepository->findWith($testPlanId, array());
+		return $testPlan;
+	}
+
+	public function updateTestPlan($id, $name, $description)
+	{
+		Log::debug('Updating test plan...');
+		$testPlan = $this->testPlanRepository->update(
+			$id,
+			array(
+				'name' => $name,
+				'description' => $description
+			)
+		);
+		return $testPlan;
+	}
+
 }

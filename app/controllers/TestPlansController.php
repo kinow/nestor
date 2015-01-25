@@ -55,52 +55,38 @@ class TestPlansController extends BaseController {
 
 	public function show($id)
 	{
-		$testplan = $this->testplans->find($id);
+		$testPlan = HMVC::get("api/v1/testplans/$id");
 		$this->theme->breadcrumb()->
 			add('Home', URL::to('/'))->
 			add('Planning', URL::to('/planning'))->
-			add(sprintf('Test plan %s', $testplan->name));
-		$users = $this->users->all();
+			add(sprintf('Test plan %s', $testPlan['name']));
 		$args = array();
-		$args['testplan'] = $testplan;
-		$args['testcases'] = $testplan->testcaseVersions()->get();
-		$args['users'] = $users;
+		$args['testplan'] = $testPlan;
 		return $this->theme->scope('testplan.show', $args)->render();
 	}
 
 	public function edit($id)
 	{
-		$testplan = $this->testplans->find($id);
+		$testPlan = HMVC::get("api/v1/testplans/$id");
 		$this->theme->breadcrumb()->
 			add('Home', URL::to('/'))->
 			add('Planning', URL::to('/planning'))->
-			add(sprintf('Test plan %s', $testplan->name));
+			add(sprintf('Test plan %s', $testPlan['name']));
 		$args = array();
-		$args['testplan'] = $testplan;
-		$args['project'] = $this->getCurrentProject();
+		$args['testplan'] = $testPlan;
 		return $this->theme->scope('testplan.edit', $args)->render();
 	}
 
 	public function update($id)
 	{
-		Log::info('Updating test plan...');
+		$testPlan = HMVC::put("api/v1/testplans/$id", Input::all());
 
-		$testplan = $this->testplans->update(
-				$id,
-				Input::get('project_id'),
-				Input::get('name'),
-				Input::get('description')
-		);
-
-		if ($testplan->isValid() && $testplan->isSaved())
-		{
-			return Redirect::route('testplans.show', $id)
-				->with('success', 'The test plan was updated');
-		} else {
-			return Redirect::route('testplans.edit', $id)
-				->withInput()
-				->withErrors($testplan->errors());
+		if (!$testPlan || (isset($testPlan['code']) && $testPlan['code'] != 200)) {
+			return Redirect::to(URL::previous())->withInput()->withErrors($testPlan['description']);
 		}
+
+		return Redirect::route('testplans.show', $id)
+			->with('success', sprintf('The test plan %s was updated', $testPlan['name']));
 	}
 
 	public function destroy($id)
