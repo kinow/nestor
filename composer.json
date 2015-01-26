@@ -12,7 +12,8 @@
 		"composer/composer": "1.*",
 		"n98/junit-xml": "dev-master",
 		"teepluss/hmvc": "dev-master",
-		"teepluss/restable": "dev-master"
+		"teepluss/restable": "dev-master",
+                "brandonwamboldt/utilphp": "1.0.*"
 	},
 	"autoload" : {
 		"psr-4": {
