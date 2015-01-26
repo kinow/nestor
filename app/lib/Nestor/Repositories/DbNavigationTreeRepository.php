@@ -121,9 +121,11 @@ order by a.length
 
 	public function update($ancestor, $descendant, $node_id, $node_type_id, $display_name)
 	{
+		Log::debug(sprintf('Updating node ancestor %s descendant %s', $ancestor, $descendant));
 		$node = Node::where('ancestor', '=', $ancestor)
 			->where('descendant', '=', $descendant)
 			->firstOrFail();
+		Log::debug(var_export($node));
 		$node->fill(compact('ancestor', 'descendant', 'node_id', 'node_type_id', 'display_name'))->save();
 		return $node;
 	}
