@@ -56,7 +56,7 @@ class TestPlanGateway
 
 	public function findTestPlan($testPlanId)
 	{
-		$testPlan = $this->testPlanRepository->findWith($testPlanId, array());
+		$testPlan = $this->testPlanRepository->findWith($testPlanId, array('testcases'));
 		return $testPlan;
 	}
 

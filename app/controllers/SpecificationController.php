@@ -1,13 +1,11 @@
 <?php
 
-use Nestor\Gateways\SpecificationGateway;
 use Nestor\Model\Nodes;
 use Nestor\Model\ExecutionStatus;
 use Nestor\Util\NavigationTreeUtil;
 
 class SpecificationController extends NavigationTreeController {
 
-	protected $specificationGateway;
 	protected $currentProject;
 
 	public function __construct()

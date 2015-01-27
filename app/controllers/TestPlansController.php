@@ -1,9 +1,8 @@
 <?php
 
-use Nestor\Repositories\TestPlanRepository;
-use Nestor\Repositories\TestCaseRepository;
-use Nestor\Repositories\NavigationTreeRepository;
-use Nestor\Repositories\UserRepository;
+use Nestor\Model\Nodes;
+use Nestor\Model\ExecutionStatus;
+use Nestor\Util\NavigationTreeUtil;
 
 class TestPlansController extends BaseController {
 
@@ -101,32 +100,44 @@ class TestPlansController extends BaseController {
 
 	public function addTestCases($id)
 	{
-		// This is the current test plan
-		$testplan = $this->testplans->find($id);
+		$testPlan = HMVC::get("api/v1/testplans/$id");
 		$this->theme->breadcrumb()->
 			add('Home', URL::to('/'))->
 			add('Planning', URL::to('/planning'))->
-			add(sprintf('Test plan %s', $testplan->name), URL::to(sprintf('/planning/%s', $testplan->id)))->
+			add(sprintf('Test plan %s', $testPlan['name']), URL::to(sprintf('/planning/%s', $testPlan['id'])))->
 			add('Add Test Cases');
 		$currentProject = $this->getCurrentProject();
 		$nodesSelected = array();
-		$testcases = $testplan->testcases();
+		$testcases = $testPlan['testcases'];
 
 		foreach ($testcases as $testcase)
 		{
-			$nodesSelected[$testcase->id] = TRUE;
+			$nodesSelected[$testcase['id']] = TRUE;
 		}
 
-		$nodes = $this->nodes->children('1-'.$currentProject->id, 1 /* length*/);
-		$navigationTree = $this->createNavigationTree($nodes, '1-'.$currentProject->id);
-		$navigationTreeHtml = $this->createTestPlanTreeHTML($navigationTree, "2-" . $testplan->id, $this->theme->getThemeName(), $nodesSelected);
-		
+		// current project in the section to retrieve its children nodes
+		$currentProject = $this->getCurrentProject();
+		$nodeId = Nodes::id(Nodes::PROJECT_TYPE, $currentProject['id']);
+		$nodes = HMVC::get("api/v1/nodes/$nodeId");
+
+		// create a navigation tree
+		$navigationTree = NavigationTreeUtil::createNavigationTree(
+			$nodes, Nodes::id(Nodes::PROJECT_TYPE, $currentProject['id'])
+		);
+
+		// use it to create the HTML version
+		$navigationTreeHtml = NavigationTreeUtil::createNavigationTreeHtml(
+			$navigationTree, 
+			NULL, 
+			$this->theme->getThemeName()
+		);
+
 		$args = array();
-		$args['testplan'] = $testplan;
+		$args['testplan'] = $testPlan;
 		$args['nodesSelected'] = $nodesSelected;
 		$args['navigation_tree'] = $navigationTree;
 		$args['navigation_tree_html'] = $navigationTreeHtml;
-		$args['current_project'] = $this->currentProject;
+		$args['current_project'] = $currentProject;
 		return $this->theme->scope('testplan.addTestCases', $args)->render();
 	}
 
