@@ -7,6 +7,8 @@ use Fhaculty\Graph\Algorithm\Search\BreadthFirst;
 //use Fhaculty\Graph\GraphViz;
 use Fhaculty\Graph\Walk;
 
+use Nestor\Model\Nodes;
+
 class NavigationTreeUtil 
 {
 
@@ -81,11 +83,12 @@ class NavigationTreeUtil
 		foreach ($navigationTree as $node) {
 			$extra_classes = "";
 			if ($node->descendant == $nodeId && $node->ancestor == $nodeId) {
-				$extra_classes = " active";
+				$extra_classes .= " active";
 			}
-			if ($node->node_type_id == 1) { // project
+			if ($node->node_type_id == Nodes::PROJECT_TYPE) {
 				$buffer .= "<ul id='treeData' style='display: none;'>";
-				$buffer .= sprintf ("<li data-icon='places/folder.png' data-node-type='%s' data-node-id='%s' class='expanded%s'>%s", 
+				$buffer .= sprintf ("<li data-icon='places/folder.png' id='%s' data-node-type='%s' data-node-id='%s' class='expanded%s'>%s", 
+					$node->descendant, 
 					$node->node_type_id, 
 					$node->node_id,
 					$extra_classes, 
@@ -97,8 +100,9 @@ class NavigationTreeUtil
 					$buffer .= "</ul>";
 				}
 				$buffer .= "</li></ul>";
-			} else if ($node->node_type_id == 2) { // test suite
-				$buffer .= sprintf("<li data-icon='actions/document-open.png' data-node-type='%s' data-node-id='%s' class='expanded%s'>%s", 
+			} else if ($node->node_type_id == Nodes::TEST_SUITE_TYPE) { // test suite
+				$buffer .= sprintf("<li data-icon='actions/document-open.png' id='%s' data-node-type='%s' data-node-id='%s' class='expanded%s'>%s", 
+					$node->descendant, 
 					$node->node_type_id, 
 					$node->node_id,
 					$extra_classes, 
@@ -111,7 +115,8 @@ class NavigationTreeUtil
 				}
 				$buffer .= "</li>";
 			} else {
-				$buffer .= sprintf("<li data-icon='mimetypes/text-x-generic.png' data-node-type='%s' data-node-id='%s' class='%s'>%s</li>", 
+				$buffer .= sprintf("<li data-icon='mimetypes/text-x-generic.png' id='%s' data-node-type='%s' data-node-id='%s' class='%s'>%s</li>", 
+					$node->descendant, 
 					$node->node_type_id, 
 					$node->node_id,
 					$extra_classes, 

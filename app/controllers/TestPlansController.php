@@ -125,7 +125,6 @@ class TestPlansController extends BaseController {
 		$navigationTree = NavigationTreeUtil::createNavigationTree(
 			$nodes, Nodes::id(Nodes::PROJECT_TYPE, $currentProject['id'])
 		);
-		util::var_dump($navigationTree);exit;
 
 		// use it to create the HTML version
 		$navigationTreeHtml = NavigationTreeUtil::createNavigationTreeHtml(
