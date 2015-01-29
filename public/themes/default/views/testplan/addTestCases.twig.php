@@ -26,14 +26,15 @@ var templatecallback = function() {
       var children = form.children();
       for (var i = 0; i < children.length; ++i) {
       	  child = children[i];
+      	  console.log(child);
       	  if (child.tagName == 'INPUT') {
       	  	  child.setAttribute('name', child.name + '[]');
       	  }
       }
 
-      // console.log("POST data:\n" + jQuery.param($(this).serializeArray()));
+      console.log("POST data:\n" + jQuery.param($(this).serializeArray()));
       // return false to prevent submission of this sample
-      return true;
+      return false;
     });
 
 	$("#navigation_tree_panel").fancytree({

@@ -4,6 +4,8 @@ use Nestor\Model\Nodes;
 use Nestor\Model\ExecutionStatus;
 use Nestor\Util\NavigationTreeUtil;
 
+use utilphp\util;
+
 class TestPlansController extends BaseController {
 
 
@@ -110,8 +112,7 @@ class TestPlansController extends BaseController {
 		$nodesSelected = array();
 		$testcases = $testPlan['testcases'];
 
-		foreach ($testcases as $testcase)
-		{
+		foreach ($testcases as $testcase) {
 			$nodesSelected[$testcase['id']] = TRUE;
 		}
 
@@ -124,6 +125,7 @@ class TestPlansController extends BaseController {
 		$navigationTree = NavigationTreeUtil::createNavigationTree(
 			$nodes, Nodes::id(Nodes::PROJECT_TYPE, $currentProject['id'])
 		);
+		util::var_dump($navigationTree);exit;
 
 		// use it to create the HTML version
 		$navigationTreeHtml = NavigationTreeUtil::createNavigationTreeHtml(
@@ -143,69 +145,57 @@ class TestPlansController extends BaseController {
 
 	public function storeTestCases($id)
 	{
+		dd($_POST);
 		$testPlan = HMVC::get("api/v1/testplans/$id");
-		$existingTestcaseVersions = $testplan['testcases'];
+		$existingTestcaseVersions = $testPlan['testcases'];
 		$length = count($_POST);
 		$nodesSelected = array();
 		$testcases = array();
-		foreach ($_POST as $entry => $value)
-		{
-			if (strpos($entry, 'ft_') === 0 && strpos($entry, 'ft_1_active') !== 0)
-			{
-				if (is_array($value))
-				{
-					foreach ($value as $tempValue)
+		foreach ($_POST as $entry => $value) {
+			if (strpos($entry, 'ft_') === 0 && strpos($entry, 'ft_1_active') !== 0) {
+				if (is_array($value)) {
+					foreach ($value as $tempValue) {
 						$nodesSelected[] = $tempValue;
-				}
-				else 
-				{
+					}
+				} else {
 					$nodesSelected[] = $value;
 				}
 			}
 		}
-		foreach ($nodesSelected as $node)
-		{
-			$children = HMVC::get("api/v1/nodes/$nodeId");
-			$children = $this->nodes->children($node);
+		foreach ($nodesSelected as $node) {
+			$children = HMVC::get("api/v1/nodes/$node");
+			var_dump($node);
 			$this->getTestCasesFrom($children, $testcases);
 		}
+		exit;
 		// What to remove?
 		$testcasesForRemoval = array();
-		foreach ($existingTestcaseVersions as $existing)
-		{
+		foreach ($existingTestcaseVersions as $existing) {
 			$found = FALSE;
-			foreach ($testcases as $testcase)
-			{
-				if ($existing->test_case_id == $testcase->id) 
-				{
+			foreach ($testcases as $testcase) {
+				if ($existing->test_case_id == $testcase->id) {
 					$found = TRUE;
 				}
 			}
-			if (!$found)
-			{
+			if (!$found) {
 				$testcasesForRemoval[] = $existing;
 			}
 		}
 		// What do add?
 		$testcasesForAdding = array();
-		foreach ($testcases as $testcase)
-		{
+		foreach ($testcases as $testcase) {
 			$found = FALSE;
-			foreach ($existingTestcaseVersions as $existing)
-			{
-				if ($existing->test_case_id == $testcase->id) 
-				{
+			foreach ($existingTestcaseVersions as $existing) {
+				if ($existing->test_case_id == $testcase->id) {
 					$found = TRUE;
 				}
 			}
-			if (!$found)
-			{
+			if (!$found) {
 				$testcasesForAdding[] = $testcase->latestVersion();
 			}
 		}
 
-		foreach ($testcasesForAdding as $addMe)
-		{
+		foreach ($testcasesForAdding as $addMe) {
 			Log::info(sprintf('Adding testcase %s version %s to test plan %s', $addMe->name, $addMe->version, $testplan->name));
 			$testplan->testcaseVersions()->attach($addMe);
 		}
@@ -219,17 +209,16 @@ class TestPlansController extends BaseController {
 				->with('success', sprintf('%d test cases added, and %d removed', count($testcasesForAdding), count($testcasesForRemoval)));
 	}
 
+	// refactor for design
 	protected function getTestCasesFrom($children, &$testcases)
 	{
-
-		foreach ($children as $child)
-		{
+		foreach ($children as $child) {
+			var_dump($child);exit;
 			$executionType = $child->getDescendantExecutionType();
-			if ($executionType == 3)
-			{
+			if ($executionType == 3) {
 				$nodeId = $child->getDescendantNodeId();
 				$testcases[$nodeId] = $this->testcases->find($nodeId);
-			}
+			} 
 			if (isset($child->children) && !empty($child->children))
 			{
 				$this->getTestCasesFrom($children, $testcases);
