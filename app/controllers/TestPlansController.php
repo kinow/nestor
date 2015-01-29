@@ -143,8 +143,8 @@ class TestPlansController extends BaseController {
 
 	public function storeTestCases($id)
 	{
-		$testplan = $this->testplans->find($id);
-		$existingTestcaseVersions = $testplan->testcaseVersions()->get();
+		$testPlan = HMVC::get("api/v1/testplans/$id");
+		$existingTestcaseVersions = $testplan['testcases'];
 		$length = count($_POST);
 		$nodesSelected = array();
 		$testcases = array();
@@ -165,6 +165,7 @@ class TestPlansController extends BaseController {
 		}
 		foreach ($nodesSelected as $node)
 		{
+			$children = HMVC::get("api/v1/nodes/$nodeId");
 			$children = $this->nodes->children($node);
 			$this->getTestCasesFrom($children, $testcases);
 		}
@@ -209,13 +210,12 @@ class TestPlansController extends BaseController {
 			$testplan->testcaseVersions()->attach($addMe);
 		}
 
-		foreach ($testcasesForRemoval as $removeMe)
-		{
+		foreach ($testcasesForRemoval as $removeMe) {
 			Log::info(sprintf('Removing test case %s version %s from test plan %s', $removeMe->name, $removeMe->version, $testplan->name));
 			$testplan->testcaseVersions()->detach($removeMe);
 		}
 
-		return Redirect::to('/planning/' . $id)
+		return Redirect::to("/planning/$id")
 				->with('success', sprintf('%d test cases added, and %d removed', count($testcasesForAdding), count($testcasesForRemoval)));
 	}
 
