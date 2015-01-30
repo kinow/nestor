@@ -32,9 +32,9 @@ var templatecallback = function() {
       	  }
       }
 
-      console.log("POST data:\n" + jQuery.param($(this).serializeArray()));
+      //console.log("POST data:\n" + jQuery.param($(this).serializeArray()));
       // return false to prevent submission of this sample
-      return false;
+      return true;
     });
 
 	$("#navigation_tree_panel").fancytree({

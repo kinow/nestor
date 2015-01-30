@@ -144,7 +144,6 @@ class TestPlansController extends BaseController {
 
 	public function storeTestCases($id)
 	{
-		dd($_POST);
 		$testPlan = HMVC::get("api/v1/testplans/$id");
 		$existingTestcaseVersions = $testPlan['testcases'];
 		$length = count($_POST);
@@ -161,6 +160,7 @@ class TestPlansController extends BaseController {
 				}
 			}
 		}
+		var_dump($nodesSelected);exit;
 		foreach ($nodesSelected as $node) {
 			$children = HMVC::get("api/v1/nodes/$node");
 			var_dump($node);
