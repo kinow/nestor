@@ -1,8 +1,5 @@
 <?php
 
-use \Theme;
-use \Input;
-use \DB;
 use Nestor\Repositories\TestPlanRepository;
 use Nestor\Repositories\TestCaseRepository;
 use Nestor\Repositories\TestRunRepository;

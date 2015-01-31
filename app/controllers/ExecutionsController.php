@@ -1,43 +1,15 @@
 <?php
 
-use \Theme;
-use \Input;
-use \DB;
-use Nestor\Repositories\TestPlanRepository;
-use Nestor\Repositories\TestRunRepository;
-use Nestor\Repositories\NavigationTreeRepository;
-
-class ExecutionsController extends \NavigationTreeController {
-
-	/**
-	 * The test plan repository implementation.
-	 *
-	 * @var Nestor\Repositories\TestPlanRepository
-	 */
-	protected $testplans;
-
-	/**
-	 * The test run repository implementation.
-	 *
-	 * @var Nestor\Repositories\TestRunRepository
-	 */
-	protected $testruns;
-
-	/**
-	 * @var Nestor\Repositories\NavigationTreeRepository
-	 */
-	protected $nodes;
+class ExecutionsController extends NavigationTreeController 
+{
 
 	protected $theme;
 
 	public $restful = true;
 
-	public function __construct(TestPlanRepository $testplans, TestRunRepository $testruns, NavigationTreeRepository $nodes)
+	public function __construct()
 	{
 		parent::__construct();
-		$this->testplans = $testplans;
-		$this->testruns = $testruns;
-		$this->nodes = $nodes;
 		$this->theme->setActive('execution');
 	}
 
@@ -52,9 +24,9 @@ class ExecutionsController extends \NavigationTreeController {
 			add('Home', URL::to('/'))->
 			add('Execution');
 		$args = array();
-		$project = $this->getCurrentProject();
-		$projectId = $project->id;
-		$args['testplans'] = $this->testplans->findForExecutionByProjectId($projectId);
+		$projectId = $this->getCurrentProjectId();
+		$testPlans = HMVC::get("api/v1/projects/$projectId/testplans");
+		$args['testplans'] = $testPlans;
 		return $this->theme->scope('execution.index', $args)->render();
 	}
 
