@@ -2,6 +2,7 @@
 namespace Nestor\Repositories;
 
 use Nestor\Model\TestPlan;
+use Nestor\Model\TestRun;
 use Nestor\Model\TestCaseVersion;
 
 class DbTestPlanRepository extends DbBaseRepository implements TestPlanRepository {
@@ -87,6 +88,11 @@ class DbTestPlanRepository extends DbBaseRepository implements TestPlanRepositor
 			->testCases()
 			->detach($testcaseVersionId)
 		;
+	}
+
+	public function findByTestPlan($test_plan_id)
+	{
+		return TestRun::where('test_plan_id', $test_plan_id)->get()->toArray();
 	}
 
 }

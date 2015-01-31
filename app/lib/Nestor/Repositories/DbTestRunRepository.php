@@ -16,11 +16,6 @@ class DbTestRunRepository extends DbBaseRepository implements TestRunRepository
 		parent::__construct($model);
 	}
 
-	public function findByTestPlan($test_plan_id)
-	{
-		return TestRun::where('test_plan_id', $test_plan_id)->get();
-	}
-
 	public function create($test_plan_id, $name, $description)
 	{
 		return TestRun::create(compact('test_plan_id', 'name', 'description'));

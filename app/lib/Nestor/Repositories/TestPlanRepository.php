@@ -12,10 +12,16 @@ interface TestPlanRepository {
 
 	public function paginate($perPage);
 
+	public function paginateTestPlansForProjectWith($perPage, $projectId, array $with);
+
 	public function findForExecutionByProjectId($projectId);
 
 	public function assign($testPlanId, $testcaseVersionId, $userId);
 
-	public function paginateTestPlansForProjectWith($perPage, $projectId, array $with);
+	public function attachTestCase($testPlanId, $testcaseVersionId);
+
+	public function detachTestCase($testPlanId, $testcaseVersionId);
+
+	public function findByTestPlan($test_plan_id);
 
 }

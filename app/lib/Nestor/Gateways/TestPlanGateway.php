@@ -83,4 +83,9 @@ class TestPlanGateway
 		return $this->testPlanRepository->detachTestCase($testPlanId, $testCaseVersionId);
 	}
 
+	public function getTestRuns($testPlanId)
+	{
+		return $this->testPlanRepository->findByTestPlan($testPlanId);
+	}
+
 }

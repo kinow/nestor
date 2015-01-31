@@ -91,4 +91,11 @@ class TestPlansController extends BaseController
 			->detachTestCase($testPlanId, $testCaseVersionId);
 	}
 
+	public function getTestRunsByTestPlan($testPlanId)
+	{
+		return $this
+			->testPlanGateway
+			->getTestRuns($testPlanId);
+	}
+
 }

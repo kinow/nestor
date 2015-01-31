@@ -1,90 +1,15 @@
 <?php
 
-use Nestor\Repositories\TestPlanRepository;
-use Nestor\Repositories\TestCaseRepository;
-use Nestor\Repositories\TestRunRepository;
-use Nestor\Repositories\NavigationTreeRepository;
-use Nestor\Repositories\ExecutionStatusRepository;
-use Nestor\Repositories\ExecutionRepository;
-use Nestor\Repositories\StepExecutionRepository;
-use Nestor\Repositories\UserRepository;
-
-class TestRunsController extends \NavigationTreeController {
-
-	/**
-	 * The test plan repository implementation.
-	 *
-	 * @var Nestor\Repositories\TestPlanRepository
-	 */
-	protected $testplans;
-
-	/**
-	 * The test run repository implementation.
-	 *
-	 * @var Nestor\Repositories\TestRunRepository
-	 */
-	protected $testruns;
-
-	/**
-	 * The test case repository implementation.
-	 *
-	 * @var Nestor\Repositories\TestCaseRepository
-	 */
-	protected $testcases;
-
-	/**
-	 * The execution status repository implementation.
-	 *
-	 * @var Nestor\Repositories\ExecutionStatusRepository
-	 */
-	protected $executionStatuses;
-
-	/**
-	 * The execution repository implementation.
-	 *
-	 * @var Nestor\Repositories\ExecutionRepository
-	 */
-	protected $executions;
-
-	/**
-	 * The step execution repository implementation.
-	 *
-	 * @var Nestor\Repositories\StepExecutionRepository
-	 */
-	protected $stepExecutions;
-
-	/**
-	 * @var Nestor\Repositories\NavigationTreeRepository
-	 */
-	protected $nodes;
-
-	/**
-	 * @var Nestor\Repositories\UserRepository
-	 */
-	protected $users;
+class TestRunsController extends NavigationTreeController 
+{
 
 	protected $theme;
 
 	public $restful = true;
 
-	public function __construct(TestPlanRepository $testplans, 
-		TestCaseRepository $testcases, 
-		TestRunRepository $testruns, 
-		NavigationTreeRepository $nodes, 
-		ExecutionStatusRepository $executionStatuses,
-		ExecutionRepository $executions,
-		StepExecutionRepository $stepExecutions,
-		UserRepository $users)
+	public function __construct()
 	{
 		parent::__construct();
-		$this->testplans = $testplans;
-		$this->testcases = $testcases;
-		$this->testruns = $testruns;
-		$this->nodes = $nodes;
-		$this->executionStatuses = $executionStatuses;
-		$this->executions = $executions;
-		$this->stepExecutions = $stepExecutions;
-		$this->users = $users;
 		$this->theme->setActive('execution');
 	}
 
@@ -96,15 +21,15 @@ class TestRunsController extends \NavigationTreeController {
 	public function index()
 	{
 		$testPlanId = Input::get('test_plan_id');
-		$testplan = $this->testplans->find($testPlanId);
+		$testPlan = HMVC::get("api/v1/testplans/$testPlanId");
 		$this->theme->breadcrumb()->
 			add('Home', URL::to('/'))->
 			add('Execution', URL::to('/execution'))->
-			add(sprintf('Test Runs for Test Plan %s', $testplan->name));
-		$testruns = $this->testruns->findByTestPlanId($testPlanId);
+			add(sprintf('Test Runs for Test Plan %s', $testPlan['name']));
+		$testRuns = HMVC::get("api/v1/testplans/$testPlanId/testruns");
 		$args = array();
-		$args['testruns'] = $testruns;
-		$args['testplan'] = $testplan;
+		$args['testruns'] = $testRuns;
+		$args['testplan'] = $testPlan;
 		return $this->theme->scope('execution.testrun.index', $args)->render();
 	}
 

@@ -2,8 +2,6 @@
 
 interface TestRunRepository {
 
-	public function findByTestPlan($test_plan_id);
-
 	public function isNameAvailable($id, $testPlanId, $name);
 
 	/**
