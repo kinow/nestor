@@ -204,7 +204,7 @@ class TestPlansController extends BaseController {
 
 		foreach ($testcasesForRemoval as $removeMe) {
 			Log::info(sprintf('Removing test case %s version %s from test plan %s', $removeMe['name'], $removeMe['version'], $testPlan['name']));
-			$testCaseVersionid = $addMe['id'];
+			$testCaseVersionid = $removeMe['id'];
 			HMVC::delete("api/v1/testplans/$id/testcases/$testCaseVersionid");
 		}
 
