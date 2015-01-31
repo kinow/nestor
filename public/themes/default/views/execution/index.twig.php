@@ -2,7 +2,7 @@
 <div class='row'>
 	<div class='col-xs-12'>
 		<div id="projects">
-			{% if testplans[0] is defined %}
+			{% if testplans.data[0] %}
 			<table class='table table-bordered table-hover'>
 				<thead>
 					<tr>
@@ -13,13 +13,13 @@
 					</tr>
 				</thead>
 				<tbody>
-					{% for testplan in testplans %}
+					{% for testplan in testplans.data %}
 					<tr>
 						<td>{{ testplan.name }}</td>
 						<td>{{ testplan.description }}</td>
-						<td>{{ testplan.testcases.count }}</td>
+						<td>{{ testplan.test_cases|length }}</td>
 						<td>
-							{{ HTML.link('execution/testruns?test_plan_id=' ~ testplan.id, "View Test Runs (" ~ testplan.testruns.count ~ ")", {'class': 'btn btn-primary'}) }}
+							{{ HTML.link('execution/testruns?test_plan_id=' ~ testplan.id, "View Test Runs (" ~ testplan.testruns|length ~ ")", {'class': 'btn btn-primary'}) }}
 						</td>
 					</tr>
 					{% endfor %}
