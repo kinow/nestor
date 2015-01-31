@@ -67,4 +67,26 @@ class DbTestPlanRepository extends DbBaseRepository implements TestPlanRepositor
 		;
 	}
 
+	public function attachTestCase($testPlanId, $testcaseVersionId)
+	{
+		return $this
+			->model
+			->find($testPlanId)
+			->firstOrFail()
+			->testCases()
+			->attach($testcaseVersionId)
+		;
+	}
+
+	public function detachTestCase($testPlanId, $testcaseVersionId)
+	{
+		return $this
+			->model
+			->find($testPlanId)
+			->firstOrFail()
+			->testCases()
+			->detach($testcaseVersionId)
+		;
+	}
+
 }

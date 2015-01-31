@@ -4,7 +4,6 @@ use HTML;
 
 use Fhaculty\Graph\Graph as Graph;
 use Fhaculty\Graph\Algorithm\Search\BreadthFirst;
-//use Fhaculty\Graph\GraphViz;
 use Fhaculty\Graph\Walk;
 
 use Nestor\Model\Nodes;
@@ -74,7 +73,7 @@ class NavigationTreeUtil
 
 	// --- HTML
 
-	public static function createNavigationTreeHtml($navigationTree = array(), $nodeId, $themeName = '') 
+	public static function createNavigationTreeHtml($navigationTree = array(), $nodeId, $themeName = '', $nodesSelected = array()) 
 	{
 		$buffer = '';
 		if (is_null ( $navigationTree ) || empty ( $navigationTree ))
@@ -84,6 +83,11 @@ class NavigationTreeUtil
 			$extra_classes = "";
 			if ($node->descendant == $nodeId && $node->ancestor == $nodeId) {
 				$extra_classes .= " active";
+			}
+			$nodeTypeId = $node->node_type_id;
+			if ($nodeTypeId == Nodes::TEST_CASE_TYPE && array_key_exists($node->node_id, $nodesSelected))
+			{
+				$extra_classes .= " selected";
 			}
 			if ($node->node_type_id == Nodes::PROJECT_TYPE) {
 				$buffer .= "<ul id='treeData' style='display: none;'>";
@@ -96,7 +100,7 @@ class NavigationTreeUtil
 				));
 				if (! empty ( $node->children )) {
 					$buffer .= "<ul>";
-					$buffer .= static::createNavigationTreeHtml($node->children, $nodeId, $themeName);
+					$buffer .= static::createNavigationTreeHtml($node->children, $nodeId, $themeName, $nodesSelected);
 					$buffer .= "</ul>";
 				}
 				$buffer .= "</li></ul>";
@@ -110,7 +114,7 @@ class NavigationTreeUtil
 				));
 				if (! empty ( $node->children )) {
 					$buffer .= "<ul>";
-					$buffer .= static::createNavigationTreeHtml($node->children, $nodeId, $themeName);
+					$buffer .= static::createNavigationTreeHtml($node->children, $nodeId, $themeName, $nodesSelected);
 					$buffer .= "</ul>";
 				}
 				$buffer .= "</li>";
@@ -145,6 +149,30 @@ class NavigationTreeUtil
 		}
 
 		return FALSE;
+	}
+
+	public static function getAncestorExecutionType($ancestor)
+	{
+		list($executionType, $nodeId) = explode("-", $ancestor);
+		return (int) $executionType;
+	}
+
+	public static function getAncestorNodeId($ancestor)
+	{
+		list($executionType, $nodeId) = explode("-", $ancestor);
+		return $nodeId;
+	}
+
+	public static function getDescendantExecutionType($descendant)
+	{
+		list($executionType, $nodeId) = explode("-", $descendant);
+		return (int) $executionType;
+	}
+
+	public static function getDescendantNodeId($descendant)
+	{
+		list($executionType, $nodeId) = explode("-", $descendant);
+		return $nodeId;
 	}
 
 }

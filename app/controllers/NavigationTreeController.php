@@ -1,12 +1,10 @@
 <?php
 
-use \HTML;
-use \Fhaculty\Graph\Graph as Graph;
-use \Fhaculty\Graph\Algorithm\Search\BreadthFirst;
-//use \Fhaculty\Graph\GraphViz;
-use \Fhaculty\Graph\Walk;
+use Fhaculty\Graph\Graph as Graph;
+use Fhaculty\Graph\Algorithm\Search\BreadthFirst;
+use Fhaculty\Graph\Walk;
 
-class NavigationTreeController extends \BaseController {
+class NavigationTreeController extends BaseController {
 
 	/**
 	 * Constructor.

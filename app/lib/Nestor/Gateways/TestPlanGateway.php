@@ -56,7 +56,7 @@ class TestPlanGateway
 
 	public function findTestPlan($testPlanId)
 	{
-		$testPlan = $this->testPlanRepository->findWith($testPlanId, array('testcases'));
+		$testPlan = $this->testPlanRepository->findWith($testPlanId, array('testCases'));
 		return $testPlan;
 	}
 
@@ -71,6 +71,16 @@ class TestPlanGateway
 			)
 		);
 		return $testPlan;
+	}
+
+	public function attachTestCase($testPlanId, $testCaseVersionId)
+	{
+		return $this->testPlanRepository->attachTestCase($testPlanId, $testCaseVersionId);
+	}
+
+	public function detachTestCase($testPlanId, $testCaseVersionId)
+	{
+		return $this->testPlanRepository->detachTestCase($testPlanId, $testCaseVersionId);
 	}
 
 }

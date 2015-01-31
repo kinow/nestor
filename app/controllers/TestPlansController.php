@@ -110,10 +110,10 @@ class TestPlansController extends BaseController {
 			add('Add Test Cases');
 		$currentProject = $this->getCurrentProject();
 		$nodesSelected = array();
-		$testcases = $testPlan['testcases'];
+		$testcases = $testPlan['test_cases'];
 
 		foreach ($testcases as $testcase) {
-			$nodesSelected[$testcase['id']] = TRUE;
+			$nodesSelected[$testcase['test_case_id']] = TRUE;
 		}
 
 		// current project in the section to retrieve its children nodes
@@ -130,7 +130,8 @@ class TestPlansController extends BaseController {
 		$navigationTreeHtml = NavigationTreeUtil::createNavigationTreeHtml(
 			$navigationTree, 
 			NULL, 
-			$this->theme->getThemeName()
+			$this->theme->getThemeName(),
+			$nodesSelected
 		);
 
 		$args = array();
@@ -145,7 +146,7 @@ class TestPlansController extends BaseController {
 	public function storeTestCases($id)
 	{
 		$testPlan = HMVC::get("api/v1/testplans/$id");
-		$existingTestcaseVersions = $testPlan['testcases'];
+		$existingTestcaseVersions = $testPlan['test_cases'];
 		$length = count($_POST);
 		$nodesSelected = array();
 		$testcases = array();
@@ -160,19 +161,17 @@ class TestPlansController extends BaseController {
 				}
 			}
 		}
-		var_dump($nodesSelected);exit;
 		foreach ($nodesSelected as $node) {
 			$children = HMVC::get("api/v1/nodes/$node");
-			var_dump($node);
 			$this->getTestCasesFrom($children, $testcases);
 		}
-		exit;
+		
 		// What to remove?
 		$testcasesForRemoval = array();
 		foreach ($existingTestcaseVersions as $existing) {
 			$found = FALSE;
 			foreach ($testcases as $testcase) {
-				if ($existing->test_case_id == $testcase->id) {
+				if ($existing['test_case_id'] == $testcase['id']) {
 					$found = TRUE;
 				}
 			}
@@ -180,46 +179,50 @@ class TestPlansController extends BaseController {
 				$testcasesForRemoval[] = $existing;
 			}
 		}
+
 		// What do add?
 		$testcasesForAdding = array();
 		foreach ($testcases as $testcase) {
 			$found = FALSE;
 			foreach ($existingTestcaseVersions as $existing) {
-				if ($existing->test_case_id == $testcase->id) {
+				if ($existing['test_case_id'] == $testcase['id']) {
 					$found = TRUE;
 				}
 			}
 			if (!$found) {
-				$testcasesForAdding[] = $testcase->latestVersion();
+				$testcasesForAdding[] = $testcase['version'];
 			}
 		}
 
+		// FIXME: bulk operations
+
 		foreach ($testcasesForAdding as $addMe) {
-			Log::info(sprintf('Adding testcase %s version %s to test plan %s', $addMe->name, $addMe->version, $testplan->name));
-			$testplan->testcaseVersions()->attach($addMe);
+			Log::info(sprintf('Adding testcase %s version %s to test plan %s', $addMe['name'], $addMe['version'], $testPlan['name']));
+			$testCaseVersionid = $addMe['id'];
+			HMVC::post("api/v1/testplans/$id/testcases/$testCaseVersionid");
 		}
 
 		foreach ($testcasesForRemoval as $removeMe) {
-			Log::info(sprintf('Removing test case %s version %s from test plan %s', $removeMe->name, $removeMe->version, $testplan->name));
-			$testplan->testcaseVersions()->detach($removeMe);
+			Log::info(sprintf('Removing test case %s version %s from test plan %s', $removeMe['name'], $removeMe['version'], $testPlan['name']));
+			$testCaseVersionid = $addMe['id'];
+			HMVC::delete("api/v1/testplans/$id/testcases/$testCaseVersionid");
 		}
 
 		return Redirect::to("/planning/$id")
-				->with('success', sprintf('%d test cases added, and %d removed', count($testcasesForAdding), count($testcasesForRemoval)));
+			->with('success', sprintf('%d test cases added, and %d removed', count($testcasesForAdding), count($testcasesForRemoval)));
 	}
 
-	// refactor for design
+	// refactor for design. Avoid using the &variable.
 	protected function getTestCasesFrom($children, &$testcases)
 	{
 		foreach ($children as $child) {
-			var_dump($child);exit;
-			$executionType = $child->getDescendantExecutionType();
-			if ($executionType == 3) {
-				$nodeId = $child->getDescendantNodeId();
-				$testcases[$nodeId] = $this->testcases->find($nodeId);
+			$executionType = NavigationTreeUtil::getDescendantExecutionType($child['descendant']);
+			if ($executionType == Nodes::TEST_CASE_TYPE) {
+				$nodeId = NavigationTreeUtil::getDescendantNodeId($child['descendant']);
+				// TODO: replace it by a bulk call
+				$testcases[$nodeId] = HMVC::get("api/v1/testcases/$nodeId");
 			} 
-			if (isset($child->children) && !empty($child->children))
-			{
+			if (isset($child->children) && !empty($child->children)) {
 				$this->getTestCasesFrom($children, $testcases);
 			}
 		}

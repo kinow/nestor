@@ -43,6 +43,8 @@ Route::group(array('prefix' => 'api/v1'/*, 'before' => 'auth.basic'*/), function
      * Test plans
      */
     Route::resource('testplans', 'Nestor\Controllers\TestPlansController');
+    Route::post('testplans/{testPlanId}/testcases/{testCaseVersionId}', 'Nestor\Controllers\TestPlansController@addTestCase');
+    Route::delete('testplans/{testPlanId}/testcases/{testCaseVersionId}', 'Nestor\Controllers\TestPlansController@removeTestCase');
 
     Route::get('projects/{projectId}/testplans', 'Nestor\Controllers\TestPlansController@indexForProject');
 });

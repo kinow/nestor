@@ -77,4 +77,18 @@ class TestPlansController extends BaseController
 		return Restable::updated($project)->render();
 	}
 
+	public function addTestCase($testPlanId, $testCaseVersionId)
+	{
+		return $this
+			->testPlanGateway
+			->attachTestCase($testPlanId, $testCaseVersionId);
+	}
+
+	public function removeTestCase($testPlanId, $testCaseVersionId)
+	{
+		return $this
+			->testPlanGateway
+			->detachTestCase($testPlanId, $testCaseVersionId);
+	}
+
 }

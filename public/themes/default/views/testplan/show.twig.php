@@ -36,7 +36,7 @@
 			{{ HTML.link('planning/' ~ testplan.id ~ '/addTestCases', 'Manage test cases in this test plan', {'class': 'btn btn-primary'}) }}
 		</div>
 		{% endif %}
-		{% if testcases.count() > 0 %}
+		{% if testplan.test_cases %}
 		{{ Form.open({'url': '/planning/' ~ testplan.id ~ '/assign'}) }}
 		<table class='table table-bordered table-striped table-hover'>
 			<thead>
@@ -47,14 +47,14 @@
 				</tr>
 			</thead>
 			<tbody>
-			{% for testcase in testcases %}
+			{% for testcase in testplan.test_cases %}
 				<tr>
 					<td>
 						{{ HTML.linkRoute('testcases.edit', testcase.name, testcase.test_case_id) }}
 						<input type='hidden' name='testcases[]' value='{{ testcase.id }}' />
 					</td>
-					<td>{{ testcase.executionType.first.name }}</td>
-					<td>{{ Form.select('users[]', ['-- Not assigned --']|merge(users.lists('fullname', 'id')), testcase.assignee, {'class': 'form-control'}) }}</td>
+					<td>{{ testcase.execution_type.name }}</td>
+					<td>{# Form.select('users[]', ['-- Not assigned --']|merge(users.lists('fullname', 'id')), testcase.assignee, {'class': 'form-control'}) #}</td>
 				</tr>
 			{% endfor %}
 			</tbody>

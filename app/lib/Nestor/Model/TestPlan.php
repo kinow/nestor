@@ -33,7 +33,11 @@ class TestPlan extends BaseModel
 
 	public function testCases()
 	{
-		return $this->belongsToMany('Nestor\\Model\\TestCaseVersion', 'test_plans_test_cases');
+		return $this
+			->belongsToMany('Nestor\\Model\\TestCaseVersion', 'test_plans_test_cases')
+			->with('executionType')
+			->withTimestamps()
+		;
 	}
 
 	public function testcasesDetached()
