@@ -1,5 +1,7 @@
 <?php 
 
+use Magniloquent\Magniloquent\Magniloquent;
+
 class PluginCategory extends Magniloquent {
 	
 	/**
