@@ -1,16 +1,10 @@
 <?php
 
-use Nestor\Repositories\ReportRepository;
-use Nestor\Repositories\ReportTypeRepository;
-use Nestor\Repositories\ParameterTypeRepository;
-
 class ReportsController extends BaseController {
 
 	protected $reports;
 
-	public function __construct(ReportRepository $reports, 
-		ReportTypeRepository $reportTypes,
-		ParameterTypeRepository $parameterTypes)
+	public function __construct()
 	{
 		parent::__construct();
 		$this->reports = $reports;
