@@ -41,13 +41,13 @@ class TestRunsController extends NavigationTreeController
 	public function create()
 	{
 		$testPlanId = Input::get('test_plan_id');
-		$testplan = $this->testplans->find($testPlanId);
+		$testPlan = HMVC::get("api/v1/testplans/$testPlanId");
 		$this->theme->breadcrumb()->
 			add('Home', URL::to('/'))->
 			add('Execution', URL::to('/execution'))->
-			add(sprintf('Create Test Run for Test Plan %s', $testplan->name));
+			add(sprintf('Create Test Run for Test Plan %s', $testPlan['name']));
 		$args = array();
-		$args['testplan'] = $testplan;
+		$args['testplan'] = $testPlan;
 		return $this->theme->scope('execution.create', $args)->render();
 	}
 
