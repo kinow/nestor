@@ -13,16 +13,17 @@ class DbTestRunRepository extends DbBaseRepository implements TestRunRepository
 
 	public function isNameAvailable($id, $testPlanId, $name)
 	{
-		return TestRun::where('id', '<>', $id)
+		return $this
+			->where('id', '<>', $id)
 			->where('test_plan_id', '=', $testPlanId)
 			->where(new \Illuminate\Database\Query\Expression("lower(test_runs.name)"), '=', strtolower($name))
 			->count() == 0;
 	}
 
-
 	public function getTestSuites($testRunId)
 	{
-		return TestSuite::select('test_suites.*')
+		return $this
+			->select('test_suites.*')
 			->join('test_cases', 'test_suites.id', '=', 'test_cases.test_suite_id')
 			->join('test_case_versions', 'test_case_versions.test_case_id', '=', 'test_cases.id')
 			->join('test_plans_test_cases', 'test_plans_test_cases.test_case_version_id', '=', 'test_case_versions.id')

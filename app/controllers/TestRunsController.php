@@ -1,5 +1,10 @@
 <?php
 
+use Nestor\Model\Nodes;
+use Nestor\Util\NavigationTreeUtil;
+
+use utilphp\util;
+
 class TestRunsController extends NavigationTreeController 
 {
 
@@ -165,9 +170,9 @@ class TestRunsController extends NavigationTreeController
 		Log::info(sprintf('Executing Test Run %d', $testRunId));
 		$currentProject = $this->getCurrentProject();
 		$testRun = HMVC::get("api/v1/execution/testruns/$testRunId");
-		$testPlan = $testRun['testplan'];
-		$testCases = $testplan['testcases'];
-		$testCaseVersions = $testplan['test_case_versions'];
+		$testPlanId = $testRun['test_plan_id'];
+		$testPlan = HMVC::get("api/v1/testplans/$testPlanId");
+		$testCaseVersions = $testPlan['test_cases'];
 
 		Log::debug('Creating breadcrumb');
 		$this->theme->breadcrumb()->
@@ -176,10 +181,10 @@ class TestRunsController extends NavigationTreeController
 			add(sprintf('Test Runs for Test Plan %s', $testPlan['name']), URL::to(sprintf('/execution/testruns?test_plan_id=%d', $testPlan['id'])))->
 			add(sprintf('Test Run %s', $testRun['name']));
 
-		$showOnly = array(); // Our filter
-		foreach ($version as $testCaseVersions)
+		$nodesSelected = array(); // Our filter
+		foreach ($testCaseVersions as $version)
 		{
-			$showOnly[$version['test_case_id']] = $version;
+			$nodesSelected[$version['test_case_id']] = TRUE;
 		}
 
 		$nodeId = Nodes::id(Nodes::PROJECT_TYPE, $currentProject['id']);
@@ -193,15 +198,15 @@ class TestRunsController extends NavigationTreeController
 		// use it to create the HTML version
 		$navigationTreeHtml = NavigationTreeUtil::createNavigationTreeHtml(
 			$navigationTree, 
-			$testRun['id'], 
+			NULL, 
 			$this->theme->getThemeName(),
-			$showOnly
+			$nodesSelected
 		);
 
 		$args = array();
-		$args['testrun'] = $testrun;
-		$args['testplan'] = $testplan;
-		$args['testcases'] = $testcases;
+		$args['testrun'] = $testRun;
+		$args['testplan'] = $testPlan;
+		$args['testcases'] = $testCaseVersions;
 		$args['navigation_tree'] = $navigationTree;
 		$args['navigation_tree_html'] = $navigationTreeHtml;
 		$args['current_project'] = $this->currentProject;

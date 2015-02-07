@@ -107,9 +107,8 @@ class TestPlansController extends BaseController {
 			add(sprintf('Test plan %s', $testPlan['name']), URL::to(sprintf('/planning/%s', $testPlan['id'])))->
 			add('Add Test Cases');
 		$currentProject = $this->getCurrentProject();
-		$nodesSelected = array();
 		$testcases = $testPlan['test_cases'];
-
+		$nodesSelected = array();
 		foreach ($testcases as $testcase) {
 			$nodesSelected[$testcase['test_case_id']] = TRUE;
 		}

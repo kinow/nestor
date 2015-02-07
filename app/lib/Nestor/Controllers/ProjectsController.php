@@ -15,6 +15,8 @@ use Nestor\Util\ValidationException;
 class ProjectsController extends BaseController
 {
 
+	protected $projectGateway;
+
 	public function __construct(ProjectGateway $projectGateway)
 	{
 		$this->projectGateway = $projectGateway;

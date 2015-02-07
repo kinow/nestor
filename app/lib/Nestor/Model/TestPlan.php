@@ -23,12 +23,12 @@ class TestPlan extends BaseModel
 
 	public function project()
 	{
-		return $this->belongsTo('Project', 'project_id');
+		return $this->belongsTo('Nestor\\Model\\Project', 'project_id');
 	}
 
-	public function testruns()
+	public function testRuns()
 	{
-		return $this->hasMany('TestRun');
+		return $this->hasMany('Nestor\\Model\\TestRun');
 	}
 
 	public function testCases()

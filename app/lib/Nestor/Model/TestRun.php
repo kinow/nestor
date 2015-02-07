@@ -24,12 +24,12 @@ class TestRun extends BaseModel {
 
 	public function testPlan()
 	{
-		return $this->belongsTo('TestPlan', 'test_plan_id');
+		return $this->belongsTo('Nestor\\Model\\TestPlan', 'test_plan_id');
 	}
 
 	public function executions()
 	{
-		return $this->hasMany('Execution', 'test_run_id');
+		return $this->hasMany('Nestor\\Model\\Execution', 'test_run_id');
 	}
 
 	public function countTestCases()
