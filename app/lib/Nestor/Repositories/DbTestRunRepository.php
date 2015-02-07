@@ -1,12 +1,7 @@
 <?php
 namespace Nestor\Repositories;
 
-use Auth;
-use Hash;
-use Validator;
-use TestRun;
-use TestSuite;
-use DB;
+use Nestor\Model\TestRun;
 
 class DbTestRunRepository extends DbBaseRepository implements TestRunRepository
 {
@@ -14,11 +9,6 @@ class DbTestRunRepository extends DbBaseRepository implements TestRunRepository
 	public function __construct(TestRun $model)
 	{
 		parent::__construct($model);
-	}
-
-	public function create($test_plan_id, $name, $description)
-	{
-		return TestRun::create(compact('test_plan_id', 'name', 'description'));
 	}
 
 	public function isNameAvailable($id, $testPlanId, $name)
