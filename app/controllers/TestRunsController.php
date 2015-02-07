@@ -164,27 +164,39 @@ class TestRunsController extends NavigationTreeController
 	{
 		Log::info(sprintf('Executing Test Run %d', $testRunId));
 		$currentProject = $this->getCurrentProject();
-		$testrun = $this->testruns->find($testRunId);
-		$testplan = $testrun->testplan;
-		$testcases = $testplan->testcases();
-		$testcaseVersions = $testplan->testcaseVersions()->get();
+		$testRun = HMVC::get("api/v1/execution/testruns/$testRunId");
+		$testPlan = $testRun['testplan'];
+		$testCases = $testplan['testcases'];
+		$testCaseVersions = $testplan['test_case_versions'];
 
 		Log::debug('Creating breadcrumb');
 		$this->theme->breadcrumb()->
 			add('Home', URL::to('/'))->
 			add('Execution', URL::to('/execution'))->
-			add(sprintf('Test Runs for Test Plan %s', $testplan->name), URL::to(sprintf('/execution/testruns?test_plan_id=%d', $testplan->id)))->
-			add(sprintf('Test Run %s', $testrun->name));
+			add(sprintf('Test Runs for Test Plan %s', $testPlan['name']), URL::to(sprintf('/execution/testruns?test_plan_id=%d', $testPlan['id'])))->
+			add(sprintf('Test Run %s', $testRun['name']));
 
 		$showOnly = array(); // Our filter
-		foreach ($testcaseVersions as $testcaseVersion)
+		foreach ($version as $testCaseVersions)
 		{
-			$showOnly[$testcaseVersion->test_case_id] = $testcaseVersion;
+			$showOnly[$version['test_case_id']] = $version;
 		}
 
-		$nodes = $this->nodes->children('1-'.$currentProject->id, 1 /* length*/);
-		$navigationTree = $this->createNavigationTree($nodes, '1-'.$currentProject->id);
-		$navigationTreeHtml = $this->createTestRunTreeHTML($navigationTree, $testrun->id, $showOnly);
+		$nodeId = Nodes::id(Nodes::PROJECT_TYPE, $currentProject['id']);
+		$nodes = HMVC::get("api/v1/nodes/$nodeId");
+
+		// create a navigation tree
+		$navigationTree = NavigationTreeUtil::createNavigationTree(
+			$nodes, Nodes::id(Nodes::PROJECT_TYPE, $currentProject['id'])
+		);
+
+		// use it to create the HTML version
+		$navigationTreeHtml = NavigationTreeUtil::createNavigationTreeHtml(
+			$navigationTree, 
+			$testRun['id'], 
+			$this->theme->getThemeName(),
+			$showOnly
+		);
 
 		$args = array();
 		$args['testrun'] = $testrun;

@@ -1,58 +1,37 @@
 <?php namespace Nestor\Repositories;
 
-use Execution;
+use Nestor\Model\Execution;
 
-class DbExecutionRepository implements ExecutionRepository {
+class DbExecutionRepository extends DbBaseRepository implements ExecutionRepository {
 
-	public function all()
+	public function __construct(Project $model)
 	{
-		return Execution::all();
-	}
-
-	public function find($id)
-	{
-		return Execution::find($id);
+		parent::__construct($model);
 	}
 
 	public function findByTestRunId($test_run_id)
 	{
-		return Execution::where('test_run_id', $test_run_id)->get();
+		return $this->where('test_run_id', $test_run_id)->get()->toArray();
 	}
 
 	public function findByTestCaseVersionId($testCaseVersionId)
 	{
-		return Execution::where('test_case_version_id', $testCaseVersionId)->get();
+		return $this->where('test_case_version_id', $testCaseVersionId)->get()->toArray();
 	}
 
 	public function findByExecutionStatusId($execution_status_id)
 	{
-		return Execution::where('execution_status_id', $execution_status_id)->get();
-	}
-
-	public function create($test_run_id, $test_case_version_id, $execution_status_id, $notes)
-	{
-		return Execution::create(compact('test_run_id', 'test_case_version_id', 'execution_status_id', 'notes'));
-	}
-
-	public function update($id, $test_run_id, $test_case_version_id, $execution_status_id, $notes)
-	{
-		$execution = $this->find($id);
-
-		$execution->fill(compact('execution', 'test_case_version_id', 'execution_status_id', 'notes'))->save();
-
-		return $execution;
-	}
-
-	public function delete($id)
-	{
-		return Execution::where('id', $id)->delete();
+		return $this->where('execution_status_id', $execution_status_id)->get()->toArray();
 	}
 
 	public function getExecutionsForTestCaseVersion($testCaseVersionId, $testRunId)
 	{
-		return Execution::where('test_case_version_id', '=', $testCaseVersionId)
+		return $this
+			->where('test_case_version_id', '=', $testCaseVersionId)
 			->where('test_run_id', '=', $testRunId)
-			->orderBy('executions.created_at');
+			->orderBy('executions.created_at')
+			->get()
+			->toArray();
 	}
 
 }
