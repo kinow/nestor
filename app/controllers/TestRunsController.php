@@ -181,10 +181,13 @@ class TestRunsController extends NavigationTreeController
 			add(sprintf('Test Runs for Test Plan %s', $testPlan['name']), URL::to(sprintf('/execution/testruns?test_plan_id=%d', $testPlan['id'])))->
 			add(sprintf('Test Run %s', $testRun['name']));
 
-		$nodesSelected = array(); // Our filter
+		$filter = array(); // Our filter
 		foreach ($testCaseVersions as $version)
 		{
-			$nodesSelected[$version['test_case_id']] = TRUE;
+			$filter[$version['test_case_id']] = function($extra_classes, $node) use ($testRunId) {
+				return sprintf ( "<li data-icon='mimetypes/text-x-generic.png' class='%s'>%s</li>", $extra_classes, HTML::link ('/execution/testruns/' . $testRunId . "/run/testcase/" . $node->node_id, $node->display_name, array('target' => '_self')));
+
+			};
 		}
 
 		$nodeId = Nodes::id(Nodes::PROJECT_TYPE, $currentProject['id']);
@@ -200,7 +203,8 @@ class TestRunsController extends NavigationTreeController
 			$navigationTree, 
 			NULL, 
 			$this->theme->getThemeName(),
-			$nodesSelected
+			array(), 
+			$filter
 		);
 
 		$args = array();

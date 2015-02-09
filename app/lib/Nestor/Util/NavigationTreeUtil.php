@@ -8,6 +8,8 @@ use Fhaculty\Graph\Walk;
 
 use Nestor\Model\Nodes;
 
+use utilphp\util;
+
 class NavigationTreeUtil 
 {
 
@@ -15,7 +17,6 @@ class NavigationTreeUtil
 
 	public static function createNavigationTree($nodes, $root)
 	{
-
 		list($graph, $vertices) = static::createGraph($nodes);
 
 		$rootVertex = new BreadthFirst($vertices[$root]);
@@ -26,6 +27,21 @@ class NavigationTreeUtil
 		static::createTreeFromVertex($vertices[$root]);
 
 		return $tree;
+	}
+
+	public static function filterNavigationTree(&$filtered, $tree, $nodesToFilter)
+	{
+		foreach ($tree as $key => $node)
+		{
+			if ($node->node_type_id == Nodes::PROJECT_TYPE) {
+				$filtered[$key] = $node;
+				if (!empty($node->children)) {
+					static::filterNavigationTree($filtered, $node->children, $nodesToFilter);
+				}
+			} else if ($node->node_type_id == Nodes::TEST_CASE_TYPE && array_key_exists($node->node_id, $nodesToFilter)) {
+				$filtered[$key] = $node;
+			}
+		}
 	}
 
 	public static function createGraph($nodes) 
@@ -73,7 +89,7 @@ class NavigationTreeUtil
 
 	// --- HTML
 
-	public static function createNavigationTreeHtml($navigationTree = array(), $nodeId, $themeName = '', $nodesSelected = array()) 
+	public static function createNavigationTreeHtml($navigationTree = array(), $nodeId, $themeName = '', $nodesSelected = array(), $filter = array()) 
 	{
 		$buffer = '';
 		if (is_null ( $navigationTree ) || empty ( $navigationTree ))
@@ -100,7 +116,7 @@ class NavigationTreeUtil
 				));
 				if (! empty ( $node->children )) {
 					$buffer .= "<ul>";
-					$buffer .= static::createNavigationTreeHtml($node->children, $nodeId, $themeName, $nodesSelected);
+					$buffer .= static::createNavigationTreeHtml($node->children, $nodeId, $themeName, $nodesSelected, $filter);
 					$buffer .= "</ul>";
 				}
 				$buffer .= "</li></ul>";
@@ -114,18 +130,22 @@ class NavigationTreeUtil
 				));
 				if (! empty ( $node->children )) {
 					$buffer .= "<ul>";
-					$buffer .= static::createNavigationTreeHtml($node->children, $nodeId, $themeName, $nodesSelected);
+					$buffer .= static::createNavigationTreeHtml($node->children, $nodeId, $themeName, $nodesSelected, $filter);
 					$buffer .= "</ul>";
 				}
 				$buffer .= "</li>";
 			} else {
-				$buffer .= sprintf("<li data-icon='mimetypes/text-x-generic.png' id='%s' data-node-type='%s' data-node-id='%s' class='%s'>%s</li>", 
-					$node->descendant, 
-					$node->node_type_id, 
-					$node->node_id,
-					$extra_classes, 
-					HTML::link ('/specification/nodes/' . $node->descendant, $node->display_name, array('target' => '_self')
-				));
+				if (empty($filter)) {
+					$buffer .= sprintf("<li data-icon='mimetypes/text-x-generic.png' id='%s' data-node-type='%s' data-node-id='%s' class='%s'>%s</li>", 
+						$node->descendant, 
+						$node->node_type_id, 
+						$node->node_id,
+						$extra_classes, 
+						HTML::link ('/specification/nodes/' . $node->descendant, $node->display_name, array('target' => '_self')
+					));
+				} else if (array_key_exists($node->node_id, $filter)) {
+					$buffer .= $filter[$node->node_id]($extra_classes, $node);
+				}
 			}
 		}
 
