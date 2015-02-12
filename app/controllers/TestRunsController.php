@@ -184,10 +184,7 @@ class TestRunsController extends NavigationTreeController
 		$filter = array(); // Our filter
 		foreach ($testCaseVersions as $version)
 		{
-			$filter[$version['test_case_id']] = function($extra_classes, $node) use ($testRunId) {
-				return sprintf ( "<li data-icon='mimetypes/text-x-generic.png' class='%s'>%s</li>", $extra_classes, HTML::link ('/execution/testruns/' . $testRunId . "/run/testcase/" . $node->node_id, $node->display_name, array('target' => '_self')));
-
-			};
+			$filter[$version['test_case_id']] = TRUE;
 		}
 
 		$nodeId = Nodes::id(Nodes::PROJECT_TYPE, $currentProject['id']);
@@ -199,12 +196,13 @@ class TestRunsController extends NavigationTreeController
 		);
 
 		// use it to create the HTML version
-		$navigationTreeHtml = NavigationTreeUtil::createNavigationTreeHtml(
+		$navigationTreeHtml = NavigationTreeUtil::createExecutionNavigationTreeHtml(
 			$navigationTree, 
 			NULL, 
 			$this->theme->getThemeName(),
 			array(), 
-			$filter
+			$filter,
+			$testRunId
 		);
 
 		$args = array();
@@ -222,29 +220,31 @@ class TestRunsController extends NavigationTreeController
 	{
 		Log::info(sprintf('Executing Test Run %d, Test Case %d', $testRunId, $testCaseId));
 		$currentProject = $this->getCurrentProject();
-		$testrun = $this->testruns->find($testRunId);
-		$testplan = $testrun->testplan;
-		$testcaseVersions = $testplan->testcaseVersions()->get();
-		$testcases = $testplan->testcases();
-		$testcase = $this->testcases->find($testCaseId);
-		$testcaseVersion = $testcase->latestVersion();
-		$executionStatuses = $this->executionStatuses->all();
+		$testRun = HMVC::get("api/v1/execution/testruns/$testRunId");
+		$testPlanId = $testRun['test_plan_id'];
+		$testPlan = HMVC::get("api/v1/testplans/$testPlanId");
+		$testCaseVersions = $testPlan['test_cases'];
+		$testCase = HMVC::get("api/v1/testcases/$testCaseId");
+		$testCaseVersion = $testCase['version'];
+
+		$executionStatuses = HMVC::get("api/v1/executionstatuses/");
 
 		$this->theme->breadcrumb()->
 			add('Home', URL::to('/'))->
 			add('Execution', URL::to('/execution'))->
-			add(sprintf('Test Runs for Test Plan %s', $testplan->name), URL::to(sprintf('/execution/testruns?test_plan_id=%d', $testplan->id)))->
-			add(sprintf('Test Run %s', $testrun->name));
+			add(sprintf('Test Runs for Test Plan %s', $testPlan['name']), 
+				URL::to(sprintf('/execution/testruns?test_plan_id=%d', $testPlan['id'])))->
+			add(sprintf('Test Run %s', $testRun['name']));
 
 		$showOnly = array(); // Our filter
 
 		$assignee = null;
-		foreach ($testcaseVersions as $testcaseVersion2)
+		foreach ($testCaseVersions as $testCaseVersion2)
 		{
-			$showOnly[$testcaseVersion2->test_case_id] = $testcaseVersion2;
-			if ($testcaseVersion2->id == $testcaseVersion->id)
+			$showOnly[$testCaseVersion2['test_case_id']] = $testCaseVersion2;
+			if ($testCaseVersion2['id'] == $testCaseVersion['id'])
 			{
-				$assigneeId = $testcaseVersion2->assignee();
+				$assigneeId = isset($testCaseVersion2['assignee']) ?: null;
 				if (is_null($assigneeId))
 				{
 					$assignee = "Not assigned";
@@ -257,10 +257,32 @@ class TestRunsController extends NavigationTreeController
 			}
 		}
 
-		$nodes = $this->nodes->children('1-'.$currentProject->id, 1 /* length*/);
-		$navigationTree = $this->createNavigationTree($nodes, '1-'.$currentProject->id);
-		$navigationTreeHtml = $this->createTestRunTreeHTML($navigationTree, $testrun->id, $showOnly, $testCaseId);
-		
+		$filter = array(); // Our filter
+		foreach ($testCaseVersions as $version)
+		{
+			$filter[$version['test_case_id']] = TRUE;
+		}
+
+		$nodeId = Nodes::id(Nodes::PROJECT_TYPE, $currentProject['id']);
+		$nodes = HMVC::get("api/v1/nodes/$nodeId");
+
+		// create a navigation tree
+		$navigationTree = NavigationTreeUtil::createNavigationTree(
+			$nodes, Nodes::id(Nodes::PROJECT_TYPE, $currentProject['id'])
+		);
+
+		// use it to create the HTML version
+		$navigationTreeHtml = NavigationTreeUtil::createExecutionNavigationTreeHtml(
+			$navigationTree, 
+			NULL, 
+			$this->theme->getThemeName(),
+			array(), 
+			$filter,
+			$testRunId
+		);
+
+		var_dump($testCase);exit;
+
 		$executions = $this->executions->getExecutionsForTestCaseVersion($testcaseVersion->id, $testRunId)->get();
 
 		$lastExecution = $executions->last();
@@ -289,11 +311,11 @@ class TestRunsController extends NavigationTreeController
 		}
 
 		$args = array();
-		$args['testrun'] = $testrun;
-		$args['testplan'] = $testplan;
-		$args['testcases'] = $testcases;
-		$args['testcase'] = $testcase;
-		$args['testcaseVersion'] = $testcaseVersion;
+		$args['testrun'] = $testRun;
+		$args['testplan'] = $testPlan;
+		$args['testcases'] = $testCases;
+		$args['testcase'] = $testCase;
+		$args['testcaseVersion'] = $testCaseVersion;
 		$args['assignee'] = $assignee;
 		$args['steps'] = $steps;
 		$args['executions'] = $executions;
