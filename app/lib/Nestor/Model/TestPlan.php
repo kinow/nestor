@@ -35,6 +35,7 @@ class TestPlan extends BaseModel
 	{
 		return $this
 			->belongsToMany('Nestor\\Model\\TestCaseVersion', 'test_plans_test_cases')
+			->orderBy('version', 'desc')
 			->with('executionType')
 			->withTimestamps()
 		;
