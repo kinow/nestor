@@ -281,7 +281,8 @@ class TestRunsController extends NavigationTreeController
 			$testRunId
 		);
 
-		var_dump($testCase);exit;
+		$executions = HMVC::get("api/v1/execution/testruns/$testRunId/executions/${testCaseVersion['id']}");
+		var_dump($executions);exit;
 
 		$executions = $this->executions->getExecutionsForTestCaseVersion($testcaseVersion->id, $testRunId)->get();
 

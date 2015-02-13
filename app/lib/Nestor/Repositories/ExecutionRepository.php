@@ -8,6 +8,6 @@ interface ExecutionRepository {
 
 	public function findByExecutionStatusId($execution_status_id);
 
-	public function getExecutionsForTestCaseVersion($testCaseId, $testRunId);
+	public function getExecutionsForTestCaseVersion($testRunId, $testCaseVersionId);
 
 }

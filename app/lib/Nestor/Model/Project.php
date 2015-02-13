@@ -28,7 +28,7 @@ class Project extends BaseModel {
 
 	public function testsuites()
 	{
-		return $this->hasMany('TestSuite', 'project_id');
+		return $this->hasMany('Nestor\\Model\\TestSuite', 'project_id');
 	}
 
 }

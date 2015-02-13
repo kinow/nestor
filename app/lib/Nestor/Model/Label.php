@@ -22,7 +22,7 @@ class Label extends BaseModel
 
 	public function project()
 	{
-		return $this->belongsTo('Project', 'project_id');
+		return $this->belongsTo('Nestor\\Model\\Project', 'project_id');
 	}
 
 	public function testSuites()

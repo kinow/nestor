@@ -43,4 +43,9 @@ class ExecutionGateway
 		);
 		return $testRun;
 	}
+
+	public function getExecutionsForTestCaseVersion($testRunId, $testCaseVersionId)
+	{
+		return $this->executionRepository->getExecutionsForTestCaseVersion($testRunId, $testCaseVersionId);
+	}
 } 

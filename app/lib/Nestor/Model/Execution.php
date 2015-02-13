@@ -22,7 +22,7 @@ class Execution extends BaseModel
 
 	public function executionStatus()
 	{
-		return $this->belongsTo('ExecutionStatus', 'execution_status_id');
+		return $this->belongsTo('Nestor\\Model\\ExecutionStatus', 'execution_status_id');
 	}
 
 }

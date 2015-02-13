@@ -24,7 +24,7 @@ class ExecutionType extends BaseModel
 
 	public function testCases()
 	{
-		return $this->hasMany('TestCase');
+		return $this->hasMany('Nestor\\Model\\TestCase');
 	}
 	
 }

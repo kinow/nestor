@@ -22,7 +22,7 @@ class ProjectStatus extends BaseModel {
 
 	public function projects()
 	{
-		return $this->hasMany('Project');
+		return $this->hasMany('Nestor\\Model\\Project');
 	}
 
 }

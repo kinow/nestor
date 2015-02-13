@@ -18,7 +18,7 @@ class TestCaseStep extends BaseModel
 
 	public function testCaseStepVersions()
 	{
-		return $this->hasMany('TestCaseStepVersion', 'test_case_step_id');
+		return $this->hasMany('Nestor\\Model\\TestCaseStepVersion', 'test_case_step_id');
 	}
 
 }

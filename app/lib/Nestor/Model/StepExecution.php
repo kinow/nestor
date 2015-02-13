@@ -20,12 +20,12 @@ class StepExecution extends BaseModel
 
 	public function executionStatus()
 	{
-		return $this->belongsTo('ExecutionStatus', 'execution_status_id');
+		return $this->belongsTo('Nestor\\Model\\ExecutionStatus', 'execution_status_id');
 	}
 
 	public function testCaseStepVersion()
 	{
-		return $this->belongsTo('TestCaseStepVersion', 'test_case_step_version_id');
+		return $this->belongsTo('Nestor\\Model\\TestCaseStepVersion', 'test_case_step_version_id');
 	}
 
 }

@@ -54,4 +54,5 @@ Route::group(array('prefix' => 'api/v1'/*, 'before' => 'auth.basic'*/), function
     Route::resource('executions', 'Nestor\Controllers\ExecutionsController');
 
     Route::resource('execution/testruns', 'Nestor\Controllers\TestRunsController');
+    Route::resource('execution/testruns/{testRunId}/executions/{testCaseVersionId}', 'Nestor\Controllers\TestRunsController@getExecutionsForTestCaseVersion');
 });
