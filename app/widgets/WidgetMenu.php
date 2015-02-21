@@ -4,7 +4,7 @@ use Teepluss\Theme\Theme;
 use Teepluss\Theme\Widget;
 use Nestor\Repositories\ProjectRepository;
 use Nestor\Model\ProjectStatus;
-use \Session;
+use Session;
 
 class WidgetMenu extends Widget {
 
