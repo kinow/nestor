@@ -38,8 +38,12 @@ class DatabaseSeeder extends Seeder {
 		$this->call('PluginSeeder');
 		$this->call('ConfigurationSeeder');
 
-		$this->projectStatuses->create(ProjectStatus::ACTIVE, 'Active', 'Active project');
-		$this->projectStatuses->create(ProjectStatus::INACTIVE, 'Inactive', 'Inactive project');
+		$this->projectStatuses->create(array(
+			'id' => ProjectStatus::ACTIVE, 'name' => 'Active', 'description' => 'Active project'
+		));
+		$this->projectStatuses->create(array(
+			'id' => ProjectStatus::INACTIVE, 'name' => 'Inactive', 'description' => 'Inactive project'
+		));
 
 		$this->executionTypes->create(array(
 			'id'=> 1,
@@ -73,12 +77,22 @@ class DatabaseSeeder extends Seeder {
 			'description' => 'A test case that is blocked'
 		));
 
-		$this->reportTypes->create(1, 'SQL', 'A report created based on a SQL query');
-		$this->reportTypes->create(2, 'PHP', 'A report created based on a PHP script');
+		$this->reportTypes->create(array(
+			'id' => 1, 'name' => 'SQL', 'description' => 'A report created based on a SQL query'
+		));
+		$this->reportTypes->create(array(
+			'id' => 2, 'name' => 'PHP', 'description' => 'A report created based on a PHP script'
+		));
 
-		$this->parameterTypes->create(1, 'Text');
-		$this->parameterTypes->create(2, 'Date');
-		$this->parameterTypes->create(3, 'Numeric');
+		$this->parameterTypes->create(array(
+			'id' => 1, 'name' => 'Text'
+		));
+		$this->parameterTypes->create(array(
+			'id' => 2, 'name' => 'Date'
+		));
+		$this->parameterTypes->create(array(
+			'id' => 3, 'name' => 'Numeric'
+		));
 
 		$this->call('SampleDataSeeder');
 	}

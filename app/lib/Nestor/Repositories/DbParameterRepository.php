@@ -1,34 +1,12 @@
 <?php namespace Nestor\Repositories;
 
-use Parameter;
+use Nestor\Model\Parameter;
 
-class DbParameterRepository implements ParameterRepository {
+class DbParameterRepository extends DbBaseRepository implements ParameterRepository {
 
-	public function all()
+	public function __construct(Parameter $model)
 	{
-		return Parameter::all();
-	}
-
-	public function find($id)
-	{
-		return Parameter::findOrFail($id);
-	}
-
-	public function create($parameter_type_id, $report_id, $name, $description)
-	{
-		return Parameter::create(compact('parameter_type_id', 'report_id', 'name', 'description'));
-	}
-
-	public function update($id, $parameter_type_id, $report_id, $name, $description)
-	{
-		$entity = $this->find($id);
-		$entity->fill(compact('parameter_type_id', 'report_id', 'name', 'description'))->save();
-		return $entity;
-	}
-
-	public function delete($id)
-	{
-		return Parameter::where('id', $id)->delete();
+		parent::__construct($model);
 	}
 
 }

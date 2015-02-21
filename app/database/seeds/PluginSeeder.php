@@ -25,10 +25,10 @@ class PluginSeeder extends Seeder {
 		DB::table('plugins')->delete();
 		DB::table('plugin_categories')->delete();
 
-		$this->pluginCategories->create(
-			'Editors',
-			'UI editors'
-		);
+		$this->pluginCategories->create(array(
+			'name' => 'Editors',
+			'description' => 'UI editors'
+		));
 		
 	}
 

@@ -9,7 +9,7 @@ class TestSuite extends BaseModel
 	protected $hidden = array('');
 	protected static $purgeable = [''];
 
-	protected static $rules = array(
+	protected static $_rules = array(
 		"create" => array(
 				'name' => 'required|min:2',
 				'description' => '',

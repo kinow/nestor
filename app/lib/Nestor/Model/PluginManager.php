@@ -1,4 +1,5 @@
-<?php namespace Nestor\Model;
+<?php 
+namespace Nestor\Model;
 
 use Plugin;
 use Cache;

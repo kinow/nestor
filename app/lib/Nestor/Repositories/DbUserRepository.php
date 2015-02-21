@@ -1,7 +1,7 @@
 <?php namespace Nestor\Repositories;
 
 use Auth, Hash, Validator;
-use User;
+use Nestor\Model\User;
 
 class DbUserRepository implements UserRepository {
 

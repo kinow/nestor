@@ -1,34 +1,12 @@
 <?php namespace Nestor\Repositories;
 
-use Report;
+use Nestor\Model\Report;
 
-class DbReportRepository implements ReportRepository {
+class DbReportRepository extends DbBaseRepository implements ReportRepository {
 
-	public function all()
+	public function __construct(Report $model)
 	{
-		return Report::all();
-	}
-
-	public function find($id)
-	{
-		return Report::findOrFail($id);
-	}
-
-	public function create($report_type_id, $name, $description)
-	{
-		return Report::create(compact('report_type_id', 'name', 'description'));
-	}
-
-	public function update($id, $report_type_id, $name, $description)
-	{
-		$entity = $this->find($id);
-		$entity->fill(compact('report_type_id', 'name', 'description'))->save();
-		return $entity;
-	}
-
-	public function delete($id)
-	{
-		return Report::where('id', $id)->delete();
+		parent::__construct($model);
 	}
 
 }

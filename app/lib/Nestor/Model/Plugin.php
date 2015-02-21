@@ -1,8 +1,8 @@
 <?php 
+namespace Nestor\Model;
 
-use Magniloquent\Magniloquent\Magniloquent;
-
-class Plugin extends Magniloquent {
+class Plugin extends BaseModel
+{
 
 	/**
 	 * The database table used by the model.
@@ -31,8 +31,8 @@ class Plugin extends Magniloquent {
 	 */
 	protected $hidden = array('provides');
 
-	protected static $rules = array(
-		"save" => array(
+	protected static $_rules = array(
+		"create" => array(
 			'name' => 'required|unique:plugins|min:1',
 			'slug' => 'required|unique:plugins|min:1',
 			'description' => 'required|min:1',
@@ -43,18 +43,13 @@ class Plugin extends Magniloquent {
 			'released_at' => 'required|date', 
 			'plugin_category_id' => 'required|numeric'
 		),
-		"create" => array(
-			
-		),
 		"update" => array(
 			
 		)
 	);
 
-	protected static $relationships = array(
-		'pluginCategory' => array('belongsTo', 'PluginCategory', 'plugin_category_id'),
-	);
-
-	protected static $purgeable = [''];
-
+	public function pluginCategory()
+	{
+		return $this->belongsTo('Nestor\\Model\\PluginCategory', 'plugin_category_id');
+	}
 }

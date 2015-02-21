@@ -5,7 +5,7 @@
 	"license" : "MIT",
 	"require" : {
 		"laravel/framework" : "4.1.*",
-		"teepluss/theme" : "dev-master",
+		"teepluss/theme" : "~1",
 		"philf/setting" : "dev-master",
 		"doctrine/dbal": "2.5.*@dev",
 		"clue/graph": "0.7.*",
