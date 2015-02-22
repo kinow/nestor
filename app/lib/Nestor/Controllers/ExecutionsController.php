@@ -46,4 +46,19 @@ class ExecutionsController extends BaseController
 		return Restable::created($execution)->render();
 	}
 
+	public function update($id)
+	{
+		try {
+			$testRun = $this
+				->executionGateway
+				->updateExecution($id, Input::get('test_plan_id'),
+					Input::get('name'), Input::get('description'));
+		} catch (ValidationException $ve) {
+			return Restable::error($ve->getErrors())->render();
+		} catch (Exception $e) {
+			return Restable::bad($e->getMessage())->render();
+		}
+		return Restable::updated($testRun)->render();		
+	}
+
 }

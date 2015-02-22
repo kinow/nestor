@@ -15,7 +15,7 @@ class TestRunGateway
 
 	public function findTestRun($testRunId)
 	{
-		return $this->testRunRepository->find($testRunId);
+		return $this->testRunRepository->findWith($testRunId, array('testplan'));
 	}
 
 }

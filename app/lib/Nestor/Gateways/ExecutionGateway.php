@@ -48,4 +48,23 @@ class ExecutionGateway
 	{
 		return $this->executionRepository->getExecutionsForTestCaseVersion($testRunId, $testCaseVersionId);
 	}
+
+	public function updateExecution($id, $testPlanId, $name, $description)
+	{
+		if (!$this->testRunRepository->isNameAvailable(0, $testPlanId, $name))
+		{
+			Log::warning(sprintf('Duplicate Test Run name [%s] found in the same Test plan [%d]', 
+				$name, $testPlanId));
+			throw new Exception("This name has already been taken");
+		}
+
+		Log::info('UPdating test run...');
+
+		$testRun = $this->testRunRepository->update($id, array(
+			'test_plan_id' => $testPlanId, 
+			'name' => $name, 
+			'description' => $description)
+		);
+		return $testRun;
+	}
 } 

@@ -63,23 +63,6 @@ class TestRunsController extends NavigationTreeController
 	 */
 	public function store()
 	{
-		Log::info('Creating test run...');
-
-		$testrun = $this->testruns->create(
-				Input::get('test_plan_id'),
-				Input::get('name'),
-				Input::get('description')
-		);
-
-		if ($testrun->isValid() && $testrun->isSaved())
-		{
-			return Redirect::to('/executions/')
-				->with('success', 'A new test run has been created');
-		} else {
-			return Redirect::to('/executions/create?test_plan_id=' . Input::get('test_plan_id'))
-				->withInput()
-				->withErrors($testrun->errors());
-		}
 	}
 
 	/**
@@ -91,13 +74,13 @@ class TestRunsController extends NavigationTreeController
 	public function show($id)
 	{
 		$args = array();
-		$testrun = $this->testruns->find($id);
+		$testrun = HMVC::get("api/v1/execution/testruns/$id");
 		$this->theme->breadcrumb()->
 			add('Home', URL::to('/'))->
 			add('Execution', URL::to('/execution'))->
-			add(sprintf('Test Run %s', $testrun->name));
+			add(sprintf('Test Run %s', $testrun['name']));
 		$args['testrun'] = $testrun;
-		$args['testplan'] = $testrun->testplan;
+		$args['testplan'] = $testrun['testplan'];
 		return $this->theme->scope('execution.testrun.show', $args)->render();
 	}
 
@@ -110,13 +93,13 @@ class TestRunsController extends NavigationTreeController
 	public function edit($id)
 	{
 		$args = array();
-		$testrun = $this->testruns->find($id);
+		$testrun = HMVC::get("api/v1/execution/testruns/$id");
 		$this->theme->breadcrumb()->
 			add('Home', URL::to('/'))->
 			add('Execution', URL::to('/execution'))->
-			add(sprintf('Test Run %s', $testrun->name));
+			add(sprintf('Test Run %s', $testrun['name']));
 		$args['testrun'] = $testrun;
-		$args['testplan'] = $testrun->testplan;
+		$args['testplan'] = $testrun['testplan'];
 		return $this->theme->scope('execution.testrun.edit', $args)->render();
 	}
 
@@ -128,24 +111,14 @@ class TestRunsController extends NavigationTreeController
 	 */
 	public function update($id)
 	{
-		Log::info('Updating test run...');
+		$testRun = HMVC::put("api/v1/executions/$id", Input::all());
 
-		$testrun = $this->testruns->update(
-				$id,
-				Input::get('test_plan_id'),
-				Input::get('name'),
-				Input::get('description')
-		);
-
-		if ($testrun->isValid() && $testrun->isSaved())
-		{
-			return Redirect::route('execution.testruns.show', $id)
-				->with('success', 'The test run was updated');
-		} else {
-			return Redirect::route('execution.testruns.edit', $id)
-				->withInput()
-				->withErrors($testrun->errors());
+		if (!$testRun || (isset($testRun['code']) && $testRun['code'] != 200)) {
+			return Redirect::to(URL::previous())->withInput()->withErrors($testRun['description']);
 		}
+
+		return Redirect::to("/execution/testruns/$id")
+			->with('success', sprintf('Test Run %s updated', $testRun['name']));
 	}
 
 	/**
