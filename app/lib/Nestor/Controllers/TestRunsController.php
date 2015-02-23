@@ -32,7 +32,7 @@ class TestRunsController extends BaseController {
 	public function getExecutionsForTestCaseVersion($testRunId, $testCaseVersionId)
 	{
 		$executions = $this->executionGateway->getExecutionsForTestCaseVersion($testRunId, $testCaseVersionId);
-		var_dump($executions);exit;
+		return $executions;
 	}
 
 }

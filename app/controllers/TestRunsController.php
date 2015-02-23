@@ -1,6 +1,7 @@
 <?php
 
 use Nestor\Model\Nodes;
+use Nestor\Model\ExecutionStatus;
 use Nestor\Util\NavigationTreeUtil;
 
 use utilphp\util;
@@ -254,23 +255,20 @@ class TestRunsController extends NavigationTreeController
 			$testRunId
 		);
 
-		$executions = HMVC::get("api/v1/execution/testruns/$testRunId/executions/${testCaseVersion['id']}");
-		var_dump($executions);exit;
+		$testCaseVersionId = $testCaseVersion['id'];
+		$executions = HMVC::get("api/v1/execution/testruns/$testRunId/executions/$testCaseVersionId");
 
-		$executions = $this->executions->getExecutionsForTestCaseVersion($testcaseVersion->id, $testRunId)->get();
-
-		$lastExecution = $executions->last();
-		$lastExecutionStatusId = 1; // FIXME magic number, 1 is NOT RUN
-		if ($lastExecution != NULL)
+		$lastExecution = end($executions);
+		$lastExecutionStatusId = ExecutionStatus::NOT_RUN; 
+		if ($lastExecution)
 		{
-			$lastExecutionStatusId = $lastExecution->execution_status_id;
+			$lastExecutionStatusId = $lastExecution['execution_status_id'];
 		}
 
-		$steps = $testcase->steps()->get();
-	
+		$steps = $testCase['version']['steps'];
 		foreach ($steps as $step)
 		{
-			if ($lastExecutionStatusId > 1)
+			if ($lastExecutionStatusId > ExecutionStatus::NOT_RUN)
 			{
 				$stepLastExecution = $this->stepExecutions->findByStepIdAndExecutionId($step->id, $lastExecution->id)->first();
 				if ($stepLastExecution)
@@ -280,14 +278,14 @@ class TestRunsController extends NavigationTreeController
 			}
 			else
 			{
-				$step->lastExecutionStatusId = 1; // FIXME magic number
+				$step['lastExecutionStatusId'] = ExecutionStatus::NOT_RUN; 
 			}
 		}
 
 		$args = array();
 		$args['testrun'] = $testRun;
 		$args['testplan'] = $testPlan;
-		$args['testcases'] = $testCases;
+		$args['testcases'] = $testCaseVersions;
 		$args['testcase'] = $testCase;
 		$args['testcaseVersion'] = $testCaseVersion;
 		$args['assignee'] = $assignee;
