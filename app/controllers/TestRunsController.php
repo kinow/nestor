@@ -248,7 +248,7 @@ class TestRunsController extends NavigationTreeController
 		// use it to create the HTML version
 		$navigationTreeHtml = NavigationTreeUtil::createExecutionNavigationTreeHtml(
 			$navigationTree, 
-			NULL, 
+			Nodes::id(Nodes::TEST_CASE_TYPE, $testCaseId), 
 			$this->theme->getThemeName(),
 			array(), 
 			$filter,
