@@ -26,13 +26,23 @@ class TestRunsController extends BaseController {
 	public function show($testRunId)
 	{
 		$testRun = $this->testRunGateway->findTestRun($testRunId);
-		return $testRun;
+		return Restable::single($testRun)->render();
 	}
 
 	public function getExecutionsForTestCaseVersion($testRunId, $testCaseVersionId)
 	{
 		$executions = $this->executionGateway->getExecutionsForTestCaseVersion($testRunId, $testCaseVersionId);
-		return $executions;
+		return Restable::listing($executions)->render();
+	}
+
+	public function executeTestCase()
+	{
+		$testRunId = Input::get('test_run_id');
+		$testCaseId = Input::get('test_case_id');
+		$executionStatusId = Input::get('execution_status_id');
+		$notes = Input::get('notes');
+		$execution = $this->executionGateway->executeTestCase($testRunId, $testCaseId, $executionStatusId, $notes);
+		return Restable::single($execution)->render();
 	}
 
 }

@@ -111,6 +111,9 @@
 							<p>This case step has no steps</p>
 							{% endif %}
 
+							{{ Form.hidden('test_run_id', testrun.id) }}
+							{{ Form.hidden('test_case_id', testcase.id) }}
+
 							<h4>Execution Status</h4>
 
 							<div class="form-group">

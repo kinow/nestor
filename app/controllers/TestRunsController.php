@@ -302,93 +302,13 @@ class TestRunsController extends NavigationTreeController
 
 	public function runTestCasePost($testRunId, $testCaseId) 
 	{
-		if (Input::get('execution_status_id') == 1) // FIXME use constants
-		{
-			Log::warning('Trying to set the test case execution status back to Not Run');
-			$messages = new Illuminate\Support\MessageBag;
-			$messages->add('nestor.customError', 'You cannot set an execution status back to Not Run');
-			return Redirect::to(sprintf('/execution/testruns/%d/run/testcase/%d', $testRunId, $testCaseId))
-				->withInput()
-				->withErrors($messages);
-		}
-		$testcase = $this->testcases->find($testCaseId);
-		$testcaseVersion = $testcase->latestVersion();
-		$steps = $testcase->steps()->get();
-		$stepResults = array();
-		foreach ($_POST as $key => $value)
-		{
-			$matches = array();
-			if (preg_match('^step_execution_status_id_(\d+)^', $key, $matches))
-			{
-				$stepResults[substr($key, strlen('step_execution_status_id_'))] = $value;
-			}
-		}
-		if (count($stepResults) != $steps->count())
-		{
-			// Never supposed to happen
-			Log::warning('Internal error. Wrong number of test steps execution statuses.');
-			$messages = new Illuminate\Support\MessageBag;
-			$messages->add('nestor.customError', 'Internal error. Wrong number of test steps execution statuses.');
-			return Redirect::to(sprintf('/execution/testruns/%d/run/testcase/%d', $testRunId, $testCaseId))
-				->withInput()
-				->withErrors($messages);
-		}
-		foreach ($stepResults as $key => $value) 
-		{
-			if ($value == 1) // FIXME use constants
-			{
-				Log::warning('Trying to set the test case step execution status back to Not Run');
-				$messages = new Illuminate\Support\MessageBag;
-				$messages->add('nestor.customError', sprintf('You cannot set step %d execution status to Not Run', $key));
-				return Redirect::to(sprintf('/execution/testruns/%d/run/testcase/%d', $testRunId, $testCaseId))
-					->withInput()
-					->withErrors($messages);
-			}
+		$testCaseId = Input::get('test_case_id');
+		$execution = HMVC::post('api/v1/execution/testruns/$testRunId/executions/$testCaseId', Input::all());
+		if (!$execution || (isset($execution['code']) && $execution['code'] != 200)) {
+			return Redirect::to(URL::previous())->withInput()->withErrors($execution['description']);
 		}
 
-		Log::debug('Starting new DB transaction');
-		DB::beginTransaction();
-
-		try 
-		{
-			Log::debug('Retrieving test run');
-			$testrun = $this->testruns->find($testRunId);
-			Log::debug(sprintf('Creating a new execution for test case version %d with execution status %d', $testcaseVersion->id, Input::get('execution_status_id')));
-			$execution = $this->executions->create($testrun->id, 
-				$testcaseVersion->id, 
-				Input::get('execution_status_id'), 
-				Input::get('notes'));
-
-			if ($execution->isValid() && $execution->isSaved())
-			{
-				// save its steps execution statuses
-				foreach ($stepResults as $key => $value) 
-				{
-					Log::debug(sprintf('Creating new step execution for execution %d', $execution->id));
-					$stepExecution = $this->stepExecutions->create($execution->id, $key, $value);
-					if (!$stepExecution->isValid() || !$stepExecution->isSaved())
-					{
-						Log::error(var_export($stepExecution->errors(), TRUE));
-						throw new Exception(sprintf("Failed to save step %d with execution status %d", $key, $value));
-					}
-				}
-				Log::debug('Committing transaction');
-				DB::commit();
-				return Redirect::to(Request::url())->with('success', 'Test executed');
-			} else {
-				Log::error(var_export($execution->errors(), TRUE));
-				throw new Exception(sprintf("Failed to save step %d with execution status %d", $key, $value));
-			}
-		} catch (Exception $e)
-		{
-			Log::debug('Rolling back transaction');
-			DB::rollback();
-			$messages = new Illuminate\Support\MessageBag;
-			$messages->add('nestor.customError', $e->getMessage());
-			return Redirect::to(sprintf('/execution/testruns/%d/run/testcase/%d', $testRunId, $testCaseId))
-				->withInput()
-				->withErrors($messages);
-		}
+		return Redirect::to(Request::url())->with('success', 'Test executed successfully!');
 	}
 
 	public function getJUnit($testRunId)
