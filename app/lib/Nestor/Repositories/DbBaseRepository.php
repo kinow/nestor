@@ -1,5 +1,7 @@
 <?php namespace Nestor\Repositories;
 
+use Log;
+
 abstract class DbBaseRepository extends BaseRepository {
 
 	protected $model;
@@ -42,6 +44,7 @@ abstract class DbBaseRepository extends BaseRepository {
 
 	public function findWith($id, array $with)
 	{
+		Log::debug(sprintf("findWith [%d] -> %s", $id, implode($with, ',')));
 		return $this->model->with($with)->find($id)->toArray();
 	}
 

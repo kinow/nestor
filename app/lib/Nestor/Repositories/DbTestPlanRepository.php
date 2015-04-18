@@ -92,7 +92,13 @@ class DbTestPlanRepository extends DbBaseRepository implements TestPlanRepositor
 
 	public function findByTestPlan($test_plan_id)
 	{
-		return TestRun::where('test_plan_id', $test_plan_id)->get()->toArray();
+		$testRuns = TestRun::where('test_plan_id', $test_plan_id)->with(array('testPlan'))->get();
+		if ($testRuns && count($testRuns) > 0) {
+			foreach ($testRuns as $testRun) {
+				$testRun['count'] = $testRun->countTestCases();
+			}
+		}
+		return $testRuns->toArray();
 	}
 
 }

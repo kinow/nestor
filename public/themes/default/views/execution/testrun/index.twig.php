@@ -12,16 +12,14 @@
 				{{ pagination.create_links() }}
 			<table class='table table-bordered table-hover'>
 				<colgroup>
-					<col width="10%" />
-					<col width="30%" />
-					<col width="10%" />
+					<col width="25%" />
+					<col width="25%" />
 					<col width="30%" />
 					<col width="20%" />
 				</colgroup>
 				<thead>
 					<tr>
 						<th>Name</th>
-						<th>Description</th>
 						<th>Test cases</th>
 						<th>Progress</th>
 						<th>Actions</th>
@@ -31,8 +29,7 @@
 					{% for testrun in testruns %}
 					<tr>
 						<td class="vert-align">{{ HTML.link('execution/testruns/' ~ testrun.id, testrun.name) }}</td>
-						<td class="vert-align">{{ testrun.description }}</td>
-						<td class="vert-align">{{ testrun.testplan.first.testcases.count() }}</td>
+						<td class="vert-align">{{ testrun.count }}</td>
 						<td class="vert-align">
 							{% set testRunProgress = testrun.progress %}
 							<div data-toggle="tooltip" data-title='{{ testRunProgress.percentage|number_format(2, ".", ",") }}%' data-container='body' data-placement='top'>
