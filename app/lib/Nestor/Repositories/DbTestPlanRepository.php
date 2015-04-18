@@ -96,6 +96,7 @@ class DbTestPlanRepository extends DbBaseRepository implements TestPlanRepositor
 		if ($testRuns && count($testRuns) > 0) {
 			foreach ($testRuns as $testRun) {
 				$testRun['count'] = $testRun->countTestCases();
+				$testRun['progress'] = $testRun->progress();
 			}
 		}
 		return $testRuns->toArray();
