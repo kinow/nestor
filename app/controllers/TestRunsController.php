@@ -3,6 +3,7 @@
 use Nestor\Model\Nodes;
 use Nestor\Model\ExecutionStatus;
 use Nestor\Util\NavigationTreeUtil;
+use Nestor\Util\JUnitProducer;
 
 use utilphp\util;
 
@@ -315,15 +316,17 @@ class TestRunsController extends NavigationTreeController
 	{
 		Log::info(sprintf('Retrieving JUnit report for Test Run %d', $testRunId));
 		$currentProject = $this->getCurrentProject();
-		$testrun = $this->testruns->find($testRunId);
-		$testplan = $testrun->testplan()->firstOrFail();
-		$executionStatuses = $this->executionStatuses->all();
+		$testRun = HMVC::get("api/v1/execution/testruns/$testRunId");
+		$testPlan = $testRun['test_plan'];
+
+		$executionStatuses = HMVC::get("api/v1/executionstatuses/");
 
         // TODO's:
 		// get test suites
 		// create right array
 
-		$testsuites = $this->testruns->getTestSuites($testRunId)->get();
+		$testSuites = HMVC::get("api/v1/execution/testruns/$testRunId/testsuites");
+		dd($testSuites);exit;
 		$testcases = $this->testruns->getTestCases($testRunId);
 
 		$ts = array();
@@ -343,7 +346,7 @@ class TestRunsController extends NavigationTreeController
 			$ts[$testsuite->id] = $testsuiteObj;
 		}
 
-		$producer = new \Nestor\Util\JUnitProducer();
+		$producer = new JUnitProducer();
 
 		$document = $producer->produce($ts);
 		// Create doc and put in args
@@ -364,10 +367,10 @@ class TestRunsController extends NavigationTreeController
 			add(sprintf('Test Run %s', $testrun->name), URL::to('/execution/testruns/' . $testRunId));
 
 		$args = array();
-		$args['testrun'] = $testrun;
-		$args['testplan'] = $testplan;
+		$args['testrun'] = $testRun;
+		$args['testplan'] = $testPlan;
 		$args['document'] = $document->saveXML();
-		$args['current_project'] = $this->currentProject;
+		$args['current_project'] = $currentProject;
 		$args['execution_statuses'] = $executionStatuses;
 
 		return $this->theme->scope('execution.testrun.junit', $args)->render();

@@ -28,11 +28,14 @@ class DbTestRunRepository extends DbBaseRepository implements TestRunRepository
 			->select('test_suites.*')
 			->join('test_cases', 'test_suites.id', '=', 'test_cases.test_suite_id')
 			->join('test_case_versions', 'test_case_versions.test_case_id', '=', 'test_cases.id')
+			->join('test_suites', 'test_suites.id', '=', 'test_cases.test_suite_id')
 			->join('test_plans_test_cases', 'test_plans_test_cases.test_case_version_id', '=', 'test_case_versions.id')
 			->join('test_plans', 'test_plans_test_cases.test_plan_id', '=', 'test_plans.id')
 			->join('test_runs', 'test_runs.test_plan_id', '=', 'test_plans.id')
 			->where('test_runs.id', '=', $testRunId)
-			->groupBy('test_suites.id');
+			->groupBy('test_suites.id')
+			->get()
+			->toArray();
 	}
 
 	public function getTestCases($testRunId)

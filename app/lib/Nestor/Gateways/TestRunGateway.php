@@ -18,4 +18,9 @@ class TestRunGateway
 		return $this->testRunRepository->findWith($testRunId, array('testPlan'));
 	}
 
+	public function getTestSuites($testRunId)
+	{
+		return $this->testRunRepository->getTestSuites($testRunId);
+	}
+
 }

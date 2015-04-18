@@ -45,4 +45,10 @@ class TestRunsController extends BaseController {
 		return Restable::single($execution)->render();
 	}
 
+	public function getTestSuites($testRunId)
+	{
+		$testSuites = $this->testRunGateway->getTestSuites($testRunId);
+		return $testSuites;
+	}
+
 }
