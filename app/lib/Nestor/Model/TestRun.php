@@ -38,7 +38,7 @@ class TestRun extends BaseModel {
 			->join('test_plans_test_cases', 'test_plans_test_cases.test_plan_id', '=', 'test_plans.id')
 			->join('test_case_versions', 'test_case_versions.id', '=', 'test_plans_test_cases.test_case_version_id')
 			->join('test_cases', 'test_cases.id', '=', 'test_case_versions.test_case_id')
-			->where('test_plans.id', '=', $this->id)
+			->where('test_runs.id', '=', $this->id)
 			->count('test_cases.id');
 	}
 
@@ -66,9 +66,9 @@ class TestRun extends BaseModel {
 		$executionStatusesCount[1] = count($executionStatusesCount) - $total;
 		foreach ($executionStatusesCount as $statusId => $count)
 		{
-			$progress[$statusId] = ($count / $total) * 100;
+			$progress[$statusId] = $total ? ($count / $total) * 100 : 0;
 		}
-		$percentage = ($executions->count()/$total) * 100;
+		$percentage = $total ? ($executions->count()/$total) * 100 : 0;
 		return array(
 			'percentage' => $percentage,
 			'progress' => $progress

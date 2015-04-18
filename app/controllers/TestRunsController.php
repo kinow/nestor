@@ -81,7 +81,7 @@ class TestRunsController extends NavigationTreeController
 			add('Execution', URL::to('/execution'))->
 			add(sprintf('Test Run %s', $testrun['name']));
 		$args['testrun'] = $testrun;
-		$args['testplan'] = $testrun['testplan'];
+		$args['testplan'] = $testrun['test_plan'];
 		return $this->theme->scope('execution.testrun.show', $args)->render();
 	}
 
