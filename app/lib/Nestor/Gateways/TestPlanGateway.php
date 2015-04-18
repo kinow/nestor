@@ -28,7 +28,7 @@ class TestPlanGateway
 	{
 		$testPlans = $this
 			->testPlanRepository
-			->paginateTestPlansForProjectWith($perPage, $projectId, array('testCases'));
+			->paginateTestPlansForProjectWith($perPage, $projectId, array('testCases', 'testRuns'));
 		return $testPlans;
 	}
 

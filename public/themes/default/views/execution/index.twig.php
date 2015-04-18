@@ -7,7 +7,6 @@
 				<thead>
 					<tr>
 						<th>Name</th>
-						<th>Description</th>
 						<th>Test cases</th>
 						<th>Actions</th>
 					</tr>
@@ -16,10 +15,9 @@
 					{% for testplan in testplans.data %}
 					<tr>
 						<td>{{ testplan.name }}</td>
-						<td>{{ testplan.description }}</td>
 						<td>{{ testplan.test_cases|length }}</td>
 						<td>
-							{{ HTML.link('execution/testruns?test_plan_id=' ~ testplan.id, "View Test Runs (" ~ testplan.testruns|length ~ ")", {'class': 'btn btn-primary'}) }}
+							{{ HTML.link('execution/testruns?test_plan_id=' ~ testplan.id, "View Test Runs (" ~ testplan.test_runs|length ~ ")", {'class': 'btn btn-primary'}) }}
 						</td>
 					</tr>
 					{% endfor %}
