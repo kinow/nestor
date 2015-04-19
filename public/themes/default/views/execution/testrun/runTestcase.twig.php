@@ -17,7 +17,7 @@
 						<h5>View execution history <button class='btn' id='sub-executions-btn'>&#x25BC;</button></h5>
 
 						<div id='sub-executions'>
-							{% if executions.count() > 0 %}
+							{% if executions[0] is defined %}
 							<table class='table table-hover table-bordered'>
 								<colgroup>
 									<col width="20%" />
@@ -32,9 +32,9 @@
 						    		</tr>
 						    	</thead>
 						    	<tbody>
-						    {% for execution in executions.reverse() %}
+						    {% for execution in executions %}
 						    		<tr>
-						    			<td>{{ execution.executionStatus.first.name }}</td>
+						    			<td>{{ execution.execution_status.name }}</td>
 						    			<td>{{ execution.notes }}</td>
 						    			<td>{{ execution.created_at }}</td>
 						    		</tr>

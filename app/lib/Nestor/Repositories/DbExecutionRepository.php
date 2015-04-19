@@ -31,6 +31,7 @@ class DbExecutionRepository extends DbBaseRepository implements ExecutionReposit
 			->where('test_case_version_id', '=', $testCaseVersionId)
 			->where('test_run_id', '=', $testRunId)
 			->orderBy('executions.created_at')
+			->with('executionStatus')
 			->get()
 			->toArray();
 	}
