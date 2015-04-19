@@ -74,6 +74,9 @@ Route::get('execution/testruns/{id}/junit', 'TestRunsController@getJUnit');
 Route::resource('execution/testruns', 'TestRunsController');
 Route::resource('execution', 'ExecutionsController');
 
+// Analytics
+Route::resource('analytics', 'AnalyticsController@index');
+
 // Reports
 Route::resource('reports', 'ReportsController');
 

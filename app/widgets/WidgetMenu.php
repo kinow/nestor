@@ -2,8 +2,10 @@
 
 use Teepluss\Theme\Theme;
 use Teepluss\Theme\Widget;
+
 use Nestor\Repositories\ProjectRepository;
 use Nestor\Model\ProjectStatus;
+
 use Session;
 
 class WidgetMenu extends Widget {
@@ -113,7 +115,7 @@ class WidgetMenu extends Widget {
             $items['specification'] = HTML::link('/specification/', 'Specification', $action_links_attribute);
             $items['planning'] = HTML::link('/planning/', 'Planning', $action_links_attribute);
             $items['execution'] = HTML::link('/execution/', 'Execution', $action_links_attribute);
-            $items['reports'] = HTML::link('/reports/', 'Reports', $action_links_attribute);
+            $items['analytics'] = HTML::link('/analytics/', 'Analytics', $action_links_attribute);
             $items['manage'] = HTML::link('/manage/', 'Manage Nestor');
             $items['logout'] = HTML::link('/users/logout', 'Log out');
         }
