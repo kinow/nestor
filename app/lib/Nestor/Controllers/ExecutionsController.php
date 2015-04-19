@@ -1,6 +1,8 @@
 <?php
 namespace Nestor\Controllers;
 
+use Exception;
+
 use Input;
 use Log;
 use BaseController;

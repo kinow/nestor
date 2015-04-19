@@ -70,10 +70,9 @@ class DbTestPlanRepository extends DbBaseRepository implements TestPlanRepositor
 
 	public function attachTestCase($testPlanId, $testcaseVersionId)
 	{
-		return $this
+		$testPlan = $this
 			->model
 			->find($testPlanId)
-			->firstOrFail()
 			->testCases()
 			->attach($testcaseVersionId)
 		;
@@ -84,7 +83,6 @@ class DbTestPlanRepository extends DbBaseRepository implements TestPlanRepositor
 		return $this
 			->model
 			->find($testPlanId)
-			->firstOrFail()
 			->testCases()
 			->detach($testcaseVersionId)
 		;

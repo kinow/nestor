@@ -32,9 +32,6 @@ class ExecutionGateway
 			Log::warning(sprintf('Duplicate Test Run name [%s] found in the same Test plan [%d]', 
 				$name, $testPlanId));
 			throw new Exception("This name has already been taken");
-			// return Redirect::to('/execution/testruns/create?test_plan_id=' . Input::get('test_plan_id'))
-			// 	->withInput()
-			// 	->withErrors($messages);
 		}
 
 		Log::info('Creating test run...');

@@ -1,6 +1,8 @@
 <?php
 namespace Nestor\Gateways;
 
+use Exception;
+
 use DB;
 use Log;
 
