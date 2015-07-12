@@ -199,4 +199,28 @@ class TestSuiteGateway
 		throw new Exception(sprintf("Failed to delete test suite %s", $id));
 	}
 
+	public function copy($projectId, $fromName, $toName, $ancestor)
+	{
+		DB::beginTransaction();
+		try {
+			// copy root node 
+			list($old, $testsuite) = $this->testsuites->copy($from, $to, $ancestor, $currentProject->id, $this->nodes, $this->testcases, $this->testcaseSteps);
+			
+			Log::info(sprintf('Test suite %s copied successfully into %s', $from, $to));
+			DB::commit();
+		} catch (Exception $e) {
+			DB::rollback();
+			Log::error("Error copying test suite: " . $e->getMessage());
+			if (!is_null($pdo))
+				$pdo->rollBack();
+			$messages = new Illuminate\Support\MessageBag;
+			$messages->add('nestor.customError', $e->getMessage());
+			return Redirect::to('/specification/nodes/1-'.$currentProject['id'])
+				->withInput()
+				->withErrors($messages);
+		}
+
+		return $testSuite;
+	}
+
 }

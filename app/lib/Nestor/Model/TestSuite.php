@@ -1,7 +1,7 @@
 <?php
 namespace Nestor\Model;
 
-class TestSuite extends BaseModel 
+class TestSuite extends BaseModel  implements Copyable
 {
 
 	protected $table = 'test_suites';
@@ -30,6 +30,11 @@ class TestSuite extends BaseModel
 	public function labels() 
 	{
 		return $this->belongsToMany('Nestor\\Model\\Label', 'test_suites_labels')->withTimestamps();
+	}
+
+	public function copy($from, $to)
+	{
+
 	}
 
 }

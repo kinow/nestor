@@ -88,38 +88,14 @@ class TestSuitesController extends NavigationTreeController {
 
 	public function postCopy()
 	{
-		// parameters from the screen
-		$from = Input::get('copy_name');
-		$to = Input::get('copy_new_name');
-		$ancestor = Input::get('ancestor');
+		$testSuite = HMVC::post("api/v1/testsuites/$id/copy", Input::all());
 
-		$currentProject = $this->getCurrentProject();
-
-		Log::info(sprintf('Copying test suite %s into %s', $from, $to));
-
-		$pdo = null;
-		try {
-			// DB transaction
-			$pdo = DB::connection()->getPdo();
-			$pdo->beginTransaction();
-			// copy root node 
-			list($old, $testsuite) = $this->testsuites->copy($from, $to, $ancestor, $currentProject->id, $this->nodes, $this->testcases, $this->testcaseSteps);
-			
-			Log::info(sprintf('Test suite %s copied successfully into %s', $from, $to));
-			$pdo->commit();
-		} catch (\Exception $e) {
-			Log::error("Error copying test suite: " . $e->getMessage());
-			if (!is_null($pdo))
-				$pdo->rollBack();
-			$messages = new Illuminate\Support\MessageBag;
-			$messages->add('nestor.customError', $e->getMessage());
-			return Redirect::to('/specification/nodes/1-'.$currentProject->id)
-				->withInput()
-				->withErrors($messages);
+		if (!$testSuite || (isset($testSuite['code']) && $testSuite['code'] != 200)) {
+			return Redirect::to(URL::previous())->withInput()->withErrors($testSuite['description']);
 		}
 
-		return Redirect::to('/specification/nodes/2-' . $testsuite->id)
-			->with('success', sprintf('The test suite %s has been copied into %s', $from, $to));
+		return Redirect::to('/specification/nodes/' . Nodes::id(Nodes::TEST_SUITE_TYPE, $testSuite['id']))
+			->with('success', sprintf('The test suite has been copied as %s', $testSuite['name']));
 	}
 
 }

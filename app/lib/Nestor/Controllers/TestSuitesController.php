@@ -82,4 +82,22 @@ class TestSuitesController extends BaseController
 		return Restable::updated($testSuite)->render();			
 	}
 
+	public function copy() 
+	{
+		$testSuite = NULL;
+		try {
+			$testSuite = $this->testSuiteGateway->copyTestSuite(
+				Input::get('project_id'),
+				Input::get('copy_name'),
+				Input::get('copy_new_name'),
+				Input::get('ancestor')
+			);
+		} catch (ValidationException $ve) {
+			return Restable::error($ve->getErrors())->render();
+		} catch (Exception $e) {
+			return Restable::bad($e->getMessage())->render();
+		}
+		return Restable::created($testSuite)->render();
+	}
+
 }
