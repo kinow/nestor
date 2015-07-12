@@ -203,9 +203,11 @@ class TestSuiteGateway
 	{
 		DB::beginTransaction();
 		try {
-			// copy root node 
-			list($old, $testsuite) = $this->testsuites->copy($from, $to, $ancestor, $currentProject->id, $this->nodes, $this->testcases, $this->testcaseSteps);
-			
+			$testsuite = $this->testSuiteRepository->copy($from, $to, $ancestor, $currentProject->id, $this->nodes, $this->testcases, $this->testcaseSteps);
+			// FIXME: after the test suite has been copied, we need to copy the
+			//  - labels
+			//  - test cases (initialising each TC's version again)
+			//    -- test case labels
 			Log::info(sprintf('Test suite %s copied successfully into %s', $from, $to));
 			DB::commit();
 		} catch (Exception $e) {
