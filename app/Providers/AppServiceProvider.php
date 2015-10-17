@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Providers;
+namespace Nestor\Providers;
 
 use Illuminate\Support\ServiceProvider;
 
