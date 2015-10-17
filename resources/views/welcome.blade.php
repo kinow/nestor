@@ -14,7 +14,14 @@
 </head>
 <body>
 
+<div class="container">
+    <div id="logo">
+        <h1>Nestor-QA</h1>
+    </div>
+
+    @include ("menu")
+</div>
+
 </body>
 <script data-main="js/main" src="{{ asset('/js/nestor.js') }}"></script>
-<link href="{{ asset('/css/app.css') }}" rel="stylesheet" type="text/css">
 </html>
