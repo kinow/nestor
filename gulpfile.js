@@ -12,11 +12,11 @@ var elixir = require('laravel-elixir');
  */
 
 elixir(function(mix) {
-    mix.less('app.less');
+    mix.sass('app.scss');
 
     mix.scripts([
     	'./resources/assets/bower/jquery/dist/jquery.js',
-    	'./resources/assets/bower/bootstrap/dist/js/bootstrap.js'
+    	'./resources/assets/bower/bootstrap-sass-official/assets/javascripts/bootstrap.min.js'
 	], 
 	'public/js/nestor.js');
 });

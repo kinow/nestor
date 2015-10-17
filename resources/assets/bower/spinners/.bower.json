@@ -1,0 +1,21 @@
+{
+  "name": "spinners",
+  "version": "1.2.2",
+  "main": "stylesheets/_spinners.scss",
+  "author": "Franz Heidl",
+  "ignore": [
+    "*",
+    "!stylesheets/_spinners.scss",
+    "!README.md"
+  ],
+  "homepage": "https://github.com/franzheidl/spinners",
+  "_release": "1.2.2",
+  "_resolution": {
+    "type": "version",
+    "tag": "v1.2.2",
+    "commit": "5fbfa09b4f77cb59b44434f21a63ace754b5a1a8"
+  },
+  "_source": "git://github.com/franzheidl/spinners.git",
+  "_target": "~1.2.2",
+  "_originalSource": "spinners"
+}

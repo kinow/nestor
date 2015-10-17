@@ -15,11 +15,14 @@
 <body>
 
 <div class="container">
-    <div id="logo">
-        <h1>Nestor-QA</h1>
-    </div>
-
+    <br/>
     @include ("menu")
+
+    <div id="page">
+        <div class="spinner-loader">
+            <i class="my-loading-spinner"></i>
+        </div>
+    </div>
 </div>
 
 </body>

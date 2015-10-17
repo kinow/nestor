@@ -2,6 +2,7 @@
   "name": "nestor-qa",
   "dependencies": {
     "jquery": "~2.1.4",
-    "bootstrap": "~3.3.5"
+    "bootstrap-sass-official": "~3.3.5",
+    "spinners": "~1.2.2"
   }
 }
