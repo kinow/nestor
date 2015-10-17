@@ -1,3 +1,0 @@
-- Migrate to Laravel 5
-- Review database schema
-- Find a way to automatically bump-up the project version, create tag and prepare next release (mvn release:prepare && mvn release:perform similar)
