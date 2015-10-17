@@ -14,3 +14,9 @@
 Route::get('/', function () {
     return view('welcome');
 });
+
+$api = app('Dingo\Api\Routing\Router');
+$api->version('v1', function ($api) {
+	$api->get('projects/', 'Nestor\Http\Controllers\ProjectsController@index');
+	$api->get('projects/{id}', 'Nestor\Http\Controllers\ProjectsController@show');
+});

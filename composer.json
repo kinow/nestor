@@ -4,9 +4,11 @@
     "keywords": ["nestor", "nestor-qa", "quality assurance", "test management", "testing", "quality"],
     "license": "MIT",
     "type": "project",
+    "minimum-stability": "dev",
     "require": {
         "php": ">=5.5.9",
-        "laravel/framework": "5.1.*"
+        "laravel/framework": "5.1.*",
+        "dingo/api": "1.0.*@dev"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",

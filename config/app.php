@@ -138,6 +138,11 @@ return [
         Illuminate\View\ViewServiceProvider::class,
 
         /*
+         * API
+         */
+        Dingo\Api\Provider\LaravelServiceProvider::class,
+
+        /*
          * Application Service Providers...
          */
         Nestor\Providers\AppServiceProvider::class,
