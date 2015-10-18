@@ -13,6 +13,12 @@ var elixir = require('laravel-elixir');
 
 elixir(function(mix) {
     mix.sass('app.scss');
+    //mix.less('');
+    
+    mix.styles([
+    	'./public/js/libs/semantic/dist/semantic.min.css'
+    ],
+    'public/css/nestor.css');
 
  //    mix.scripts([
  //    	'./resources/assets/bower/jquery/dist/jquery.js',

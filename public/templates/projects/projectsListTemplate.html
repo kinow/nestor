@@ -1,0 +1,10 @@
+<% _.each(projects, function(project){ %>
+<div class='item'>
+	<div class="content">
+		<a class='header' href='<%= project.get("url") %>'><%= project.get("name") %></a>
+		<div class='description'>
+			<%= project.get('description') %>
+		</div>
+	</div>
+</div>
+<% }); %>

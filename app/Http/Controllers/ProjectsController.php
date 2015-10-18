@@ -20,7 +20,7 @@ class ProjectsController extends Controller
      * @Get("/")
      * @Versions({"v1"})
      * @Request({})
-     * @Response(200, body={"id": 1, "name": "project name"})
+     * @Response(200, body={"id": 1, "name": "project name", "url": "http://<host>:<port>/<path>", "description": "project description"})
      */
     public function index()
     {
@@ -28,10 +28,12 @@ class ProjectsController extends Controller
             [
                 'id' => 1,
                 'name' => 'Test Project',
+                'description' => 'This is the first project'
             ],
             [
                 'id' => 2,
-                'name' => 'Dummy Project'
+                'name' => 'Dummy Project',
+                'description' => 'And this is the second project'
             ]
         ];
     }

@@ -9,8 +9,8 @@ define([
     el: $("#page"),
 
     render: function(){
-      $('.menu li').removeClass('active');
-      $('.menu li a[href="#"]').parent().addClass('active');
+      $('.menu').removeClass('active');
+      $('.menu a[href="#"]').addClass('active');
 
       this.$el.html(homeTemplate);
     }

@@ -9,18 +9,21 @@
     <meta name="description" content="Nestor-QA, Open Source test management server">
     <meta name="author" content="Nestor-QA team, Bruno P. Kinoshita, Peter Florijn">
     <meta name="viewport" content="width=device-width,initial-scale=1">
+    <link href="{{ asset('/css/nestor.css') }}" rel="stylesheet" type="text/css">
     <link href="{{ asset('/css/app.css') }}" rel="stylesheet" type="text/css">
     <title>Nestor-QA</title>
 </head>
 <body>
-
-<div class="container">
-    <br/>
+<br/>
+<div class="ui container">
     @include ("menu")
 
     <div id="page">
-        <div class="spinner-loader">
-            <i class="my-loading-spinner"></i>
+        <div class="ui segment">
+          <p></p>
+          <div class="ui active dimmer">
+            <div class="ui loader"></div>
+          </div>
         </div>
     </div>
 </div>
