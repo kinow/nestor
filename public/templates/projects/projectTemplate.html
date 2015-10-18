@@ -1,0 +1,24 @@
+<h1 class="ui top attached header"><%= project.get('name') %></h1>
+<div class="ui attached segment">
+	<form class='ui form'>
+		  <div class="field">
+			<label>Name</label>
+			<input name="name" placeholder="Name" type="text" value="<%= project.get('name') %>" />
+		  </div>
+		  <div class="field">
+			<label>Description</label>
+			<input name="name" placeholder="Description" type="text" value="<%= project.get('description') %>" />
+		  </div>
+		  <button class="positive ui left floated button">
+			  Okay
+		  </button>
+		  <a href="javascript: window.history.back();" class="ui left floated button">
+			  Cancel
+		  </a>
+		  <a href="#/projects/<%= project.get('id') %>/confirmDelete" class="negative ui right floated button">
+			  Delete
+		  </a>
+		  <br class='clearfix' />
+		  <br/>	
+	</form>
+</div>

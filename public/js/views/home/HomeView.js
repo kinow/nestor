@@ -9,12 +9,11 @@ define([
     el: $("#page"),
 
     render: function(){
-      $('.menu').removeClass('active');
+      $('.menu a').removeClass('active');
       $('.menu a[href="#"]').addClass('active');
 
       this.$el.html(homeTemplate);
     }
-
   });
 
   return HomeView;

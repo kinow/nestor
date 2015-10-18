@@ -13,9 +13,12 @@ define([
   	},
 
   	initialize: function (options) {
-      console.log(options);
       this.set('url', '#/projects/' + options.id);
-  	}
+  	},
+
+    url: function() {
+      return '/api/projects/' + this.id;
+    }
 
   });
 

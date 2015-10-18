@@ -4,15 +4,19 @@ define([
   'underscore',
   'backbone',
   'views/home/HomeView',
-  'views/projects/ProjectsView'
-], function($, _, Backbone, HomeView, ProjectsView) {
+  'views/projects/ProjectsView',
+  'views/projects/ProjectView',
+  'views/projects/ConfirmDeleteProjectView'
+], function($, _, Backbone, HomeView, ProjectsView, ProjectView, ConfirmDeleteProjectView) {
   
   var AppRouter = Backbone.Router.extend({
     routes: {
-      // Define some URL routes
+      // Project routes
       'projects': 'showProjects',
+      'projects/:id': 'showProject',
+      'projects/:id/confirmDelete': 'showConfirmDeleteProject',
+      // User routes
       'users': 'showContributors',
-      
       // Default
       '*actions': 'defaultAction'
     }
@@ -21,12 +25,20 @@ define([
   var initialize = function(){
     var app_router = new AppRouter;
     
-    app_router.on('route:showProjects', function(){
-   
-        // Call render on the module we loaded in via the dependency array
-        var projectsView = new ProjectsView();
-        projectsView.render();
+    app_router.on('route:showProjects', function() {
+      var projectsView = new ProjectsView();
+      projectsView.render();
 
+    });
+
+    app_router.on('route:showProject', function(id) {
+      var projectView = new ProjectView({id: id});
+      projectView.render();
+    });
+
+    app_router.on('route:showConfirmDeleteProject', function(id) {
+      var confirmDeleteProjectView = new ConfirmDeleteProjectView({id: id});
+      confirmDeleteProjectView.render();
     });
 
     app_router.on('route:showContributors', function () {

@@ -69,7 +69,8 @@ class ProjectsController extends Controller
     {
         return [
                 'id' => (int) $id,
-                'name' => 'Test Project',
+                'name' => sprintf('Project %s', $id),
+                'description' => sprintf('Le description du projet %s', $id)
             ];
     }
 
