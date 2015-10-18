@@ -1,6 +1,6 @@
-@import 'resources/assets/bower/bootstrap-sass-official/assets/stylesheets/_bootstrap';
+@import 'public/js/libs/bootstrap-sass-official/assets/stylesheets/_bootstrap';
 
-@import 'resources/assets/bower/spinners/stylesheets/_spinners';
+@import 'public/js/libs/spinners/stylesheets/_spinners';
 .my-loading-spinner {
     @include spinner(2.0em, background rgba(0, 0, 0, .2));
 }

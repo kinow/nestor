@@ -14,9 +14,9 @@ var elixir = require('laravel-elixir');
 elixir(function(mix) {
     mix.sass('app.scss');
 
-    mix.scripts([
-    	'./resources/assets/bower/jquery/dist/jquery.js',
-    	'./resources/assets/bower/bootstrap-sass-official/assets/javascripts/bootstrap.min.js'
-	], 
-	'public/js/nestor.js');
+ //    mix.scripts([
+ //    	'./resources/assets/bower/jquery/dist/jquery.js',
+ //    	'./resources/assets/bower/bootstrap-sass-official/assets/javascripts/bootstrap.min.js'
+	// ], 
+	// 'public/js/nestor.js');
 });

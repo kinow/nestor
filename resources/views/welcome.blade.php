@@ -26,5 +26,5 @@
 </div>
 
 </body>
-<script data-main="js/main" src="{{ asset('/js/nestor.js') }}"></script>
+<script data-main="js/main" src="{{ asset('/js/libs/requirejs/require.js') }}"></script>
 </html>
