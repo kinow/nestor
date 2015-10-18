@@ -3,6 +3,7 @@
 	<div class="right floated content">
 		<a href="<%= project.get('url') %>" class="ui button">View</a>
      	<a href="#/projects/<%= project.get('id') %>" class="ui button">Edit</a>
+     	<a href="#/projects/<%= project.get('id') %>/confirmDelete" class="ui button">Delete</a>
     </div>
 	<div class="content">
 		<a class='header' href='<%= project.get("url") %>'><%= project.get("name") %></a>
