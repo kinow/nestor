@@ -9,19 +9,24 @@ define([
   var ProjectView = Backbone.View.extend({
     el: $("#page"),
 
+    events: {
+      'submit form': 'save'
+    },
+
     initialize: function (options) {
       this.id = options.id;
+      this.model = new ProjectModel({id: this.id});
+      _.bindAll(this, 'save');
     },
 
     render: function() {
       $('.menu a').removeClass('active');
       $('.menu a[href="#/projects"]').addClass('active');
-      var project = new ProjectModel({id: this.id});
       var self = this;
-      project.fetch({
+      this.model.fetch({
         success: function () {
           var data = {
-            project: project,
+            project: self.model,
             _: _
           }
           var compiledTemplate = _.template( projectTemplate, data );
@@ -31,6 +36,18 @@ define([
           throw new Error("Failed to fetch project");
         }
       });
+    },
+
+    save: function(e) {
+      e.preventDefault();
+      var arr = this.$('form').serializeArray();
+      var data = _(arr).reduce(function(acc, field) {
+        acc[field.name] = field.value;
+        return acc;
+      }, {});
+      Backbone.history.navigate('#projects', true);
+      // this.model.save();
+      return false;
     }
 
   });

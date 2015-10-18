@@ -13,7 +13,7 @@ define([
   	},
 
   	initialize: function (options) {
-      this.set('url', '#/projects/' + options.id);
+      this.set('url', '#/projects/' + options.id + '/view');
   	},
 
     url: function() {

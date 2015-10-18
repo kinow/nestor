@@ -6,8 +6,17 @@ define([
   'views/home/HomeView',
   'views/projects/ProjectsView',
   'views/projects/ProjectView',
-  'views/projects/ConfirmDeleteProjectView'
-], function($, _, Backbone, HomeView, ProjectsView, ProjectView, ConfirmDeleteProjectView) {
+  'views/projects/ConfirmDeleteProjectView',
+  'views/projects/ViewProjectView'
+], function(
+  $,
+  _,
+  Backbone,
+  HomeView,
+  ProjectsView,
+  ProjectView,
+  ConfirmDeleteProjectView,
+  ViewProjectView) {
   
   var AppRouter = Backbone.Router.extend({
     routes: {
@@ -15,6 +24,7 @@ define([
       'projects': 'showProjects',
       'projects/:id': 'showProject',
       'projects/:id/confirmDelete': 'showConfirmDeleteProject',
+      'projects/:id/view': 'viewProject',
       // User routes
       'users': 'showContributors',
       // Default
@@ -39,6 +49,11 @@ define([
     app_router.on('route:showConfirmDeleteProject', function(id) {
       var confirmDeleteProjectView = new ConfirmDeleteProjectView({id: id});
       confirmDeleteProjectView.render();
+    });
+
+    app_router.on('route:viewProject', function(id) {
+      var projectView = new ViewProjectView({id: id});
+      projectView.render();
     });
 
     app_router.on('route:showContributors', function () {
