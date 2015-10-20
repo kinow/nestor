@@ -15,6 +15,11 @@ elixir(function(mix) {
     mix.sass('app.scss');
     //mix.less('');
     
+    mix.copy(
+    	'./public/js/libs/semantic/dist/themes',
+    	'public/css/themes'
+    );
+
     mix.styles([
     	'./public/js/libs/semantic/dist/semantic.min.css'
     ],
