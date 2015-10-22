@@ -17,6 +17,7 @@ define([
   ProjectView,
   ConfirmDeleteProjectView,
   ViewProjectView) {
+  'use strict';
 
   var AppRouter = Backbone.Router.extend({
     routes: {

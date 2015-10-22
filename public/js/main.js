@@ -6,7 +6,6 @@ require.config({
     backbone: 'libs/backbone-amd/backbone-min',
     templates: '../templates'
   }
-
 });
 
 require([
