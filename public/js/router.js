@@ -17,7 +17,7 @@ define([
   ProjectView,
   ConfirmDeleteProjectView,
   ViewProjectView) {
-  
+
   var AppRouter = Backbone.Router.extend({
     routes: {
       // Project routes
@@ -31,10 +31,10 @@ define([
       '*actions': 'defaultAction'
     }
   });
-  
+
   var initialize = function(){
     var app_router = new AppRouter;
-    
+
     app_router.on('route:showProjects', function() {
       var projectsView = new ProjectsView();
       projectsView.render();
@@ -57,14 +57,12 @@ define([
     });
 
     app_router.on('route:showContributors', function () {
-    
         // Like above, call render but know that this view has nested sub views which 
         // handle loading and displaying data from the GitHub API  
         var contributorsView = new ContributorsView();
     });
 
     app_router.on('route:defaultAction', function (actions) {
-     
        // We have no matching route, lets display the home page 
         var homeView = new HomeView();
         homeView.render();
