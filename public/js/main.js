@@ -4,7 +4,8 @@ require.config({
     jquery: 'libs/jquery/dist/jquery.min',
     underscore: 'libs/underscore-amd/underscore-min',
     backbone: 'libs/backbone-amd/backbone-min',
-    templates: '../templates'
+    templates: '../templates',
+    navigation: 'libs/navigation/navigation'
   }
 });
 

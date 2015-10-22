@@ -11,7 +11,7 @@ define([
   var ProjectsView = Backbone.View.extend({
     el: $("#page"),
 
-    render: function(){
+    render: function() {
       $('.menu a').removeClass('active');
       $('.menu a[href="'+window.location.hash+'"]').addClass('active');
 
