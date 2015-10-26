@@ -26,6 +26,7 @@ define([
     render: function() {
       //this.$el.html(homeTemplate);
       var self  = this;
+      self.$el.empty();
       this.collection.each(function(breadcrumb) {
         self.$el.append("<a href='#/" + breadcrumb.get('url') + "'>" + breadcrumb.get('text') + "</a>");
       });
