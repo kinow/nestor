@@ -25,6 +25,21 @@ define([
 
   var navigation = new Navigation();
 
+  var BaseRouter = Backbone.Router.extend({
+    routes: {
+      'home': 'defaultAction',
+      '*actions': 'defaultAction'
+    },
+    navigation: {
+      prefix: 'Base',
+      pages: {
+        'Base.defaultAction': {
+          template: 'Home'
+        }
+      }
+    }
+  });
+
   var ProjectsRouter = Backbone.Router.extend({
     routes: {
       // Project routes
@@ -33,15 +48,14 @@ define([
       'projects/:id/confirmDelete': 'showConfirmDeleteProject',
       'projects/:id/view': 'viewProject',
       // User routes
-      'users': 'showContributors',
-      // Default
-      '*actions': 'defaultAction'
+      'users': 'showContributors'
     },
     navigation: {
       prefix: 'Projects',
       pages: {
         'Projects.showProjects': {
-          template: 'Projects'
+          template: 'Projects',
+          parent: 'Base.defaultAction'
         },
         'Projects.showProject': {
           template: _.template('Project <%= args["id"] %>'),
@@ -52,7 +66,19 @@ define([
   });
 
   var initialize = function() {
-    var projectsRouter = new ProjectsRouter;
+
+    // --- base router ---
+    var baseRouter = new BaseRouter();
+
+    baseRouter.on('route:defaultAction', function (actions) {
+       // We have no matching route, lets display the home page 
+        var homeView = new HomeView();
+        homeView.render();
+    });
+    // --- end base router
+
+    // --- projects router ---
+    var projectsRouter = new ProjectsRouter();
 
     projectsRouter.on('route:showProjects', function() {
       var projectsView = new ProjectsView();
@@ -80,13 +106,9 @@ define([
         // handle loading and displaying data from the GitHub API  
         var contributorsView = new ContributorsView();
     });
+    // --- end projects router ---
 
-    projectsRouter.on('route:defaultAction', function (actions) {
-       // We have no matching route, lets display the home page 
-        var homeView = new HomeView();
-        homeView.render();
-    });
-
+    navigation.appendRouter(baseRouter);
     navigation.appendRouter(projectsRouter);
     navigation.mapRouters();
 

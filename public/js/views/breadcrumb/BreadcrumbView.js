@@ -27,8 +27,13 @@ define([
       //this.$el.html(homeTemplate);
       var self  = this;
       self.$el.empty();
-      this.collection.each(function(breadcrumb) {
-        self.$el.append("<a href='#/" + breadcrumb.get('url') + "'>" + breadcrumb.get('text') + "</a>");
+      this.collection.each(function(breadcrumb, i) {
+        if ((i+1) != self.collection.length) {
+          self.$el.append("<a class='section' href='#/" + breadcrumb.get('url') + "'>" + breadcrumb.get('text') + "</a>");
+          self.$el.append('<i class="right angle icon divider"></i>');
+        } else {
+          self.$el.append("<a class='active section' href='#/" + breadcrumb.get('url') + "'>" + breadcrumb.get('text') + "</a>");
+        }
       });
     }
   });
