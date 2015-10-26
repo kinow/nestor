@@ -58,7 +58,24 @@ define([
           parent: 'Base.defaultAction'
         },
         'Projects.showProject': {
-          template: _.template('Project <%= args["id"] %>'),
+          template: function(args) {
+            var tpl = _.template('Edit Project <%= args[":id"] %>');
+            return tpl({args: args});
+          },
+          parent: 'Projects.showProjects'
+        },
+        'Projects.showConfirmDeleteProject': {
+          template: function(args) {
+            var tpl = _.template('Delete Project <%= args[":id"] %>');
+            return tpl({args: args});
+          },
+          parent: 'Projects.showProjects'
+        },
+         'Projects.viewProject': {
+          template: function(args) {
+            var tpl = _.template('View Project <%= args[":id"] %>');
+            return tpl({args: args});
+          },
           parent: 'Projects.showProjects'
         }
       }

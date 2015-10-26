@@ -14,7 +14,6 @@ define([
       var navigation = options.navigation;
       var self = this;
       navigation.getBreadcrumbs().done(function() {
-        console.log('Got breadcrumbs!');
         self.collection = navigation.breadcrumbs;
         self.render();
         self.listenTo(self.collection, 'add', self.render);
@@ -32,7 +31,7 @@ define([
           self.$el.append("<a class='section' href='#/" + breadcrumb.get('url') + "'>" + breadcrumb.get('text') + "</a>");
           self.$el.append('<i class="right angle icon divider"></i>');
         } else {
-          self.$el.append("<a class='active section' href='#/" + breadcrumb.get('url') + "'>" + breadcrumb.get('text') + "</a>");
+          self.$el.append("<div class='active section'>" + breadcrumb.get('text') + "</div>");
         }
       });
     }
