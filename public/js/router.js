@@ -4,12 +4,16 @@ define([
   'underscore',
   'backbone',
   'navigation',
+  // Base views
   'views/home/HomeView',
   'views/breadcrumb/BreadcrumbView',
+  // Projects views
   'views/projects/ProjectsView',
   'views/projects/ProjectView',
   'views/projects/ConfirmDeleteProjectView',
-  'views/projects/ViewProjectView'
+  'views/projects/ViewProjectView',
+  // Test Suite views
+  'views/testsuites/NewTestSuiteView'
 ], function(
   $,
   _,
@@ -20,7 +24,8 @@ define([
   ProjectsView,
   ProjectView,
   ConfirmDeleteProjectView,
-  ViewProjectView) {
+  ViewProjectView,
+  NewTestSuiteView) {
   'use strict';
 
   var navigation = new Navigation();
@@ -82,6 +87,12 @@ define([
     }
   });
 
+  var TestSuitesRouter = Backbone.Router.extend({
+    routes: {
+      'projects/:projectId/testsuites/new': 'showAddTestSuite'
+    }
+  });
+
   var initialize = function() {
 
     // --- base router ---
@@ -124,6 +135,14 @@ define([
         var contributorsView = new ContributorsView();
     });
     // --- end projects router ---
+
+    // --- test suites router ---
+    var testSuitesRouter = new TestSuitesRouter();
+    testSuitesRouter.on('route:showAddTestSuite', function(projectId) {
+      var newTestSuiteView = new NewTestSuiteView({projectId: projectId});
+      newTestSuiteView.render();
+    });
+    // --- end test suites router ---
 
     navigation.appendRouter(baseRouter);
     navigation.appendRouter(projectsRouter);
