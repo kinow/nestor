@@ -11,12 +11,6 @@
 					</div>
 					<div class="list">
 						<div class="item">
-							<i class="angle double right icon"></i>
-							<div class="content">
-								<div class="header"><a href="#/projects/<%= project.get('id') %>/testsuites/new">Add new Test Suite</a></div>
-							</div>
-						</div>
-						<div class="item">
 							<i class="folder icon"></i>
 							<div class="content">
 								<div class="header"><a href="#/projects/<%= project.get('id') %>/testsuites/1">Test Suite 001</a></div>
@@ -52,6 +46,11 @@
 			<h4><%= project.get('name') %></h4>
 
 			<%= project.get('description') %>
+
+			<div class="item">
+				<i class="angle double right icon"></i>
+				<a href="#/projects/<%= project.get('id') %>/testsuites/new">Add new Test Suite</a>
+			</div>
 		</div>
 	</div>
 </div>
