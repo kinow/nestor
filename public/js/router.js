@@ -9,6 +9,7 @@ define([
   'views/breadcrumb/BreadcrumbView',
   // Projects views
   'views/projects/ProjectsView',
+  'views/projects/NewProjectView',
   'views/projects/ProjectView',
   'views/projects/ConfirmDeleteProjectView',
   'views/projects/ViewProjectView',
@@ -22,6 +23,7 @@ define([
   HomeView,
   BreadcrumbView,
   ProjectsView,
+  NewProjectView,
   ProjectView,
   ConfirmDeleteProjectView,
   ViewProjectView,
@@ -49,6 +51,7 @@ define([
     routes: {
       // Project routes
       'projects': 'showProjects',
+      'projects/new': 'showAddProject',
       'projects/:id': 'showProject',
       'projects/:id/confirmDelete': 'showConfirmDeleteProject',
       'projects/:id/view': 'viewProject',
@@ -67,6 +70,10 @@ define([
             var tpl = _.template('Edit Project <%= args[":id"] %>');
             return tpl({args: args});
           },
+          parent: 'Projects.showProjects'
+        },
+        'Projects.showAddProject': {
+          template: 'Add new Project',
           parent: 'Projects.showProjects'
         },
         'Projects.showConfirmDeleteProject': {
@@ -112,6 +119,11 @@ define([
       var projectsView = new ProjectsView();
       projectsView.render();
 
+    });
+
+    projectsRouter.on('route:showAddProject', function() {
+      var newProjectView = new NewProjectView();
+      newProjectView.render();
     });
 
     projectsRouter.on('route:showProject', function(id) {
