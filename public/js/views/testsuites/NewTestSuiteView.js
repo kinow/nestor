@@ -8,7 +8,6 @@ define([
 ], function($, _, Backbone, ProjectModel, TestSuiteModel, newTestSuiteTemplate){
 
   var NewTestSuiteView = Backbone.View.extend({
-    el: $("#page"),
 
     events: {
     },
@@ -29,7 +28,7 @@ define([
             _: _
           }
           var compiledTemplate = _.template( newTestSuiteTemplate, data );
-          self.$el.html(compiledTemplate);
+          $("#content-area").html(compiledTemplate);
         },
         error: function() {
           throw new Error("Failed to fetch project");
