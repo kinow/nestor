@@ -9,9 +9,6 @@ define([
 
   var NewTestSuiteView = Backbone.View.extend({
 
-    events: {
-    },
-
     initialize: function (options) {
       this.projectId = options.projectId;
     },

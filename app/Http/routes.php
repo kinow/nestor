@@ -19,4 +19,6 @@ $api = app('Dingo\Api\Routing\Router');
 $api->version('v1', function ($api) {
 	$api->get('projects/', 'Nestor\Http\Controllers\ProjectsController@index');
 	$api->get('projects/{id}', 'Nestor\Http\Controllers\ProjectsController@show');
+
+	$api->get('projects/{projectId}/testsuites/{testSuiteId}', 'Nestor\Http\Controllers\TestSuitesController@show');
 });
