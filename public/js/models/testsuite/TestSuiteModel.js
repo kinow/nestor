@@ -14,6 +14,8 @@ define([
   	},
 
   	initialize: function (options) {
+      this.id = options.id;
+      this.projectId = options.projectId;
       this.set('url', '#/projects/' + options.projectId + '/testsuites/' + options.id + '/view');
   	},
 

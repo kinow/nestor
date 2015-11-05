@@ -25,12 +25,12 @@ class TestSuitesController extends Controller
             [
                 'id' => 10,
                 'name' => 'Suite 001',
-                'description' => 'This is the first test suite'
+                'description' => 'Test suite 003'
             ],
             [
                 'id' => 20,
-                'name' => 'Dummy Suite #2',
-                'description' => 'And this is the second test suite'
+                'name' => 'Suite 002',
+                'description' => 'Test suite 002'
             ]
         ];
     }
@@ -62,12 +62,12 @@ class TestSuitesController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($projectId, $id)
     {
         return [
                 'id' => (int) $id,
-                'name' => sprintf('Test Suite fake %s', $id),
-                'description' => sprintf('Le description du test suite %s', $id)
+                'name' => sprintf('Test suite 00%d', $id),
+                'description' => sprintf('Le description du test suite %d', $id)
             ];
     }
 
