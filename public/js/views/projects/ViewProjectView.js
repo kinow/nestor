@@ -17,23 +17,27 @@ define([
     },
 
     render: function() {
-      $('.menu a').removeClass('active');
-      $('.menu a[href="#/projects"]').addClass('active');
-      var project = new ProjectModel({id: this.id});
-      var self = this;
-      project.fetch({
-        success: function () {
-          var data = {
-            project: project,
-            _: _
+      if ($("#project_tree").length == 0) {
+        $('.menu a').removeClass('active');
+        $('.menu a[href="#/projects"]').addClass('active');
+        var project = new ProjectModel({id: this.id});
+        var self = this;
+        project.fetch({
+          success: function () {
+            var data = {
+              project: project,
+              _: _
+            }
+            var compiledTemplate = _.template( viewProjectTemplate, data );
+            self.$el.html(compiledTemplate);
+          },
+          error: function() {
+            throw new Error("Failed to fetch project");
           }
-          var compiledTemplate = _.template( viewProjectTemplate, data );
-          self.$el.html(compiledTemplate);
-        },
-        error: function() {
-          throw new Error("Failed to fetch project");
-        }
-      });
+        });
+      } else {
+        console.log("Already CREATED!!!");
+      }
     },
 
   });

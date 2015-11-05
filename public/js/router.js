@@ -164,8 +164,12 @@ define([
     });
 
     testSuitesRouter.on('route:showTestSuite', function(projectId, testSuiteId) {
+      var projectView = new ViewProjectView({id: projectId});
+      projectView.render();
+      console.log('view1.');
       var testSuiteView = new TestSuiteView({projectId: projectId, testSuiteId: testSuiteId});
       testSuiteView.render();
+      console.log('view2.');
     });
 
     testSuitesRouter.on('route:showConfirmDeleteTestSuite', function(id) {
