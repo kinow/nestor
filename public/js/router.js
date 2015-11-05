@@ -159,6 +159,8 @@ define([
     var testSuitesRouter = new TestSuitesRouter();
 
     testSuitesRouter.on('route:showAddTestSuite', function(projectId) {
+      var projectView = new ViewProjectView({id: projectId});
+      projectView.render();
       var newTestSuiteView = new NewTestSuiteView({projectId: projectId});
       newTestSuiteView.render();
     });
@@ -166,13 +168,13 @@ define([
     testSuitesRouter.on('route:showTestSuite', function(projectId, testSuiteId) {
       var projectView = new ViewProjectView({id: projectId});
       projectView.render();
-      console.log('view1.');
       var testSuiteView = new TestSuiteView({projectId: projectId, testSuiteId: testSuiteId});
       testSuiteView.render();
-      console.log('view2.');
     });
 
     testSuitesRouter.on('route:showConfirmDeleteTestSuite', function(id) {
+      var projectView = new ViewProjectView({id: projectId});
+      projectView.render();
       var confirmDeleteTestSuiteView = new ConfirmDeleteTestSuiteView({id: id});
       confirmDeleteTestSuiteView.render();
     });

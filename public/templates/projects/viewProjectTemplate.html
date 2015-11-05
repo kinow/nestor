@@ -1,56 +1,10 @@
-<div class='ui stackable grid'>
-	<div class='four wide column'>
-		<div class="ui list" id="project_tree">
-			<div class="item">
-				<i class="folder icon"></i>
-				<div class="content">
-					<div class="header">
-						<a href="/#/projects/<%= project.get('id') %>/view">
-							<%= project.get('name') %>
-						</a>
-					</div>
-					<div class="list">
-						<div class="item">
-							<i class="folder icon"></i>
-							<div class="content">
-								<div class="header"><a href="#/projects/<%= project.get('id') %>/testsuites/1">Test Suite 001</a></div>
-							</div>
-						</div>
-						<div class="item">
-							<i class="folder icon"></i>
-							<div class="content">
-								<div class="header"><a href="#/projects/<%= project.get('id') %>/testsuites/2">Test Suite 002</a></div>
-								<div class="list">
-									<div class="item">
-										<i class="file icon"></i>
-										<div class="content">
-											<div class="header"><a href="#/projects/<%= project.get('id') %>/testcases/1">Test Case 001</a></div>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-						<div class="item">
-							<i class="folder icon"></i>
-							<div class="content">
-								<div class="header"><a href="#/testsuites/3">And the last test suite</a></div>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-	<div class='twelve wide column' id="content-area">
-		<div class="ui attached segment">
-			<h4><%= project.get('name') %></h4>
+<div class="ui attached segment">
+	<h4><%= project.get('name') %></h4>
 
-			<%= project.get('description') %>
+	<%= project.get('description') %>
 
-			<div class="item">
-				<i class="angle double right icon"></i>
-				<a href="#/projects/<%= project.get('id') %>/testsuites/new">Add new Test Suite</a>
-			</div>
-		</div>
+	<div class="item">
+		<i class="angle double right icon"></i>
+		<a href="#/projects/<%= project.get('id') %>/testsuites/new">Add new Test Suite</a>
 	</div>
 </div>
