@@ -1,0 +1,10 @@
+<div class="ui attached segment">
+	<h4><%= testsuite.get('name') %></h4>
+
+	<%= testsuite.get('description') %>
+
+	<div class="item">
+		<i class="angle double right icon"></i>
+		<a href="#/projects/<%= projectId %>/testcases/<%= testsuite.get('id') %>/testcases/new">Add new Test Case</a>
+	</div>
+</div>

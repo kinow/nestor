@@ -15,7 +15,8 @@ define([
   'views/projects/ViewProjectView',
   // Test Suite views
   'views/testsuites/NewTestSuiteView',
-  'views/testsuites/TestSuiteView'
+  'views/testsuites/TestSuiteView',
+  'views/testsuites/ViewTestSuiteView'
 ], function(
   $,
   _,
@@ -32,7 +33,8 @@ define([
   ViewProjectView,
 
   NewTestSuiteView,
-  TestSuiteView) {
+  TestSuiteView,
+  ViewTestSuiteView) {
   'use strict';
 
   var navigation = new Navigation();
@@ -103,7 +105,8 @@ define([
     routes: {
       'projects/:projectId/testsuites/new': 'showAddTestSuite',
       'projects/:projectId/testsuites/:testsuiteId': 'showTestSuite',
-      'projects/:projectId/testsuites/showConfirmDeleteTestSuite': 'showConfirmDeleteTestSuite'
+      'projects/:projectId/testsuites/showConfirmDeleteTestSuite': 'showConfirmDeleteTestSuite',
+      'projects/:projectId/testsuites/:testsuiteId/view': 'viewTestSuite'
     }
   });
 
@@ -113,7 +116,7 @@ define([
     var baseRouter = new BaseRouter();
 
     baseRouter.on('route:defaultAction', function (actions) {
-       // We have no matching route, lets display the home page 
+       // We have no matching route, lets display the home page
         var homeView = new HomeView();
         homeView.render();
     });
@@ -149,8 +152,8 @@ define([
     });
 
     projectsRouter.on('route:showContributors', function () {
-        // Like above, call render but know that this view has nested sub views which 
-        // handle loading and displaying data from the GitHub API  
+        // Like above, call render but know that this view has nested sub views which
+        // handle loading and displaying data from the GitHub API
         var contributorsView = new ContributorsView();
     });
     // --- end projects router ---
@@ -179,6 +182,13 @@ define([
       confirmDeleteTestSuiteView.render();
     });
 
+    testSuitesRouter.on('route:viewTestSuite', function(projectId, testsuiteId) {
+      var projectView = new ViewProjectView({id: projectId});
+      projectView.render();
+      var testSuiteView = new ViewTestSuiteView({projectId: projectId, testSuiteId: testsuiteId});
+      testSuiteView.render();
+    });
+
     // --- end test suites router ---
 
     navigation.appendRouter(baseRouter);
@@ -189,7 +199,7 @@ define([
 
     Backbone.history.start();
   };
-  return { 
+  return {
     initialize: initialize
   };
 });
