@@ -1,17 +1,23 @@
 // Filename: app.js
 define([
-  'jquery', 
-  'underscore', 
+  'jquery',
+  'underscore',
   'backbone',
   'router', // Request router.js
-], function($, _, Backbone, Router){
+  'views/HeaderView'
+], function($, _, Backbone, Router, HeaderView){
   'use strict';
   var initialize = function(){
+    if (!this.headerView) {
+      this.headerView = new HeaderView();
+      this.headerView.setElement($(".header")).render();
+    }
+
     // Pass in our Router module and call it's initialize function
     Router.initialize();
   };
 
-  return { 
+  return {
     initialize: initialize
   };
 });
