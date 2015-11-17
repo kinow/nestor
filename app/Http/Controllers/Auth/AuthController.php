@@ -2,7 +2,7 @@
 
 namespace Nestor\Http\Controllers\Auth;
 
-use Nestor\User;
+use Nestor\Models\User;
 use Validator;
 use Nestor\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\ThrottlesLogins;
