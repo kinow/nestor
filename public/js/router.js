@@ -1,7 +1,9 @@
-// Filename: router.js
+/**
+ * @desc backbone router for pushState page routing
+ */
+
 define([
   // Libraries
-  'jquery',
   'underscore',
   'backbone',
   'navigation',
@@ -19,7 +21,6 @@ define([
   'views/testsuites/TestSuiteView',
   'views/testsuites/ViewTestSuiteView'
 ], function(
-  $,
   _,
   Backbone,
   Navigation,
@@ -111,7 +112,7 @@ define([
     }
   });
 
-  var initialize = function() {
+  var AppRouter = function() {
 
     // --- base router ---
     var baseRouter = new BaseRouter();
@@ -198,9 +199,8 @@ define([
 
     var breadcrumbView = new BreadcrumbView({navigation: navigation});
 
-    Backbone.history.start();
+    //Backbone.history.start();
   };
-  return {
-    initialize: initialize
-  };
+
+  return AppRouter;
 });

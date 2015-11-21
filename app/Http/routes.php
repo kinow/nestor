@@ -16,16 +16,23 @@ Route::get('/', function () {
 });
 
 // Authentication routes...
-Route::get('auth/login', 'Auth\AuthController@getLogin');
-Route::post('auth/login', 'Auth\AuthController@postLogin');
-Route::get('auth/logout', 'Auth\AuthController@getLogout');
-
-// Registration routes...
-Route::get('auth/register', 'Auth\AuthController@getRegister');
-Route::post('auth/register', 'Auth\AuthController@postRegister');
+// Route::get('auth/login', 'Auth\AuthController@getLogin');
+// Route::post('auth/login', 'Auth\AuthController@postLogin');
+// Route::get('auth/logout', 'Auth\AuthController@getLogout');
+//
+// // Registration routes...
+// Route::get('auth/register', 'Auth\AuthController@getRegister');
+// Route::post('auth/register', 'Auth\AuthController@postRegister');
 
 $api = app('Dingo\Api\Routing\Router');
 $api->version('v1', function ($api) {
+  // auth
+  $api->post('auth/login', 'Auth\AuthController@postLogin');
+
+  // registration
+  $api->post('auth/register', 'Auth\AuthController@postRegister');
+
+  // projects
 	$api->get('projects/', 'Nestor\Http\Controllers\ProjectsController@index');
 	$api->get('projects/{id}', 'Nestor\Http\Controllers\ProjectsController@show');
 

@@ -16,7 +16,7 @@
 <body>
 <br/>
 <div class="ui container">
-    @include ("menu")
+    
 
     <div class="ui breadcrumb" id="breadcrumb"></div>
     <hr class="ui divider" />

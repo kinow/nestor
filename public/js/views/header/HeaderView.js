@@ -1,4 +1,4 @@
-define([
+_.bindAll(this, 'onLoginStatusChange', 'render');define([
   'jquery',
   'underscore',
   'backbone',
@@ -10,7 +10,7 @@ define([
     template: _.template(headerTemplate),
 
     initialize: function () {
-        _.bindAll(this);
+        _.bindAll(this, 'onLoginStatusChange', 'render');
 
         // Listen for session logged_in state changes and re-render
         app.session.on("change:logged_in", this.onLoginStatusChange);

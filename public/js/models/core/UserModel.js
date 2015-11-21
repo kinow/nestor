@@ -13,7 +13,7 @@ define([
   	},
 
   	initialize: function (options) {
-      _.bindAll(this);
+      //_.bindAll(this);
   	},
 
     url: function() {

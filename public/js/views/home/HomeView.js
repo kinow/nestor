@@ -8,6 +8,10 @@ define([
   var HomeView = Backbone.View.extend({
     el: $("#page"),
 
+    initialize: function () {
+        _.bindAll(this, 'render');
+    },
+
     render: function(){
       $('.menu a').removeClass('active');
       $('.menu a[href="#"]').addClass('active');
@@ -17,5 +21,5 @@ define([
   });
 
   return HomeView;
-  
+
 });

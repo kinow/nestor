@@ -4,8 +4,9 @@
 define([
   'underscore',
   'backbone',
+  'app',
   'models/core/UserModel'
-], function(_, Backbone, UserModel) {
+], function(_, Backbone, app, UserModel) {
 
   var SessionModel = Backbone.Model.extend({
 
@@ -15,7 +16,7 @@ define([
   	},
 
   	initialize: function (options) {
-      _.bindAll(this);
+      _.bindAll(this, 'updateSessionUser', 'checkAuth', 'postAuth', 'login', 'logout', 'signup');
 
       // Singleton user object
       // Access or listen on this throughout any module with app.session.user
@@ -23,7 +24,7 @@ define([
   	},
 
     url: function() {
-      return '/api/auth';
+      return app.API + '/' + app.API_VERSION + '/auth';
     },
 
     // Fxn to update user attributes after recieving API response
