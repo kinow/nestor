@@ -1,10 +1,15 @@
 <div id="menu">
   <div class='ui pointing menu'>
     <a class='item' href="#">Home</a>
+    <% if(logged_in){ %>
     <a class='item' href="#/projects">Projects</a>
+    <% } %>
     <div class="right menu">
       <% if(logged_in){ %>
       <a class='item' href="#/profile">Bruno</a>
+      <% } else { %>
+      <a class='item' href="#/signup">Sign Up</a>
+      <a class='item' href="#/signin">Sign In</a>
       <% } %>
     </div>
   </div>
