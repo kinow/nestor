@@ -2,9 +2,13 @@
 
 namespace Nestor\Http\Controllers\Auth;
 
-use Nestor\Models\User;
 use Validator;
+
+use Nestor\Models\User;
 use Nestor\Http\Controllers\Controller;
+
+use Illuminate\Http\Request;
+
 use Illuminate\Foundation\Auth\ThrottlesLogins;
 use Illuminate\Foundation\Auth\AuthenticatesAndRegistersUsers;
 
@@ -46,6 +50,11 @@ class AuthController extends Controller
             'email' => 'required|email|max:255|unique:users',
             'password' => 'required|confirmed|min:6',
         ]);
+    }
+
+    public function checkLogin(Request $request)
+    {
+      echo "OK";
     }
 
     /**

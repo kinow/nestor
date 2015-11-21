@@ -1,11 +1,14 @@
-_.bindAll(this, 'onLoginStatusChange', 'render');define([
+define([
   'jquery',
   'underscore',
   'backbone',
+  'app',
   'text!templates/header/headerTemplate.html'
-], function($, _, Backbone, headerTemplate){
+], function($, _, Backbone, app, headerTemplate){
 
   var HeaderView = Backbone.View.extend({
+
+    el: $("#header"),
 
     template: _.template(headerTemplate),
 

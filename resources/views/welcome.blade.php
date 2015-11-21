@@ -15,11 +15,12 @@
 </head>
 <body>
 <br/>
-<div class="ui container">
-    
+<div class="ui container" id="nestor-app">
 
+    <div class="header" id="header"></div>
+    <br/>
     <div class="ui breadcrumb" id="breadcrumb"></div>
-    <hr class="ui divider" />
+    <hr class="ui hidden divider" />
 
     <div id="page">
         <div class="ui segment">

@@ -26,6 +26,7 @@ Route::get('/', function () {
 
 $api = app('Dingo\Api\Routing\Router');
 $api->version('v1', function ($api) {
+  $api->get('auth/', 'Nestor\Http\Controllers\Auth\AuthController@checkLogin');
   // auth
   $api->post('auth/login', 'Auth\AuthController@postLogin');
 
@@ -36,5 +37,5 @@ $api->version('v1', function ($api) {
 	$api->get('projects/', 'Nestor\Http\Controllers\ProjectsController@index');
 	$api->get('projects/{id}', 'Nestor\Http\Controllers\ProjectsController@show');
 
-	$api->get('projects/{projectId}/testsuites/{testSuiteId}', 'Nestor\Http\Controllers\TestSuitesController@show');
+	$api->get('projects/{projectId}/testsuites/{testSuiteId}', ['middleware' => 'api.auth'], 'Nestor\Http\Controllers\TestSuitesController@show');
 });

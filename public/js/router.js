@@ -9,6 +9,7 @@ define([
   'navigation',
   // Base views
   'views/home/HomeView',
+  'views/header/HeaderView',
   'views/breadcrumb/BreadcrumbView',
   // Projects views
   'views/projects/ProjectsView',
@@ -26,6 +27,7 @@ define([
   Navigation,
 
   HomeView,
+  HeaderView,
   BreadcrumbView,
 
   ProjectsView,
@@ -112,7 +114,12 @@ define([
     }
   });
 
-  var AppRouter = function() {
+  var initialize = function() {
+
+    // --- common views ---
+    var headerView = new HeaderView();
+    var breadcrumbView = new BreadcrumbView({navigation: navigation});
+    // --- end common views ---
 
     // --- base router ---
     var baseRouter = new BaseRouter();
@@ -197,9 +204,12 @@ define([
     navigation.appendRouter(projectsRouter);
     navigation.mapRouters();
 
-    var breadcrumbView = new BreadcrumbView({navigation: navigation});
+    Backbone.history.start();
+  };
 
-    //Backbone.history.start();
+  var AppRouter = {
+    initialize: initialize,
+    navigation: navigation
   };
 
   return AppRouter;

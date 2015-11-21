@@ -4,9 +4,8 @@
 define([
   'underscore',
   'backbone',
-  'app',
   'models/core/UserModel'
-], function(_, Backbone, app, UserModel) {
+], function(_, Backbone, UserModel) {
 
   var SessionModel = Backbone.Model.extend({
 
@@ -24,10 +23,10 @@ define([
   	},
 
     url: function() {
-      return app.API + '/' + app.API_VERSION + '/auth';
+      return 'api/auth';
     },
 
-    // Fxn to update user attributes after recieving API response
+    // Fxn to update user attributes after receiving API response
     updateSessionUser: function( userData ){
         this.user.set(_.pick(userData, _.keys(this.user.defaults)));
     },
