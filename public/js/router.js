@@ -11,6 +11,9 @@ define([
   'views/home/HomeView',
   'views/header/HeaderView',
   'views/breadcrumb/BreadcrumbView',
+  // Auth views
+  'views/auth/SignUpView',
+  'views/auth/SignInView',
   // Projects views
   'views/projects/ProjectsView',
   'views/projects/NewProjectView',
@@ -29,6 +32,9 @@ define([
   HomeView,
   HeaderView,
   BreadcrumbView,
+
+  SignUpView,
+  SignInView,
 
   ProjectsView,
   NewProjectView,
@@ -53,6 +59,26 @@ define([
       pages: {
         'Base.defaultAction': {
           template: 'Home'
+        }
+      }
+    }
+  });
+
+  var AuthRouter = Backbone.Router.extend({
+    routes: {
+      'signup': 'signUp',
+      'signin': 'signIn'
+    },
+    navigation: {
+      prefix: 'Auth',
+      pages: {
+        'Auth.signUp': {
+          template: 'Sign Up',
+          parent: 'Base.defaultAction'
+        },
+        'Auth.signIn': {
+          template: 'Sign In',
+          parent: 'Base.defaultAction'
         }
       }
     }
@@ -131,6 +157,20 @@ define([
     });
     // --- end base router
 
+    // --- auth router ---
+    var authRouter = new AuthRouter();
+
+    authRouter.on('route:signUp', function() {
+      var signUpView = new SignUpView();
+      signUpView.render();
+    });
+
+    authRouter.on('route:signIn', function() {
+      var signInView = new SignInView();
+      signInView.render();
+    });
+    // --- end auth router ---
+
     // --- projects router ---
     var projectsRouter = new ProjectsRouter();
 
@@ -201,6 +241,7 @@ define([
     // --- end test suites router ---
 
     navigation.appendRouter(baseRouter);
+    navigation.appendRouter(authRouter);
     navigation.appendRouter(projectsRouter);
     navigation.mapRouters();
 
