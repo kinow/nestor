@@ -28,10 +28,10 @@ $api = app('Dingo\Api\Routing\Router');
 $api->version('v1', function ($api) {
   $api->get('auth/', 'Nestor\Http\Controllers\Auth\AuthController@checkLogin');
   // auth
-  $api->post('auth/login', 'Auth\AuthController@postLogin');
+  $api->post('auth/login', 'Nestor\Http\Controllers\Auth\AuthController@postLogin');
 
   // registration
-  $api->post('auth/register', 'Auth\AuthController@postRegister');
+  $api->post('auth/register', 'Nestor\Http\Controllers\Auth\AuthController@postRegister');
 
   // projects
 	$api->get('projects/', 'Nestor\Http\Controllers\ProjectsController@index');
