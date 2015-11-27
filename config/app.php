@@ -150,6 +150,10 @@ return [
         Nestor\Providers\EventServiceProvider::class,
         Nestor\Providers\RouteServiceProvider::class,
 
+        /*
+         * Repositories
+         */
+       Prettus\Repository\Providers\RepositoryServiceProvider::class,
     ],
 
     /*

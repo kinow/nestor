@@ -36,7 +36,7 @@ $api->version('v1', function ($api) {
   $api->post('auth/login', 'Nestor\Http\Controllers\Auth\AuthController@postLogin');
 
   // registration
-  $api->post('auth/register', 'Nestor\Http\Controllers\Auth\AuthController@postRegister');
+  $api->post('auth/register', 'Nestor\Http\Controllers\UsersController@create');
 
   // projects
 	$api->get('projects/', 'Nestor\Http\Controllers\ProjectsController@index');

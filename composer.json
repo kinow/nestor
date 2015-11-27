@@ -8,7 +8,8 @@
     "require": {
         "php": ">=5.5.9",
         "laravel/framework": "5.1.*",
-        "dingo/api": "1.0.*@dev"
+        "dingo/api": "1.0.*@dev",
+        "prettus/l5-repository": "^2.1"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",

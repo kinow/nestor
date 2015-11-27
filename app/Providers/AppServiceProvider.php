@@ -16,6 +16,8 @@ class AppServiceProvider extends ServiceProvider
       app('Dingo\Api\Auth\Auth')->extend('basic', function ($app) {
        return new \Dingo\Api\Auth\Provider\Basic($app['auth'], 'email');
       });
+
+      $this->app->bind('Nestor\Repositories\UserRepository', 'Nestor\Repositories\UserRepositoryEloquent');
     }
 
     /**
