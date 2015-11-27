@@ -11,10 +11,10 @@ class User extends Model implements Transformable
     use TransformableTrait;
 
     protected $fillable = [
-		'username',
-		'name',
-		'email',
-		'password',
-	];
+  		'username',
+  		'name',
+  		'email',
+  		'password',
+  	];
 
 }
