@@ -24,7 +24,12 @@ Route::get('/', function () {
 // Route::get('auth/register', 'Auth\AuthController@getRegister');
 // Route::post('auth/register', 'Auth\AuthController@postRegister');
 
+app('Dingo\Api\Exception\Handler')->register(function (Symfony\Component\HttpKernel\Exception\UnauthorizedHttpException $exception) {
+    return Response::make(['error' => 'Hey, what do you think you are doing!?'], 401);
+});
+
 $api = app('Dingo\Api\Routing\Router');
+
 $api->version('v1', function ($api) {
   $api->get('auth/', 'Nestor\Http\Controllers\Auth\AuthController@checkLogin');
   // auth
