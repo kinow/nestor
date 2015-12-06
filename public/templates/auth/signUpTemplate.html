@@ -5,33 +5,33 @@
         Create a new user
       </div>
     </h2>
-    <form class="ui large form">
+    <form class="ui large form" id="login-form"  data-validate="parsley">
       <div class="ui stacked segment">
         <div class="field">
           <div class="ui left icon input">
             <i class="user icon"></i>
-            <input type="text" name="username" placeholder="User name">
+            <input type="text" name="username" placeholder="User name" data-required="true" data-notblank="true">
           </div>
         </div>
         <div class="field">
           <div class="ui left icon input">
             <i class="pointing right icon"></i>
-            <input type="text" name="name" placeholder="Full Name">
+            <input type="text" name="name" placeholder="Full Name" data-required="true" data-notblank="true">
           </div>
         </div>
         <div class="field">
           <div class="ui left icon input">
             <i class="mail icon"></i>
-            <input type="text" name="email" placeholder="E-mail address">
+            <input type="email" name="email" placeholder="E-mail address" data-required="true" data-notblank="true">
           </div>
         </div>
         <div class="field">
           <div class="ui left icon input">
             <i class="lock icon"></i>
-            <input type="password" name="password" placeholder="Password">
+            <input type="password" name="password" placeholder="Password" data-required="true" data-notblank="true" data-rangelength="[5,50]">
           </div>
         </div>
-        <div class="ui fluid large submit button">Sign Up</div>
+        <div class="ui fluid large submit button" id="login-btn">Sign Up</div>
       </div>
 
       <div class="ui error message"></div>
