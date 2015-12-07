@@ -5,7 +5,15 @@ require.config({
     underscore: 'libs/underscore-amd/underscore-min',
     backbone: 'libs/backbone-amd/backbone-min',
     templates: '../templates',
-    navigation: 'libs/navigation/navigation'
+    navigation: 'libs/navigation/navigation',
+    parsley: 'libs/parsleyjs/dist/parsley.min'
+  },
+
+  shim: {
+    'parsley': {
+      "deps" : ["jquery"],
+      exports: 'parsley'
+    }
   }
 });
 
@@ -14,7 +22,7 @@ require([
   'app',
   'router'
 ], function(app, appRouter, SessionModel){
-
+console.log($.parsley);
   // Just use GET and POST to support all browsers
   Backbone.emulateHTTP = true;
 

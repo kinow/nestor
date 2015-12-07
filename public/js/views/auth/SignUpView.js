@@ -17,13 +17,13 @@ define([
     },
 
     events: {
-      'click #sign-up-btn'            : 'onLoginAttempt'
+      'click #signup-btn'            : 'onSignupAttempt'
     },
 
     onSignupAttempt: function(event) {
-      if(evt) evt.preventDefault();
+      if(event) event.preventDefault();
 
-      if(this.$("#login-form").parsley('validate')) {
+      if(this.$("#signup-form").parsley('validate')) {
           app.session.login({
               username: this.$("#login-username-input").val(),
               password: this.$("#login-password-input").val()
