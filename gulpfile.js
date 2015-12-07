@@ -14,10 +14,10 @@ var elixir = require('laravel-elixir');
 elixir(function(mix) {
     mix.sass('app.scss');
     //mix.less('');
-    
+
     mix.copy(
     	'./public/js/libs/semantic/dist/themes',
-    	'public/css/themes'
+    	'./public/css/themes'
     );
 
     mix.styles([
@@ -28,6 +28,6 @@ elixir(function(mix) {
  //    mix.scripts([
  //    	'./resources/assets/bower/jquery/dist/jquery.js',
  //    	'./resources/assets/bower/bootstrap-sass-official/assets/javascripts/bootstrap.min.js'
-	// ], 
+	// ],
 	// 'public/js/nestor.js');
 });
