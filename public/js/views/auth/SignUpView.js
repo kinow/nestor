@@ -10,7 +10,7 @@ define([
     el: $("#page"),
 
     initialize: function() {
-      _.bindAll(this);
+      _.bindAll(this, 'onSignupAttempt', 'render');
 
       // Listen for session logged_in state changes and re-render
       app.session.on("change:logged_in", this.render);
