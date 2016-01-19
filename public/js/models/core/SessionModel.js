@@ -65,7 +65,7 @@ define([
     postAuth: function(opts, callback, args){
         var self = this;
         var postData = _.omit(opts, 'method');
-        if(DEBUG) console.log(postData);
+        if(typeof DEBUG != 'undefined' && DEBUG) console.log(postData);
         $.ajax({
             url: this.url() + '/' + opts.method,
             contentType: 'application/json',

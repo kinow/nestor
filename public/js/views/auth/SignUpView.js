@@ -29,17 +29,17 @@ define([
               password: this.$("#login-password-input").val()
           }, {
               success: function(mod, res){
-                  if(DEBUG) console.log("SUCCESS", mod, res);
+                  if(typeof DEBUG != 'undefined' && DEBUG) console.log("SUCCESS", mod, res);
 
               },
               error: function(err){
-                  if(DEBUG) console.log("ERROR", err);
+                  if(typeof DEBUG != 'undefined' && DEBUG) console.log("ERROR", err);
                   app.showAlert('Bummer dude!', err.error, 'alert-danger');
               }
           });
       } else {
           // Invalid clientside validations thru parsley
-          if(DEBUG) console.log("Did not pass clientside validation");
+          if(typeof DEBUG != 'undefined' && DEBUG) console.log("Did not pass clientside validation");
 
       }
     },

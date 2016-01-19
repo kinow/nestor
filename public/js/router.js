@@ -7,6 +7,7 @@ define([
   'underscore',
   'backbone',
   'navigation',
+  'parsley',
   // Base views
   'views/home/HomeView',
   'views/header/HeaderView',
@@ -28,6 +29,7 @@ define([
   _,
   Backbone,
   Navigation,
+  Parsley,
 
   HomeView,
   HeaderView,
