@@ -25,8 +25,10 @@ define([
 
       if(this.$("#signup-form").parsley('validate')) {
           app.session.login({
-              username: this.$("#login-username-input").val(),
-              password: this.$("#login-password-input").val()
+              username: this.$("#signup-username-input").val(),
+              name: this.$("#signup-name-input").val(),
+              email: this.$("#signup-email-input").val(),
+              password: this.$("#signup-password-input").val()
           }, {
               success: function(mod, res){
                   if(typeof DEBUG != 'undefined' && DEBUG) console.log("SUCCESS", mod, res);
