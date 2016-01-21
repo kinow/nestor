@@ -23,7 +23,7 @@ define([
     onSignupAttempt: function(event) {
       if(event) event.preventDefault();
       if(this.$("#signup-form").parsley().validate()) {
-          app.session.login({
+          app.session.signup({
               username: this.$("#signup-username-input").val(),
               name: this.$("#signup-name-input").val(),
               email: this.$("#signup-email-input").val(),
