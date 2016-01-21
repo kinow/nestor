@@ -35,7 +35,7 @@ var DEBUG = true;
               },
               error: function(err){
                   if(typeof DEBUG != 'undefined' && DEBUG) console.log("ERROR", err);
-                  app.showAlert('Bummer dude!', err.error, 'alert-danger');
+                  app.showAlert('Sign Up error', err.error, 'error');
               }
           });
       } else {

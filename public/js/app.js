@@ -16,7 +16,6 @@ define([
       showAlert: function(title, text, klass) {
           $("#header-alert").removeClass("negative warning success positive error");
           $("#header-alert").addClass(klass);
-          $("#header-alert").html('<button class="close" data-dismiss="alert">×</button><strong>' + title + '</strong> ' + text);
           $("#header-alert").html('<i class="close icon"></i><div class="header">' + title + '</div><p>' + text + '</p>');
           $("#header-alert").show('fast');
           setTimeout(function() {
