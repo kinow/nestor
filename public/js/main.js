@@ -22,7 +22,6 @@ require([
   'app',
   'router'
 ], function(app, appRouter, SessionModel){
-console.log($.parsley);
   // Just use GET and POST to support all browsers
   Backbone.emulateHTTP = true;
 
@@ -30,7 +29,7 @@ console.log($.parsley);
   appRouter.initialize();
   app.router = appRouter;
 
-  app.session.checkAuth({
+  //app.session.checkAuth({
 
     // complete: function() {
     //
@@ -44,7 +43,7 @@ console.log($.parsley);
     //
     // }
 
-  });
+  //});
 
   // All navigation that is relative should be passed through the navigate
   // method, to be processed by the router. If the link has a `data-bypass`

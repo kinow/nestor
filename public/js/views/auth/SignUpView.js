@@ -5,7 +5,7 @@ define([
   'app',
   'text!templates/auth/signUpTemplate.html'
 ], function($, _, Backbone, app, signUpTemplate){
-
+var DEBUG = true;
   var SignUpView = Backbone.View.extend({
     el: $("#page"),
 
@@ -22,8 +22,7 @@ define([
 
     onSignupAttempt: function(event) {
       if(event) event.preventDefault();
-
-      if(this.$("#signup-form").parsley('validate')) {
+      if(this.$("#signup-form").parsley().validate()) {
           app.session.login({
               username: this.$("#signup-username-input").val(),
               name: this.$("#signup-name-input").val(),

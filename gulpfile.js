@@ -21,7 +21,8 @@ elixir(function(mix) {
     );
 
     mix.styles([
-    	'./public/js/libs/semantic/dist/semantic.min.css'
+    	'./public/js/libs/semantic/dist/semantic.min.css',
+        './public/js/libs/parsleyjs/src/parsley.css'
     ],
     'public/css/nestor.css');
 

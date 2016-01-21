@@ -6,7 +6,7 @@ define([
   'backbone',
   'models/core/UserModel'
 ], function(_, Backbone, UserModel) {
-
+  var DEBUG = true;
   var SessionModel = Backbone.Model.extend({
 
   	defaults: {
@@ -80,7 +80,6 @@ define([
             success: function(res){
 
                 if( !res.error ){
-                    console.log('Success!');
                     if(_.indexOf(['login', 'signup'], opts.method) !== -1){
 
                         self.updateSessionUser( res.user || {} );
@@ -96,12 +95,9 @@ define([
             },
             error: function(mod, res){
                 if(callback && 'error' in callback) callback.error(res);
-                console.log(mod);
-                console.log(res);
             }
         }).complete( function(){
             if(callback && 'complete' in callback) callback.complete(res);
-            console.log('Error!');
         });
     },
 
