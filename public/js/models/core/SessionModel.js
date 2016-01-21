@@ -6,7 +6,7 @@ define([
   'backbone',
   'models/core/UserModel'
 ], function(_, Backbone, UserModel) {
-  var DEBUG = true;
+
   var SessionModel = Backbone.Model.extend({
 
   	defaults: {

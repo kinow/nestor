@@ -5,7 +5,7 @@ define([
   'app',
   'text!templates/auth/signUpTemplate.html'
 ], function($, _, Backbone, app, signUpTemplate){
-var DEBUG = true;
+
   var SignUpView = Backbone.View.extend({
     el: $("#page"),
 
