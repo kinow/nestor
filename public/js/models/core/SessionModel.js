@@ -67,7 +67,7 @@ define([
         var postData = _.omit(opts, 'method');
         if(typeof DEBUG != 'undefined' && DEBUG) console.log(postData);
         $.ajax({
-            url: this.url() + '/' + opts.method,
+            url: self.url() + '/' + opts.method,
             contentType: 'application/json',
             dataType: 'json',
             type: 'POST',
@@ -75,10 +75,13 @@ define([
                 // Set the CSRF Token in the header for security
                 var token = $('meta[name="csrf-token"]').attr('content');
                 if (token) xhr.setRequestHeader('X-CSRF-Token', token);
+
+                // Set the API version
+                xhr.setRequestHeader('Accept', 'application/vnd.nestorqa.v1+json');
             },
             data:  JSON.stringify( _.omit(opts, 'method') ),
             success: function(res){
-
+              console.log('SUCCESS!');
                 if( !res.error ){
                     if(_.indexOf(['login', 'signup'], opts.method) !== -1){
 
@@ -94,7 +97,8 @@ define([
                 }
             },
             error: function(mod, res){
-                if(callback && 'error' in callback) callback.error(res);
+              console.log(mod);
+                if(callback && 'error' in callback) callback.error(mod.statusText);
             }
         }).complete( function(){
             if(callback && 'complete' in callback) callback.complete(res);

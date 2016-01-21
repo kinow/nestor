@@ -26,6 +26,8 @@ class AuthController extends Controller
     */
 
     use AuthenticatesAndRegistersUsers, ThrottlesLogins;
+    
+    use \Dingo\Api\Routing\Helpers;
 
     protected $redirectTo = '/';
 
@@ -36,7 +38,7 @@ class AuthController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('guest', ['except' => 'getLogout', 'postRegister']);
+        $this->middleware('guest', ['except' => 'getLogout']);
     }
 
     /**
@@ -57,7 +59,7 @@ class AuthController extends Controller
 
     public function checkLogin(Request $request)
     {
-      echo "OK";
+      //return new stdClass();
     }
 
     /**

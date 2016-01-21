@@ -146,6 +146,7 @@ define([
 
     // --- common views ---
     var headerView = new HeaderView();
+    headerView.render();
     var breadcrumbView = new BreadcrumbView({navigation: navigation});
     // --- end common views ---
 

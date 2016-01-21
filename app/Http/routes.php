@@ -29,6 +29,12 @@ app('Dingo\Api\Exception\Handler')->register(function (Symfony\Component\HttpKer
     ], 401);
 });
 
+app('Dingo\Api\Exception\Handler')->register(function (Symfony\Component\HttpKernel\Exception\NotFoundHttpException $exception) {
+    return Response::make([
+            'error' => 'Not found'
+    ], 404);
+});
+
 $api = app('Dingo\Api\Routing\Router');
 
 $api->version('v1', function ($api) {
