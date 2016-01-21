@@ -35,6 +35,12 @@ app('Dingo\Api\Exception\Handler')->register(function (Symfony\Component\HttpKer
     ], 404);
 });
 
+app('Dingo\Api\Exception\Handler')->register(function (Dingo\Api\Exception\StoreResourceFailedException $exception) {
+    return Response::make([
+            'error' => 'Failed to save user: ' . $exception->getMessage()
+    ], 422);
+});
+
 $api = app('Dingo\Api\Routing\Router');
 
 $api->version('v1', function ($api) {

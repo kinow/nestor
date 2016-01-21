@@ -81,7 +81,6 @@ define([
             },
             data:  JSON.stringify( _.omit(opts, 'method') ),
             success: function(res){
-              console.log('SUCCESS!');
                 if( !res.error ){
                     if(_.indexOf(['login', 'signup'], opts.method) !== -1){
 
@@ -97,8 +96,9 @@ define([
                 }
             },
             error: function(mod, res){
-              console.log(mod);
-                if(callback && 'error' in callback) callback.error(mod.statusText);
+                if(callback && 'error' in callback) {
+                  callback.error(mod.responseText);
+                }
             }
         }).complete( function(){
             if(callback && 'complete' in callback) callback.complete(res);

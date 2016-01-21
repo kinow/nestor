@@ -36,7 +36,7 @@ require([
   appRouter.initialize();
   app.router = appRouter;
 
-  //app.session.checkAuth({
+  app.session.checkAuth({
 
     // complete: function() {
     //
@@ -50,7 +50,7 @@ require([
     //
     // }
 
-  //});
+  });
 
   // All navigation that is relative should be passed through the navigate
   // method, to be processed by the router. If the link has a `data-bypass`

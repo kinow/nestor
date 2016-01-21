@@ -10,7 +10,9 @@ use Nestor\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
 use Illuminate\Foundation\Auth\ThrottlesLogins;
-use Illuminate\Foundation\Auth\AuthenticatesAndRegistersUsers;
+use Illuminate\Foundation\Auth\AuthenticatesUsers;
+
+use Illuminate\Support\Facades\Auth;
 
 class AuthController extends Controller
 {
@@ -25,7 +27,7 @@ class AuthController extends Controller
     |
     */
 
-    use AuthenticatesAndRegistersUsers, ThrottlesLogins;
+    use AuthenticatesUsers, ThrottlesLogins;
     
     use \Dingo\Api\Routing\Helpers;
 
@@ -59,7 +61,11 @@ class AuthController extends Controller
 
     public function checkLogin(Request $request)
     {
-      //return new stdClass();
+        $credentials = $this->getCredentials($request);
+        
+        if (Auth::attempt($credentials, $request->has('remember'))) {
+            return $this->handleUserWasAuthenticated($request, false /* $throttles */);
+        }
     }
 
     /**
@@ -76,5 +82,26 @@ class AuthController extends Controller
             'email' => $data['email'],
             'password' => bcrypt($data['password']),
         ]);
+    }
+    
+    /**
+     * Handle a registration request for the application.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function postRegister(Request $request)
+    {
+        $validator = $this->validator($request->all());
+    
+        if ($validator->fails()) {
+            $this->throwValidationException(
+                    $request, $validator
+                    );
+        }
+    
+        Auth::login($this->create($request->all()));
+    
+        return redirect($this->redirectPath());
     }
 }

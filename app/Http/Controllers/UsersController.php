@@ -2,11 +2,13 @@
 
 namespace Nestor\Http\Controllers;
 
+use \Validator;
+use \Auth;
+
 use Illuminate\Http\Request;
 
 use Dingo\Api\Exception\StoreResourceFailedException;
 
-use Nestor\Http\Requests;
 use Nestor\Http\Controllers\Controller;
 use Nestor\Repositories\UserRepository;
 
@@ -40,24 +42,30 @@ class UsersController extends Controller
      */
     public function create(Request $request)
     {
-        $rules = [
-            'username' => ['required', 'unique:users', 'max:50'],
-            'name' => ['required', 'max:100'],
-            'email' => ['required', 'email', 'max:255'],
-            'password' => ['required', 'min:7']
-        ];
-
-        $payload = app('request')->only('username', 'name', 'email', 'password');
-
-        $validator = app('validator')->make($payload, $rules);
-
+        $validator = Validator::make($request->all(), [
+            'username' => 'required|max:50',
+            'name' => 'required|max:255',
+            'email' => 'required|email|max:255|unique:users',
+            'password' => 'required|min:6'
+        ]);
+        
         if ($validator->fails()) {
-            throw new StoreResourceFailedException('Could not create new user.', $validator->errors());
+            $this->throwValidationException(
+                    $request, $validator
+                    );
         }
-
+        
+        $payload = app('request')->only('username', 'name', 'email', 'password');
+        
         $entity = $this->userRepository->create($request->all());
-
+        
+        Auth::login($entity);
+        
         return $entity;
+//         if ($validator->fails()) {
+//             throw new StoreResourceFailedException('Could not create new user.', $validator->errors());
+//         }
+        
     }
 
     /**
