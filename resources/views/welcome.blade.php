@@ -22,6 +22,14 @@
     <div class="ui breadcrumb" id="breadcrumb"></div>
     <hr class="ui hidden divider" />
 
+    <div class="ui message" id="header-alert" style="display:none;">
+      <i class="close icon"></i>
+      <div class="header">
+        Error
+      </div>
+      <p>Error message
+    </p></div>
+
     <div id="page">
         <div class="ui segment">
           <p></p>

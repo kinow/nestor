@@ -6,22 +6,29 @@ require.config({
     backbone: 'libs/backbone-amd/backbone-min',
     templates: '../templates',
     navigation: 'libs/navigation/navigation',
-    parsley: 'libs/parsleyjs/dist/parsley.min'
+    parsley: 'libs/parsleyjs/dist/parsley.min',
+    semanticui: 'libs/semantic/dist/semantic.min'
   },
 
   shim: {
     'parsley': {
       "deps" : ["jquery"],
       exports: 'parsley'
+    },
+    'semanticui': {
+      "deps" : ["jquery"],
+      exports: 'semanticui'
     }
   }
 });
 
 require([
+  'jquery',
+  'semanticui',
   // Load our app module and pass it to our definition function
   'app',
   'router'
-], function(app, appRouter, SessionModel){
+], function($, SemanticUI, app, appRouter, SessionModel){
   // Just use GET and POST to support all browsers
   Backbone.emulateHTTP = true;
 
@@ -56,5 +63,14 @@ require([
   //     console.log(app.router.navigation.routers);
   //     app.router.navigate(href, { trigger : true, replace : false });
   // });
+
+  $('.message .close')
+    .on('click', function() {
+      $(this)
+        .closest('.message')
+        .transition('fade')
+      ;
+    })
+  ;
 
 });
