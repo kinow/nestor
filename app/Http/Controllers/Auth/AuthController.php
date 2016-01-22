@@ -31,7 +31,9 @@ class AuthController extends Controller
     
     use \Dingo\Api\Routing\Helpers;
 
-    protected $redirectTo = '/';
+    protected $redirectTo = '/#';
+
+    protected $loginPath = '/#/signin';
 
     /**
      * Create a new authentication controller instance.

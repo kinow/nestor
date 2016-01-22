@@ -1,12 +1,22 @@
 <div id="menu">
   <div class='ui pointing menu'>
-    <a class='item' href="#">Home</a>
+    <div class='item'>
+      <a href="#">Home</a>
+    </div>
     <% if(logged_in){ %>
-    <a class='item' href="#/projects">Projects</a>
+    <div class='item'>
+      <a href="#/projects">Projects</a>
+    </div>
     <% } %>
     <div class="right menu">
       <% if(logged_in){ %>
-      <a class='item' href="#/profile">Bruno</a>
+      <div class='ui simple dropdown item'>
+        <a href="#/profile"><%= user['name'] %></a>
+        <!--<i class="dropdown icon"></i>-->
+        <div class="menu">
+          <a class="item">Sign Out</a>
+        </div>
+      </div>
       <% } else { %>
       <a class='item' href="#/signup">Sign Up</a>
       <a class='item' href="#/signin">Sign In</a>

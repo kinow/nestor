@@ -64,13 +64,4 @@ require([
   //     app.router.navigate(href, { trigger : true, replace : false });
   // });
 
-  $('.message .close')
-    .on('click', function() {
-      $(this)
-        .closest('.message')
-        .transition('fade')
-      ;
-    })
-  ;
-
 });

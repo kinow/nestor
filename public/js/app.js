@@ -18,6 +18,17 @@ define([
           $("#header-alert").addClass(klass);
           $("#header-alert").html('<i class="close icon"></i><div class="header">' + title + '</div><p>' + text + '</p>');
           $("#header-alert").show('fast');
+
+          // closeable alert messages
+          $('.message .close')
+            .on('click', function() {
+              $(this)
+                .closest('.message')
+                .transition('fade')
+              ;
+            })
+          ;
+          
           setTimeout(function() {
               $("#header-alert").hide();
           }, 7000 );

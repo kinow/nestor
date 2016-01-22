@@ -7,6 +7,8 @@ use \Auth;
 
 use Illuminate\Http\Request;
 
+use Illuminate\Foundation\Auth\AuthenticatesUsers;
+
 use Dingo\Api\Exception\StoreResourceFailedException;
 
 use Nestor\Http\Controllers\Controller;
@@ -14,6 +16,8 @@ use Nestor\Repositories\UserRepository;
 
 class UsersController extends Controller
 {
+
+    use AuthenticatesUsers;
 
     /**
      * @var UserRepository
@@ -26,21 +30,12 @@ class UsersController extends Controller
     }
 
     /**
-     * Display a listing of the resource.
+     * Creates a new user.
      *
+     * @param Request $request
      * @return \Illuminate\Http\Response
      */
-    public function index()
-    {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create(Request $request)
+    public function doSignUp(Request $request)
     {
         $validator = Validator::make($request->all(), [
             'username' => 'required|max:50',
@@ -59,24 +54,34 @@ class UsersController extends Controller
         
         $entity = $this->userRepository->create($request->all());
         
-        Auth::login($entity);
+        Auth::loginUsingId($entity['id'], $request->has('remember'));
         
         return $entity;
-//         if ($validator->fails()) {
-//             throw new StoreResourceFailedException('Could not create new user.', $validator->errors());
-//         }
-        
+    }
+    
+    /**
+     * Checks if the request contains valid credentials.
+     *
+     * @param Request $request
+     * @return \Illuminate\Http\Response
+     */
+    public function doCheckLogin(Request $request)
+    {
+        $user = Auth::user();
+    
+        return $user;
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Logs out a user.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param Request $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function doLogout(Request $request)
     {
-        //
+        Auth::logout();
+        return true;
     }
 
     /**

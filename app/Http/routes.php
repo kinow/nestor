@@ -44,13 +44,12 @@ app('Dingo\Api\Exception\Handler')->register(function (Dingo\Api\Exception\Store
 $api = app('Dingo\Api\Routing\Router');
 
 $api->version('v1', function ($api) {
-    $api->get('auth/', 'Nestor\Http\Controllers\Auth\AuthController@checkLogin');
     // auth
-    $api->post('auth/login', 'Nestor\Http\Controllers\Auth\AuthController@postLogin');
-    
-    // registration
-    $api->post('auth/signup', 'Nestor\Http\Controllers\UsersController@create');
-    
+    $api->get('auth/', 'Nestor\Http\Controllers\UsersController@doCheckLogin');
+    $api->post('auth/signup', 'Nestor\Http\Controllers\UsersController@doSignUp');
+    $api->post('auth/login', 'Nestor\Http\Controllers\UsersController@doLogin');
+    $api->get('auth/logout', 'Nestor\Http\Controllers\UsersController@doLogout');
+
     // projects
     $api->get('projects/', 'Nestor\Http\Controllers\ProjectsController@index');
     $api->get('projects/{id}', 'Nestor\Http\Controllers\ProjectsController@show');

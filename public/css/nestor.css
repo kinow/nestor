@@ -1,6 +1,6 @@
 @import url(https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic&subset=latin);
 /*
- * # Semantic UI - 2.1.4
+ * # Semantic UI - 2.1.7
  * https://github.com/Semantic-Org/Semantic-UI
  * http://www.semantic-ui.com/
  *
@@ -4058,7 +4058,7 @@ i.flag:not(.icon) {
 i.flag:not(.icon):before {
   display: inline-block;
   content: '';
-  background: url(themes/default/assets/images/flags.png) no-repeat;
+  background: url(themes/default/assets/images/flags.png) -108px -1976px no-repeat;
   width: 16px;
   height: 11px;
 }
@@ -5015,6 +5015,11 @@ i.flag.seychelles:before {
   background-position: -72px -988px;
 }
 
+i.flag.gb.sct:before,
+i.flag.scotland:before {
+  background-position: -72px -1014px;
+}
+
 i.flag.sd:before,
 i.flag.sudan:before {
   background-position: -72px -1040px;
@@ -5242,6 +5247,11 @@ i.flag.vu:before {
   background-position: -108px -182px;
 }
 
+i.flag.gb.wls:before,
+i.flag.wales:before {
+  background-position: -108px -208px;
+}
+
 i.flag.wallis.and.futuna:before,
 i.flag.wf:before {
   background-position: -108px -234px;
@@ -5297,6 +5307,7 @@ i.flag.zw:before {
 }
 
 .ui.header .sub.header {
+  display: block;
   font-weight: 400;
   padding: 0;
   margin: 0;
@@ -8706,6 +8717,10 @@ i.icon.conversation:before {
 
 i.icon.umbrella:before {
   content: "\f0e9";
+}
+
+i.icon.clipboard:before {
+  content: "\f0ea";
 }
 
 i.icon.lightbulb:before {
@@ -12520,6 +12535,10 @@ ol.ui.horizontal.list li:before {
   border-left: 1px solid rgba(34,36,38,.15);
 }
 
+.ui.segments>.horizontal.segments:first-child {
+  border-top: none;
+}
+
 .ui.horizontal.segments>.segment:first-child {
   border-left: none;
 }
@@ -13204,7 +13223,7 @@ ol.ui.horizontal.list li:before {
   background: #fff;
 }
 
-@media only screen and (max-width:992px) {
+@media only screen and (max-width:991px) {
   .ui[class*="tablet stackable"].steps {
     display: -webkit-inline-box;
     display: -webkit-inline-flex;
@@ -13632,11 +13651,6 @@ ol.ui.horizontal.list li:before {
   width: 0;
 }
 
-.ui.form .divider {
-  clear: both;
-  margin: 1em 0;
-}
-
 .ui.form .error.message,
 .ui.form .success.message,
 .ui.form .warning.message {
@@ -13942,11 +13956,6 @@ ol.ui.horizontal.list li:before {
   position: relative;
   cursor: default;
   point-events: none;
-  text-shadow: none!important;
-  color: transparent!important;
-  -webkit-transition: all 0s linear;
-  transition: all 0s linear;
-  z-index: 100;
 }
 
 .ui.loading.form:before {
@@ -14299,6 +14308,15 @@ ol.ui.horizontal.list li:before {
   }
 }
 
+.ui.form [class*="equal width"].fields>.field,
+.ui[class*="equal width"].form .fields>.field {
+  width: 100%;
+  -webkit-box-flex: 1;
+  -webkit-flex: 1 1 auto;
+  -ms-flex: 1 1 auto;
+  flex: 1 1 auto;
+}
+
 .ui.form .inline.fields {
   margin: 0 0 1em;
   -webkit-box-align: center;
@@ -14485,8 +14503,8 @@ ol.ui.horizontal.list li:before {
   margin-bottom: 0;
 }
 
-.ui.aligned.grid .column>.segment:not(.compact),
-.ui.grid .aligned.row>.column>.segment:not(.compact) {
+.ui.aligned.grid .column>.segment:not(.compact):not(.attached),
+.ui.grid .aligned.row>.column>.segment:not(.compact):not(.attached) {
   width: 100%;
 }
 
@@ -16215,16 +16233,19 @@ ol.ui.horizontal.list li:before {
   .ui.grid.grid.grid>.row>[class*="tablet only"].column:not(.mobile),
   .ui.grid.grid.grid>.row>[class*="computer only"].column:not(.mobile),
   .ui.grid.grid.grid>.row>[class*="large screen only"].column:not(.mobile),
+  .ui.grid.grid.grid>.row>[class*="widescreen only"].column:not(.mobile),
   .ui.grid.grid.grid>[class*="tablet only"].column:not(.mobile),
   .ui.grid.grid.grid>[class*="tablet only"].row:not(.mobile),
   .ui.grid.grid.grid>[class*="computer only"].column:not(.mobile),
   .ui.grid.grid.grid>[class*="computer only"].row:not(.mobile),
   .ui.grid.grid.grid>[class*="large screen only"].column:not(.mobile),
   .ui.grid.grid.grid>[class*="large screen only"].row:not(.mobile),
-  .ui.tablet:not(.mobile).only.grid.grid.grid,
+  .ui.grid.grid.grid>[class*="widescreen only"].column:not(.mobile),
+  .ui.grid.grid.grid>[class*="widescreen only"].row:not(.mobile),
+  .ui[class*="tablet only"].grid.grid.grid:not(.mobile),
   .ui[class*="computer only"].grid.grid.grid:not(.mobile),
   .ui[class*="large screen only"].grid.grid.grid:not(.mobile),
-  .ui[class*=widescreen].grid.grid.grid:not(.mobile) {
+  .ui[class*="widescreen only"].grid.grid.grid:not(.mobile) {
     display: none!important;
   }
 }
@@ -16232,19 +16253,19 @@ ol.ui.horizontal.list li:before {
 @media only screen and (min-width:768px) and (max-width:991px) {
   .ui.grid.grid.grid>.row>[class*="computer only"].column:not(.tablet),
   .ui.grid.grid.grid>.row>[class*="large screen only"].column:not(.mobile),
-  .ui.grid.grid.grid>.row>[class*="mobile only"].column:not(.tablet),
   .ui.grid.grid.grid>.row>[class*="widescreen only"].column:not(.mobile),
+  .ui.grid.grid.grid>.row>[class*="mobile only"].column:not(.tablet),
   .ui.grid.grid.grid>[class*="computer only"].column:not(.tablet),
   .ui.grid.grid.grid>[class*="computer only"].row:not(.tablet),
   .ui.grid.grid.grid>[class*="large screen only"].column:not(.mobile),
   .ui.grid.grid.grid>[class*="large screen only"].row:not(.mobile),
-  .ui.grid.grid.grid>[class*="mobile only"].column:not(.tablet),
-  .ui.grid.grid.grid>[class*="mobile only"].row:not(.tablet),
   .ui.grid.grid.grid>[class*="widescreen only"].column:not(.mobile),
   .ui.grid.grid.grid>[class*="widescreen only"].row:not(.mobile),
+  .ui.grid.grid.grid>[class*="mobile only"].column:not(.tablet),
+  .ui.grid.grid.grid>[class*="mobile only"].row:not(.tablet),
   .ui[class*="computer only"].grid.grid.grid:not(.tablet),
   .ui[class*="large screen only"].grid.grid.grid:not(.mobile),
-  .ui[class*=widescreen].grid.grid.grid:not(.mobile),
+  .ui[class*="widescreen only"].grid.grid.grid:not(.mobile),
   .ui[class*="mobile only"].grid.grid.grid:not(.tablet) {
     display: none!important;
   }
@@ -16253,19 +16274,19 @@ ol.ui.horizontal.list li:before {
 @media only screen and (min-width:992px) and (max-width:1199px) {
   .ui.grid.grid.grid>.row>[class*="tablet only"].column:not(.computer),
   .ui.grid.grid.grid>.row>[class*="large screen only"].column:not(.mobile),
-  .ui.grid.grid.grid>.row>[class*="mobile only"].column:not(.computer),
   .ui.grid.grid.grid>.row>[class*="widescreen only"].column:not(.mobile),
+  .ui.grid.grid.grid>.row>[class*="mobile only"].column:not(.computer),
   .ui.grid.grid.grid>[class*="tablet only"].column:not(.computer),
   .ui.grid.grid.grid>[class*="tablet only"].row:not(.computer),
   .ui.grid.grid.grid>[class*="large screen only"].column:not(.mobile),
   .ui.grid.grid.grid>[class*="large screen only"].row:not(.mobile),
-  .ui.grid.grid.grid>[class*="mobile only"].column:not(.computer),
-  .ui.grid.grid.grid>[class*="mobile only"].row:not(.computer),
   .ui.grid.grid.grid>[class*="widescreen only"].column:not(.mobile),
   .ui.grid.grid.grid>[class*="widescreen only"].row:not(.mobile),
+  .ui.grid.grid.grid>[class*="mobile only"].column:not(.computer),
+  .ui.grid.grid.grid>[class*="mobile only"].row:not(.computer),
   .ui[class*="tablet only"].grid.grid.grid:not(.computer),
   .ui[class*="large screen only"].grid.grid.grid:not(.mobile),
-  .ui[class*=widescreen].grid.grid.grid:not(.mobile),
+  .ui[class*="widescreen only"].grid.grid.grid:not(.mobile),
   .ui[class*="mobile only"].grid.grid.grid:not(.computer) {
     display: none!important;
   }
@@ -16273,16 +16294,16 @@ ol.ui.horizontal.list li:before {
 
 @media only screen and (min-width:1200px) and (max-width:1919px) {
   .ui.grid.grid.grid>.row>[class*="tablet only"].column:not(.computer),
-  .ui.grid.grid.grid>.row>[class*="mobile only"].column:not(.computer),
   .ui.grid.grid.grid>.row>[class*="widescreen only"].column:not(.mobile),
+  .ui.grid.grid.grid>.row>[class*="mobile only"].column:not(.computer),
   .ui.grid.grid.grid>[class*="tablet only"].column:not(.computer),
   .ui.grid.grid.grid>[class*="tablet only"].row:not(.computer),
-  .ui.grid.grid.grid>[class*="mobile only"].column:not(.computer),
-  .ui.grid.grid.grid>[class*="mobile only"].row:not(.computer),
   .ui.grid.grid.grid>[class*="widescreen only"].column:not(.mobile),
   .ui.grid.grid.grid>[class*="widescreen only"].row:not(.mobile),
+  .ui.grid.grid.grid>[class*="mobile only"].column:not(.computer),
+  .ui.grid.grid.grid>[class*="mobile only"].row:not(.computer),
   .ui[class*="tablet only"].grid.grid.grid:not(.computer),
-  .ui[class*=widescreen].grid.grid.grid:not(.mobile),
+  .ui[class*="widescreen only"].grid.grid.grid:not(.mobile),
   .ui[class*="mobile only"].grid.grid.grid:not(.computer) {
     display: none!important;
   }
@@ -16841,7 +16862,8 @@ ol.ui.horizontal.list li:before {
   border-radius: .28571429rem .28571429rem 0 0!important;
 }
 
-.ui.tabular.menu+.bottom.attached.segment {
+.ui.tabular.menu+.attached:not(.top).segment,
+.ui.tabular.menu+.attached:not(.top).segment+.attached:not(.top).segment {
   border-top: none;
   margin: 0;
   width: 100%;
@@ -18822,42 +18844,59 @@ ol.ui.horizontal.list li:before {
   text-overflow: ellipsis;
 }
 
-.ui.selectable.table tbody tr:hover {
+.ui.selectable.table tbody tr:hover,
+.ui.table tbody tr td.selectable:hover {
   background: rgba(0,0,0,.05)!important;
   color: rgba(0,0,0,.95)!important;
 }
 
+.ui.inverted.table tbody tr td.selectable:hover,
 .ui.selectable.inverted.table tbody tr:hover {
   background: rgba(255,255,255,.08)!important;
   color: #fff!important;
 }
 
+.ui.table tbody tr td.selectable {
+  padding: 0;
+}
+
+.ui.table tbody tr td.selectable>a:not(.ui) {
+  display: block;
+  color: inherit;
+  padding: .71428571em;
+}
+
 .ui.selectable.table tr.error:hover,
-.ui.selectable.table tr:hover td.error {
+.ui.selectable.table tr:hover td.error,
+.ui.table tr td.selectable.error:hover {
   background: #ffe7e7!important;
   color: #943634!important;
 }
 
 .ui.selectable.table tr.warning:hover,
-.ui.selectable.table tr:hover td.warning {
+.ui.selectable.table tr:hover td.warning,
+.ui.table tr td.selectable.warning:hover {
   background: #fff4e4!important;
   color: #493107!important;
 }
 
 .ui.selectable.table tr.active:hover,
-.ui.selectable.table tr:hover td.active {
+.ui.selectable.table tr:hover td.active,
+.ui.table tr td.selectable.active:hover {
   background: #e0e0e0!important;
   color: rgba(0,0,0,.87)!important;
 }
 
 .ui.selectable.table tr.positive:hover,
-.ui.selectable.table tr:hover td.positive {
+.ui.selectable.table tr:hover td.positive,
+.ui.table tr td.selectable.positive:hover {
   background: #f7ffe6!important;
   color: #275b28!important;
 }
 
 .ui.selectable.table tr.negative:hover,
-.ui.selectable.table tr:hover td.negative {
+.ui.selectable.table tr:hover td.negative,
+.ui.table tr td.selectable.negative:hover {
   background: #ffe7e7!important;
   color: #943634!important;
 }
@@ -24032,7 +24071,7 @@ select.ui.dropdown {
   }
 }
 
-@media only screen and (max-width:992px) {
+@media only screen and (max-width:991px) {
   .ui.modal>.header {
     padding-right: 2.25rem;
   }
@@ -24174,7 +24213,7 @@ select.ui.dropdown {
   z-index: auto;
 }
 
-@media only screen and (max-width:992px) {
+@media only screen and (max-width:991px) {
   .ui.basic.modal>.close {
     color: #fff;
   }
@@ -24393,7 +24432,7 @@ a.ui.nag {
   border: 1px solid #d4d4d5;
   line-height: 1.4285em;
   max-width: 250px;
-  background-color: #fff;
+  background: #fff;
   padding: .833em 1em;
   font-weight: 400;
   font-style: normal;
@@ -24566,6 +24605,20 @@ a.ui.nag {
   right: auto;
   margin-top: -.325em;
   box-shadow: -1px 1px 0 0 #bababc;
+}
+
+.ui.bottom.popup:before,
+.ui.left.center.popup:before,
+.ui.right.center.popup:before,
+.ui.top.popup:before {
+  background: #fff;
+}
+
+.ui.inverted.bottom.popup:before,
+.ui.inverted.left.center.popup:before,
+.ui.inverted.right.center.popup:before,
+.ui.inverted.top.popup:before {
+  background: #1b1c1d;
 }
 
 .ui.popup>.ui.grid:not(.padded) {
@@ -25464,6 +25517,37 @@ a.ui.nag {
   color: rgba(0,0,0,.85);
 }
 
+.ui.search.selection .prompt {
+  border-radius: .28571429rem;
+}
+
+.ui.search.selection>.icon.input>.remove.icon {
+  pointer-events: none;
+  position: absolute;
+  left: auto;
+  opacity: 0;
+  color: '';
+  top: 0;
+  right: 0;
+  -webkit-transition: color .1s ease,opacity .1s ease;
+  transition: color .1s ease,opacity .1s ease;
+}
+
+.ui.search.selection>.icon.input>.active.remove.icon {
+  cursor: pointer;
+  opacity: .8;
+  pointer-events: auto;
+}
+
+.ui.search.selection>.icon.input:not([class*="left icon"])>.icon~.remove.icon {
+  right: 1.85714em;
+}
+
+.ui.search.selection>.icon.input>.remove.icon:hover {
+  opacity: 1;
+  color: #db2828;
+}
+
 .ui.category.search .results {
   width: 28em;
 }
@@ -25677,8 +25761,6 @@ a.ui.nag {
 .ui.sidebar>* {
   -webkit-backface-visibility: hidden;
   backface-visibility: hidden;
-  -webkit-transform: rotateZ(0);
-  transform: rotateZ(0);
 }
 
 .ui.left.sidebar {
@@ -25845,14 +25927,14 @@ html.ios body {
   height: initial!important;
 }
 
-.ui[class*="very thin"].left.sidebar,
-.ui[class*="very thin"].right.sidebar {
-  width: 60px;
-}
-
 .ui.thin.left.sidebar,
 .ui.thin.right.sidebar {
   width: 150px;
+}
+
+.ui[class*="very thin"].left.sidebar,
+.ui[class*="very thin"].right.sidebar {
+  width: 60px;
 }
 
 .ui.left.sidebar,
@@ -25870,16 +25952,16 @@ html.ios body {
   width: 475px;
 }
 
-.ui.visible[class*="very thin"].left.sidebar~.fixed,
-.ui.visible[class*="very thin"].left.sidebar~.pusher {
-  -webkit-transform: translate3d(60px,0,0);
-  transform: translate3d(60px,0,0);
-}
-
 .ui.visible.thin.left.sidebar~.fixed,
 .ui.visible.thin.left.sidebar~.pusher {
   -webkit-transform: translate3d(150px,0,0);
   transform: translate3d(150px,0,0);
+}
+
+.ui.visible[class*="very thin"].left.sidebar~.fixed,
+.ui.visible[class*="very thin"].left.sidebar~.pusher {
+  -webkit-transform: translate3d(60px,0,0);
+  transform: translate3d(60px,0,0);
 }
 
 .ui.visible.wide.left.sidebar~.fixed,
@@ -25894,16 +25976,16 @@ html.ios body {
   transform: translate3d(475px,0,0);
 }
 
-.ui.visible[class*="very thin"].right.sidebar~.fixed,
-.ui.visible[class*="very thin"].right.sidebar~.pusher {
-  -webkit-transform: translate3d(-60px,0,0);
-  transform: translate3d(-60px,0,0);
-}
-
 .ui.visible.thin.right.sidebar~.fixed,
 .ui.visible.thin.right.sidebar~.pusher {
   -webkit-transform: translate3d(-150px,0,0);
   transform: translate3d(-150px,0,0);
+}
+
+.ui.visible[class*="very thin"].right.sidebar~.fixed,
+.ui.visible[class*="very thin"].right.sidebar~.pusher {
+  -webkit-transform: translate3d(-60px,0,0);
+  transform: translate3d(-60px,0,0);
 }
 
 .ui.visible.wide.right.sidebar~.fixed,

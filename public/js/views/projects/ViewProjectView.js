@@ -30,6 +30,7 @@ define([
               project: project,
               _: _
             }
+            // FIXME: wrong code here...
             var compiledTemplate = _.template( projectAreaTemplate, data );
             self.$el.html(compiledTemplate);
             compiledTemplate = _.template( viewProjectTemplate, data );
