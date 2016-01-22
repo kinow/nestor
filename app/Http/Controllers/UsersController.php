@@ -9,7 +9,7 @@ use Illuminate\Http\Request;
 
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 
-use Dingo\Api\Exception\StoreResourceFailedException;
+use Dingo\Api\Routing\Helpers;
 
 use Nestor\Http\Controllers\Controller;
 use Nestor\Repositories\UserRepository;
@@ -17,7 +17,7 @@ use Nestor\Repositories\UserRepository;
 class UsersController extends Controller
 {
 
-    use AuthenticatesUsers;
+    use AuthenticatesUsers, Helpers;
 
     /**
      * @var UserRepository
@@ -68,7 +68,6 @@ class UsersController extends Controller
     public function doCheckLogin(Request $request)
     {
         $user = Auth::user();
-    
         return $user;
     }
 
@@ -81,7 +80,7 @@ class UsersController extends Controller
     public function doLogout(Request $request)
     {
         Auth::logout();
-        return true;
+        return $this->response->array('success' => 'User successfully logged out.');
     }
 
     /**

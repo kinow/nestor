@@ -48,7 +48,10 @@ $api->version('v1', function ($api) {
     $api->get('auth/', 'Nestor\Http\Controllers\UsersController@doCheckLogin');
     $api->post('auth/signup', 'Nestor\Http\Controllers\UsersController@doSignUp');
     $api->post('auth/login', 'Nestor\Http\Controllers\UsersController@doLogin');
-    $api->get('auth/logout', 'Nestor\Http\Controllers\UsersController@doLogout');
+    {
+        $api->get('auth/logout', 'Nestor\Http\Controllers\UsersController@doLogout');
+        $api->post('auth/logout', 'Nestor\Http\Controllers\UsersController@doLogout');
+    }
 
     // projects
     $api->get('projects/', 'Nestor\Http\Controllers\ProjectsController@index');

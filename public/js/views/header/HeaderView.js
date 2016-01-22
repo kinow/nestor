@@ -30,7 +30,7 @@ define([
 
     onLogoutClick: function(evt) {
         evt.preventDefault();
-        //app.session.logout({});  // No callbacks needed b/c of session event listening
+        app.session.logout({});  // No callbacks needed b/c of session event listening
     },
 
     onRemoveAccountClick: function(evt){

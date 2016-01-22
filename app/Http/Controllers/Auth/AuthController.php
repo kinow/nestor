@@ -29,8 +29,6 @@ class AuthController extends Controller
 
     use AuthenticatesUsers, ThrottlesLogins;
     
-    use \Dingo\Api\Routing\Helpers;
-
     protected $redirectTo = '/#';
 
     protected $loginPath = '/#/signin';
