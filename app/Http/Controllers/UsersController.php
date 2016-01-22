@@ -2,8 +2,8 @@
 
 namespace Nestor\Http\Controllers;
 
-use \Validator;
 use \Auth;
+use \Validator;
 
 use Illuminate\Http\Request;
 
@@ -16,7 +16,6 @@ use Nestor\Repositories\UserRepository;
 
 class UsersController extends Controller
 {
-
     use AuthenticatesUsers, Helpers;
 
     /**
@@ -32,7 +31,7 @@ class UsersController extends Controller
     /**
      * Creates a new user.
      *
-     * @param Request $request
+     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
     public function doSignUp(Request $request)
@@ -62,7 +61,7 @@ class UsersController extends Controller
     /**
      * Checks if the request contains valid credentials.
      *
-     * @param Request $request
+     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
     public function doCheckLogin(Request $request)
@@ -74,57 +73,56 @@ class UsersController extends Controller
     /**
      * Logs out a user.
      *
-     * @param Request $request
+     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
     public function doLogout(Request $request)
     {
         Auth::logout();
-        return $this->response->array('success' => 'User successfully logged out.');
+        return $this->response->array(array('success' => 'User successfully logged out.'));
     }
 
     /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
+     * Logs in a user.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function doLogin(Request $request)
     {
-        //
+        $this->validate($request, [
+            $this->loginUsername() => 'required', 'password' => 'required',
+        ]);
+        
+        // If the class is using the ThrottlesLogins trait, we can automatically throttle
+        // the login attempts for this application. We'll key this by the username and
+        // the IP address of the client making these requests into this application.
+        $throttles = $this->isUsingThrottlesLoginsTrait();
+        
+        if ($throttles && $this->hasTooManyLoginAttempts($request)) {
+            return $this->sendLockoutResponse($request);
+        }
+        
+        $credentials = $this->getCredentials($request);
+        
+        if (Auth::attempt($credentials, $request->has('remember'))) {
+            return $this->handleUserWasAuthenticated($request, $throttles);
+        }
+        
+        // If the login attempt was unsuccessful we will increment the number of attempts
+        // to login and redirect the user back to the login form. Of course, when this
+        // user surpasses their maximum number of attempts they will get locked out.
+        if ($throttles) {
+            $this->incrementLoginAttempts($request);
+        }
+        
+//         return redirect($this->loginPath())
+//             ->withInput($request->only($this->loginUsername(), 'remember'))
+//             ->withErrors([
+//             $this->loginUsername() => $this->getFailedLoginMessage(),
+//         ]);
+        $user = Auth::user();
+        return $user;
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
-    }
 }
