@@ -36,17 +36,16 @@ class UsersController extends Controller
      */
     public function doSignUp(Request $request)
     {
-        $validator = Validator::make($request->all(), [
-            'username' => 'required|max:50',
-            'name' => 'required|max:255',
-            'email' => 'required|email|max:255|unique:users',
-            'password' => 'required|min:6'
+        $validator = Validator::make($request->all(), [ 
+                'username' => 'required|max:50',
+                'name' => 'required|max:255',
+                'email' => 'required|email|max:255|unique:users',
+                'password' => 'required|min:6' 
         ]);
         
-        if ($validator->fails()) {
-            $this->throwValidationException(
-                    $request, $validator
-                    );
+        if ($validator->fails())
+        {
+            $this->throwValidationException($request, $validator);
         }
         
         $payload = app('request')->only('username', 'name', 'email', 'password');
@@ -90,9 +89,15 @@ class UsersController extends Controller
      */
     public function doLogin(Request $request)
     {
-        $this->validate($request, [
-            $this->loginUsername() => 'required', 'password' => 'required',
+        $validator = Validator::make($request->all(), [ 
+            'username' => 'required|max:50',
+            'password' => 'required|min:6' 
         ]);
+        
+        if ($validator->fails())
+        {
+            $this->throwValidationException($request, $validator);
+        }
         
         // If the class is using the ThrottlesLogins trait, we can automatically throttle
         // the login attempts for this application. We'll key this by the username and
@@ -122,7 +127,9 @@ class UsersController extends Controller
 //             $this->loginUsername() => $this->getFailedLoginMessage(),
 //         ]);
         $user = Auth::user();
-        return $user;
+        if ($user)
+            return $user;
+        return $this->response->error('Invalid username or password.', 401);
     }
 
 }

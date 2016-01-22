@@ -17,20 +17,29 @@ define([
           $("#header-alert").removeClass("negative warning success positive error");
           $("#header-alert").addClass(klass);
           $("#header-alert").html('<i class="close icon"></i><div class="header">' + title + '</div><p>' + text + '</p>');
-          $("#header-alert").show('fast');
+          $("#header-alert").show();
 
           // closeable alert messages
+          // $('.message .close')
+          //   .on('click', function() {
+          //     $(this)
+          //       .closest('.message')
+          //       .transition('fade')
+          //     ;
+          //   })
+          // ;
+
           $('.message .close')
             .on('click', function() {
               $(this)
                 .closest('.message')
-                .transition('fade')
+                .hide()
               ;
             })
           ;
           
           setTimeout(function() {
-              $("#header-alert").hide();
+            $("#header-alert").hide();
           }, 7000 );
       }
   };

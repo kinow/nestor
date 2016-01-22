@@ -41,6 +41,12 @@ app('Dingo\Api\Exception\Handler')->register(function (Dingo\Api\Exception\Store
     ], 422);
 });
 
+app('Dingo\Api\Exception\Handler')->register(function (Illuminate\Http\Exception\HttpResponseException $exception) {
+    return Response::make([
+            'error' => 'Validation error: ' . $exception->getMessage()
+    ], 422);
+});
+
 $api = app('Dingo\Api\Routing\Router');
 
 $api->version('v1', function ($api) {

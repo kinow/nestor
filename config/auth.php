@@ -28,7 +28,7 @@ return [
     |
     */
 
-    'model' => Nestor\Models\User::class,
+    'model' => Nestor\Entities\User::class,
 
     /*
     |--------------------------------------------------------------------------

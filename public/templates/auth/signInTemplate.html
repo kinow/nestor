@@ -5,25 +5,22 @@
         Sign In
       </div>
     </h2>
-    <form class="ui large form">
+    <form class="ui large form" id="login-form" data-parsley-validate>
       <div class="ui stacked segment">
         <div class="field">
           <div class="ui left icon input">
-            <i class="user icon"></i>
-            <input type="text" name="username" placeholder="User name">
+             <i class="user icon"></i>
+            <input type="text" name="username" id="login-username-input" placeholder="User name" data-parsley-required="true">
           </div>
         </div>
         <div class="field">
           <div class="ui left icon input">
             <i class="lock icon"></i>
-            <input type="password" name="password" placeholder="Password">
+            <input type="password" name="password" id="login-password-input" placeholder="Password" data-parsley-required="true" data-parsley-length="[5,50]">
           </div>
         </div>
-        <div class="ui fluid large submit button">Sign In</div>
+        <div class="ui fluid large submit button" id="login-btn">Sign In</div>
       </div>
-
-      <div class="ui error message"></div>
-
     </form>
 
     <div class="ui message">
