@@ -305,7 +305,8 @@ a:visited {
   color: #4183c4 !important; }
 
 p {
-  padding: 12px 25px;
+  padding: 12px 25px 6px 25px;
+  margin: 0px;
   font-size: 13px;
   color: #484848;
   line-height: 1.35; }
