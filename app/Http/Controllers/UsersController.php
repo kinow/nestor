@@ -36,7 +36,8 @@ class UsersController extends Controller
      */
     public function doSignUp(Request $request)
     {
-        $validator = Validator::make($request->all(), [ 
+        $payload = $request->only('username', 'name', 'email', 'password');
+        $validator = Validator::make($payload, [ 
                 'username' => 'required|max:50',
                 'name' => 'required|max:255',
                 'email' => 'required|email|max:255|unique:users',
@@ -48,9 +49,9 @@ class UsersController extends Controller
             $this->throwValidationException($request, $validator);
         }
         
-        $payload = app('request')->only('username', 'name', 'email', 'password');
+        $payload['password'] = bcrypt($payload['password']);
         
-        $entity = $this->userRepository->create($request->all());
+        $entity = $this->userRepository->create($payload);
         
         Auth::loginUsingId($entity['id'], $request->has('remember'));
         
