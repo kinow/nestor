@@ -77,13 +77,13 @@ define([
                 if (token) xhr.setRequestHeader('X-CSRF-Token', token);
 
                 // Set the API version
+                // TODO: get api tree and sub application name from config
                 xhr.setRequestHeader('Accept', 'application/vnd.nestorqa.v1+json');
             },
             data:  JSON.stringify( _.omit(opts, 'method') ),
             success: function(res){
                 if( !res.error ){
-                    if(_.indexOf(['login', 'signup'], opts.method) !== -1){
-
+                    if(_.indexOf(['login', 'signup'], opts.method) !== -1) {
                         self.updateSessionUser( res.user || {} );
                         self.set({ user_id: res.user.id, logged_in: true });
                     } else {

@@ -28,6 +28,8 @@ define([
         if(logged_in) 
         {
           app.showAlert("Success!", "Logged in as " + app.session.user.get('name'), "success");
+          //Backbone.history.navigate('/#/projects');
+          window.location = '/#/projects';
         }
         /*else 
         {

@@ -180,7 +180,6 @@ define([
     projectsRouter.on('route:showProjects', function() {
       var projectsView = new ProjectsView();
       projectsView.render();
-
     });
 
     projectsRouter.on('route:showAddProject', function() {
@@ -252,8 +251,15 @@ define([
   };
 
   var AppRouter = {
+    // router initialization function
     initialize: initialize,
-    navigation: navigation
+    // for breadcrumbs
+    navigation: navigation,
+    // routes
+    BaseRouter:       BaseRouter,
+    AuthRouter:       AuthRouter,
+    ProjectsRouter:   ProjectsRouter,
+    TestSuitesRouter: TestSuitesRouter
   };
 
   return AppRouter;
