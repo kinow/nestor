@@ -4,8 +4,8 @@ namespace Nestor\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-use Nestor\Http\Requests;
 use Nestor\Http\Controllers\Controller;
+use Nestor\Repositories\ProjectsRepository;
 
 /**
  * Project resource representation.
@@ -14,6 +14,17 @@ use Nestor\Http\Controllers\Controller;
  */
 class ProjectsController extends Controller
 {
+
+    /**
+     * @var ProjectsRepository
+     */
+    protected $projectsRepository;
+    
+    public function __construct(ProjectsRepository $projectsRepository)
+    {
+        $this->projectsRepository = $projectsRepository;
+    }
+
     /**
      * Show all users.
      * @return array
@@ -24,18 +35,19 @@ class ProjectsController extends Controller
      */
     public function index()
     {
-        return [
-            [
-                'id' => 1,
-                'name' => 'Test Project',
-                'description' => 'This is the first project'
-            ],
-            [
-                'id' => 2,
-                'name' => 'Dummy Project',
-                'description' => 'And this is the second project'
-            ]
-        ];
+        return $this->projectsRepository->paginate();
+//         return [
+//             [
+//                 'id' => 1,
+//                 'name' => 'Test Project',
+//                 'description' => 'This is the first project'
+//             ],
+//             [
+//                 'id' => 2,
+//                 'name' => 'Dummy Project',
+//                 'description' => 'And this is the second project'
+//             ]
+//         ];
     }
 
     /**

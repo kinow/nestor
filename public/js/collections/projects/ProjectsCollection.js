@@ -18,6 +18,10 @@ define([
 
     fetchError: function(collection, response) {
       throw new Error("Projects fetch error");
+    },
+
+    parse: function(response) {
+      return response ? response.data : [];
     }
 
   });

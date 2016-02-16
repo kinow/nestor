@@ -12,7 +12,7 @@ use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Dingo\Api\Routing\Helpers;
 
 use Nestor\Http\Controllers\Controller;
-use Nestor\Repositories\UserRepository;
+use Nestor\Repositories\UsersRepository;
 
 class UsersController extends Controller
 {
@@ -33,13 +33,13 @@ class UsersController extends Controller
     protected $redirectTo = '/#/projects';
 
     /**
-     * @var UserRepository
+     * @var UsersRepository
      */
-    protected $userRepository;
+    protected $usersRepository;
 
-    public function __construct(UserRepository $userRepository)
+    public function __construct(UsersRepository $usersRepository)
     {
-        $this->userRepository = $userRepository;
+        $this->usersRepository = $usersRepository;
     }
 
     /**
@@ -65,7 +65,7 @@ class UsersController extends Controller
         
         $payload['password'] = bcrypt($payload['password']);
         
-        $entity = $this->userRepository->create($payload);
+        $entity = $this->usersRepository->create($payload);
         
         Auth::loginUsingId($entity['id'], $request->has('remember'));
         
@@ -148,7 +148,7 @@ class UsersController extends Controller
      * @param Request $request HTTP request
      * @param \Nestor\Entities\User $user DB user returned
      */
-    public function authenticated(Request $request, \Nestor\Entities\User $user)
+    protected function authenticated(Request $request, \Nestor\Entities\User $user)
     {
         if ($user)
             return $user;

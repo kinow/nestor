@@ -7,10 +7,10 @@ use Prettus\Repository\Criteria\RequestCriteria;
 use Nestor\Entities\User;
 
 /**
- * Class UserRepositoryEloquent
+ * Class UsersRepositoryEloquent
  * @package namespace Nestor\Repositories;
  */
-class UserRepositoryEloquent extends BaseRepository implements UserRepository
+class UsersRepositoryEloquent extends BaseRepository implements UsersRepository
 {
     /**
      * Specify Model class name

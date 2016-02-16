@@ -153,7 +153,7 @@ return [
         /*
          * Repositories
          */
-       Prettus\Repository\Providers\RepositoryServiceProvider::class,
+        Prettus\Repository\Providers\RepositoryServiceProvider::class,
     ],
 
     /*

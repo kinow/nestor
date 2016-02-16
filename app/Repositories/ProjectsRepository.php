@@ -5,10 +5,10 @@ namespace Nestor\Repositories;
 use Prettus\Repository\Contracts\RepositoryInterface;
 
 /**
- * Interface UserRepository
+ * Interface ProjectsRepository
  * @package namespace Nestor\Repositories;
  */
-interface UserRepository extends RepositoryInterface
+interface ProjectsRepository extends RepositoryInterface
 {
     //
 }
