@@ -5,7 +5,7 @@ require.config({
     underscore: 'libs/underscore-amd/underscore-min',
     backbone: 'libs/backbone-amd/backbone-min',
     templates: '../templates',
-    navigation: 'libs/navigation/navigation',
+    navigation: 'libs/core/navigation',
     parsley: 'libs/parsleyjs/dist/parsley.min',
     semanticui: 'libs/semantic/dist/semantic.min'
   },

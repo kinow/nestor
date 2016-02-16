@@ -27,7 +27,7 @@ define([
         var logged_in = app.session.get("logged_in");
         if(logged_in) 
         {
-          app.showAlert("Success!", "Logged in as " + app.session.user.get('name'), "success");
+          //app.showAlert("Success!", "Logged in as " + app.session.user.get('name'), "success");
           //Backbone.history.navigate('/#/projects');
           window.location = '/#/projects';
         }
@@ -40,6 +40,7 @@ define([
     onLogoutClick: function(evt) {
         evt.preventDefault();
         app.session.logout({});  // No callbacks needed b/c of session event listening
+        window.location = '/#/signin';
     },
 
     onRemoveAccountClick: function(evt){

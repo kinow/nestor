@@ -19,6 +19,20 @@ class UsersController extends Controller
     use AuthenticatesUsers, Helpers;
 
     /**
+     * The field used as username to authenticate the user.
+     *
+     * @var string
+     */
+    protected $username = 'username';
+
+    /**
+     * To where redirect users once they have logged in.
+     *
+     * @var string
+     */
+    protected $redirectTo = '/#/projects';
+
+    /**
      * @var UserRepository
      */
     protected $userRepository;
@@ -122,15 +136,23 @@ class UsersController extends Controller
             $this->incrementLoginAttempts($request);
         }
         
-//         return redirect($this->loginPath())
-//             ->withInput($request->only($this->loginUsername(), 'remember'))
-//             ->withErrors([
-//             $this->loginUsername() => $this->getFailedLoginMessage(),
-//         ]);
         $user = Auth::user();
         if ($user)
             return $user;
         return $this->response->error('Invalid username or password.', 401);
+    }
+
+    /**
+     * Called once a user successfully logs in to the system.
+     *
+     * @param Request $request HTTP request
+     * @param \Nestor\Entities\User $user DB user returned
+     */
+    public function authenticated(Request $request, \Nestor\Entities\User $user)
+    {
+        if ($user)
+            return $user;
+        return NULL;
     }
 
 }
