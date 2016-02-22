@@ -60,7 +60,8 @@ $api->version('v1', function ($api) {
     }
 
     // projects
-    $api->get('projects/', 'Nestor\Http\Controllers\ProjectsController@index');
+    $api->get('projects', 'Nestor\Http\Controllers\ProjectsController@index');
+    $api->post('projects', 'Nestor\Http\Controllers\ProjectsController@store');
     $api->get('projects/{id}', 'Nestor\Http\Controllers\ProjectsController@show');
     
     $api->get('projects/{projectId}/testsuites/{testSuiteId}', [ 

@@ -1,6 +1,8 @@
 <?php
-
 namespace Nestor\Http\Controllers;
+
+use Log;
+use Validator;
 
 use Illuminate\Http\Request;
 
@@ -35,6 +37,7 @@ class ProjectsController extends Controller
      */
     public function index()
     {
+        Log::debug("Returning paginated projects");
         return $this->projectsRepository->paginate();
 //         return [
 //             [
@@ -57,8 +60,7 @@ class ProjectsController extends Controller
      */
     public function create()
     {
-        //
-        
+        // TODO: throw not implemented
     }
 
     /**
@@ -69,7 +71,21 @@ class ProjectsController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        Log::debug("Saving a new project");
+        $payload = $request->only('name', 'description');
+        $validator = Validator::make($payload, [
+                'name' => 'required|max:255|unique:projects',
+                'description' => 'required|max:1000'
+        ]);
+        
+        if ($validator->fails())
+        {
+            $this->throwValidationException($request, $validator);
+        }
+        
+        $entity = $this->projectsRepository->create($payload);
+        
+        return $entity;
     }
 
     /**

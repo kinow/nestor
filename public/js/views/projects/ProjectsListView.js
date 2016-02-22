@@ -7,7 +7,6 @@ define([
   'models/project/ProjectModel',
   'collections/projects/ProjectsCollection',
   'text!templates/projects/projectsListTemplate.html'
-
 ], function($, _, Backbone, ProjectModel, ProjectsCollection, projectsListTemplate){
   var ProjectListView = Backbone.View.extend({
     el: $("#projects-list"),
@@ -34,6 +33,7 @@ define([
       var compiledTemplate = _.template( projectsListTemplate, data );
       $("#projects-list").html( compiledTemplate );
     }
+
   });
   return ProjectListView;
 });

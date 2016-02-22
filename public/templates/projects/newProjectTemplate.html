@@ -1,15 +1,15 @@
 <h1 class="ui top attached header">Add new Project</h1>
 <div class="ui attached segment">
-	<form class='ui form'>
+	<form class='ui form' id="new-project-form" data-parsley-validate>
 		  <div class="field">
 			<label>Name</label>
-			<input name="name" placeholder="Name" type="text" value="" />
+			<input name="name" id="project-name-input" placeholder="Name" type="text" value="" data-parsley-required="true" data-parsley-length="[1,255]">
 		  </div>
 		  <div class="field">
 			<label>Description</label>
-			<input name="description" placeholder="Description" type="text" value="" />
+			<input name="description" placeholder="Description" id="project-description-input" type="text" value="" data-parsley-required="true" data-parsley-length="[1,1000]">
 		  </div>
-		  <button class="positive ui left floated button">
+		  <button class="positive ui left floated button" id="new-project-btn">
 			  Okay
 		  </button>
 		  <a href="javascript: window.history.back();" class="ui left floated button">

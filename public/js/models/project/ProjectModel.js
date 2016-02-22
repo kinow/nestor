@@ -1,9 +1,10 @@
 define([
   'underscore',
-  'backbone'
-], function(_, Backbone) {
+  'backbone',
+  'models/core/BaseModel',
+], function(_, Backbone, BaseModel) {
   
-  var ProjectModel = Backbone.Model.extend({
+  var ProjectModel = BaseModel.extend({
 
   	defaults: {
   		id: 0,
@@ -13,11 +14,12 @@ define([
   	},
 
   	initialize: function (options) {
-      this.set('url', '#/projects/' + options.id + '/view');
+      if (options != undefined && _.has(options, 'id'))
+        this.set('url', '/api/projects/' + options.id);
   	},
 
     url: function() {
-      return '/api/projects/' + this.id;
+      return '/api/projects';
     }
 
   });
