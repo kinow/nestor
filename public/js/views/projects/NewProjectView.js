@@ -32,17 +32,20 @@ define([
     },
 
     onSaveAttempt: function(event) {
-      if(event) event.preventDefault();
+      if(event) {
+        event.preventDefault();
+      }
       if(this.$("#new-project-form").parsley().validate()) {
-        console.log('Saving project...');
         var project = new ProjectModel({
           name: this.$("#project-name-input").val(),
           description: this.$("#project-description-input").val(),
         });
         this.collection.create(project, {
           success: function(mod, res) {
-            console.log(mod);
-            console.log(res);
+            // console.log(mod);
+            // console.log(res);
+            app.showAlert('Success!', 'New project ' + this.$("#project-name-input").val() + ' created!', 'success')
+            window.location = '/#/projects';
           }
         });
         // project.save({

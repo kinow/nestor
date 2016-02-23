@@ -26,6 +26,8 @@ define([
         }, {
           success: function(mod, res){
             if(typeof DEBUG != 'undefined' && DEBUG) console.log("SUCCESS", mod, res);
+            app.showAlert('Welcome!', 'Log in successful!', 'success')
+            window.location = '/#/projects';
           },
           error: function(err){
             if(typeof DEBUG != 'undefined' && DEBUG) console.log("ERROR", err);
