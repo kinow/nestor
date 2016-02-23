@@ -12,6 +12,11 @@ define([
   var NewProjectView = Backbone.View.extend({
     el: $("#page"),
 
+    initialize: function() {
+      _.bindAll(this, 'render', 'onSaveAttempt');
+      this.collection = new ProjectsCollection();
+    },
+
     events: {
       'click #new-project-btn': 'onSaveAttempt'
     },
@@ -22,28 +27,37 @@ define([
 
       this.$el.html(newProjectTemplate);
 
-      var projectsCollection = new ProjectsCollection();
-      var projectsListView = new ProjectsListView({collection: projectsCollection}); 
+      //var projectsCollection = new ProjectsCollection();
+      //var projectsListView = new ProjectsListView({collection: projectsCollection}); 
     },
 
     onSaveAttempt: function(event) {
       if(event) event.preventDefault();
       if(this.$("#new-project-form").parsley().validate()) {
         console.log('Saving project...');
-        var project = new ProjectModel();
-        project.save({
+        var project = new ProjectModel({
           name: this.$("#project-name-input").val(),
           description: this.$("#project-description-input").val(),
-        }, {
-          success: function(mod, res){
-            if(typeof DEBUG != 'undefined' && DEBUG) console.log("SUCCESS", mod, res);
-            console.log('Success!')
-          },
-          error: function(err){
-            if(typeof DEBUG != 'undefined' && DEBUG) console.log("ERROR", err);
-            app.showAlert('Error saving the project', err, 'error');
+        });
+        this.collection.create(project, {
+          success: function(mod, res) {
+            console.log(mod);
+            console.log(res);
           }
         });
+        // project.save({
+        //   name: this.$("#project-name-input").val(),
+        //   description: this.$("#project-description-input").val(),
+        // }, {
+        //   success: function(mod, res){
+        //     if(typeof DEBUG != 'undefined' && DEBUG) console.log("SUCCESS", mod, res);
+        //     console.log('Success!')
+        //   },
+        //   error: function(err){
+        //     if(typeof DEBUG != 'undefined' && DEBUG) console.log("ERROR", err);
+        //     app.showAlert('Error saving the project', err, 'error');
+        //   }
+        // });
       } else {
         // Invalid clientside validations thru parsley
         if(typeof DEBUG != 'undefined' && DEBUG) console.log("Did not pass clientside validation");

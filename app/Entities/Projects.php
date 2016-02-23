@@ -10,7 +10,7 @@ class Projects extends Model implements Transformable
 {
     use TransformableTrait;
 
-    protected $fillable = [];
+    protected $fillable = ['name', 'description', 'project_statuses_id'];
 
     protected $hidden = [];
 

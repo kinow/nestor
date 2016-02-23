@@ -72,7 +72,7 @@ class ProjectsController extends Controller
     public function store(Request $request)
     {
         Log::debug("Saving a new project");
-        $payload = $request->only('name', 'description');
+        $payload = $request->only('name', 'description', 'project_statuses_id');
         $validator = Validator::make($payload, [
                 'name' => 'required|max:255|unique:projects',
                 'description' => 'required|max:1000'

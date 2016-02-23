@@ -6,7 +6,7 @@ define([
 ], function($, _, Backbone, ProjectModel){
   var ProjectsCollection = Backbone.Collection.extend({
     model: ProjectModel,
-    url: '/api/projects/',
+    url: 'api/projects',
     models: [],
     
     initialize: function(){
