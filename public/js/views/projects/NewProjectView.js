@@ -41,11 +41,27 @@ define([
           description: this.$("#project-description-input").val(),
         });
         this.collection.create(project, {
+          wait: true,
           success: function(mod, res) {
             // console.log(mod);
             // console.log(res);
             app.showAlert('Success!', 'New project ' + this.$("#project-name-input").val() + ' created!', 'success')
             window.location = '/#/projects';
+          },
+          error: function(model, response, options) {
+            //console.log(model);
+            //console.log(response);
+            //console.log(options);
+            var message = _.has(response, 'statusText') ? response.statusText : 'Unknown error!';
+            if (
+              _.has(response, 'responseJSON') && 
+              _.has(response.responseJSON, 'name') &&
+              _.has(response.responseJSON.name, 'length') &&
+              response.responseJSON.name.length > 0
+            ) {
+              message = response.responseJSON.name[0];
+            }
+            app.showAlert('Failed to add new Project', message, 'error');
           }
         });
         // project.save({
