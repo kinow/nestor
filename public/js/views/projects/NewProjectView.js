@@ -29,9 +29,9 @@ define([
     },
 
     onSaveAttempt: function(event) {
-      if(event) {
-        event.preventDefault();
-      }
+      event.preventDefault();
+      event.stopPropagation();
+      
       if(this.$("#new-project-form").parsley().validate()) {
         this.collection.create(
           {

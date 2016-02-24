@@ -28,13 +28,12 @@ require([
   // Load our app module and pass it to our definition function
   'app',
   'router'
-], function($, SemanticUI, app, appRouter, SessionModel){
+], function($, SemanticUI, app, router){
   // Just use GET and POST to support all browsers
   Backbone.emulateHTTP = true;
 
   // Initialise the application web router
-  appRouter.initialize();
-  app.router = appRouter;
+  router.initialize();
 
   app.session.checkAuth({
 

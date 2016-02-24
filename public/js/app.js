@@ -34,9 +34,6 @@ define([
       }
   };
 
-  // Application Router initialized in main.js
-  app.router = null;
-
   // Create a new session model and scope it to the app global
   // This will be a singleton, which other modules can access
   app.session = new SessionModel({});
