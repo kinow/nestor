@@ -75,7 +75,7 @@ class ProjectsController extends Controller
         $payload = $request->only('name', 'description', 'project_statuses_id');
         $validator = Validator::make($payload, [
                 'name' => 'required|max:255|unique:projects',
-                'description' => 'required|max:1000'
+                'description' => 'max:1000'
         ]);
         
         if ($validator->fails())
