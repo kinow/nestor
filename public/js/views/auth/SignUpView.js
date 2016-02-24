@@ -28,6 +28,7 @@ define([
         }, {
           success: function(mod, res){
             if(typeof DEBUG != 'undefined' && DEBUG) console.log("SUCCESS", mod, res);
+            Backbone.history.navigate("#/projects", {trigger: true});
           },
           error: function(err){
             if(typeof DEBUG != 'undefined' && DEBUG) console.log("ERROR", err);

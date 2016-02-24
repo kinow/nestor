@@ -36,17 +36,21 @@ define([
         event.preventDefault();
       }
       if(this.$("#new-project-form").parsley().validate()) {
-        var project = new ProjectModel({
-          name: this.$("#project-name-input").val(),
-          description: this.$("#project-description-input").val(),
-        });
-        this.collection.create(project, {
+        // var project = new ProjectModel({
+        //   name: this.$("#project-name-input").val(),
+        //   description: this.$("#project-description-input").val(),
+        // });
+        this.collection.create(
+          {
+            name: this.$("#project-name-input").val(),
+            description: this.$("#project-description-input").val(),
+          }, {
           wait: true,
           success: function(mod, res) {
             // console.log(mod);
             // console.log(res);
             app.showAlert('Success!', 'New project ' + this.$("#project-name-input").val() + ' created!', 'success')
-            window.location = '/#/projects';
+            Backbone.history.navigate("#/projects", {trigger: true});
           },
           error: function(model, response, options) {
             //console.log(model);
