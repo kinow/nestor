@@ -8,51 +8,51 @@ define([
     'use strict';
 
     var app = {
-        root : "/",                     // The root path to run the application through.
-        URL : "/",                      // Base application URL
-        API : "/api",                   // Base API URL (used by models & collections)
+		root : "/",                     // The root path to run the application through.
+		URL : "/",                      // Base application URL
+		API : "/api",                   // Base API URL (used by models & collections)
 
-        // Show alert classes and hide after specified timeout
-        showAlert: function(title, text, klass) {
-            $("#header-alert").removeClass("negative warning success positive error");
-            $("#header-alert").addClass(klass);
-            $("#header-alert").html('<i class="close icon"></i><div class="header">' + title + '</div><p>' + text + '</p>');
-            $("#header-alert").show();
+		// Show alert classes and hide after specified timeout
+		showAlert: function(title, text, klass) {
+			$("#header-alert").removeClass("negative warning success positive error");
+			$("#header-alert").addClass(klass);
+			$("#header-alert").html('<i class="close icon"></i><div class="header">' + title + '</div><p>' + text + '</p>');
+			$("#header-alert").show();
 
-            $('.message .close')
-              .on('click', function() {
-                $(this)
-                  .closest('.message')
-                  .hide()
-                ;
-              })
-            ;
-            
-            setTimeout(function() {
-              $("#header-alert").hide();
-            }, 7000 );
-      }
-  };
+			$('.message .close')
+				.on('click', function() {
+					$(this)
+						.closest('.message')
+						.hide()
+					;
+				})
+			;
 
-  // Create a new session model and scope it to the app global
-  // This will be a singleton, which other modules can access
-  app.session = new SessionModel({});
+			setTimeout(function() {
+		  		$("#header-alert").hide();
+			}, 7000 );
+		}
+    };
 
-  // force ajax call on all browsers
-  $.ajaxSetup({ cache: false });
+	// Create a new session model and scope it to the app global
+	// This will be a singleton, which other modules can access
+	app.session = new SessionModel({});
 
-  // Global event aggregator
-  app.eventAggregator = _.extend({}, Backbone.Events);
+	// force ajax call on all browsers
+	$.ajaxSetup({ cache: false });
 
-  // View.close() event for garbage collection
-  Backbone.View.prototype.close = function() {
-      this.remove();
-      this.unbind();
-      if (this.onClose) {
-          this.onClose();
-      }
-  };
+	// Global event aggregator
+	app.eventAggregator = _.extend({}, Backbone.Events);
 
-  return app;
+	// View.close() event for garbage collection
+	Backbone.View.prototype.close = function() {
+		this.remove();
+		this.unbind();
+		if (this.onClose) {
+	  		this.onClose();
+	  	}
+	};
+
+	return app;
 
 });
