@@ -31,6 +31,36 @@ define([
 			setTimeout(function() {
 		  		$("#header-alert").hide();
 			}, 7000 );
+		},
+
+		showView: function(view, options) {
+            // Close and unbind any existing page view
+            if(this.currentView && _.isFunction(this.currentView.close)) {
+                console.log('Closing current view...');
+                this.currentView.close();
+            }
+
+            // Establish the requested view into scope
+            this.currentView = view;
+
+			// Need to be authenticated before rendering view.
+            // For cases like a user's settings page where we need to double check against the server.
+            if (typeof options !== 'undefined' && options.requiresAuth){        
+                var self = this;
+                app.session.checkAuth({
+                    success: function(res){
+                        // If auth successful, render inside the page wrapper
+                        $('#content').html( self.currentView.render().$el);
+                    }, error: function(res){
+                        self.navigate("/", { trigger: true, replace: true });
+                    }
+                });
+            } else {
+                // Render inside the page wrapper
+                //$('#content').html(this.currentView.render().$el);
+                this.currentView.render();
+                //this.currentView.delegateEvents(this.currentView.events);        // Re-delegate events (unbound when closed)
+            }
 		}
     };
 
@@ -46,7 +76,7 @@ define([
 
 	// View.close() event for garbage collection
 	Backbone.View.prototype.close = function() {
-		this.remove();
+        this.$el.empty();
 		this.unbind();
 		if (this.onClose) {
 	  		this.onClose();

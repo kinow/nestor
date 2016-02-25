@@ -1,53 +1,55 @@
-/**
- * @desc backbone router for pushState page routing
- */
-
+// File: router.js
 define([
-  // Libraries
-  'underscore',
-  'backbone',
-  'navigation',
-  'parsley',
-  // Base views
-  'views/home/HomeView',
-  'views/header/HeaderView',
-  'views/breadcrumb/BreadcrumbView',
-  // Auth views
-  'views/auth/SignUpView',
-  'views/auth/SignInView',
-  // Projects views
-  'views/projects/ProjectsView',
-  'views/projects/NewProjectView',
-  'views/projects/ProjectView',
-  'views/projects/ConfirmDeleteProjectView',
-  'views/projects/ViewProjectView',
-  // Test Suite views
-  'views/testsuites/NewTestSuiteView',
-  'views/testsuites/TestSuiteView',
-  'views/testsuites/ViewTestSuiteView'
+	// Libraries
+	'underscore',
+	'backbone',
+	'navigation',
+	'parsley',
+	// app
+	'app',
+	// Base views
+	'views/home/HomeView',
+	'views/header/HeaderView',
+	'views/breadcrumb/BreadcrumbView',
+	// Auth views
+	'views/auth/SignUpView',
+	'views/auth/SignInView',
+	// Projects views
+	'views/projects/ProjectsView',
+	'views/projects/NewProjectView',
+	'views/projects/ProjectView',
+	'views/projects/ConfirmDeleteProjectView',
+	'views/projects/ViewProjectView',
+	// Test Suite views
+	'views/testsuites/NewTestSuiteView',
+	'views/testsuites/TestSuiteView',
+	'views/testsuites/ViewTestSuiteView'
 ], function(
-  _,
-  Backbone,
-  Navigation,
-  Parsley,
+	_,
+	Backbone,
+	Navigation,
+	Parsley,
 
-  HomeView,
-  HeaderView,
-  BreadcrumbView,
+	app,
 
-  SignUpView,
-  SignInView,
+	HomeView,
+	HeaderView,
+	BreadcrumbView,
 
-  ProjectsView,
-  NewProjectView,
-  ProjectView,
-  ConfirmDeleteProjectView,
-  ViewProjectView,
+	SignUpView,
+	SignInView,
 
-  NewTestSuiteView,
-  TestSuiteView,
-  ViewTestSuiteView) {
-  'use strict';
+	ProjectsView,
+	NewProjectView,
+	ProjectView,
+	ConfirmDeleteProjectView,
+	ViewProjectView,
+
+	NewTestSuiteView,
+	TestSuiteView,
+	ViewTestSuiteView) {
+
+	'use strict';
 
   var navigation = new Navigation();
 
@@ -145,18 +147,26 @@ define([
   var initialize = function() {
 
     // --- common views ---
-    var headerView = new HeaderView();
-    headerView.render();
-    var breadcrumbView = new BreadcrumbView({navigation: navigation});
+    if (!app.headerView) {
+    	app.headerView = new HeaderView();
+    	app.headerView.render();
+    }
+
+    if (!app.breadcrumbView) {
+    	app.breadcrumbView = new BreadcrumbView({navigation: navigation});
+    	// render happens after breadcrumbView has calculated its breadcrumbs, within itself it calls render()
+    }
     // --- end common views ---
 
     // --- base router ---
     var baseRouter = new BaseRouter();
 
     baseRouter.on('route:defaultAction', function (actions) {
-       // We have no matching route, lets display the home page
-        var homeView = new HomeView();
-        homeView.render();
+        // We have no matching route, lets display the home page
+        if (!app.homeView) {
+        	app.homeView = new HomeView();
+        }
+        app.homeView.render();
     });
     // --- end base router
 
@@ -164,13 +174,17 @@ define([
     var authRouter = new AuthRouter();
 
     authRouter.on('route:signUp', function() {
-      var signUpView = new SignUpView();
-      signUpView.render();
+        if (!app.signUpView) {
+            app.signUpView = new SignUpView();
+        }
+        app.showView(app.signUpView);
     });
 
     authRouter.on('route:signIn', function() {
-      var signInView = new SignInView();
-      signInView.render();
+        if (!app.signInView) {
+            app.signInView = new SignInView();
+        }
+        app.showView(app.signInView);
     });
     // --- end auth router ---
 
