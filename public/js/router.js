@@ -166,7 +166,7 @@ define([
         if (!app.homeView) {
         	app.homeView = new HomeView();
         }
-        app.homeView.render();
+        app.showView(app.homeView);
     });
     // --- end base router
 
@@ -192,28 +192,38 @@ define([
     var projectsRouter = new ProjectsRouter();
 
     projectsRouter.on('route:showProjects', function() {
-      var projectsView = new ProjectsView();
-      projectsView.render();
+        if (!app.projectsView) {
+            app.projectsView = new ProjectsView();
+        }
+        app.showView(app.projectsView);
     });
 
     projectsRouter.on('route:showAddProject', function() {
-      var newProjectView = new NewProjectView();
-      newProjectView.render();
+        if (!app.newProjectView) {
+            app.newProjectView = new NewProjectView();
+        }
+        app.showView(app.newProjectView);
     });
 
     projectsRouter.on('route:showProject', function(id) {
-      var projectView = new ProjectView({id: id});
-      projectView.render();
+        if (!app.projectView) {
+            app.projectView = new ProjectView({id: id});
+        }
+        app.showView(app.projectView);
     });
 
     projectsRouter.on('route:showConfirmDeleteProject', function(id) {
-      var confirmDeleteProjectView = new ConfirmDeleteProjectView({id: id});
-      confirmDeleteProjectView.render();
+        if (!app.confirmDeleteProjectView) {
+            app.confirmDeleteProjectView = new ConfirmDeleteProjectView({id: id});
+        }
+        app.showView(app.confirmDeleteProjectView);
     });
 
     projectsRouter.on('route:viewProject', function(id) {
-      var projectView = new ViewProjectView({id: id});
-      projectView.render();
+        if (!app.projectView) {
+            app.projectView = new ViewProjectView({id: id});
+        }
+        app.showView(app.projectView);
     });
 
     projectsRouter.on('route:showContributors', function () {

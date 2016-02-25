@@ -36,7 +36,6 @@ define([
 		showView: function(view, options) {
             // Close and unbind any existing page view
             if(this.currentView && _.isFunction(this.currentView.close)) {
-                console.log('Closing current view...');
                 this.currentView.close();
             }
 
