@@ -26,7 +26,7 @@ define([
                 });
                 var self = this;
                 project.fetch({
-                    success: function() {
+                    success: function(data) {
                         var data = {
                                 project: project,
                                 _: _

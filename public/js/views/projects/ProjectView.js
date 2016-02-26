@@ -14,10 +14,7 @@ define([
         },
 
         initialize: function(options) {
-            this.id = options.id;
-            this.model = new ProjectModel({
-                id: this.id
-            });
+            this.model = new ProjectModel();
             _.bindAll(this, 'render', 'save');
         },
 
@@ -26,9 +23,9 @@ define([
             $('.menu a[href="#/projects"]').addClass('active');
             var self = this;
             this.model.fetch({
-                success: function() {
+                success: function(project) {
                     var data = {
-                        project: self.model,
+                        project: project,
                         _: _
                     }
                     var compiledTemplate = _.template(projectTemplate, data);

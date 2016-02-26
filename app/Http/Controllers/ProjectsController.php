@@ -125,6 +125,7 @@ class ProjectsController extends Controller
     public function update(Request $request, $id)
     {
         //
+        echo "OI";
     }
 
     /**

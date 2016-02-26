@@ -1,31 +1,37 @@
 define([
-  'underscore',
-  'backbone',
-  'models/core/BaseModel',
+    'underscore',
+    'backbone',
+    'models/core/BaseModel',
 ], function(_, Backbone, BaseModel) {
-  
-  var ProjectModel = BaseModel.extend({
 
-    urlRoot: 'api/projects',
+    var ProjectModel = BaseModel.extend({
 
-  	defaults: {
-      id: null,
-      project_statuses_id: 1,
-  		name: 'No project name set',
-      description: 'No description set',
-      url: '#/404'
-  	},
+        urlRoot: 'api/projects',
 
-  	initialize: function (options) {
-      //_.bindAll(this, 'url');
-  	}
+        defaults: {
+            id: null,
+            project_statuses_id: 1,
+            name: 'No project name set',
+            description: 'No description set',
+            url: '#/404'
+        },
 
-    // url: function() {
-    //   return '/api/projects/' + this.id;
-    // }
+        initialize: function(options) {
+            _.bindAll(this, 'url', 'parse');
+        },
 
-  });
+        url: function() {
+            return '/api/projects/' + this.id;
+        },
 
-  return ProjectModel;
+        parse: function(obj) {
+            if (typeof(obj.project) != 'undefined')
+                return obj.project;
+            return obj;
+        }
+
+    });
+
+    return ProjectModel;
 
 });

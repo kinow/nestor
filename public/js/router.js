@@ -252,10 +252,9 @@ define([
 
         projectsRouter.on('route:showProject', function(id) {
             if (!app.projectView) {
-                app.projectView = new ProjectView({
-                    id: id
-                });
+                app.projectView = new ProjectView();
             }
+            app.projectView.model.id = id;
             app.showView(app.projectView, {
                 requiresAuth: true
             });
