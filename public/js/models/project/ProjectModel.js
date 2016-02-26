@@ -21,9 +21,10 @@ define([
         },
 
         url: function() {
+            var url = '/api/projects/';
             if (this.id != null)
-                return '/api/projects/' + this.id;
-            return '/api/projects/';
+                url += this.id;
+            return url;
         },
 
         parse: function(obj) {

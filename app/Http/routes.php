@@ -63,6 +63,7 @@ $api->version('v1', function ($api) {
     $api->get('projects', 'Nestor\Http\Controllers\ProjectsController@index');
     $api->post('projects', 'Nestor\Http\Controllers\ProjectsController@store');
     $api->get('projects/{id}', 'Nestor\Http\Controllers\ProjectsController@show');
+    $api->put('projects/{id}', 'Nestor\Http\Controllers\ProjectsController@update');
     
     $api->get('projects/{projectId}/testsuites/{testSuiteId}', [ 
             'middleware' => 'api.auth' 

@@ -124,8 +124,21 @@ class ProjectsController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
-        echo "OI";
+        Log::debug("Updating an existing project");
+        $payload = $request->only('name', 'description');
+        $validator = Validator::make($payload, [
+                'name' => 'required|max:255',
+                'description' => 'max:1000'
+        ]);
+        
+        if ($validator->fails())
+        {
+            $this->throwValidationException($request, $validator);
+        }
+        
+        $entity = $this->projectsRepository->update($payload, $id);
+        
+        return $entity;
     }
 
     /**

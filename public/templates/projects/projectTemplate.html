@@ -1,15 +1,15 @@
 <h1 class="ui top attached header"><%= project.get('name') %></h1>
 <div class="ui attached segment">
-	<form class='ui form'>
+	<form class='ui form' id="project-form" data-parsley-validate>
 		  <div class="field">
 			<label>Name</label>
-			<input name="name" placeholder="Name" type="text" value="<%= project.get('name') %>" />
+			<input name="name" id="project-name-input" placeholder="Name" type="text" value="<%= project.get('name') %>" data-parsley-required="true" data-parsley-length="[1,255]" />
 		  </div>
 		  <div class="field">
 			<label>Description</label>
-			<input name="description" placeholder="Description" type="text" value="<%= project.get('description') %>" />
+			<input name="description" placeholder="Description" id="project-description-input" type="text" value="<%= project.get('description') %>" data-parsley-required="false" data-parsley-length="[1,1000]" />
 		  </div>
-		  <button class="positive ui left floated button">
+		  <button class="positive ui left floated button" id="project-btn">
 			  Okay
 		  </button>
 		  <a href="javascript: window.history.back();" class="ui left floated button">
