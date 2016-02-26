@@ -195,14 +195,14 @@ define([
         if (!app.projectsView) {
             app.projectsView = new ProjectsView();
         }
-        app.showView(app.projectsView);
+        app.showView(app.projectsView, {requiresAuth: true});
     });
 
     projectsRouter.on('route:showAddProject', function() {
         if (!app.newProjectView) {
             app.newProjectView = new NewProjectView();
         }
-        app.showView(app.newProjectView);
+        app.showView(app.newProjectView, {requiresAuth: true});
     });
 
     projectsRouter.on('route:showProject', function(id) {

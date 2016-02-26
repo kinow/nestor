@@ -12,11 +12,30 @@ define([
 		URL : "/",                      // Base application URL
 		API : "/api",                   // Base API URL (used by models & collections)
 
+        getAlertText: function(alert) {
+            var text = '';
+
+            if (alert.hasOwnProperty('message')) {
+                text = alert.message;
+            } else {
+                text = '<ul>';
+                for (var prop in alert) {
+                    if (alert.hasOwnProperty(prop)) {
+                        text += ('<li>' + alert[prop] + '</li>');
+                    }
+                }
+                text += '</ul>';
+            }
+
+            return text;
+        },
+
 		// Show alert classes and hide after specified timeout
-		showAlert: function(title, text, klass) {
+		showAlert: function(title, alert, klass) {
+            var text = this.getAlertText(alert);
 			$("#header-alert").removeClass("negative warning success positive error");
 			$("#header-alert").addClass(klass);
-			$("#header-alert").html('<i class="close icon"></i><div class="header">' + title + '</div><p>' + text + '</p>');
+			$("#header-alert").html('<i class="close icon"></i><div class="header">' + title + '</div>' + text);
 			$("#header-alert").show();
 
 			$('.message .close')
@@ -49,14 +68,14 @@ define([
                 app.session.checkAuth({
                     success: function(res){
                         // If auth successful, render inside the page wrapper
-                        $('#content').html( self.currentView.render().$el);
+                        self.currentView.render();
                     }, error: function(res){
-                        self.navigate("/", { trigger: true, replace: true });
+                        self.showAlert('Authorization error', 'You must authenticate first', 'error');
+                        Backbone.history.navigate("#/signin", {trigger: false});
                     }
                 });
             } else {
                 // Render inside the page wrapper
-                //$('#content').html(this.currentView.render().$el);
                 this.currentView.render();
                 //this.currentView.delegateEvents(this.currentView.events);        // Re-delegate events (unbound when closed)
             }
