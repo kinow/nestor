@@ -44,6 +44,7 @@ define([
         render: function() {
             $('.menu a').removeClass('active');
             this.$el.html(signInTemplate);
+            $("#login-username-input").focus();
         }
 
     });
