@@ -21,7 +21,9 @@ define([
         },
 
         url: function() {
-            return '/api/projects/' + this.id;
+            if (this.id != null)
+                return '/api/projects/' + this.id;
+            return '/api/projects/';
         },
 
         parse: function(obj) {
