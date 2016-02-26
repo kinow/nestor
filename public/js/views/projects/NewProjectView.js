@@ -13,12 +13,12 @@ define([
         el: $("#page"),
 
         initialize: function() {
-            _.bindAll(this, 'render', 'onSaveAttempt');
+            _.bindAll(this, 'render', 'save');
             this.collection = new ProjectsCollection();
         },
 
         events: {
-            'click #new-project-btn': 'onSaveAttempt'
+            'click #new-project-btn': 'save'
         },
 
         render: function() {
@@ -28,7 +28,7 @@ define([
             this.$el.html(newProjectTemplate);
         },
 
-        onSaveAttempt: function(event) {
+        save: function(event) {
             event.preventDefault();
             event.stopPropagation();
 
