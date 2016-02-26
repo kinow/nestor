@@ -19,6 +19,7 @@ define([
 
       var projectsCollection = new ProjectsCollection();
       var projectsListView = new ProjectsListView({collection: projectsCollection}); 
+      // FIXME: garbage collect this subview
     }
 
   });
