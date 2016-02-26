@@ -1,322 +1,361 @@
 // File: router.js
 define([
-	// Libraries
-	'underscore',
-	'backbone',
-	'navigation',
-	'parsley',
-	// app
-	'app',
-	// Base views
-	'views/home/HomeView',
-	'views/header/HeaderView',
-	'views/breadcrumb/BreadcrumbView',
-	// Auth views
-	'views/auth/SignUpView',
-	'views/auth/SignInView',
-	// Projects views
-	'views/projects/ProjectsView',
-	'views/projects/NewProjectView',
-	'views/projects/ProjectView',
-	'views/projects/ConfirmDeleteProjectView',
-	'views/projects/ViewProjectView',
-	// Test Suite views
-	'views/testsuites/NewTestSuiteView',
-	'views/testsuites/TestSuiteView',
-	'views/testsuites/ViewTestSuiteView'
+    // Libraries
+    'underscore',
+    'backbone',
+    'navigation',
+    'parsley',
+    // app
+    'app',
+    // Base views
+    'views/home/HomeView',
+    'views/header/HeaderView',
+    'views/breadcrumb/BreadcrumbView',
+    // Auth views
+    'views/auth/SignUpView',
+    'views/auth/SignInView',
+    // Projects views
+    'views/projects/ProjectsView',
+    'views/projects/NewProjectView',
+    'views/projects/ProjectView',
+    'views/projects/ConfirmDeleteProjectView',
+    'views/projects/ViewProjectView',
+    // Test Suite views
+    'views/testsuites/NewTestSuiteView',
+    'views/testsuites/TestSuiteView',
+    'views/testsuites/ViewTestSuiteView'
 ], function(
-	_,
-	Backbone,
-	Navigation,
-	Parsley,
+    _,
+    Backbone,
+    Navigation,
+    Parsley,
 
-	app,
+    app,
 
-	HomeView,
-	HeaderView,
-	BreadcrumbView,
+    HomeView,
+    HeaderView,
+    BreadcrumbView,
 
-	SignUpView,
-	SignInView,
+    SignUpView,
+    SignInView,
 
-	ProjectsView,
-	NewProjectView,
-	ProjectView,
-	ConfirmDeleteProjectView,
-	ViewProjectView,
+    ProjectsView,
+    NewProjectView,
+    ProjectView,
+    ConfirmDeleteProjectView,
+    ViewProjectView,
 
-	NewTestSuiteView,
-	TestSuiteView,
-	ViewTestSuiteView) {
+    NewTestSuiteView,
+    TestSuiteView,
+    ViewTestSuiteView) {
 
-	'use strict';
+    'use strict';
 
     var navigation = new Navigation();
 
     /**
      * http://stackoverflow.com/questions/11671400/navigate-route-with-querystring
      */
-    function parseQueryString(queryString){
+    function parseQueryString(queryString) {
         var params = {};
-        if(queryString){
+        if (queryString) {
             _.each(
-                _.map(decodeURI(queryString).split(/&/g),function(el,i){
-                    var aux = el.split('='), o = {};
-                    if(aux.length >= 1){
+                _.map(decodeURI(queryString).split(/&/g), function(el, i) {
+                    var aux = el.split('='),
+                        o = {};
+                    if (aux.length >= 1) {
                         var val = undefined;
-                        if(aux.length == 2)
+                        if (aux.length == 2)
                             val = aux[1];
                         o[aux[0]] = val;
                     }
                     return o;
                 }),
-                function(o){
-                    _.extend(params,o);
+                function(o) {
+                    _.extend(params, o);
                 }
             );
         }
         return params;
     }
 
-  var BaseRouter = Backbone.Router.extend({
-    routes: {
-      'home': 'defaultAction',
-      '*actions': 'defaultAction'
-    },
-    navigation: {
-      prefix: 'Base',
-      pages: {
-        'Base.defaultAction': {
-          template: 'Home'
-        }
-      }
-    }
-  });
-
-  var AuthRouter = Backbone.Router.extend({
-    routes: {
-      'signup': 'signUp',
-      'signin': 'signIn'
-    },
-    navigation: {
-      prefix: 'Auth',
-      pages: {
-        'Auth.signUp': {
-          template: 'Sign Up',
-          parent: 'Base.defaultAction'
+    var BaseRouter = Backbone.Router.extend({
+        routes: {
+            'home': 'defaultAction',
+            '*actions': 'defaultAction'
         },
-        'Auth.signIn': {
-          template: 'Sign In',
-          parent: 'Base.defaultAction'
+        navigation: {
+            prefix: 'Base',
+            pages: {
+                'Base.defaultAction': {
+                    template: 'Home'
+                }
+            }
         }
-      }
-    }
-  });
+    });
 
-  var ProjectsRouter = Backbone.Router.extend({
-    routes: {
-      // Project routes
-      'projects': 'showProjects',
-      'projects?*queryString': 'showProjects',
-      'projects/new': 'showAddProject',
-      'projects/:id': 'showProject',
-      'projects/:id/confirmDelete': 'showConfirmDeleteProject',
-      'projects/:id/view': 'viewProject',
-      // User routes
-      'users': 'showContributors'
-    },
-    navigation: {
-      prefix: 'Projects',
-      pages: {
-        'Projects.showProjects': {
-          template: 'Projects',
-          parent: 'Base.defaultAction'
+    var AuthRouter = Backbone.Router.extend({
+        routes: {
+            'signup': 'signUp',
+            'signin': 'signIn'
         },
-        'Projects.showProject': {
-          template: function(args) {
-            var tpl = _.template('Edit Project <%= args[":id"] %>');
-            return tpl({args: args});
-          },
-          parent: 'Projects.showProjects'
+        navigation: {
+            prefix: 'Auth',
+            pages: {
+                'Auth.signUp': {
+                    template: 'Sign Up',
+                    parent: 'Base.defaultAction'
+                },
+                'Auth.signIn': {
+                    template: 'Sign In',
+                    parent: 'Base.defaultAction'
+                }
+            }
+        }
+    });
+
+    var ProjectsRouter = Backbone.Router.extend({
+        routes: {
+            // Project routes
+            'projects': 'showProjects',
+            'projects?*queryString': 'showProjects',
+            'projects/new': 'showAddProject',
+            'projects/:id': 'showProject',
+            'projects/:id/confirmDelete': 'showConfirmDeleteProject',
+            'projects/:id/view': 'viewProject',
+            // User routes
+            'users': 'showContributors'
         },
-        'Projects.showAddProject': {
-          template: 'Add new Project',
-          parent: 'Projects.showProjects'
-        },
-        'Projects.showConfirmDeleteProject': {
-          template: function(args) {
-            var tpl = _.template('Delete Project <%= args[":id"] %>');
-            return tpl({args: args});
-          },
-          parent: 'Projects.showProjects'
-        },
-         'Projects.viewProject': {
-          template: function(args) {
-            var tpl = _.template('View Project <%= args[":id"] %>');
-            return tpl({args: args});
-          },
-          parent: 'Projects.showProjects'
+        navigation: {
+            prefix: 'Projects',
+            pages: {
+                'Projects.showProjects': {
+                    template: 'Projects',
+                    parent: 'Base.defaultAction'
+                },
+                'Projects.showProject': {
+                    template: function(args) {
+                        var tpl = _.template('Edit Project <%= args[":id"] %>');
+                        return tpl({
+                            args: args
+                        });
+                    },
+                    parent: 'Projects.showProjects'
+                },
+                'Projects.showAddProject': {
+                    template: 'Add new Project',
+                    parent: 'Projects.showProjects'
+                },
+                'Projects.showConfirmDeleteProject': {
+                    template: function(args) {
+                        var tpl = _.template('Delete Project <%= args[":id"] %>');
+                        return tpl({
+                            args: args
+                        });
+                    },
+                    parent: 'Projects.showProjects'
+                },
+                'Projects.viewProject': {
+                    template: function(args) {
+                        var tpl = _.template('View Project <%= args[":id"] %>');
+                        return tpl({
+                            args: args
+                        });
+                    },
+                    parent: 'Projects.showProjects'
+                }
+            }
         }
-      }
-    }
-  });
+    });
 
-  var TestSuitesRouter = Backbone.Router.extend({
-    routes: {
-      'projects/:projectId/testsuites/new': 'showAddTestSuite',
-      'projects/:projectId/testsuites/:testsuiteId': 'showTestSuite',
-      'projects/:projectId/testsuites/showConfirmDeleteTestSuite': 'showConfirmDeleteTestSuite',
-      'projects/:projectId/testsuites/:testsuiteId/view': 'viewTestSuite'
-    }
-  });
-
-  var initialize = function() {
-
-    // --- common views ---
-    if (!app.headerView) {
-    	app.headerView = new HeaderView();
-    	app.headerView.render();
-    }
-
-    if (!app.breadcrumbView) {
-    	app.breadcrumbView = new BreadcrumbView({navigation: navigation});
-    	// render happens after breadcrumbView has calculated its breadcrumbs, within itself it calls render()
-    }
-    // --- end common views ---
-
-    // --- base router ---
-    var baseRouter = new BaseRouter();
-
-    baseRouter.on('route:defaultAction', function (actions) {
-        // We have no matching route, lets display the home page
-        if (!app.homeView) {
-        	app.homeView = new HomeView();
+    var TestSuitesRouter = Backbone.Router.extend({
+        routes: {
+            'projects/:projectId/testsuites/new': 'showAddTestSuite',
+            'projects/:projectId/testsuites/:testsuiteId': 'showTestSuite',
+            'projects/:projectId/testsuites/showConfirmDeleteTestSuite': 'showConfirmDeleteTestSuite',
+            'projects/:projectId/testsuites/:testsuiteId/view': 'viewTestSuite'
         }
-        app.showView(app.homeView);
     });
-    // --- end base router
 
-    // --- auth router ---
-    var authRouter = new AuthRouter();
+    var initialize = function() {
 
-    authRouter.on('route:signUp', function() {
-        if (!app.signUpView) {
-            app.signUpView = new SignUpView();
+        // --- common views ---
+        if (!app.headerView) {
+            app.headerView = new HeaderView();
+            app.headerView.render();
         }
-        app.showView(app.signUpView);
-    });
 
-    authRouter.on('route:signIn', function() {
-        if (!app.signInView) {
-            app.signInView = new SignInView();
+        if (!app.breadcrumbView) {
+            app.breadcrumbView = new BreadcrumbView({
+                navigation: navigation
+            });
+            // render happens after breadcrumbView has calculated its breadcrumbs, within itself it calls render()
         }
-        app.showView(app.signInView);
-    });
-    // --- end auth router ---
+        // --- end common views ---
 
-    // --- projects router ---
-    var projectsRouter = new ProjectsRouter();
+        // --- base router ---
+        var baseRouter = new BaseRouter();
 
-    projectsRouter.on('route:showProjects', function(queryString) {
-        var params = parseQueryString(queryString);
-        var page = 1;
-        if (typeof(params.page) != "undefined") {
-            page = params.page;
-        }
-        if (!app.projectsView) {
-            app.projectsView = new ProjectsView();
-        }
-        app.projectsView.setPage(page);
-        app.showView(app.projectsView, {requiresAuth: true});
-    });
+        baseRouter.on('route:defaultAction', function(actions) {
+            // We have no matching route, lets display the home page
+            if (!app.homeView) {
+                app.homeView = new HomeView();
+            }
+            app.showView(app.homeView);
+        });
+        // --- end base router
 
-    projectsRouter.on('route:showAddProject', function() {
-        if (!app.newProjectView) {
-            app.newProjectView = new NewProjectView();
-        }
-        app.showView(app.newProjectView, {requiresAuth: true});
-    });
+        // --- auth router ---
+        var authRouter = new AuthRouter();
 
-    projectsRouter.on('route:showProject', function(id) {
-        if (!app.projectView) {
-            app.projectView = new ProjectView({id: id});
-        }
-        app.showView(app.projectView);
-    });
+        authRouter.on('route:signUp', function() {
+            if (!app.signUpView) {
+                app.signUpView = new SignUpView();
+            }
+            app.showView(app.signUpView);
+        });
 
-    projectsRouter.on('route:showConfirmDeleteProject', function(id) {
-        if (!app.confirmDeleteProjectView) {
-            app.confirmDeleteProjectView = new ConfirmDeleteProjectView({id: id});
-        }
-        app.showView(app.confirmDeleteProjectView);
-    });
+        authRouter.on('route:signIn', function() {
+            if (!app.signInView) {
+                app.signInView = new SignInView();
+            }
+            app.showView(app.signInView);
+        });
+        // --- end auth router ---
 
-    projectsRouter.on('route:viewProject', function(id) {
-        if (!app.projectView) {
-            app.projectView = new ViewProjectView({id: id});
-        }
-        app.showView(app.projectView);
-    });
+        // --- projects router ---
+        var projectsRouter = new ProjectsRouter();
 
-    projectsRouter.on('route:showContributors', function () {
-        // Like above, call render but know that this view has nested sub views which
-        // handle loading and displaying data from the GitHub API
-        var contributorsView = new ContributorsView();
-    });
-    // --- end projects router ---
+        projectsRouter.on('route:showProjects', function(queryString) {
+            var params = parseQueryString(queryString);
+            var page = 1;
+            if (typeof(params.page) != "undefined") {
+                page = params.page;
+            }
+            if (!app.projectsView) {
+                app.projectsView = new ProjectsView();
+            }
+            app.projectsView.setPage(page);
+            app.showView(app.projectsView, {
+                requiresAuth: true
+            });
+        });
 
-    // --- test suites router ---
-    var testSuitesRouter = new TestSuitesRouter();
+        projectsRouter.on('route:showAddProject', function() {
+            if (!app.newProjectView) {
+                app.newProjectView = new NewProjectView();
+            }
+            app.showView(app.newProjectView, {
+                requiresAuth: true
+            });
+        });
 
-    testSuitesRouter.on('route:showAddTestSuite', function(projectId) {
-      var projectView = new ViewProjectView({id: projectId});
-      projectView.render();
-      var newTestSuiteView = new NewTestSuiteView({projectId: projectId});
-      newTestSuiteView.render();
-    });
+        projectsRouter.on('route:showProject', function(id) {
+            if (!app.projectView) {
+                app.projectView = new ProjectView({
+                    id: id
+                });
+            }
+            app.showView(app.projectView, {
+                requiresAuth: true
+            });
+        });
 
-    testSuitesRouter.on('route:showTestSuite', function(projectId, testSuiteId) {
-      var projectView = new ViewProjectView({id: projectId});
-      projectView.render();
-      var testSuiteView = new TestSuiteView({projectId: projectId, testSuiteId: testSuiteId});
-      testSuiteView.render();
-    });
+        projectsRouter.on('route:showConfirmDeleteProject', function(id) {
+            if (!app.confirmDeleteProjectView) {
+                app.confirmDeleteProjectView = new ConfirmDeleteProjectView({
+                    id: id
+                });
+            }
+            app.showView(app.confirmDeleteProjectView);
+        });
 
-    testSuitesRouter.on('route:showConfirmDeleteTestSuite', function(id) {
-      var projectView = new ViewProjectView({id: projectId});
-      projectView.render();
-      var confirmDeleteTestSuiteView = new ConfirmDeleteTestSuiteView({id: id});
-      confirmDeleteTestSuiteView.render();
-    });
+        projectsRouter.on('route:viewProject', function(id) {
+            if (!app.projectView) {
+                app.projectView = new ViewProjectView({
+                    id: id
+                });
+            }
+            app.showView(app.projectView);
+        });
 
-    testSuitesRouter.on('route:viewTestSuite', function(projectId, testsuiteId) {
-      var projectView = new ViewProjectView({id: projectId});
-      projectView.render();
-      var testSuiteView = new ViewTestSuiteView({projectId: projectId, testSuiteId: testsuiteId});
-      testSuiteView.render();
-    });
+        projectsRouter.on('route:showContributors', function() {
+            // Like above, call render but know that this view has nested sub views which
+            // handle loading and displaying data from the GitHub API
+            var contributorsView = new ContributorsView();
+        });
+        // --- end projects router ---
 
-    // --- end test suites router ---
+        // --- test suites router ---
+        var testSuitesRouter = new TestSuitesRouter();
 
-    navigation.appendRouter(baseRouter);
-    navigation.appendRouter(authRouter);
-    navigation.appendRouter(projectsRouter);
-    navigation.mapRouters();
+        testSuitesRouter.on('route:showAddTestSuite', function(projectId) {
+            var projectView = new ViewProjectView({
+                id: projectId
+            });
+            projectView.render();
+            var newTestSuiteView = new NewTestSuiteView({
+                projectId: projectId
+            });
+            newTestSuiteView.render();
+        });
 
-    Backbone.history.start();
-  };
+        testSuitesRouter.on('route:showTestSuite', function(projectId, testSuiteId) {
+            var projectView = new ViewProjectView({
+                id: projectId
+            });
+            projectView.render();
+            var testSuiteView = new TestSuiteView({
+                projectId: projectId,
+                testSuiteId: testSuiteId
+            });
+            testSuiteView.render();
+        });
 
-  var AppRouter = {
-    // router initialization function
-    initialize: initialize,
-    // for breadcrumbs
-    navigation: navigation,
-    // routes
-    BaseRouter:       BaseRouter,
-    AuthRouter:       AuthRouter,
-    ProjectsRouter:   ProjectsRouter,
-    TestSuitesRouter: TestSuitesRouter
-  };
+        testSuitesRouter.on('route:showConfirmDeleteTestSuite', function(id) {
+            var projectView = new ViewProjectView({
+                id: projectId
+            });
+            projectView.render();
+            var confirmDeleteTestSuiteView = new ConfirmDeleteTestSuiteView({
+                id: id
+            });
+            confirmDeleteTestSuiteView.render();
+        });
 
-  return AppRouter;
+        testSuitesRouter.on('route:viewTestSuite', function(projectId, testsuiteId) {
+            var projectView = new ViewProjectView({
+                id: projectId
+            });
+            projectView.render();
+            var testSuiteView = new ViewTestSuiteView({
+                projectId: projectId,
+                testSuiteId: testsuiteId
+            });
+            testSuiteView.render();
+        });
+
+        // --- end test suites router ---
+
+        navigation.appendRouter(baseRouter);
+        navigation.appendRouter(authRouter);
+        navigation.appendRouter(projectsRouter);
+        navigation.mapRouters();
+
+        Backbone.history.start();
+    };
+
+    var AppRouter = {
+        // router initialization function
+        initialize: initialize,
+        // for breadcrumbs
+        navigation: navigation,
+        // routes
+        BaseRouter: BaseRouter,
+        AuthRouter: AuthRouter,
+        ProjectsRouter: ProjectsRouter,
+        TestSuitesRouter: TestSuitesRouter
+    };
+
+    return AppRouter;
 });
