@@ -15,7 +15,9 @@ define([
         getAlertText: function(alert) {
             var text = '';
 
-            if (alert.hasOwnProperty('message')) {
+            if (typeof(alert) == 'string') {
+                text = alert;
+            } else if (alert.hasOwnProperty('message')) {
                 text = alert.message;
             } else {
                 text = '<ul>';

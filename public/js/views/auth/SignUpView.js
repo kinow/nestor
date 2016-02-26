@@ -28,6 +28,7 @@ define([
                 }, {
                     success: function(mod, res){
                         if(typeof DEBUG != 'undefined' && DEBUG) console.log("SUCCESS", mod, res);
+                        app.showAlert('Welcome!', 'You have been signed up and automatically logged in!', 'success')
                         Backbone.history.navigate("#/projects", {trigger: true});
                     },
                     error: function(err){
