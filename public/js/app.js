@@ -101,6 +101,15 @@ define([
 		if (this.onClose) {
 	  		this.onClose();
 	  	}
+        if (typeof(this.subviews) == 'object') {
+            _.each(this.subviews, function(subview){
+                subview.$el.empty();
+                subview.unbind();
+                if (subview.onClose){
+                    subview.onClose();
+                }
+            })
+        }
 	};
 
 	return app;

@@ -6,10 +6,11 @@ define([
 ], function($, _, Backbone, ProjectModel){
     var ProjectsCollection = Backbone.Collection.extend({
         model: ProjectModel,
-        url: 'api/projects',
+        //url: 'api/projects',
         models: [],
         
-        initialize: function(){
+        initialize: function(options){
+            this.page = 0;
             this.perPage = 0;
             this.currentPage = 0;
             this.lastPage = 0;
@@ -17,6 +18,14 @@ define([
             this.previousPageUrl = '';
             this.from = 0;
             this.to = 0;
+        },
+
+        setPage: function(page) {
+            this.page = page;
+        },
+
+        url: function() {
+            return 'api/projects/?page=' + this.page;
         },
 
         fetchSuccess: function(collection, response) {

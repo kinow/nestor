@@ -11,15 +11,23 @@ define([
   var ProjectsView = Backbone.View.extend({
     el: $("#page"),
 
+    initialize: function(options) {
+        this.page = 1;
+    },
+
+    setPage: function(page) {
+        this.page = page;
+    },
+
     render: function() {
-      $('.menu a').removeClass('active');
-      $('.menu a[href="'+window.location.hash+'"]').addClass('active');
+        $('.menu a').removeClass('active');
+        $('.menu a[href="'+window.location.hash+'"]').addClass('active');
 
-      this.$el.html(projectsTemplate);
-
-      var projectsCollection = new ProjectsCollection();
-      var projectsListView = new ProjectsListView({collection: projectsCollection}); 
-      // FIXME: garbage collect this subview
+        this.$el.html(projectsTemplate);
+        var projectsCollection = new ProjectsCollection();
+        projectsCollection.setPage(this.page);
+        var projectsListView = new ProjectsListView({collection: projectsCollection}); 
+        // FIXME: garbage collect this subview
     }
 
   });

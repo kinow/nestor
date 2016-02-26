@@ -13,3 +13,18 @@
 	</div>
 </div>
 <% }); %>
+<div class="ui pagination menu">
+<% if (collection.currentPage > 1) { %>
+    <a class="item" href="/#/projects?page=<%= (collection.currentPage - 1) %>"><i class="chevron left icon"></i> Left</a>
+<% } %>
+<% for (var i = 1; i <= collection.lastPage; i++) { %>
+<% if (collection.currentPage == i) { %>
+    <a class="active item" href="/#/projects?page=<%= i %>"><%= i %></a>
+<% } else { %>
+    <a class="item" href="/#/projects?page=<%= i %>"><%= i %></a>
+<% } %>
+<% } %>
+<% if (collection.currentPage < collection.lastPage) { %>
+    <a class="item" href="/#/projects?page=<%= (collection.currentPage + 1) %>">Next &nbsp;<i class="chevron right icon"></i></a>
+<% } %>
+</div>

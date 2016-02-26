@@ -20,13 +20,13 @@ define([
                   throw new Error("Failed to fetch projects");
                 }
             });
-
             this.listenTo(this.collection, 'reset', this.render);
         },
 
         render: function() {
             var data = {
                 projects: this.collection.models,
+                collection: this.collection,
                 _: _ 
             };
             var compiledTemplate = _.template( projectsListTemplate, data );

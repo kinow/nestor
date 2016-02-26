@@ -51,7 +51,32 @@ define([
 
 	'use strict';
 
-  var navigation = new Navigation();
+    var navigation = new Navigation();
+
+    /**
+     * http://stackoverflow.com/questions/11671400/navigate-route-with-querystring
+     */
+    function parseQueryString(queryString){
+        var params = {};
+        if(queryString){
+            _.each(
+                _.map(decodeURI(queryString).split(/&/g),function(el,i){
+                    var aux = el.split('='), o = {};
+                    if(aux.length >= 1){
+                        var val = undefined;
+                        if(aux.length == 2)
+                            val = aux[1];
+                        o[aux[0]] = val;
+                    }
+                    return o;
+                }),
+                function(o){
+                    _.extend(params,o);
+                }
+            );
+        }
+        return params;
+    }
 
   var BaseRouter = Backbone.Router.extend({
     routes: {
@@ -92,6 +117,7 @@ define([
     routes: {
       // Project routes
       'projects': 'showProjects',
+      'projects?*queryString': 'showProjects',
       'projects/new': 'showAddProject',
       'projects/:id': 'showProject',
       'projects/:id/confirmDelete': 'showConfirmDeleteProject',
@@ -191,10 +217,16 @@ define([
     // --- projects router ---
     var projectsRouter = new ProjectsRouter();
 
-    projectsRouter.on('route:showProjects', function() {
+    projectsRouter.on('route:showProjects', function(queryString) {
+        var params = parseQueryString(queryString);
+        var page = 1;
+        if (typeof(params.page) != "undefined") {
+            page = params.page;
+        }
         if (!app.projectsView) {
             app.projectsView = new ProjectsView();
         }
+        app.projectsView.setPage(page);
         app.showView(app.projectsView, {requiresAuth: true});
     });
 
