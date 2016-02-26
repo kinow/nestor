@@ -96,11 +96,12 @@ class ProjectsController extends Controller
      */
     public function show($id)
     {
-        return [
-                'id' => (int) $id,
-                'name' => sprintf('Project %s', $id),
-                'description' => sprintf('Le description du projet %s', $id)
-            ];
+        return $this->projectsRepository->find($id);
+//         return [
+//                 'id' => (int) $id,
+//                 'name' => sprintf('Project %s', $id),
+//                 'description' => sprintf('Le description du projet %s', $id)
+//             ];
     }
 
     /**

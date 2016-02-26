@@ -1,71 +1,74 @@
 define([
-  'jquery',
-  'underscore',
-  'backbone',
-  'models/project/ProjectModel',
-  'text!templates/projects/projectAreaTemplate.html',
-  'text!templates/projects/viewProjectTemplate.html'
-], function($, _, Backbone, ProjectModel, projectAreaTemplate, viewProjectTemplate){
+    'jquery',
+    'underscore',
+    'backbone',
+    'models/project/ProjectModel',
+    'text!templates/projects/projectAreaTemplate.html',
+    'text!templates/projects/viewProjectTemplate.html'
+], function($, _, Backbone, ProjectModel, projectAreaTemplate, viewProjectTemplate) {
 
-  var ViewProjectView = Backbone.View.extend({
-    el: $("#page"),
+    var ViewProjectView = Backbone.View.extend({
+        el: $("#page"),
 
-    events: {
-    },
+        events: {},
 
-    initialize: function (options) {
-      this.id = options.id;
-    },
+        initialize: function(options) {
+            this.id = options.id;
+        },
 
-    render: function() {
-      $('.menu a').removeClass('active');
-      $('.menu a[href="#/projects"]').addClass('active');
+        render: function() {
+            $('.menu a').removeClass('active');
+            $('.menu a[href="#/projects"]').addClass('active');
 
-      if (!this.rendered()) {
-        var project = new ProjectModel({id: this.id});
-        var self = this;
-        project.fetch({
-          success: function () {
-            var data = {
-              project: project,
-              _: _
+            if (!this.rendered()) {
+                var project = new ProjectModel({
+                    id: this.id
+                });
+                var self = this;
+                project.fetch({
+                    success: function() {
+                        var data = {
+                                project: project,
+                                _: _
+                            }
+                            // FIXME: wrong code here...
+                        var compiledTemplate = _.template(projectAreaTemplate, data);
+                        self.$el.html(compiledTemplate);
+                        compiledTemplate = _.template(viewProjectTemplate, data);
+                        $("#content-area").html(compiledTemplate);
+                    },
+                    error: function() {
+                        throw new Error("Failed to fetch project");
+                    }
+                });
+            } else {
+                // render only project data in content-area
+                var project = new ProjectModel({
+                    id: this.id
+                });
+                var self = this;
+                project.fetch({
+                    success: function() {
+                        var data = {
+                            project: project,
+                            _: _
+                        }
+                        var compiledTemplate = _.template(viewProjectTemplate, data);
+                        $("#content-area").html(compiledTemplate);
+                    },
+                    error: function() {
+                        throw new Error("Failed to fetch project");
+                    }
+                });
             }
-            // FIXME: wrong code here...
-            var compiledTemplate = _.template( projectAreaTemplate, data );
-            self.$el.html(compiledTemplate);
-            compiledTemplate = _.template( viewProjectTemplate, data );
-            $("#content-area").html(compiledTemplate);
-          },
-          error: function() {
-            throw new Error("Failed to fetch project");
-          }
-        });
-      } else {
-        // render only project data in content-area
-        var project = new ProjectModel({id: this.id});
-        var self = this;
-        project.fetch({
-          success: function () {
-            var data = {
-              project: project,
-              _: _
-            }
-            var compiledTemplate = _.template( viewProjectTemplate, data );
-            $("#content-area").html(compiledTemplate);
-          },
-          error: function() {
-            throw new Error("Failed to fetch project");
-          }
-        });
-      }
-    },
+        },
 
-    rendered: function() {
-      return !$("#project_tree").length == 0;
-    }
+        rendered: function() {
+            return !$("#project_tree").length == 0;
+        }
 
-  });
+    });
 
-  return ViewProjectView;
-  
+    return ViewProjectView;
+
 });
