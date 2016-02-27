@@ -25,9 +25,9 @@ class CreateTestCaseVersionsTable extends Migration
                 ->references('id')
                 ->on('execution_types')
                 ->onDelete('cascade');
-            $table->string('name');
-            $table->string('prerequisite', 200)->default('');
-            $table->string('description', 500)->nullable();
+            $table->string('name', 255);
+            $table->string('prerequisite', 1000)->nullable();
+            $table->string('description', 1000)->nullable();
             $table->timestamps();
             $table->unique(array('version', 'test_case_id'));
         });
