@@ -262,11 +262,12 @@ define([
 
         projectsRouter.on('route:showConfirmDeleteProject', function(id) {
             if (!app.confirmDeleteProjectView) {
-                app.confirmDeleteProjectView = new ConfirmDeleteProjectView({
-                    id: id
-                });
+                app.confirmDeleteProjectView = new ConfirmDeleteProjectView();
             }
-            app.showView(app.confirmDeleteProjectView);
+            app.confirmDeleteProjectView.model.id = id;
+            app.showView(app.confirmDeleteProjectView, {
+                requiresAuth: true
+            });
         });
 
         projectsRouter.on('route:viewProject', function(id) {

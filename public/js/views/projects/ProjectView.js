@@ -53,7 +53,7 @@ define([
                     wait: true,
                     success: function(mod, res) {
                         app.showAlert('Success!', 'Project ' + this.$("#project-name-input").val() + ' updated!', 'success')
-                        //Backbone.history.navigate("#/projects/" + self.model.id, { trigger: false });
+                            //Backbone.history.navigate("#/projects/" + self.model.id, { trigger: false });
                         Backbone.history.history.back();
                     },
                     error: function(model, response, options) {
@@ -66,7 +66,7 @@ define([
                         ) {
                             message = response.responseJSON.name[0];
                         }
-                        app.showAlert('Failed to add new Project', message, 'error');
+                        app.showAlert('Failed to update Project', message, 'error');
                     }
                 });
             } else {
