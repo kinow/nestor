@@ -36,6 +36,7 @@ define([
                 this.collection.create({
                     name: this.$("#project-name-input").val(),
                     description: this.$("#project-description-input").val(),
+                    created_by: app.session.user_id
                 }, {
                     wait: true,
                     success: function(mod, res) {

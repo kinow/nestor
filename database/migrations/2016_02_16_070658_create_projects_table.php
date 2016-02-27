@@ -20,6 +20,10 @@ class CreateProjectsTable extends Migration
                 ->on('project_statuses');
             $table->string('name', 255)->unique();
             $table->string('description', 1000)->nullable();
+            $table->integer('created_by');
+            $table->foreign('created_by')
+                ->references('id')
+                ->on('users');
             $table->timestamps();
         });
     }
