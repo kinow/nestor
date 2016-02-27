@@ -75,14 +75,15 @@ class ProjectsController extends Controller
         $payload = $request->only('name', 'description', 'project_statuses_id', 'created_by');
         $validator = Validator::make($payload, [
                 'name' => 'required|max:255|unique:projects',
-                'description' => 'max:1000'
+                'description' => 'max:1000',
+                'created_by' => 'required|integer|min:1'
         ]);
         
         if ($validator->fails())
         {
             $this->throwValidationException($request, $validator);
         }
-        
+
         $entity = $this->projectsRepository->create($payload);
         
         return $entity;
