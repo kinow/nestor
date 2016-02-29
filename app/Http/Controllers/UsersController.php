@@ -52,9 +52,9 @@ class UsersController extends Controller
     {
         $payload = $request->only('username', 'name', 'email', 'password');
         $validator = Validator::make($payload, [ 
-                'username' => 'required|max:50',
+                'username' => 'required|max:50|unique:users',
                 'name' => 'required|max:255',
-                'email' => 'required|email|max:255|unique:users',
+                'email' => 'required|email|max:255',
                 'password' => 'required|min:6' 
         ]);
         
