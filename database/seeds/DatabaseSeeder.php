@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Nestor\Entities\ProjectStatuses;
 use Nestor\Entities\ExecutionTypes;
 use Nestor\Entities\NavigationTreeNodeTypes;
+use Nestor\Entities\ExecutionStatuses;
 class DatabaseSeeder extends Seeder
 {
     /**
@@ -72,6 +73,34 @@ class DatabaseSeeder extends Seeder
                 'id' => 3,
                 'name' => 'Test Suite',
                 'description' => 'Test Suite node' 
+        ));
+        
+        // execution_statuses
+        
+        DB::table('execution_statuses')->delete();
+        
+        ExecutionStatuses::create(array (
+                'id' => 1,
+                'name' => 'Not Run',
+                'description' => 'A test case not run yet' 
+        ));
+        
+        ExecutionStatuses::create(array (
+                'id' => 2,
+                'name' => 'Passed',
+                'description' => 'A test case that passed' 
+        ));
+        
+        ExecutionStatuses::create(array (
+                'id' => 3,
+                'name' => 'Failed',
+                'description' => 'A test case that failed' 
+        ));
+        
+        ExecutionStatuses::create(array (
+                'id' => 4,
+                'name' => 'Blocked',
+                'description' => 'A test case that is blocked' 
         ));
         
         Model::reguard();
