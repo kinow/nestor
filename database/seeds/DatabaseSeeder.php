@@ -20,9 +20,9 @@ class DatabaseSeeder extends Seeder
         
         // $this->call(UserTableSeeder::class);
         
-        DB::table('project_statuses')->delete();
-        
         // project_statuses
+        
+        DB::table('project_statuses')->delete();
         
         ProjectStatuses::create(array (
                 'id' => 1,
@@ -38,6 +38,8 @@ class DatabaseSeeder extends Seeder
         
         // execution_types
         
+        DB::table('execution_types')->delete();
+        
         ExecutionTypes::create(array (
                 'id' => 1,
                 'name' => 'Manual',
@@ -52,22 +54,24 @@ class DatabaseSeeder extends Seeder
         
         // navigation_tree_node_types
         
+        DB::table('navigation_tree_node_types')->delete();
+        
         NavigationTreeNodeTypes::create(array (
                 'id' => 1,
                 'name' => 'Project',
-                'Project node' 
+                'description' => 'Project node' 
         ));
         
         NavigationTreeNodeTypes::create(array (
                 'id' => 2,
                 'name' => 'Test Case',
-                'Test Case node' 
+                'description' => 'Test Case node' 
         ));
         
         NavigationTreeNodeTypes::create(array (
                 'id' => 3,
                 'name' => 'Test Suite',
-                'Test Suite node' 
+                'description' => 'Test Suite node' 
         ));
         
         Model::reguard();
