@@ -13,7 +13,7 @@
 	</div>
 </div>
 <% }); %>
-<% if (projects.length > 0) { %>
+<% if (projects.length > 0 && collection.lastPage > 1) { %>
 <div class="ui pagination menu">
 <% if (collection.currentPage > 1) { %>
     <a class="item" href="/#/projects?page=<%= (collection.currentPage - 1) %>"><i class="chevron left icon"></i> Left</a>
