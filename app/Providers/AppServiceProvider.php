@@ -12,9 +12,9 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
         app('Dingo\Api\Auth\Auth')->extend('basic', function ($app) {
-            return new \Dingo\Api\Auth\Provider\Basic($app['auth'], 'email');
+            return new \Dingo\Api\Auth\Provider\Basic($app ['auth'], 'email');
         });
-
+        
         // bind repositories
         $this->app->bind('Nestor\Repositories\UsersRepository', 'Nestor\Repositories\UsersRepositoryEloquent');
         
@@ -26,7 +26,7 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind('Nestor\Repositories\NavigationTreeNodeTypesRepository', 'Nestor\Repositories\NavigationTreeNodeTypesRepositoryEloquent');
         $this->app->bind('Nestor\Repositories\NavigationTreeRepository', 'Nestor\Repositories\NavigationTreeRepositoryEloquent');
     }
-
+    
     /**
      * Register any application services.
      */

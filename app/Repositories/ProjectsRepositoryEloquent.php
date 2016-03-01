@@ -4,11 +4,11 @@ namespace Nestor\Repositories;
 
 use DB;
 use Exception;
+use Nestor\Entities\NavigationTree;
 use Nestor\Entities\Projects;
 use Nestor\Repositories\NavigationTreeRepository;
 use Prettus\Repository\Criteria\RequestCriteria;
 use Prettus\Repository\Eloquent\BaseRepository;
-use Nestor\Entities\NavigationTree;
 
 /**
  * Class ProjectsRepositoryEloquent
@@ -73,17 +73,9 @@ class ProjectsRepositoryEloquent extends BaseRepository implements ProjectsRepos
             $model->save();
             $this->resetModel();
             
-            $node = array (
-                    'ancestor' => NavigationTree::id(NavigationTree::PROJECT_TYPE, $model->id),
-                    'descendant' => NavigationTree::id(NavigationTree::PROJECT_TYPE, $model->id),
-                    'node_id' => $model->id,
-                    'node_type_id' => NavigationTree::PROJECT_TYPE,
-                    'display_name' => $model->name
-            );
-            if (!is_null($this->navigationTreeRepository->validator))
-            {
-                $this->navigationTreeRepository->validator->with($attributes)->passesOrFail(ValidatorInterface::RULE_CREATE);
-            }
+            $this->navigationTreeRepository->create(NavigationTree::id(NavigationTree::PROJECT_TYPE, $model->id),
+                    NavigationTree::id(NavigationTree::PROJECT_TYPE, $model->id), $model->id,
+                    NavigationTree::PROJECT_TYPE, $model->name);
             
             event(new RepositoryEntityCreated($this, $model));
             
