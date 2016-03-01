@@ -2,7 +2,10 @@
 
 namespace Nestor\Repositories;
 
+use DateTime;
 use DB;
+use Log;
+use Nestor\Entities\NavigationTree;
 
 /**
  * Class NavigationTreeRepositoryEloquent
@@ -18,21 +21,21 @@ class NavigationTreeRepositoryEloquent implements NavigationTreeRepository
      */
 	public function children($ancestor, $length = 1)
 	{
-		Log::info(sprintf('Retrieving children for %s, length %d', $ancestor, $length));
-		$children = DB::table('navigation_tree AS a')
-			->select(DB::raw("a.*"))
-			->leftJoin('navigation_tree AS b', 'a.ancestor', '=', 'b.descendant')
-			->where('b.ancestor', '=', "$ancestor")
-			->where('a.length', '<=', $length)
-			->groupBy('a.ancestor')->groupBy('a.descendant')->groupBy('a.length')
-			->orderBy('a.ancestor')
-			->get();
-		$navigationTreeNodes = array();
-		Eloquent::unguard();
-		foreach ($children as $child) {
-			$navigationTreeNodes[] = new Node(get_object_vars($child));
-		}
-		return new Nodes($navigationTreeNodes);
+// 		Log::info(sprintf('Retrieving children for %s, length %d', $ancestor, $length));
+// 		$children = DB::table('navigation_tree AS a')
+// 			->select(DB::raw("a.*"))
+// 			->leftJoin('navigation_tree AS b', 'a.ancestor', '=', 'b.descendant')
+// 			->where('b.ancestor', '=', "$ancestor")
+// 			->where('a.length', '<=', $length)
+// 			->groupBy('a.ancestor')->groupBy('a.descendant')->groupBy('a.length')
+// 			->orderBy('a.ancestor')
+// 			->get();
+// 		$navigationTreeNodes = array();
+// 		Eloquent::unguard();
+// 		foreach ($children as $child) {
+// 			$navigationTreeNodes[] = new Node(get_object_vars($child));
+// 		}
+// 		return new Nodes($navigationTreeNodes);
 	}
 	
 	/**
@@ -72,7 +75,7 @@ class NavigationTreeRepositoryEloquent implements NavigationTreeRepository
 	 */
 	public function find($ancestorId, $descendantId)
 	{
-		return Node::where('ancestor', '=', $ancestorId)
+		return NavigationTree::where('ancestor', '=', $ancestorId)
 			->where('descendant', '=', $descendantId)
 			->firstOrFail()
 			->toArray();
@@ -88,7 +91,6 @@ class NavigationTreeRepositoryEloquent implements NavigationTreeRepository
 		$created_at = new DateTime();
 		$created_at = $created_at->format('Y-m-d H:m:s');
 		$updated_at = $created_at;
-		//return Node::create(compact('ancestor', 'descendant', 'length', 'node_id', 'node_type_id', 'parent_id', 'display_name'));
 		$created =  DB::insert(sprintf(
 			"INSERT INTO %s(" .
 			"ancestor, descendant, length, node_id, node_type_id, display_name, created_at, updated_at) " .
@@ -125,7 +127,7 @@ class NavigationTreeRepositoryEloquent implements NavigationTreeRepository
 	public function update($ancestor, $descendant, $node_id, $node_type_id, $display_name)
 	{
 		Log::debug(sprintf('Updating node ancestor %s descendant %s', $ancestor, $descendant));
-		$node = Node::where('ancestor', '=', $ancestor)
+		$node = NavigationTree::where('ancestor', '=', $ancestor)
 			->where('descendant', '=', $descendant)
 			->firstOrFail();
 		Log::debug(var_export($node));
@@ -140,7 +142,7 @@ class NavigationTreeRepositoryEloquent implements NavigationTreeRepository
 	 */
 	public function updateDisplayNameByDescendant($descendantId, $display_name)
 	{
-		$affectedRows = Node::where('descendant', '=', $descendantId)
+		$affectedRows = NavigationTree::where('descendant', '=', $descendantId)
 			->update(array('display_name' => $display_name));
 		return $affectedRows;
 	}
@@ -152,7 +154,7 @@ class NavigationTreeRepositoryEloquent implements NavigationTreeRepository
 	 */
 	public function delete($descendant)
 	{
-		return Node::where('descendant', $descendant)->delete();
+		return NavigationTree::where('descendant', $descendant)->delete();
 	}
 	
 	/**
@@ -162,7 +164,7 @@ class NavigationTreeRepositoryEloquent implements NavigationTreeRepository
 	 */
 	public function deleteWithAllChildren($ancestor, $descendant)
 	{
-		return Node::where('ancestor', $ancestor)
+		return NavigationTree::where('ancestor', $ancestor)
 			->orWhere('descendant', $descendant)
 			->delete();
 	}

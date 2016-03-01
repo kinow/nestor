@@ -4,11 +4,14 @@ namespace Nestor\Repositories;
 
 use DB;
 use Exception;
+use Illuminate\Container\Container as Application;
+use Log;
 use Nestor\Entities\NavigationTree;
 use Nestor\Entities\Projects;
 use Nestor\Repositories\NavigationTreeRepository;
 use Prettus\Repository\Criteria\RequestCriteria;
 use Prettus\Repository\Eloquent\BaseRepository;
+use Prettus\Repository\Events\RepositoryEntityCreated;
 
 /**
  * Class ProjectsRepositoryEloquent
@@ -26,11 +29,13 @@ class ProjectsRepositoryEloquent extends BaseRepository implements ProjectsRepos
     
     /**
      *
+     * @param Application $app            
      * @param NavigationTreeRepository $navigationTreeRepository            
      */
-    public function __construct(NavigationTreeRepository $navigationTreeRepository)
+    public function __construct(Application $app, NavigationTreeRepository $navigationTreeRepository)
     {
-        $this->$navigationTreeRepository = $navigationTreeRepository;
+        parent::__construct($app);
+        $this->navigationTreeRepository = $navigationTreeRepository;
     }
     
     /**
@@ -73,12 +78,11 @@ class ProjectsRepositoryEloquent extends BaseRepository implements ProjectsRepos
             $model->save();
             $this->resetModel();
             
-            $this->navigationTreeRepository->create(NavigationTree::id(NavigationTree::PROJECT_TYPE, $model->id),
-                    NavigationTree::id(NavigationTree::PROJECT_TYPE, $model->id), $model->id,
-                    NavigationTree::PROJECT_TYPE, $model->name);
+            $this->navigationTreeRepository->create(NavigationTree::id(NavigationTree::PROJECT_TYPE, $model->id), NavigationTree::id(NavigationTree::PROJECT_TYPE, $model->id), $model->id, NavigationTree::PROJECT_TYPE, $model->name);
             
             event(new RepositoryEntityCreated($this, $model));
             
+            DB::commit();
             return $this->parserResult($model);
         } catch ( Exception $e )
         {

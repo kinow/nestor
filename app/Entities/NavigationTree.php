@@ -9,6 +9,11 @@ use Prettus\Repository\Traits\TransformableTrait;
 class NavigationTree extends Model implements Transformable
 {
     use TransformableTrait;
+    
+    /**
+     * Fillable properties.
+     * @var array
+     */
     protected $fillable = [ 
             'ancestor',
             'descendant',
@@ -17,6 +22,10 @@ class NavigationTree extends Model implements Transformable
             'node_type_id',
             'display_name' 
     ];
+    
+    const PROJECT_TYPE = 1;
+    const TEST_SUITE_TYPE = 2;
+    const TEST_CASE_TYPE = 3;
     
     /**
      * Get node ID.
@@ -28,4 +37,11 @@ class NavigationTree extends Model implements Transformable
     {
         return sprintf("%s-%s", $nodeType, $nodeId);
     }
+    
+    /**
+     * The database table used by the model.
+     *
+     * @var string
+     */
+    protected $table = 'navigation_tree';
 }
