@@ -4,7 +4,6 @@ namespace Nestor\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-use Nestor\Http\Requests;
 use Nestor\Http\Controllers\Controller;
 
 /**
