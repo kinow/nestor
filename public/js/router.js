@@ -271,12 +271,12 @@ define([
         });
 
         projectsRouter.on('route:viewProject', function(id) {
-            if (!app.projectView) {
-                app.projectView = new ViewProjectView({
+            if (!app.viewProjectView) {
+                app.viewProjectView = new ViewProjectView({
                     id: id
                 });
             }
-            app.showView(app.projectView);
+            app.showView(app.viewProjectView);
         });
 
         projectsRouter.on('route:showContributors', function() {
