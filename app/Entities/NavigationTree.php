@@ -17,6 +17,10 @@ class NavigationTree extends Model implements Transformable
      */
     protected $table = 'navigation_tree';
     
+    protected $primaryKey = 'ancestor';
+    
+    public $incrementing = FALSE;
+    
     /**
      * Fillable properties.
      * @var array

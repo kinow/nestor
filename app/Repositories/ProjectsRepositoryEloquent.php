@@ -13,6 +13,7 @@ use Prettus\Repository\Criteria\RequestCriteria;
 use Prettus\Repository\Eloquent\BaseRepository;
 use Prettus\Repository\Events\RepositoryEntityCreated;
 use Prettus\Repository\Events\RepositoryEntityDeleted;
+use Prettus\Repository\Events\RepositoryEntityUpdated;
 
 /**
  * Class ProjectsRepositoryEloquent
@@ -80,7 +81,8 @@ class ProjectsRepositoryEloquent extends BaseRepository implements ProjectsRepos
             $model->save();
             $this->resetModel();
             
-            $this->navigationTreeRepository->create(NavigationTree::id(NavigationTree::PROJECT_TYPE, $model->id), NavigationTree::id(NavigationTree::PROJECT_TYPE, $model->id), $model->id, NavigationTree::PROJECT_TYPE, $model->name);
+            $projectId = NavigationTree::projectId($model->id);
+            $this->navigationTreeRepository->create($projectNodeId, $projectNodeId, $model->id, NavigationTree::PROJECT_TYPE, $model->name);
             
             DB::commit();
             event(new RepositoryEntityCreated($this, $model));

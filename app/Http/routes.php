@@ -70,3 +70,9 @@ $api->version('v1', function ($api) {
             'middleware' => 'api.auth' 
     ], 'Nestor\Http\Controllers\TestSuitesController@show');
 });
+
+// Display all SQL executed in Eloquent
+Event::listen('illuminate.query', function($query)
+{
+    Log::debug($query);
+});
