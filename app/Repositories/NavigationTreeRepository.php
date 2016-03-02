@@ -2,6 +2,7 @@
 
 namespace Nestor\Repositories;
 
+use Nestor\Entities\NavigationTree;
 /**
  * Interface NavigationTreeRepository
  *
@@ -18,17 +19,24 @@ interface NavigationTreeRepository
     // TBD: is it going to be used?
     function parent_($descendant);
     
-    // TBD: is it going to be used?
+    /**
+     * Find the node whose by a given ancestor and by a given descendant.
+     *
+     * @param string $ancestorId            
+     * @param string $descendantId   
+     * @return NavigationTree         
+     */
     function find($ancestorId, $descendantId);
     
     /**
-     * Creates a new node in the navigation tree.
-     * 
+     * Create a new node in the navigation tree.
+     *
      * @param string $ancestor            
      * @param string $descendant            
      * @param integer $node_id            
      * @param integer $node_type_id            
-     * @param string $display_name            
+     * @param string $display_name
+     * @return NavigationTree
      */
     function create($ancestor, $descendant, $node_id, $node_type_id, $display_name);
     
@@ -41,7 +49,14 @@ interface NavigationTreeRepository
     // TBD: is it going to be used?
     function delete($descendant);
     
-    // TBD: is it going to be used?
+    /**
+     * Delete all nodes in the tree, where the ancestor OR the descendant
+     * match the given values.
+     *
+     * @param string $ancestor            
+     * @param string $descendant
+     * @return bool
+     */
     function deleteWithAllChildren($ancestor, $descendant);
     
     // TBD: is it going to be used?

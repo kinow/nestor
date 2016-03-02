@@ -12,6 +12,7 @@ use Nestor\Repositories\NavigationTreeRepository;
 use Prettus\Repository\Criteria\RequestCriteria;
 use Prettus\Repository\Eloquent\BaseRepository;
 use Prettus\Repository\Events\RepositoryEntityCreated;
+use Prettus\Repository\Events\RepositoryEntityDeleted;
 
 /**
  * Class ProjectsRepositoryEloquent
@@ -74,6 +75,7 @@ class ProjectsRepositoryEloquent extends BaseRepository implements ProjectsRepos
         
         try
         {
+            Log::debug("Creating new project");
             $model = $this->model->newInstance($attributes);
             $model->save();
             $this->resetModel();
@@ -83,7 +85,59 @@ class ProjectsRepositoryEloquent extends BaseRepository implements ProjectsRepos
             event(new RepositoryEntityCreated($this, $model));
             
             DB::commit();
+            Log::debug(sprintf("Project %s created", $model->name));
             return $this->parserResult($model);
+        } catch ( Exception $e )
+        {
+            Log::error($e);
+            DB::rollback();
+            throw $e;
+        }
+    }
+    
+    /**
+     * {@inheritDoc}
+     * @see \Prettus\Repository\Eloquent\BaseRepository::delete()
+     */
+    public function delete($id)
+    {
+        Log::debug(sprintf("Deleting project %d", $id));
+        $this->applyScope();
+    
+        $_skipPresenter = $this->skipPresenter;
+        $this->skipPresenter(true);
+    
+        $model = $this->find($id);
+        $originalModel = clone $model;
+    
+        $this->skipPresenter($_skipPresenter);
+        $this->resetModel();
+    
+        DB::beginTransaction();
+        
+        try
+        {
+            $deleted = $model->delete();
+            
+            if (!$deleted)
+            {
+                throw new Exception("Failed to delete entity: " . $model->id);
+            }
+            
+            event(new RepositoryEntityDeleted($this, $originalModel));
+            
+            Log::debug("Deleting navigation tree node");
+            $projectNodeId = NavigationTree::projectId($originalModel->id);
+            $node = $this->navigationTreeRepository->find($projectNodeId, $projectNodeId);
+            $deleted = $this->navigationTreeRepository->deleteWithAllChildren($node->ancestor, $node->descendant);
+            
+            if (!$deleted)
+            {
+                throw new Exception("Failed to delete node: " . $node->display_name);
+            }
+
+            DB::commit();
+            return $deleted;
         } catch ( Exception $e )
         {
             Log::error($e);

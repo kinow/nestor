@@ -28,6 +28,36 @@ class NavigationTree extends Model implements Transformable
     const TEST_CASE_TYPE = 3;
     
     /**
+     * Get a project node ID.
+     *
+     * @param string $nodeId
+     */
+    public static function projectId($nodeId)
+    {
+        return sprintf("%s-%s", static::PROJECT_TYPE, $nodeId);
+    }
+    
+    /**
+     * Get a test suite node ID.
+     *
+     * @param string $nodeId
+     */
+    public static function testSuiteId($nodeId)
+    {
+        return sprintf("%s-%s", static::TEST_SUITE_TYPE, $nodeId);
+    }
+    
+    /**
+     * Get a test case node ID.
+     *
+     * @param string $nodeId
+     */
+    public static function testCaseId($nodeId)
+    {
+        return sprintf("%s-%s", static::TEST_CASE_TYPE, $nodeId);
+    }
+    
+    /**
      * Get node ID.
      *
      * @param string $nodeType            

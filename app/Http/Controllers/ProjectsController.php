@@ -123,14 +123,13 @@ class ProjectsController extends Controller
                 'name' => 'required|max:255',
                 'description' => 'max:1000' 
         ]);
-        
+
         if ($validator->fails())
         {
             $this->throwValidationException($request, $validator);
         }
-        
+
         $entity = $this->projectsRepository->update($payload, $id);
-        
         return $entity;
     }
     

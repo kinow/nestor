@@ -77,8 +77,7 @@ class NavigationTreeRepositoryEloquent implements NavigationTreeRepository
 	{
 		return NavigationTree::where('ancestor', '=', $ancestorId)
 			->where('descendant', '=', $descendantId)
-			->firstOrFail()
-			->toArray();
+			->firstOrFail();
 	}
 	
 	/**
