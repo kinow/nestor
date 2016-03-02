@@ -40,7 +40,15 @@ interface NavigationTreeRepository
      */
     function create($ancestor, $descendant, $node_id, $node_type_id, $display_name);
     
-    // TBD: is it going to be used?
+    /**
+     * Update a node.
+     * @param string $ancestor
+     * @param string $descendant
+     * @param integer $node_id
+     * @param integer $node_type_id
+     * @param string $display_name
+     * @return NavigationTree
+     */
     function update($ancestor, $descendant, $node_id, $node_type_id, $display_name);
     
     // TBD: is it going to be used?

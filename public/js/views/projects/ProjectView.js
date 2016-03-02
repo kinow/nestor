@@ -44,8 +44,6 @@ define([
 
             if (this.$("#project-form").parsley().validate()) {
                 var self = this;
-                console.log(this.model.isNew());
-                console.log(this.model.id);
                 this.model.save({
                     name: this.$("#project-name-input").val(),
                     description: this.$("#project-description-input").val(),

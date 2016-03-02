@@ -82,10 +82,9 @@ class ProjectsRepositoryEloquent extends BaseRepository implements ProjectsRepos
             
             $this->navigationTreeRepository->create(NavigationTree::id(NavigationTree::PROJECT_TYPE, $model->id), NavigationTree::id(NavigationTree::PROJECT_TYPE, $model->id), $model->id, NavigationTree::PROJECT_TYPE, $model->name);
             
-            event(new RepositoryEntityCreated($this, $model));
-            
             DB::commit();
-            Log::debug(sprintf("Project %s created", $model->name));
+            event(new RepositoryEntityCreated($this, $model));
+            Log::info(sprintf("Project %s created", $model->name));
             return $this->parserResult($model);
         } catch ( Exception $e )
         {
@@ -124,8 +123,6 @@ class ProjectsRepositoryEloquent extends BaseRepository implements ProjectsRepos
                 throw new Exception("Failed to delete entity: " . $model->id);
             }
             
-            event(new RepositoryEntityDeleted($this, $originalModel));
-            
             Log::debug("Deleting navigation tree node");
             $projectNodeId = NavigationTree::projectId($originalModel->id);
             $node = $this->navigationTreeRepository->find($projectNodeId, $projectNodeId);
@@ -137,6 +134,8 @@ class ProjectsRepositoryEloquent extends BaseRepository implements ProjectsRepos
             }
 
             DB::commit();
+            event(new RepositoryEntityDeleted($this, $originalModel));
+            Log::info(sprintf("Project %s deleted!", $deleted->name));
             return $deleted;
         } catch ( Exception $e )
         {
@@ -145,4 +144,50 @@ class ProjectsRepositoryEloquent extends BaseRepository implements ProjectsRepos
             throw $e;
         }
     }
+    
+    public function update(array $attributes, $id)
+    {
+        Log::debug(sprintf("Updating project %d", $id));
+        $this->applyScope();
+    
+        if ( !is_null($this->validator) ) {
+            $this->validator->with($attributes)
+            ->setId($id)
+            ->passesOrFail( ValidatorInterface::RULE_UPDATE );
+        }
+    
+        $_skipPresenter = $this->skipPresenter;
+    
+        $this->skipPresenter(true);
+        
+        DB::beginTransaction();
+        
+        try
+        {
+            $model = $this->model->findOrFail($id);
+            $model->fill($attributes);
+            $model->save();
+            
+            $this->skipPresenter($_skipPresenter);
+            $this->resetModel();
+            
+            Log::debug("Deleting navigation tree node");
+            $projectNodeId = NavigationTree::projectId($model->id);
+            $node = $this->navigationTreeRepository->update(
+				$projectNodeId, $projectNodeId, $model->id,
+				NavigationTree::PROJECT_TYPE, $model->name
+			);
+        
+            DB::commit();
+            event(new RepositoryEntityUpdated($this, $model));
+            Log::info(sprintf("Project %s updated!", $model->name));
+            return $this->parserResult($model);
+        } catch ( Exception $e )
+        {
+            Log::error($e);
+            DB::rollback();
+            throw $e;
+        }
+    }
+    
 }

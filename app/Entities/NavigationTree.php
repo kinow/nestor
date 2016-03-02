@@ -11,6 +11,13 @@ class NavigationTree extends Model implements Transformable
     use TransformableTrait;
     
     /**
+     * The database table used by the model.
+     *
+     * @var string
+     */
+    protected $table = 'navigation_tree';
+    
+    /**
      * Fillable properties.
      * @var array
      */
@@ -34,7 +41,7 @@ class NavigationTree extends Model implements Transformable
      */
     public static function projectId($nodeId)
     {
-        return sprintf("%s-%s", static::PROJECT_TYPE, $nodeId);
+        return static::nodeId(static::PROJECT_TYPE, $nodeId);
     }
     
     /**
@@ -44,7 +51,7 @@ class NavigationTree extends Model implements Transformable
      */
     public static function testSuiteId($nodeId)
     {
-        return sprintf("%s-%s", static::TEST_SUITE_TYPE, $nodeId);
+        return static::nodeId(static::TEST_SUITE_TYPE, $nodeId);
     }
     
     /**
@@ -54,7 +61,7 @@ class NavigationTree extends Model implements Transformable
      */
     public static function testCaseId($nodeId)
     {
-        return sprintf("%s-%s", static::TEST_CASE_TYPE, $nodeId);
+        return static::nodeId(static::TEST_CASE_TYPE, $nodeId);
     }
     
     /**
@@ -63,15 +70,9 @@ class NavigationTree extends Model implements Transformable
      * @param string $nodeType            
      * @param string $nodeId            
      */
-    public static function id($nodeType, $nodeId)
+    public static function nodeId($nodeType, $nodeId)
     {
         return sprintf("%s-%s", $nodeType, $nodeId);
     }
     
-    /**
-     * The database table used by the model.
-     *
-     * @var string
-     */
-    protected $table = 'navigation_tree';
 }
