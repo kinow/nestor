@@ -129,7 +129,6 @@ class NavigationTreeRepositoryEloquent implements NavigationTreeRepository
 		$node = NavigationTree::where('ancestor', '=', $ancestor)
 			->where('descendant', '=', $descendant)
 			->firstOrFail();
-		Log::debug(var_export($node));
 		$node->fill(compact('ancestor', 'descendant', 'node_id', 'node_type_id', 'display_name'))->save();
 		return $node;
 	}
@@ -185,7 +184,6 @@ class NavigationTreeRepositoryEloquent implements NavigationTreeRepository
 			->groupBy('a.ancestor')->groupBy('a.descendant')->groupBy('a.length')
 			->orderBy('a.ancestor')
 			->get();
-		Log::debug(var_export($children, true));
 		return ($children && !empty($children));
 	}
 	

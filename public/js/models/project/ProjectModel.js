@@ -6,7 +6,7 @@ define([
 
     var ProjectModel = BaseModel.extend({
 
-        urlRoot: 'api/projects',
+        urlRoot: '/api/projects',
 
         defaults: {
             id: null,
