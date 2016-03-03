@@ -7,7 +7,8 @@ require.config({
         templates: '../templates',
         navigation: 'libs/core/navigation',
         parsley: 'libs/parsleyjs/dist/parsley.min',
-        semanticui: 'libs/semantic/dist/semantic.min'
+        semanticui: 'libs/semantic/dist/semantic.min',
+        simplemde: 'libs/simplemde/dist/simplemde.min'
     },
 
     shim: {

@@ -3,9 +3,10 @@ define([
     'underscore',
     'backbone',
     'app',
+    'simplemde',
     'models/project/ProjectModel',
     'text!templates/projects/projectTemplate.html'
-], function($, _, Backbone, app, ProjectModel, projectTemplate) {
+], function($, _, Backbone, app, SimpleMDE, ProjectModel, projectTemplate) {
 
     var ProjectView = Backbone.View.extend({
         el: $("#page"),
@@ -31,6 +32,7 @@ define([
                     }
                     var compiledTemplate = _.template(projectTemplate, data);
                     self.$el.html(compiledTemplate);
+                    var simplemde = new SimpleMDE($('#project-description-input'));
                 },
                 error: function() {
                     throw new Error("Failed to fetch project");

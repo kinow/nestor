@@ -7,7 +7,7 @@
 		  </div>
 		  <div class="field">
 			<label>Description</label>
-			<input name="description" placeholder="Description" id="project-description-input" type="text" value="<%= project.get('description') %>" data-parsley-required="false" data-parsley-length="[1,1000]" />
+			<textarea name="description" placeholder="Description" id="project-description-input" data-parsley-required="false" data-parsley-length="[1,1000]"><%= project.get('description') %></textarea>
 		  </div>
 		  <button class="positive ui left floated button" id="project-btn">
 			  Okay
