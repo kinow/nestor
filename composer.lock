@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "4389edf5f38becb636c59b78cc38d005",
-    "content-hash": "a5d5777ec4c8d222a3957900f7725e09",
+    "hash": "fb66e84c23e4999e96f9391b8ec7ec21",
+    "content-hash": "cc77b4150d059dbebb01f0c214846909",
     "packages": [
         {
             "name": "classpreloader/classpreloader",
@@ -469,6 +469,45 @@
                 "parser"
             ],
             "time": "2014-09-09 13:34:57"
+        },
+        {
+            "name": "erusev/parsedown",
+            "version": "1.6.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/erusev/parsedown.git",
+                "reference": "3ebbd730b5c2cf5ce78bc1bf64071407fc6674b7"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/erusev/parsedown/zipball/3ebbd730b5c2cf5ce78bc1bf64071407fc6674b7",
+                "reference": "3ebbd730b5c2cf5ce78bc1bf64071407fc6674b7",
+                "shasum": ""
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "Parsedown": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Emanuil Rusev",
+                    "email": "hello@erusev.com",
+                    "homepage": "http://erusev.com"
+                }
+            ],
+            "description": "Parser for Markdown.",
+            "homepage": "http://parsedown.org",
+            "keywords": [
+                "markdown",
+                "parser"
+            ],
+            "time": "2015-10-04 16:44:32"
         },
         {
             "name": "jakub-onderka/php-console-color",
@@ -1611,7 +1650,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/dom-crawler/zipball/c7a6dfd2720581a61d06c04489e9b3df1e4f7eaf",
+                "url": "https://api.github.com/repos/symfony/dom-crawler/zipball/9a7f6b41947f5f8c74cb21e1cb2b1255912fa6e7",
                 "reference": "c7a6dfd2720581a61d06c04489e9b3df1e4f7eaf",
                 "shasum": ""
             },
@@ -1775,7 +1814,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/http-foundation/zipball/6aeb70d26da8f30753111b3f9cf47eb0421c0735",
+                "url": "https://api.github.com/repos/symfony/http-foundation/zipball/f91ed58ed77c28d8ef9c035c07e8c2ea3df55c6c",
                 "reference": "6aeb70d26da8f30753111b3f9cf47eb0421c0735",
                 "shasum": ""
             },
@@ -2367,7 +2406,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/fzaninotto/Faker/zipball/416a132083aa6f19a6ac42ae0b31fdb26159e72f",
+                "url": "https://api.github.com/repos/fzaninotto/Faker/zipball/6da7882cf63b1c6f2d2b5e28e2f838ef02ecb249",
                 "reference": "416a132083aa6f19a6ac42ae0b31fdb26159e72f",
                 "shasum": ""
             },
@@ -3447,7 +3486,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/yaml/zipball/c9821ffc2965d57b0404e40ef08dc8da642238f2",
+                "url": "https://api.github.com/repos/symfony/yaml/zipball/ab0314f7544d600ea7917f02cdad774358b81113",
                 "reference": "c9821ffc2965d57b0404e40ef08dc8da642238f2",
                 "shasum": ""
             },

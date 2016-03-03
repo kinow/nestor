@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Log;
 use Nestor\Http\Controllers\Controller;
 use Nestor\Repositories\ProjectsRepository;
+use Parsedown;
 use Validator;
 
 /**
@@ -89,12 +90,9 @@ class ProjectsController extends Controller
      */
     public function show($id)
     {
-        return $this->projectsRepository->find($id);
-        // return [
-        // 'id' => (int) $id,
-        // 'name' => sprintf('Project %s', $id),
-        // 'description' => sprintf('Le description du projet %s', $id)
-        // ];
+        $project = $this->projectsRepository->find($id);
+        $project->formatted_description = Parsedown::instance()->text($project->description);
+        return $project;
     }
     
     /**

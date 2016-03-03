@@ -2,11 +2,10 @@ define([
     'jquery',
     'underscore',
     'backbone',
-    'simplemde',
     'models/project/ProjectModel',
     'text!templates/projects/projectAreaTemplate.html',
     'text!templates/projects/viewProjectTemplate.html'
-], function($, _, Backbone, SimpleMDE, ProjectModel, projectAreaTemplate, viewProjectTemplate) {
+], function($, _, Backbone, ProjectModel, projectAreaTemplate, viewProjectTemplate) {
 
     var ViewProjectView = Backbone.View.extend({
         el: $("#page"),
@@ -30,8 +29,7 @@ define([
                     success: function(data) {
                         var data = {
                                 project: project,
-                                _: _,
-                                SimpleMDE: SimpleMDE
+                                _: _
                             }
                             // FIXME: wrong code here...
                         var compiledTemplate = _.template(projectAreaTemplate, data);
