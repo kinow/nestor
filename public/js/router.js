@@ -272,10 +272,9 @@ define([
 
         projectsRouter.on('route:viewProject', function(id) {
             if (!app.viewProjectView) {
-                app.viewProjectView = new ViewProjectView({
-                    id: id
-                });
+                app.viewProjectView = new ViewProjectView();
             }
+            app.viewProjectView.id = id;
             app.showView(app.viewProjectView);
         });
 
@@ -290,17 +289,15 @@ define([
         var testSuitesRouter = new TestSuitesRouter();
 
         testSuitesRouter.on('route:showAddTestSuite', function(projectId) {
-            var newTestSuiteView = new NewTestSuiteView({
-                projectId: projectId
-            });
-            newTestSuiteView.render();
+            if (!app.newTestSuiteView) {
+                app.newTestSuiteView = new NewTestSuiteView({
+                    projectId: projectId
+                });
+            }
+            app.showView(app.newTestSuiteView);
         });
 
         testSuitesRouter.on('route:showTestSuite', function(projectId, testSuiteId) {
-            var projectView = new ViewProjectView({
-                id: projectId
-            });
-            projectView.render();
             var testSuiteView = new TestSuiteView({
                 projectId: projectId,
                 testSuiteId: testSuiteId

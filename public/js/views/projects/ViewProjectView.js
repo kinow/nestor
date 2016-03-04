@@ -12,8 +12,7 @@ define([
 
         events: {},
 
-        initialize: function(options) {
-            this.id = options.id;
+        initialize: function() {
         },
 
         render: function() {

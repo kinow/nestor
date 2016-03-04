@@ -46,30 +46,44 @@ class SampleDatabaseSeeder extends Seeder
         
         $projectA = $this->projectsRepository->create(array (
                 'name' => 'Project A',
-                'description' => '# Project A\n\nThis is the **project A**',
+                'description' => "# Project A\n\nThis is the **project A**",
                 'created_by' => $user->id,
                 'project_statuses_id' => ProjectStatuses::STATUS_NEW 
         ));
         
         $testSuiteA = $this->testSuitesRepository->create(array (
                 'name' => 'Test Suite A',
-                'description' => '# First test suiteA\n\nThis is the *very first* test suite!',
+                'description' => "# First test suiteA\n\nThis is the *very first* test suite!",
                 'created_by' => $user->id,
                 'project_id' => $projectA->id 
         ));
         
         $testSuiteB = $this->testSuitesRepository->create(array (
                 'name' => 'Test Suite B',
-                'description' => '# Test suiteB\n\n* test\n* test 2',
+                'description' => "# Test suiteB\n\n* test\n* test 2",
                 'created_by' => $user->id,
                 'project_id' => $projectA->id
         ));
         
         $testSuiteC = $this->testSuitesRepository->create(array (
                 'name' => 'Test Suite C',
-                'description' => '# Test suiteC\n\nThis is the last of our test suites.',
+                'description' => "# Test suiteC\n\nThis is the last of our test suites.",
                 'created_by' => $user->id,
                 'project_id' => $projectA->id
+        ));
+        
+        $projectB = $this->projectsRepository->create(array (
+                'name' => 'Project B',
+                'description' => "# Project B\n\nThis is the **project B**",
+                'created_by' => $user->id,
+                'project_statuses_id' => ProjectStatuses::STATUS_NEW
+        ));
+        
+        $testSuiteA = $this->testSuitesRepository->create(array (
+                'name' => 'Test Suite A',
+                'description' => '# First test suiteA\n\nThis is the *very first* test suite!',
+                'created_by' => $user->id,
+                'project_id' => $projectB->id
         ));
         
         Model::reguard();
