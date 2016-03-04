@@ -28,10 +28,10 @@ define([
                 project.fetch({
                     success: function(data) {
                         var data = {
-                                project: project,
-                                _: _
-                            }
-                            // FIXME: wrong code here...
+                            project: project,
+                            _: _
+                        };
+                        // FIXME: wrong code here...
                         var compiledTemplate = _.template(projectAreaTemplate, data);
                         self.$el.html(compiledTemplate);
                         compiledTemplate = _.template(viewProjectTemplate, data);
