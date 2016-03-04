@@ -26,12 +26,11 @@ define([
         render: function() {
             $('.menu a').removeClass('active');
             $('.menu a[href="#/projects"]').addClass('active');
-            this.$el.empty();
         },
 
         displayProject: function(projectId) {
-            var self = this;
             this.model.id = projectId;
+            var self = this;
             project.fetch({
                 success: function(data) {
                     var data = {
@@ -51,7 +50,7 @@ define([
         },
 
         rendered: function() {
-            return !$("#project_tree").length == 0;
+            return !$("#navigation-tree").length == 0;
         }
 
     });

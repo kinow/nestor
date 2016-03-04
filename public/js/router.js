@@ -274,10 +274,10 @@ define([
             if (!app.viewProjectView) {
                 app.viewProjectView = new ViewProjectView();
             }
-            app.viewProjectView.model.id = id;
             app.showView(app.viewProjectView, {
                 requiresAuth: true
             });
+            app.viewProjectView.displayProject(id);
         });
 
         projectsRouter.on('route:showContributors', function() {
