@@ -275,7 +275,9 @@ define([
                 app.viewProjectView = new ViewProjectView();
             }
             app.viewProjectView.id = id;
-            app.showView(app.viewProjectView);
+            app.showView(app.viewProjectView, {
+                requiresAuth: true
+            });
         });
 
         projectsRouter.on('route:showContributors', function() {
@@ -294,7 +296,9 @@ define([
                     projectId: projectId
                 });
             }
-            app.showView(app.newTestSuiteView);
+            app.showView(app.newTestSuiteView, {
+                requiresAuth: true
+            });
         });
 
         testSuitesRouter.on('route:showTestSuite', function(projectId, testSuiteId) {
