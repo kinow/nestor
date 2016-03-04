@@ -55,7 +55,7 @@ define([
         showView: function(view, options) {
             // Close and unbind any existing page view
             if (this.currentView && _.isFunction(this.currentView.close)) {
-                this.currentView.close();
+                this.currentView.close(view);
             }
 
             // Establish the requested view into scope

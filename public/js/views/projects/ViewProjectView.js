@@ -2,63 +2,52 @@ define([
     'jquery',
     'underscore',
     'backbone',
+    'views/projects/NavigationTreeView',
+    'views/projects/NodeItemView',
     'models/project/ProjectModel',
-    'text!templates/projects/projectAreaTemplate.html',
     'text!templates/projects/viewProjectTemplate.html'
-], function($, _, Backbone, ProjectModel, projectAreaTemplate, viewProjectTemplate) {
+], function($, _, Backbone, NavigationTreeView, NodeItemView, ProjectModel, viewProjectTemplate) {
 
+    /**
+     * Displays the navigation tree.
+     */
     var ViewProjectView = Backbone.View.extend({
         el: $("#page"),
 
         events: {},
 
-        initialize: function() {},
+        initialize: function() {
+            this.model = new ProjectModel();
+
+            this.navigationTreeView = new NavigationTreeView();
+            this.nodeItemView = new NodeItemView();
+        },
 
         render: function() {
             $('.menu a').removeClass('active');
             $('.menu a[href="#/projects"]').addClass('active');
+            this.$el.empty();
+        },
 
-            if (!this.rendered()) {
-                var project = new ProjectModel({
-                    id: this.id
-                });
-                var self = this;
-                project.fetch({
-                    success: function(data) {
-                        var data = {
-                            project: project,
-                            _: _
-                        };
-                        // FIXME: wrong code here...
-                        var compiledTemplate = _.template(projectAreaTemplate, data);
-                        self.$el.html(compiledTemplate);
-                        compiledTemplate = _.template(viewProjectTemplate, data);
-                        $("#content-area").html(compiledTemplate);
-                    },
-                    error: function() {
-                        throw new Error("Failed to fetch project");
-                    }
-                });
-            } else {
-                // render only project data in content-area
-                var project = new ProjectModel({
-                    id: this.id
-                });
-                var self = this;
-                project.fetch({
-                    success: function() {
-                        var data = {
-                            project: project,
-                            _: _
-                        }
-                        var compiledTemplate = _.template(viewProjectTemplate, data);
-                        $("#content-area").html(compiledTemplate);
-                    },
-                    error: function() {
-                        throw new Error("Failed to fetch project");
-                    }
-                });
-            }
+        displayProject: function(projectId) {
+            var self = this;
+            this.model.id = projectId;
+            project.fetch({
+                success: function(data) {
+                    var data = {
+                        project: project,
+                        _: _
+                    };
+                    var compiledTemplate = _.template(projectNodeItemTemplate, data);
+                    self.$el.html(compiledTemplate);
+                    self.projectAreaTemplate = projectAreaTemplate;
+                    compiledTemplate = _.template(viewProjectTemplate, data);
+                    $("#content-area").html(compiledTemplate);
+                },
+                error: function() {
+                    throw new Error("Failed to fetch project");
+                }
+            });
         },
 
         rendered: function() {

@@ -274,7 +274,7 @@ define([
             if (!app.viewProjectView) {
                 app.viewProjectView = new ViewProjectView();
             }
-            app.viewProjectView.id = id;
+            app.viewProjectView.model.id = id;
             app.showView(app.viewProjectView, {
                 requiresAuth: true
             });
