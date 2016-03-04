@@ -2,8 +2,9 @@ define([
     'jquery',
     'underscore',
     'backbone',
-    'app'
-], function($, _, Backbone, app) {
+    'app',
+    'text!templates/projects/navigationTreeTemplate.html'
+], function($, _, Backbone, app, navigationTreeTemplate) {
 
     var NavigationTreeView = Backbone.View.extend({
         el: $("#navigation-tree"),
@@ -17,10 +18,8 @@ define([
         },
 
         render: function() {
-            $('.menu a').removeClass('active');
-            $('.menu a[href="#/projects"]').addClass('active');
-
-            //this.$el.html(newProjectTemplate);
+            var compiledTemplate = _.template(navigationTreeTemplate, {});
+            return compiledTemplate;
         }
 
     });

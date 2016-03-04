@@ -6,10 +6,16 @@ define([
 ], function($, _, Backbone, app) {
 
     var NodeItemView = Backbone.View.extend({
-        el: $("#content-area"),
+        //el: $("#content-area"),
+
+        tagName: 'div',
 
         initialize: function() {
             _.bindAll(this, 'render');
+            this.$el
+                .attr('id', 'content-area')
+                .attr('class', 'twelve wide column')
+            ;
         },
 
         events: {
@@ -17,9 +23,6 @@ define([
         },
 
         render: function() {
-            $('.menu a').removeClass('active');
-            $('.menu a[href="#/projects"]').addClass('active');
-
             //this.$el.html(newProjectTemplate);
         }
 

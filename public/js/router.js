@@ -277,7 +277,7 @@ define([
             app.showView(app.viewProjectView, {
                 requiresAuth: true
             });
-            //app.viewProjectView.displayProject(id);
+            app.viewProjectView.displayProject(id);
         });
 
         projectsRouter.on('route:showContributors', function() {
