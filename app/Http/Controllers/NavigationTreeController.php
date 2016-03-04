@@ -5,6 +5,7 @@ namespace Nestor\Http\Controllers;
 use Illuminate\Http\Request;
 use Nestor\Http\Controllers\Controller;
 use Nestor\Repositories\NavigationTreeRepository;
+use Nestor\Entities\NavigationTree;
 
 class NavigationTreeController extends Controller
 {
@@ -61,9 +62,17 @@ class NavigationTreeController extends Controller
      * @param int $id            
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($id, Request $request)
     {
-        //
+        $defaultNodeType = NavigationTree::PROJECT_TYPE;
+        
+        $nodeType = $request->get('type', $defaultNodeType);
+        $nodeId = NavigationTree::nodeId($nodeType, $id);
+        
+        $defaultLength = 1;
+        $length = $request->get('length', $defaultLength);
+        
+        return $this->navigationTreeRepository->children($nodeId, $length);
     }
     
     /**

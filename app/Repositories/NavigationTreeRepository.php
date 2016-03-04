@@ -10,7 +10,31 @@ use Nestor\Entities\NavigationTree;
  */
 interface NavigationTreeRepository
 {
-    // TBD: is it going to be used?
+    /**
+     * Returns the node and its descendents within a given length. So in the following
+     * example.
+     *
+     * - Parent
+     * -- Child A
+     * --- Grandchild A0
+     * --- Grandchild A1
+     * -- Child B
+     * --- Grandchild B0
+     * -- Child C
+     *
+     * Asking for children of "Child A" with length equals 1 returns "Grandchild A0"
+     * and "Grandchild A1".
+     *
+     * Asking for children of "Parent" with length equals 1 returns "Child A", "Child B" and
+     * "Child C".
+     *
+     * Asking for children of "Parent" with length equals 2 (or greater) returns "Child A",
+     * "Grandchild A0", "Grandchild A1", "Child B", "Grandchild B0" and "Child C". In other
+     * words, the whole tree.
+     *
+     * @param string $ancestor
+     * @param string $length
+     */
     function children($ancestor, $length);
     
     // TBD: is it going to be used?
