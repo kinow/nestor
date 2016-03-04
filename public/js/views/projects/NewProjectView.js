@@ -4,7 +4,7 @@ define([
     'backbone',
     'app',
     'models/project/ProjectModel',
-    'collections/projects/ProjectsCollection',
+    'collections/project/ProjectsCollection',
     'views/projects/ProjectsListView',
     'text!templates/projects/newProjectTemplate.html'
 ], function($, _, Backbone, app, ProjectModel, ProjectsCollection, ProjectsListView, newProjectTemplate) {

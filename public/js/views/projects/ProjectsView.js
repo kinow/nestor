@@ -3,7 +3,7 @@ define([
   'underscore',
   'backbone',
   'models/project/ProjectModel',
-  'collections/projects/ProjectsCollection',
+  'collections/project/ProjectsCollection',
   'views/projects/ProjectsListView',
   'text!templates/projects/projectsTemplate.html'
 ], function($, _, Backbone, ProjectModel, ProjectsCollection, ProjectsListView, projectsTemplate){

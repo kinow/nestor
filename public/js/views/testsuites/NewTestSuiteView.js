@@ -4,18 +4,20 @@ define([
     'backbone',
     'models/project/ProjectModel',
     'models/testsuite/TestSuiteModel',
+    'collections/testsuite/TestSuitesCollection',
     'text!templates/projects/projectAreaTemplate.html',
     'text!templates/testsuites/newTestSuiteTemplate.html'
-], function($, _, Backbone, ProjectModel, TestSuiteModel, projectAreaTemplate, newTestSuiteTemplate) {
+], function($, _, Backbone, ProjectModel, TestSuiteModel, TestSuitesCollection, projectAreaTemplate, newTestSuiteTemplate) {
 
     var NewTestSuiteView = Backbone.View.extend({
 
         el: $("#page"),
 
         events: {},
-        
-        initialize: function(options) {
-            _.bindAll(this, 'render');
+
+        initialize: function() {
+            _.bindAll(this, 'render', 'save');
+            this.collection = new TestSuitesCollection();
         },
 
         render: function() {
@@ -41,6 +43,14 @@ define([
                 }
             });
         },
+
+        save: function() {
+
+        },
+
+        close: function() {
+            console.log('Closing test suite view');
+        }
 
     });
 
