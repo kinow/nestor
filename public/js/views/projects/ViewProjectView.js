@@ -26,6 +26,9 @@ define([
         render: function() {
             $('.menu a').removeClass('active');
             $('.menu a[href="#/projects"]').addClass('active');
+
+            compiledTemplate = _.template(viewProjectTemplate, {});
+            this.$el.html(compiledTemplate);
         },
 
         displayProject: function(projectId) {

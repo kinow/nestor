@@ -1,0 +1,46 @@
+<div class='ui stackable grid'>
+    <div class='four wide column'>
+        <div class="ui list" id="navigation-tree">
+            <div class="item">
+                <i class="folder icon"></i>
+                <div class="content">
+                    <div class="header">
+                        <a href="/#/projects/<%= project.get('id') %>/view">
+                            <%= project.get('name') %>
+                        </a>
+                    </div>
+                    <div class="list">
+                        <div class="item">
+                            <i class="folder icon"></i>
+                            <div class="content">
+                                <div class="header"><a href="#/projects/<%= project.get('id') %>/testsuites/1/view">Test Suite 001</a></div>
+                            </div>
+                        </div>
+                        <div class="item">
+                            <i class="folder icon"></i>
+                            <div class="content">
+                                <div class="header"><a href="#/projects/<%= project.get('id') %>/testsuites/2/view">Test Suite 002</a></div>
+                                <div class="list">
+                                    <div class="item">
+                                        <i class="file icon"></i>
+                                        <div class="content">
+                                            <div class="header"><a href="#/projects/<%= project.get('id') %>/testcases/1/view">Test Case 001</a></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="item">
+                            <i class="folder icon"></i>
+                            <div class="content">
+                                <div class="header"><a href="#/projects/<%= project.get('id') %>/testsuites/3/view">And the last test suite</a></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Node item -->
+    <div class='twelve wide column' id="content-area"><div>
+</div>
