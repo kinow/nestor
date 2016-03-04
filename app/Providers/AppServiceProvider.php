@@ -25,6 +25,7 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind('Nestor\Repositories\ExecutionTypesRepository', 'Nestor\Repositories\ExecutionTypesRepositoryEloquent');
         $this->app->bind('Nestor\Repositories\NavigationTreeNodeTypesRepository', 'Nestor\Repositories\NavigationTreeNodeTypesRepositoryEloquent');
         $this->app->bind('Nestor\Repositories\NavigationTreeRepository', 'Nestor\Repositories\NavigationTreeRepositoryEloquent');
+        $this->app->bind('Nestor\Repositories\TestSuitesRepository', 'Nestor\Repositories\TestSuitesRepositoryEloquent');
     }
     
     /**

@@ -10,6 +10,13 @@ class TestSuites extends Model implements Transformable
 {
     use TransformableTrait;
 
-    protected $fillable = [];
+    protected $fillable = ['name', 'description', 'project_id', 'created_by'];
+    
+    /**
+     * The database table used by the model.
+     *
+     * @var string
+     */
+    protected $table = 'test_suites';
 
 }

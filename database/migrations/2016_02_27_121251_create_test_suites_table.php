@@ -21,6 +21,10 @@ class CreateTestSuitesTable extends Migration
                 ->references('id')
                 ->on('projects')
                 ->onDelete('cascade');
+            $table->integer('created_by');
+            $table->foreign('created_by')
+                ->references('id')
+                ->on('users');
             $table->timestamps();
             $table->unique(array('project_id', 'name'));
         });
