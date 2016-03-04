@@ -12,8 +12,7 @@ define([
 
         events: {},
 
-        initialize: function() {
-        },
+        initialize: function() {},
 
         render: function() {
             $('.menu a').removeClass('active');

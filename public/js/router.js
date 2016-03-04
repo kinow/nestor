@@ -292,10 +292,9 @@ define([
 
         testSuitesRouter.on('route:showAddTestSuite', function(projectId) {
             if (!app.newTestSuiteView) {
-                app.newTestSuiteView = new NewTestSuiteView({
-                    projectId: projectId
-                });
+                app.newTestSuiteView = new NewTestSuiteView();
             }
+            app.newTestSuiteView.projectId = projectId;
             app.showView(app.newTestSuiteView, {
                 requiresAuth: true
             });
