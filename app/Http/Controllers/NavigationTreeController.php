@@ -64,15 +64,10 @@ class NavigationTreeController extends Controller
      */
     public function show($id, Request $request)
     {
-        $defaultNodeType = NavigationTree::PROJECT_TYPE;
-        
-        $nodeType = $request->get('type', $defaultNodeType);
-        $nodeId = NavigationTree::nodeId($nodeType, $id);
-        
         $defaultLength = 1;
         $length = $request->get('length', $defaultLength);
         
-        return $this->navigationTreeRepository->children($nodeId, $length);
+        return $this->navigationTreeRepository->children($id, $length);
     }
     
     /**
