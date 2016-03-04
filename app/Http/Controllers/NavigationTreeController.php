@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Nestor\Http\Controllers\Controller;
 use Nestor\Repositories\NavigationTreeRepository;
 use Nestor\Entities\NavigationTree;
+use Nestor\Util\NavigationTreeUtil;
 
 class NavigationTreeController extends Controller
 {
@@ -67,7 +68,9 @@ class NavigationTreeController extends Controller
         $defaultLength = 1;
         $length = $request->get('length', $defaultLength);
         
-        return $this->navigationTreeRepository->children($id, $length);
+        $nodes = $this->navigationTreeRepository->children($id, $length);
+        $tree = NavigationTreeUtil::createNavigationTree($nodes, $id);
+        return $tree;
     }
     
     /**
