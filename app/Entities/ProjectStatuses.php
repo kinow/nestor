@@ -24,5 +24,8 @@ class ProjectStatuses extends Model implements Transformable
      * @var string
      */
     protected $table = 'project_statuses';
+    
+    const STATUS_NEW = 1;
+    const STATUS_CLOSED = 2;
 
 }

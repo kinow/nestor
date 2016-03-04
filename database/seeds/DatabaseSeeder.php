@@ -1,13 +1,22 @@
 <?php
+use \App;
 use \DB;
+use \Log;
 
-use Illuminate\Database\Seeder;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Seeder;
 
-use Nestor\Entities\ProjectStatuses;
+use Nestor\Entities\ExecutionStatuses;
 use Nestor\Entities\ExecutionTypes;
 use Nestor\Entities\NavigationTreeNodeTypes;
-use Nestor\Entities\ExecutionStatuses;
+use Nestor\Entities\ProjectStatuses;
+
+/**
+ * Main database seeder.
+ *
+ * @author Bruno P. Kinoshita
+ * @since 0.12
+ */
 class DatabaseSeeder extends Seeder
 {
     /**
@@ -18,8 +27,6 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         Model::unguard();
-        
-        // $this->call(UserTableSeeder::class);
         
         // project_statuses
         
@@ -102,6 +109,12 @@ class DatabaseSeeder extends Seeder
                 'name' => 'Blocked',
                 'description' => 'A test case that is blocked' 
         ));
+        
+        if (App::environment('dev', 'test', 'local'))
+        {
+            Log::info("Seeding DEVELOPMENT data");
+            $this->call(SampleDatabaseSeeder::class);
+        }
         
         Model::reguard();
     }

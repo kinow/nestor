@@ -81,7 +81,7 @@ class ProjectsRepositoryEloquent extends BaseRepository implements ProjectsRepos
             $model->save();
             $this->resetModel();
             
-            $projectId = NavigationTree::projectId($model->id);
+            $projectNodeId = NavigationTree::projectId($model->id);
             $this->navigationTreeRepository->create($projectNodeId, $projectNodeId, $model->id, NavigationTree::PROJECT_TYPE, $model->name);
             
             DB::commit();
