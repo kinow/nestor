@@ -33,7 +33,7 @@ class ProjectsController extends Controller
     }
     
     /**
-     * Show all users.
+     * Show all projects.
      *
      * @return array @Get("/")
      *         @Versions({"v1"})
