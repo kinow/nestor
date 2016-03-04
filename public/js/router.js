@@ -290,10 +290,6 @@ define([
         var testSuitesRouter = new TestSuitesRouter();
 
         testSuitesRouter.on('route:showAddTestSuite', function(projectId) {
-            var projectView = new ViewProjectView({
-                id: projectId
-            });
-            projectView.render();
             var newTestSuiteView = new NewTestSuiteView({
                 projectId: projectId
             });
