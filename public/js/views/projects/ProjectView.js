@@ -32,7 +32,17 @@ define([
                     }
                     var compiledTemplate = _.template(projectTemplate, data);
                     self.$el.html(compiledTemplate);
-                    var simplemde = new SimpleMDE($('#project-description-input'));
+                    var simplemde = new SimpleMDE({
+                        autoDownloadFontAwesome: true, 
+                        autofocus: false,
+                        autosave: {
+                            enabled: false
+                        },
+                        element: $('#project-description-input')[0],
+                        indentWithTabs: false,
+                        spellChecker: false,
+                        tabSize: 4
+                    });
                 },
                 error: function() {
                     throw new Error("Failed to fetch project");
