@@ -69,6 +69,9 @@ define([
                     success: function(res) {
                         // If auth successful, render inside the page wrapper
                         self.currentView.render();
+                        if (typeof options.onSuccess == 'function') {
+                            options.onSuccess();
+                        }
                     },
                     error: function(res) {
                         self.showAlert('Authorization error', 'You must authenticate first', 'error');
@@ -80,6 +83,9 @@ define([
             } else {
                 // Render inside the page wrapper
                 this.currentView.render();
+                if (typeof options.onSuccess == 'function') {
+                    options.onSuccess();
+                }
                 //this.currentView.delegateEvents(this.currentView.events);        // Re-delegate events (unbound when closed)
             }
         }

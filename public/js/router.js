@@ -21,7 +21,6 @@ define([
     'views/projects/ConfirmDeleteProjectView',
     'views/projects/ViewProjectView',
     // Test Suite views
-    'views/testsuites/NewTestSuiteView',
     'views/testsuites/TestSuiteView',
     'views/testsuites/ViewTestSuiteView'
 ], function(
@@ -45,7 +44,6 @@ define([
     ConfirmDeleteProjectView,
     ViewProjectView,
 
-    NewTestSuiteView,
     TestSuiteView,
     ViewTestSuiteView) {
 
@@ -174,6 +172,17 @@ define([
             'projects/:projectId/testsuites/:testsuiteId': 'showTestSuite',
             'projects/:projectId/testsuites/showConfirmDeleteTestSuite': 'showConfirmDeleteTestSuite',
             'projects/:projectId/testsuites/:testsuiteId/view': 'viewTestSuite'
+        },
+        navigation: {
+            prefix: 'TestSuites',
+            pages: {
+                'TestSuites.showAddTestSuite': {
+                    template: function(args) {
+                        console.log(args);
+                    },
+                    parent: 'Projects.showProject'
+                }
+            }
         }
     });
 
@@ -291,12 +300,12 @@ define([
         var testSuitesRouter = new TestSuitesRouter();
 
         testSuitesRouter.on('route:showAddTestSuite', function(projectId) {
-            if (!app.newTestSuiteView) {
-                app.newTestSuiteView = new NewTestSuiteView();
+            if (!app.viewProjectView) {
+                app.viewProjectView = new ViewProjectView();
             }
-            app.newTestSuiteView.projectId = projectId;
-            app.showView(app.newTestSuiteView, {
-                requiresAuth: true
+            app.showView(app.viewProjectView, {
+                requiresAuth: true,
+                onSuccess: app.viewProjectView.displayNewTestSuite
             });
         });
 

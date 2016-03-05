@@ -4,10 +4,12 @@ define([
     'backbone',
     'views/projects/NavigationTreeView',
     'views/projects/NodeItemView',
+    'views/testsuites/NewTestSuiteView',
     'models/project/ProjectModel',
     'text!templates/projects/viewProjectTemplate.html',
-    'text!templates/projects/projectNodeItemTemplate.html'
-], function($, _, Backbone, NavigationTreeView, NodeItemView, ProjectModel, viewProjectTemplate, projectNodeItemTemplate) {
+    'text!templates/projects/projectNodeItemTemplate.html',
+    'text!templates/testsuites/newTestSuiteTemplate.html',
+], function($, _, Backbone, NavigationTreeView, NodeItemView, NewTestSuiteView, ProjectModel, viewProjectTemplate, projectNodeItemTemplate, newTestSuiteTemplate) {
 
     /**
      * Displays the navigation tree.
@@ -18,13 +20,18 @@ define([
         events: {},
 
         initialize: function() {
+            _.bindAll(this, 'render', 'displayProject', 'displayNewTestSuite');
+
+            // Views
             this.navigationTreeView = new NavigationTreeView();
             this.nodeItemView = new NodeItemView();
+            this.newTestSuiteView = new NewTestSuiteView();
 
-            // GC
+            // For GC
             this.subviews = new Object();
             this.subviews.navigationTreeView = this.navigationTreeView;
             this.subviews.nodeItemView = this.nodeItemView;
+            this.subviews.newTestSuiteView = this.newTestSuiteView;
         },
 
         render: function() {
@@ -60,6 +67,12 @@ define([
                     throw new Error("Failed to fetch project");
                 }
             });
+        },
+
+        displayNewTestSuite: function() {
+            var compiledTemplate = _.template(newTestSuiteTemplate, {});
+            this.nodeItemView.$el.html(compiledTemplate);
+            this.$('#content-area').replaceWith(this.nodeItemView.el);
         },
 
         rendered: function() {
