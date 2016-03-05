@@ -118,9 +118,9 @@ define([
             'projects': 'showProjects',
             'projects?*queryString': 'showProjects',
             'projects/new': 'showAddProject',
-            'projects/:id': 'showProject',
-            'projects/:id/confirmDelete': 'showConfirmDeleteProject',
-            'projects/:id/view': 'viewProject',
+            'projects/:projectId': 'showProject',
+            'projects/:projectId/confirmDelete': 'showConfirmDeleteProject',
+            'projects/:projectId/view': 'viewProject',
             // User routes
             'users': 'showContributors'
         },
@@ -133,7 +133,7 @@ define([
                 },
                 'Projects.showProject': {
                     template: function(args) {
-                        var tpl = _.template('Edit Project <%= args[":id"] %>');
+                        var tpl = _.template('Edit Project <%= args[":projectId"] %>');
                         return tpl({
                             args: args
                         });
@@ -146,7 +146,7 @@ define([
                 },
                 'Projects.showConfirmDeleteProject': {
                     template: function(args) {
-                        var tpl = _.template('Delete Project <%= args[":id"] %>');
+                        var tpl = _.template('Delete Project <%= args[":projectId"] %>');
                         return tpl({
                             args: args
                         });
@@ -155,7 +155,7 @@ define([
                 },
                 'Projects.viewProject': {
                     template: function(args) {
-                        var tpl = _.template('View Project <%= args[":id"] %>');
+                        var tpl = _.template('View Project <%= args[":projectId"] %>');
                         return tpl({
                             args: args
                         });
@@ -177,10 +177,8 @@ define([
             prefix: 'TestSuites',
             pages: {
                 'TestSuites.showAddTestSuite': {
-                    template: function(args) {
-                        console.log(args);
-                    },
-                    parent: 'Projects.showProject'
+                    template: 'Add new Test Suite',
+                    parent: 'Projects.viewProject'
                 }
             }
         }
@@ -345,6 +343,7 @@ define([
         navigation.appendRouter(baseRouter);
         navigation.appendRouter(authRouter);
         navigation.appendRouter(projectsRouter);
+        navigation.appendRouter(testSuitesRouter);
         navigation.mapRouters();
 
         Backbone.history.start();

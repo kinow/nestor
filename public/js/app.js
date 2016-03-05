@@ -83,7 +83,7 @@ define([
             } else {
                 // Render inside the page wrapper
                 this.currentView.render();
-                if (typeof options.onSuccess == 'function') {
+                if (typeof options !== 'undefined' && typeof options.onSuccess == 'function') {
                     options.onSuccess();
                 }
                 //this.currentView.delegateEvents(this.currentView.events);        // Re-delegate events (unbound when closed)
