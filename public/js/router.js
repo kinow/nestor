@@ -281,9 +281,15 @@ define([
             if (!app.viewProjectView) {
                 app.viewProjectView = new ViewProjectView();
             }
-            app.showView(app.viewProjectView, {
-                requiresAuth: true
-            });
+            if (typeof app.currentView !== 'undefined' && app.currentView.cid == app.viewProjectView.cid) {
+                app.viewProjectView.displayProject(id);
+            } else {
+                app.showView(app.viewProjectView, {
+                    requiresAuth: true,
+                    onSuccess: function() { app.viewProjectView.displayProject(id) }
+                });
+            }
+            
             app.viewProjectView.displayProject(id);
         });
 
@@ -301,10 +307,14 @@ define([
             if (!app.viewProjectView) {
                 app.viewProjectView = new ViewProjectView();
             }
-            app.showView(app.viewProjectView, {
-                requiresAuth: true,
-                onSuccess: app.viewProjectView.displayNewTestSuite
-            });
+            if (typeof app.currentView !== 'undefined' && app.currentView.cid == app.viewProjectView.cid) {
+                app.viewProjectView.displayNewTestSuite();
+            } else {
+                app.showView(app.viewProjectView, {
+                    requiresAuth: true,
+                    onSuccess: app.viewProjectView.displayNewTestSuite
+                });
+            }
         });
 
         testSuitesRouter.on('route:showTestSuite', function(projectId, testSuiteId) {

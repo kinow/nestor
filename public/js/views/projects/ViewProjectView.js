@@ -42,6 +42,7 @@ define([
             this.$el.html(compiledTemplate);
 
             var navigationTreeContent = this.navigationTreeView.render();
+            console.log('Created navigation tree!!');
             this.$el.find('#navigation-tree').html(navigationTreeContent);
         },
 
