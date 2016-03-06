@@ -1,8 +1,12 @@
-<div class="item">
+
+
+<% _.each(collection.models, function(node){ %>
+<div class='item'>
     <i class="folder icon"></i>
     <div class="content">
-        <a href="/#/projects/1/view">
-            Test
+        <a href="<%= node.url() %>">
+            <%= node.get("display_name") %>
         </a>
     </div>
 </div>
+<% }); %>

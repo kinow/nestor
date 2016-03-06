@@ -25,7 +25,22 @@ define([
         },
 
         url: function() {
-            return '/api/navigationtree/' + this.id;
+            var url = '';
+            switch (parseInt(this.get('node_type_id'))) {
+                case 1:
+                    url = '/#/projects/' + this.get('node_id') + '/view';
+                    break;
+                case 2:
+                    url = 'ttttt';
+                    break;
+                case 3:
+                    url = 'ssss';
+                    break;
+                default:
+                    url = '/';
+                    break;
+            }
+            return url;
         }
 
     });
