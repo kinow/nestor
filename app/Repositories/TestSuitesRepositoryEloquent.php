@@ -56,13 +56,12 @@ class TestSuitesRepositoryEloquent extends BaseRepository implements TestSuitesR
     }
     
     /**
-     * Save a new entity in repository
      *
-     * @throws ValidatorException
-     * @param array $attributes            
-     * @return mixed
+     * {@inheritDoc}
+     *
+     * @see \Prettus\Repository\Eloquent\BaseRepository::createWithAncestor()
      */
-    public function create(array $attributes)
+    public function createWithAncestor(array $attributes, $ancestorNodeId)
     {
         if (!is_null($this->validator))
         {
@@ -78,7 +77,6 @@ class TestSuitesRepositoryEloquent extends BaseRepository implements TestSuitesR
             $model->save();
             $this->resetModel();
             
-            $ancestorNodeId = NavigationTree::projectId($model->project_id);
             $testSuiteNodeId = NavigationTree::testSuiteId($model->id);
             $this->navigationTreeRepository->create($ancestorNodeId, $testSuiteNodeId, $model->id, NavigationTree::TEST_SUITE_TYPE, $model->name);
             

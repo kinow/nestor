@@ -9,6 +9,7 @@ use Nestor\Entities\ProjectStatuses;
 use Nestor\Entities\User;
 use Nestor\Repositories\ProjectsRepository;
 use Nestor\Repositories\TestSuitesRepository;
+use Nestor\Entities\NavigationTree;
 class SampleDatabaseSeeder extends Seeder
 {
     protected $projectsRepository;
@@ -51,26 +52,38 @@ class SampleDatabaseSeeder extends Seeder
                 'project_statuses_id' => ProjectStatuses::STATUS_NEW 
         ));
         
-        $testSuiteA = $this->testSuitesRepository->create(array (
+        $parentProjectNodeId = NavigationTree::projectId($projectA->id);
+        
+        $testSuiteA = $this->testSuitesRepository->createWithAncestor(array (
                 'name' => 'Test Suite A',
                 'description' => "# First test suiteA\n\nThis is the *very first* test suite!",
                 'created_by' => $user->id,
                 'project_id' => $projectA->id 
-        ));
+        ), $parentProjectNodeId);
         
-        $testSuiteB = $this->testSuitesRepository->create(array (
+        $testSuiteB = $this->testSuitesRepository->createWithAncestor(array (
                 'name' => 'Test Suite B',
                 'description' => "# Test suiteB\n\n* test\n* test 2",
                 'created_by' => $user->id,
                 'project_id' => $projectA->id
-        ));
+        ), $parentProjectNodeId);
         
-        $testSuiteC = $this->testSuitesRepository->create(array (
+        $parentTestSuiteNodeId = NavigationTree::testSuiteId($testSuiteB->id);
+        
+        $testSuiteD = $this->testSuitesRepository->createWithAncestor(array (
+                'name' => 'Test Suite D',
+                'description' => "# Test suite D",
+                'created_by' => $user->id,
+                'project_id' => $projectA->id
+        ), $parentTestSuiteNodeId);
+        
+        
+        $testSuiteC = $this->testSuitesRepository->createWithAncestor(array (
                 'name' => 'Test Suite C',
                 'description' => "# Test suiteC\n\nThis is the last of our test suites.",
                 'created_by' => $user->id,
                 'project_id' => $projectA->id
-        ));
+        ), $parentProjectNodeId);
         
         $projectB = $this->projectsRepository->create(array (
                 'name' => 'Project B',
@@ -79,12 +92,14 @@ class SampleDatabaseSeeder extends Seeder
                 'project_statuses_id' => ProjectStatuses::STATUS_NEW
         ));
         
-        $testSuiteA = $this->testSuitesRepository->create(array (
+        $parentProjectNodeId = NavigationTree::projectId($projectB->id);
+        
+        $testSuiteA = $this->testSuitesRepository->createWithAncestor(array (
                 'name' => 'Test Suite A',
                 'description' => '# First test suiteA\n\nThis is the *very first* test suite!',
                 'created_by' => $user->id,
                 'project_id' => $projectB->id
-        ));
+        ), $parentProjectNodeId);
         
         Model::reguard();
     }
