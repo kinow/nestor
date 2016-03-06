@@ -23,7 +23,38 @@ define([
         },
 
         save: function() {
-            console.log('TODO: save test suite');
+            event.preventDefault();
+            event.stopPropagation();
+
+            if (this.$("#new-project-form").parsley().validate()) {
+                this.collection.create({
+                    name: this.$("#project-name-input").val(),
+                    description: this.$("#project-description-input").val(),
+                    created_by: app.session.user_id
+                }, {
+                    wait: true,
+                    success: function(mod, res) {
+                        app.showAlert('Success!', 'New project ' + this.$("#project-name-input").val() + ' created!', 'success')
+                        Backbone.history.navigate("#/projects", {
+                            trigger: false
+                        });
+                    },
+                    error: function(model, response, options) {
+                        var message = _.has(response, 'statusText') ? response.statusText : 'Unknown error!';
+                        if (
+                            _.has(response, 'responseJSON') &&
+                            _.has(response.responseJSON, 'name') &&
+                            _.has(response.responseJSON.name, 'length') &&
+                            response.responseJSON.name.length > 0
+                        ) {
+                            message = response.responseJSON.name[0];
+                        }
+                        app.showAlert('Failed to add new Project', message, 'error');
+                    }
+                });
+            } else {
+                if (typeof DEBUG != 'undefined' && DEBUG) console.log("Did not pass clientside validation");
+            }
         }
 
     });
