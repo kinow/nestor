@@ -30,15 +30,17 @@ define([
                 success: function() {
                     var element = options.element;
                     self.setElement(options.element);
-
+                    var models = self.collection.models;
+                    var model = null;
+                    if (models.length > 0) {
+                        model = models[0].toJSON();
+                    }
                     var data = {
-                        collection: self.collection
+                        items: model,
+                        project_id: self.projectId
                     };
-
                     var compiledTemplate = _.template(navigationTreeTemplate, data);
                     self.$el.html(compiledTemplate);
-                    console.log(self.collection);
-                    console.log('Navigation tree created, root ID: ' + self.collection.rootId);
                 },
                 error: function() {
                     throw new Error("Failed to fetch projects");

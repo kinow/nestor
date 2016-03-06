@@ -22,25 +22,6 @@ define([
             // this.node_type_id = options.node_type_id;
             // this.created_at = options.created_at;
             // this.updated_at = options.updated_at;
-        },
-
-        url: function() {
-            var url = '';
-            switch (parseInt(this.get('node_type_id'))) {
-                case 1:
-                    url = '/#/projects/' + this.get('node_id') + '/view';
-                    break;
-                case 2:
-                    url = 'ttttt';
-                    break;
-                case 3:
-                    url = 'ssss';
-                    break;
-                default:
-                    url = '/';
-                    break;
-            }
-            return url;
         }
 
     });

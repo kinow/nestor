@@ -1,12 +1,40 @@
+<% node_url = function(node) {
+    var url = '';
+    switch (parseInt(node.node_type_id)) {
+        case 1:
+            url = '/#/projects/' + node.node_id + '/view';
+            break;
+        case 2:
+            url = '/#/projects/' + project_id + '/testsuites/' + node.node_id + '/view';
+            break;
+        case 3:
+            url = 'ssss';
+            break;
+        default:
+            url = '/';
+            break;
+    }
+    return url;
+} %>
 
-
-<% _.each(collection.models, function(node){ %>
+<% fn = function(node) { %>
 <div class='item'>
     <i class="folder icon"></i>
     <div class="content">
-        <a href="<%= node.url() %>">
-            <%= node.get("display_name") %>
+        <a href="<%= node_url(node) %>">
+            <%= node.display_name %>
         </a>
+        <% 
+        var children = node.children;
+        if (children.length > 0) { %>
+        <div class="list">
+            <% for (var i = 0; i < children.length; i++) {
+                fn(children[i]);
+            } %>
+        </div>
+        <% } %>
     </div>
 </div>
-<% }); %>
+<% } %>
+
+<% fn(items); %>
