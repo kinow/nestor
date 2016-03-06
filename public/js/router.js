@@ -286,6 +286,7 @@ define([
             } else {
                 app.showView(app.viewProjectView, {
                     requiresAuth: true,
+                    // TBD: using a closure here with a variable in a different scope doesn't look very elegant
                     onSuccess: function() { app.viewProjectView.displayProject(id) }
                 });
             }
