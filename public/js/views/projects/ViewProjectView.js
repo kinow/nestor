@@ -19,11 +19,15 @@ define([
 
         events: {},
 
-        initialize: function() {
+        initialize: function(options) {
             _.bindAll(this, 'render', 'displayProject', 'displayNewTestSuite');
 
+            this.projectId = options.projectId;
+
             // Views
-            this.navigationTreeView = new NavigationTreeView();
+            this.navigationTreeView = new NavigationTreeView({
+                projectId: this.projectId
+            });
             this.nodeItemView = new NodeItemView();
             this.newTestSuiteView = new NewTestSuiteView();
 
@@ -41,9 +45,9 @@ define([
             var compiledTemplate = _.template(viewProjectTemplate, {});
             this.$el.html(compiledTemplate);
 
-            var navigationTreeContent = this.navigationTreeView.render();
-            console.log('Created navigation tree!!');
-            this.$el.find('#navigation-tree').html(navigationTreeContent);
+            var navigationTreeContent = this.navigationTreeView.render({
+                element: this.$el.find('#navigation-tree')
+            });
         },
 
         /**

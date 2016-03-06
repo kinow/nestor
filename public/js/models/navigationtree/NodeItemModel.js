@@ -16,12 +16,12 @@ define([
 
         initialize: function(options) {
             // Here ancestor and descendant will always point to the same node ID, with length=0
-            this.id = options.ancestor;
-            this.length = options.length;
-            this.node_id = options.node_id;
-            this.node_type_id = options.node_type_id;
-            this.created_at = options.created_at;
-            this.updated_at = options.updated_at;
+            this.id = options.node_id;
+            // this.length = options.length;
+            // this.node_id = options.node_id;
+            // this.node_type_id = options.node_type_id;
+            // this.created_at = options.created_at;
+            // this.updated_at = options.updated_at;
         },
 
         url: function() {

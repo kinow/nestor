@@ -279,7 +279,9 @@ define([
 
         projectsRouter.on('route:viewProject', function(id) {
             if (!app.viewProjectView) {
-                app.viewProjectView = new ViewProjectView();
+                app.viewProjectView = new ViewProjectView({
+                    projectId: id
+                });
             }
             if (typeof app.currentView !== 'undefined' && app.currentView.cid == app.viewProjectView.cid) {
                 app.viewProjectView.displayProject(id);
@@ -306,7 +308,9 @@ define([
 
         testSuitesRouter.on('route:showAddTestSuite', function(projectId) {
             if (!app.viewProjectView) {
-                app.viewProjectView = new ViewProjectView();
+                app.viewProjectView = new ViewProjectView({
+                    projectId: projectId
+                });
             }
             if (typeof app.currentView !== 'undefined' && app.currentView.cid == app.viewProjectView.cid) {
                 app.viewProjectView.displayNewTestSuite();
