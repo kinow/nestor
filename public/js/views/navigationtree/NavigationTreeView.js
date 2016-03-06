@@ -4,8 +4,9 @@ define([
     'backbone',
     'app',
     'collections/navigationtree/NavigationTreeCollection',
+    'views/navigationtree/NavigationTreeView',
     'text!templates/navigationtree/navigationTreeTemplate.html'
-], function($, _, Backbone, app, NavigationTreeCollection, navigationTreeTemplate) {
+], function($, _, Backbone, app, NavigationTreeCollection, NavigationTreeView, navigationTreeTemplate) {
 
     var NavigationTreeView = Backbone.View.extend({
         el: $("#navigation-tree"),

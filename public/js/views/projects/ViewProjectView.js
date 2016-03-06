@@ -3,13 +3,13 @@ define([
     'underscore',
     'backbone',
     'views/navigationtree/NavigationTreeView',
-    'views/projects/NodeItemView',
+    'views/projects/ViewNodeItemView',
     'views/testsuites/NewTestSuiteView',
     'models/project/ProjectModel',
     'text!templates/projects/viewProjectTemplate.html',
     'text!templates/projects/projectNodeItemTemplate.html',
     'text!templates/testsuites/newTestSuiteTemplate.html',
-], function($, _, Backbone, NavigationTreeView, NodeItemView, NewTestSuiteView, ProjectModel, viewProjectTemplate, projectNodeItemTemplate, newTestSuiteTemplate) {
+], function($, _, Backbone, NavigationTreeView, ViewNodeItemView, NewTestSuiteView, ProjectModel, viewProjectTemplate, projectNodeItemTemplate, newTestSuiteTemplate) {
 
     /**
      * Displays the navigation tree.
@@ -28,13 +28,13 @@ define([
             this.navigationTreeView = new NavigationTreeView({
                 projectId: this.projectId
             });
-            this.nodeItemView = new NodeItemView();
+            this.viewNodeItemView = new ViewNodeItemView();
             this.newTestSuiteView = new NewTestSuiteView();
 
             // For GC
             this.subviews = new Object();
             this.subviews.navigationTreeView = this.navigationTreeView;
-            this.subviews.nodeItemView = this.nodeItemView;
+            this.subviews.viewNodeItemView = this.viewNodeItemView;
             this.subviews.newTestSuiteView = this.newTestSuiteView;
         },
 
@@ -68,8 +68,8 @@ define([
                     };
 
                     var compiledTemplate = _.template(projectNodeItemTemplate, data);
-                    self.nodeItemView.$el.html(compiledTemplate);
-                    self.$('#content-area').replaceWith(self.nodeItemView.el);
+                    self.viewNodeItemView.$el.html(compiledTemplate);
+                    self.$('#content-area').replaceWith(self.viewNodeItemView.el);
                 },
                 error: function() {
                     throw new Error("Failed to fetch project");
@@ -79,8 +79,8 @@ define([
 
         displayNewTestSuite: function() {
             var compiledTemplate = _.template(newTestSuiteTemplate, {});
-            this.nodeItemView.$el.html(compiledTemplate);
-            this.$('#content-area').replaceWith(this.nodeItemView.el);
+            this.viewNodeItemView.$el.html(compiledTemplate);
+            this.$('#content-area').replaceWith(this.viewNodeItemView.el);
         },
 
         rendered: function() {

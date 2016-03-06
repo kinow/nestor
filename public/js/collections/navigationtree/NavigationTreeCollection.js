@@ -32,6 +32,13 @@ define([
 
         fetchError: function(collection, response) {
             throw new Error("Navigation Tree fetch error");
+        },
+
+        parse: function(response) {
+            var item = new NodeItemModel({
+                node_id: this.rootId
+            });
+            return response;
         }
 
     });

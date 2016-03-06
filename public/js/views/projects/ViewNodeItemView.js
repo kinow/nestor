@@ -5,7 +5,7 @@ define([
     'app'
 ], function($, _, Backbone, app) {
 
-    var NodeItemView = Backbone.View.extend({
+    var ViewNodeItemView = Backbone.View.extend({
         //el: $("#content-area"),
 
         tagName: 'div',
@@ -28,6 +28,6 @@ define([
 
     });
 
-    return NodeItemView;
+    return ViewNodeItemView;
 
 });
