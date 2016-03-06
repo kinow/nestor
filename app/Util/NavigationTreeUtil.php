@@ -10,7 +10,7 @@ use Nestor\Model\Nodes;
 
 /**
  * Utility methods for the NavigationTree.
- * 
+ *
  * @author Bruno P. Kinoshita
  * @since 0.12
  */
@@ -39,7 +39,7 @@ class NavigationTreeUtil
         // $tree is the result object. Some of its elements are modified by other function, by reference.
         $tree = array ();
         $node = $vertices [$root]->data;
-        $tree [$node->descendant] = $node;
+        $tree [] = $node;
         // Here $vertices gets its data element modified. The data element will get a children object, with all the
         // childreno nodes of the root vertex.
         static::createTreeFromVertex($vertices [$root]);
