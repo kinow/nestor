@@ -4,7 +4,7 @@ define([
     'backbone',
     'app',
     'collections/navigationtree/NavigationTreeCollection',
-    'text!templates/projects/navigationTreeTemplate.html'
+    'text!templates/navigationtree/navigationTreeTemplate.html'
 ], function($, _, Backbone, app, NavigationTreeCollection, navigationTreeTemplate) {
 
     var NavigationTreeView = Backbone.View.extend({
@@ -40,7 +40,7 @@ define([
 
                     var compiledTemplate = _.template(navigationTreeTemplate, data);
                     self.$el.html(compiledTemplate);
-
+                    console.log(self.collection);
                     console.log('Navigation tree created, root ID: ' + self.rootId);
                 },
                 error: function() {
