@@ -2,7 +2,7 @@ define([
     'jquery',
     'underscore',
     'backbone',
-    'views/projects/NavigationTreeView',
+    'views/navigationtree/NavigationTreeView',
     'views/projects/NodeItemView',
     'views/testsuites/NewTestSuiteView',
     'models/project/ProjectModel',
