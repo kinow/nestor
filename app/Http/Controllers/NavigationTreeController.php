@@ -5,7 +5,6 @@ namespace Nestor\Http\Controllers;
 use Illuminate\Http\Request;
 use Nestor\Http\Controllers\Controller;
 use Nestor\Repositories\NavigationTreeRepository;
-use Nestor\Entities\NavigationTree;
 use Nestor\Util\NavigationTreeUtil;
 
 class NavigationTreeController extends Controller
