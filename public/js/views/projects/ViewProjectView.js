@@ -38,6 +38,7 @@ define([
             this.subviews.newTestSuiteView = this.newTestSuiteView;
         },
 
+
         render: function() {
             $('.menu a').removeClass('active');
             $('.menu a[href="#/projects"]').addClass('active');
@@ -54,6 +55,8 @@ define([
          * Display project node item on the right panel of the screen.
          */
         displayProject: function(projectId) {
+            this.navigationTreeView.projectId = projectId;
+            
             this.projectModel = new ProjectModel();
             this.projectModel.id = projectId;
             var self = this;

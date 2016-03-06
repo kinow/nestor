@@ -9,7 +9,13 @@ define([
         models: [],
 
         initialize: function(options) {
-            this.rootId = options.root_id;
+            
+        },
+
+        setRootId: function(projectId) {
+            this.projectId = projectId;
+            var rootId = '1-' + projectId;
+            this.rootId = rootId;
         },
 
         setPage: function(page) {

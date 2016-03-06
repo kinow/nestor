@@ -15,11 +15,7 @@ define([
             this.el = options.element;
             this.projectId = options.projectId;
 
-            var rootId = '1-' + this.projectId;
-            this.rootId = rootId;
-            this.collection = new NavigationTreeCollection({
-                root_id: rootId
-            });
+            this.collection = new NavigationTreeCollection();
             this.listenTo(this.collection, 'reset', this.render);
         },
 
@@ -29,6 +25,7 @@ define([
 
         render: function(options) {
             var self = this;
+            this.collection.setRootId(this.projectId);
             this.collection.fetch({
                 success: function() {
                     var element = options.element;
@@ -41,7 +38,7 @@ define([
                     var compiledTemplate = _.template(navigationTreeTemplate, data);
                     self.$el.html(compiledTemplate);
                     console.log(self.collection);
-                    console.log('Navigation tree created, root ID: ' + self.rootId);
+                    console.log('Navigation tree created, root ID: ' + self.collection.rootId);
                 },
                 error: function() {
                     throw new Error("Failed to fetch projects");
