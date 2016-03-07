@@ -66,9 +66,11 @@ $api->version('v1', function ($api) {
     $api->put('projects/{id}', 'Nestor\Http\Controllers\ProjectsController@update');
     $api->delete('projects/{id}', 'Nestor\Http\Controllers\ProjectsController@destroy');
     
-    $api->get('projects/{projectId}/testsuites/{testSuiteId}', [ 
-            'middleware' => 'api.auth' 
-    ], 'Nestor\Http\Controllers\TestSuitesController@show');
+    // test suites
+//     $api->get('projects/{projectId}/testsuites/{testSuiteId}', [ 
+//             'middleware' => 'api.auth' 
+//     ], 'Nestor\Http\Controllers\TestSuitesController@show');
+    $api->get('projects/{projectId}/testsuites/{testSuiteId}', 'Nestor\Http\Controllers\TestSuitesController@show');
     
     // navigation tree
     $api->get('navigationtree', 'Nestor\Http\Controllers\NavigationTreeController@index');

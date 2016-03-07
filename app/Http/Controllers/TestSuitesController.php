@@ -3,8 +3,9 @@
 namespace Nestor\Http\Controllers;
 
 use Illuminate\Http\Request;
-
 use Nestor\Http\Controllers\Controller;
+use Nestor\Repositories\TestSuitesRepository;
+use Parsedown;
 
 /**
  * Test Suite resource representation.
@@ -13,6 +14,18 @@ use Nestor\Http\Controllers\Controller;
  */
 class TestSuitesController extends Controller
 {
+    
+    /**
+     *
+     * @var TestSuitesRepository $testSuitesRepository
+     */
+    protected $testSuitesRepository;
+    
+    public function __construct(TestSuitesRepository $testSuitesRepository)
+    {
+        $this->testSuitesRepository = $testSuitesRepository;
+    }
+    
     /**
      * Display a listing of the resource.
      *
@@ -63,11 +76,10 @@ class TestSuitesController extends Controller
      */
     public function show($projectId, $id)
     {
-        return [
-                'id' => (int) $id,
-                'name' => sprintf('Test suite 00%d', $id),
-                'description' => sprintf('Le description du test suite %d', $id)
-            ];
+        // TBD: should we use projectId here too?
+        $testSuite = $this->testSuitesRepository->find($id);
+        $testSuite->formatted_description = Parsedown::instance()->text($testSuite->description);
+        return $testSuite;
     }
 
     /**
