@@ -105,7 +105,6 @@ define([
                         testsuite: self.testSuiteModel,
                         _: _
                     };
-                    console.log(responseData);
 
                     var compiledTemplate = _.template(testSuiteNodeItemTemplate, data);
                     self.viewNodeItemView.$el.html(compiledTemplate);
