@@ -30,20 +30,20 @@ app('Dingo\Api\Exception\Handler')->register(function (Symfony\Component\HttpKer
 });
 
 app('Dingo\Api\Exception\Handler')->register(function (Symfony\Component\HttpKernel\Exception\NotFoundHttpException $exception) {
-    return Response::make([
-            'error' => 'Not found'
+    return Response::make([ 
+            'error' => 'Not found' 
     ], 404);
 });
 
 app('Dingo\Api\Exception\Handler')->register(function (Dingo\Api\Exception\StoreResourceFailedException $exception) {
-    return Response::make([
-            'error' => 'Failed to save user: ' . $exception->getMessage()
+    return Response::make([ 
+            'error' => 'Failed to save user: ' .$exception->getMessage() 
     ], 422);
 });
 
 app('Dingo\Api\Exception\Handler')->register(function (Illuminate\Http\Exception\HttpResponseException $exception) {
-    return Response::make([
-            'error' => 'Validation error: ' . $exception->getMessage()
+    return Response::make([ 
+            'error' => 'Validation error: ' .$exception->getMessage() 
     ], 422);
 });
 
@@ -58,7 +58,7 @@ $api->version('v1', function ($api) {
         $api->get('auth/logout', 'Nestor\Http\Controllers\UsersController@doLogout');
         $api->post('auth/logout', 'Nestor\Http\Controllers\UsersController@doLogout');
     }
-
+    
     // projects
     $api->get('projects', 'Nestor\Http\Controllers\ProjectsController@index');
     $api->post('projects', 'Nestor\Http\Controllers\ProjectsController@store');
@@ -72,14 +72,13 @@ $api->version('v1', function ($api) {
     
     // navigation tree
     $api->get('navigationtree', 'Nestor\Http\Controllers\NavigationTreeController@index');
-//     $api->post('navigationtree', 'Nestor\Http\Controllers\NavigationTreeController@store');
-     $api->get('navigationtree/{id}', 'Nestor\Http\Controllers\NavigationTreeController@show');
-//     $api->put('navigationtree/{id}', 'Nestor\Http\Controllers\NavigationTreeController@update');
-//     $api->delete('navigationtree/{id}', 'Nestor\Http\Controllers\NavigationTreeController@destroy');
+    // $api->post('navigationtree', 'Nestor\Http\Controllers\NavigationTreeController@store');
+    $api->get('navigationtree/{id}', 'Nestor\Http\Controllers\NavigationTreeController@show');
+    // $api->put('navigationtree/{id}', 'Nestor\Http\Controllers\NavigationTreeController@update');
+    // $api->delete('navigationtree/{id}', 'Nestor\Http\Controllers\NavigationTreeController@destroy');
 });
 
 // Display all SQL executed in Eloquent
-Event::listen('illuminate.query', function($query)
-{
+Event::listen('illuminate.query', function ($query) {
     Log::debug($query);
 });

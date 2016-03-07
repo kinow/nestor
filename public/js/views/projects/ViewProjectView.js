@@ -77,10 +77,40 @@ define([
             });
         },
 
+        /**
+         * Display new test suite form.
+         */
         displayNewTestSuite: function() {
             var compiledTemplate = _.template(newTestSuiteTemplate, {});
             this.viewNodeItemView.$el.html(compiledTemplate);
             this.$('#content-area').replaceWith(this.viewNodeItemView.el);
+        },
+
+        /**
+         * Display project node item on the right panel of the screen.
+         */
+        displayTestSuite: function(projectId, testSuiteId) {
+            this.navigationTreeView.projectId = projectId;
+            
+            this.testSuiteModel = new TestSuiteModel();
+            this.testSuiteModel.projectId = projectId;
+            this.testSuiteModel.id = testSuiteId;
+            var self = this;
+            this.testSuiteModel.fetch({
+                success: function(data) {
+                    var data = {
+                        project: self.testSuiteModel,
+                        _: _
+                    };
+
+                    var compiledTemplate = _.template(projectNodeItemTemplate, data);
+                    self.viewNodeItemView.$el.html(compiledTemplate);
+                    self.$('#content-area').replaceWith(self.viewNodeItemView.el);
+                },
+                error: function() {
+                    throw new Error("Failed to fetch project");
+                }
+            });
         },
 
         rendered: function() {

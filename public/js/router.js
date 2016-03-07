@@ -323,11 +323,14 @@ define([
         });
 
         testSuitesRouter.on('route:showTestSuite', function(projectId, testSuiteId) {
-            var testSuiteView = new TestSuiteView({
-                projectId: projectId,
-                testSuiteId: testSuiteId
+            if (!app.testSuiteView) {
+                app.testSuiteView = new TestSuiteView();
+            }
+            app.testSuiteView.projectId = projectId;
+            app.testSuiteView.testSuiteId = testSuiteId;
+            app.showView(app.testSuiteView, {
+                requiresAuth: true
             });
-            testSuiteView.render();
         });
 
         testSuitesRouter.on('route:showConfirmDeleteTestSuite', function(id) {
@@ -341,16 +344,20 @@ define([
             confirmDeleteTestSuiteView.render();
         });
 
-        testSuitesRouter.on('route:viewTestSuite', function(projectId, testsuiteId) {
-            var projectView = new ViewProjectView({
-                id: projectId
-            });
-            projectView.render();
-            var testSuiteView = new ViewTestSuiteView({
-                projectId: projectId,
-                testSuiteId: testsuiteId
-            });
-            testSuiteView.render();
+        testSuitesRouter.on('route:viewTestSuite', function(projectId, testSuiteId) {
+            if (!app.viewTestSuiteView) {
+                app.viewTestSuiteView = new ViewTestSuiteView();
+            }
+            app.viewTestSuiteView.projectId = projectId;
+            app.viewTestSuiteView.testSuiteId = testSuiteId;
+            if (typeof app.currentView !== 'undefined' && app.currentView.cid == app.viewTestSuiteView.cid) {
+                app.viewTestSuiteView.displayTestSuite();
+            } else {
+                app.showView(app.viewProjectView, {
+                    requiresAuth: true,
+                    onSuccess: app.viewProjectView.displayTestSuite
+                });
+            }
         });
 
         // --- end test suites router ---
