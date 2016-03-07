@@ -6,10 +6,12 @@ define([
     'views/projects/ViewNodeItemView',
     'views/testsuites/NewTestSuiteView',
     'models/project/ProjectModel',
+    'models/testsuite/TestSuiteModel',
     'text!templates/projects/viewProjectTemplate.html',
     'text!templates/projects/projectNodeItemTemplate.html',
     'text!templates/testsuites/newTestSuiteTemplate.html',
-], function($, _, Backbone, NavigationTreeView, ViewNodeItemView, NewTestSuiteView, ProjectModel, viewProjectTemplate, projectNodeItemTemplate, newTestSuiteTemplate) {
+    'text!templates/testsuites/testSuiteNodeItemTemplate.html'
+], function($, _, Backbone, NavigationTreeView, ViewNodeItemView, NewTestSuiteView, ProjectModel, TestSuiteModel, viewProjectTemplate, projectNodeItemTemplate, newTestSuiteTemplate, testSuiteNodeItemTemplate) {
 
     /**
      * Displays the navigation tree.
@@ -20,9 +22,10 @@ define([
         events: {},
 
         initialize: function(options) {
-            _.bindAll(this, 'render', 'displayProject', 'displayNewTestSuite');
+            _.bindAll(this, 'render', 'displayProject', 'displayNewTestSuite', 'displayTestSuite');
 
             this.projectId = options.projectId;
+            this.testSuiteId = 0;
 
             // Views
             this.navigationTreeView = new NavigationTreeView({
@@ -56,12 +59,12 @@ define([
          */
         displayProject: function(projectId) {
             this.navigationTreeView.projectId = projectId;
-            
+
             this.projectModel = new ProjectModel();
             this.projectModel.id = projectId;
             var self = this;
             this.projectModel.fetch({
-                success: function(data) {
+                success: function(responseData) {
                     var data = {
                         project: self.projectModel,
                         _: _
@@ -89,26 +92,27 @@ define([
         /**
          * Display project node item on the right panel of the screen.
          */
-        displayTestSuite: function(projectId, testSuiteId) {
-            this.navigationTreeView.projectId = projectId;
-            
+        displayTestSuite: function() {
+            this.navigationTreeView.projectId = this.projectId;
+
             this.testSuiteModel = new TestSuiteModel();
-            this.testSuiteModel.projectId = projectId;
-            this.testSuiteModel.id = testSuiteId;
+            this.testSuiteModel.project_id = this.projectId;
+            this.testSuiteModel.id = this.testSuiteId;
             var self = this;
             this.testSuiteModel.fetch({
-                success: function(data) {
+                success: function(responseData) {
                     var data = {
-                        project: self.testSuiteModel,
+                        testsuite: self.testSuiteModel,
                         _: _
                     };
+                    console.log(responseData);
 
-                    var compiledTemplate = _.template(projectNodeItemTemplate, data);
+                    var compiledTemplate = _.template(testSuiteNodeItemTemplate, data);
                     self.viewNodeItemView.$el.html(compiledTemplate);
                     self.$('#content-area').replaceWith(self.viewNodeItemView.el);
                 },
                 error: function() {
-                    throw new Error("Failed to fetch project");
+                    throw new Error("Failed to fetch test suite");
                 }
             });
         },

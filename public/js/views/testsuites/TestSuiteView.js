@@ -12,7 +12,7 @@ define([
       this.id = options.testSuiteId;
       this.projectId = options.projectId;
       this.model = new TestSuiteModel({id: this.id, projectId: this.projectId});
-      _.bindAll(this, 'save');
+      _.bindAll(this, 'render', 'save');
     },
 
     render: function() {

@@ -21,8 +21,7 @@ define([
     'views/projects/ConfirmDeleteProjectView',
     'views/projects/ViewProjectView',
     // Test Suite views
-    'views/testsuites/TestSuiteView',
-    'views/testsuites/ViewTestSuiteView'
+    'views/testsuites/TestSuiteView'
 ], function(
     _,
     Backbone,
@@ -44,8 +43,7 @@ define([
     ConfirmDeleteProjectView,
     ViewProjectView,
 
-    TestSuiteView,
-    ViewTestSuiteView) {
+    TestSuiteView) {
 
     'use strict';
 
@@ -345,13 +343,16 @@ define([
         });
 
         testSuitesRouter.on('route:viewTestSuite', function(projectId, testSuiteId) {
-            if (!app.viewTestSuiteView) {
-                app.viewTestSuiteView = new ViewTestSuiteView();
+            if (!app.viewProjectView) {
+                app.viewProjectView = new ViewProjectView({
+                    projectId: projectId
+                });
             }
-            app.viewTestSuiteView.projectId = projectId;
-            app.viewTestSuiteView.testSuiteId = testSuiteId;
-            if (typeof app.currentView !== 'undefined' && app.currentView.cid == app.viewTestSuiteView.cid) {
-                app.viewTestSuiteView.displayTestSuite();
+            
+            app.viewProjectView.projectId = projectId;
+            app.viewProjectView.testSuiteId = testSuiteId;
+            if (typeof app.currentView !== 'undefined' && app.currentView.cid == app.viewProjectView.cid) {
+                app.viewProjectView.displayTestSuite();
             } else {
                 app.showView(app.viewProjectView, {
                     requiresAuth: true,

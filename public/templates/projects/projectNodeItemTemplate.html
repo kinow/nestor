@@ -9,7 +9,10 @@
     <%= project.get('formatted_description') %>
 
     <div class="item">
-        <a href="#/projects/<%= project.get('id') %>" class="ui button">Edit Project</a>
+        <div class="ui divider"></div>
+        <div class="right floated content">
+            <a href="#/projects/<%= project.get('id') %>" class="ui button">Edit Project</a>
+        </div>
     </div>
 
 </div>

@@ -1,26 +1,32 @@
 define([
     'underscore',
-    'backbone'
-], function(_, Backbone) {
+    'backbone',
+    'models/core/BaseModel',
+], function(_, Backbone, BaseModel) {
 
-    var TestSuiteModel = Backbone.Model.extend({
+    var TestSuiteModel = BaseModel.extend({
 
         defaults: {
-            id: 0,
-            projectId: 0,
+            id: null,
+            project_id: 1,
             name: 'No project name set',
             description: 'No description set',
             url: '#/404'
         },
 
         initialize: function(options) {
-            this.id = options.id;
-            this.projectId = options.projectId;
-            this.set('url', '#/projects/' + options.projectId + '/testsuites/' + options.id + '/view');
+            _.bindAll(this, 'url', 'parse');
         },
 
         url: function() {
-            return '/api/projects/' + this.projectId + '/testsuites/' + this.id;
+            var url = '/api/projects/' + this.project_id + '/testsuites/' + this.id;
+            return url;
+        },
+
+        parse: function(obj) {
+            if (typeof(obj.test_suite) != 'undefined')
+                return obj.test_suite;
+            return obj;
         }
 
     });
