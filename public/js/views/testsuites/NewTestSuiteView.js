@@ -2,42 +2,45 @@ define([
     'jquery',
     'underscore',
     'backbone',
+    'app',
     'models/project/ProjectModel',
     'models/testsuite/TestSuiteModel',
     'collections/testsuite/TestSuitesCollection',
     'text!templates/testsuites/newTestSuiteTemplate.html'
-], function($, _, Backbone, ProjectModel, TestSuiteModel, TestSuitesCollection, newTestSuiteTemplate) {
+], function($, _, Backbone, app, ProjectModel, TestSuiteModel, TestSuitesCollection, newTestSuiteTemplate) {
 
     var NewTestSuiteView = Backbone.View.extend({
 
-        events: {},
+        events: {
+            'click #new-testsuite-btn': 'save'
+        },
 
         initialize: function() {
             _.bindAll(this, 'render', 'save');
             this.collection = new TestSuitesCollection();
         },
 
-        render: function() {
+        render: function(options) {
+            this.parent_id = options.parent_id; // FIXME: remove this comment when we prevent insecure object direct reference
             var compiledTemplate = _.template(newTestSuiteTemplate, {});
-            return compiledTemplate;
+            this.$el.html(compiledTemplate);
         },
 
-        save: function() {
+        save: function(event) {
             event.preventDefault();
             event.stopPropagation();
 
-            if (this.$("#new-project-form").parsley().validate()) {
+            if (this.$("#new-testsuite-form").parsley().validate()) {
                 this.collection.create({
-                    name: this.$("#project-name-input").val(),
-                    description: this.$("#project-description-input").val(),
+                    name: this.$("#testsuite-name-input").val(),
+                    description: this.$("#testsuite-description-input").val(),
+                    parent_id: this.parent_id,
                     created_by: app.session.user_id
                 }, {
                     wait: true,
                     success: function(mod, res) {
-                        app.showAlert('Success!', 'New project ' + this.$("#project-name-input").val() + ' created!', 'success')
-                        Backbone.history.navigate("#/projects", {
-                            trigger: false
-                        });
+                        app.showAlert('Success!', 'New test suite ' + this.$("#testsuite-name-input").val() + ' created!', 'success')
+                        Backbone.history.history.back();
                     },
                     error: function(model, response, options) {
                         var message = _.has(response, 'statusText') ? response.statusText : 'Unknown error!';

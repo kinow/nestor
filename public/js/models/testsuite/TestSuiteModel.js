@@ -9,8 +9,8 @@ define([
         defaults: {
             id: null,
             project_id: 1,
-            name: 'No project name set',
-            description: 'No description set',
+            name: 'No test suite name',
+            description: 'No description',
             url: '#/404'
         },
 
@@ -19,7 +19,12 @@ define([
         },
 
         url: function() {
-            var url = '/api/projects/' + this.project_id + '/testsuites/' + this.id;
+            var url = '/api/projects/' + this.get('project_id') + '/testsuites';
+            if (this.get('id') != null) {
+                url += '/' + this.get('id');
+            }
+            if (this.id)
+                url += '/' + this.id;
             return url;
         },
 

@@ -167,6 +167,7 @@ define([
     var TestSuitesRouter = Backbone.Router.extend({
         routes: {
             'projects/:projectId/testsuites/new': 'showAddTestSuite',
+            'projects/:projectId/testsuites/new?*queryString': 'showAddTestSuite',
             'projects/:projectId/testsuites/:testsuiteId/view': 'viewTestSuite',
             'projects/:projectId/testsuites/:testsuiteId': 'showTestSuite',
             'projects/:projectId/testsuites/showConfirmDeleteTestSuite': 'showConfirmDeleteTestSuite'
@@ -290,6 +291,8 @@ define([
                     projectId: id
                 });
             }
+
+            app.viewProjectView.projectId = id;
             if (typeof app.currentView !== 'undefined' && app.currentView.cid == app.viewProjectView.cid) {
                 app.viewProjectView.displayProject(id);
             } else {
@@ -313,12 +316,19 @@ define([
         // --- test suites router ---
         var testSuitesRouter = new TestSuitesRouter();
 
-        testSuitesRouter.on('route:showAddTestSuite', function(projectId) {
+        testSuitesRouter.on('route:showAddTestSuite', function(projectId, queryString) {
+            var params = parseQueryString(queryString);
+            var parentId = projectId;
+            if (typeof(params.parent) != "undefined") {
+                parentId = params.parent;
+            }
             if (!app.viewProjectView) {
                 app.viewProjectView = new ViewProjectView({
                     projectId: projectId
                 });
             }
+            app.viewProjectView.projectId = projectId;
+            app.viewProjectView.parentId = parentId;
             if (typeof app.currentView !== 'undefined' && app.currentView.cid == app.viewProjectView.cid) {
                 app.viewProjectView.displayNewTestSuite();
             } else {

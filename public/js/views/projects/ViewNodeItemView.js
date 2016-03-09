@@ -13,7 +13,7 @@ define([
         initialize: function() {
             _.bindAll(this, 'render');
             this.$el
-                .attr('id', 'content-area')
+                .attr('id', 'content-main')
                 .attr('class', 'twelve wide column')
             ;
         },
