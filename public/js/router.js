@@ -167,15 +167,24 @@ define([
     var TestSuitesRouter = Backbone.Router.extend({
         routes: {
             'projects/:projectId/testsuites/new': 'showAddTestSuite',
+            'projects/:projectId/testsuites/:testsuiteId/view': 'viewTestSuite',
             'projects/:projectId/testsuites/:testsuiteId': 'showTestSuite',
-            'projects/:projectId/testsuites/showConfirmDeleteTestSuite': 'showConfirmDeleteTestSuite',
-            'projects/:projectId/testsuites/:testsuiteId/view': 'viewTestSuite'
+            'projects/:projectId/testsuites/showConfirmDeleteTestSuite': 'showConfirmDeleteTestSuite'
         },
         navigation: {
             prefix: 'TestSuites',
             pages: {
                 'TestSuites.showAddTestSuite': {
                     template: 'Add new Test Suite',
+                    parent: 'Projects.viewProject'
+                },
+                'TestSuites.viewTestSuite': {
+                    template: function(args) {
+                        var tpl = _.template('View Test Suite <%= args[":testsuiteId"] %>');
+                        return tpl({
+                            args: args
+                        });
+                    },
                     parent: 'Projects.viewProject'
                 }
             }
