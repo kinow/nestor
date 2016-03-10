@@ -3,9 +3,12 @@
 namespace Nestor\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Log;
+use Nestor\Entities\NavigationTree;
 use Nestor\Http\Controllers\Controller;
 use Nestor\Repositories\TestSuitesRepository;
 use Parsedown;
+use Validator;
 
 /**
  * Test Suite resource representation.
@@ -20,7 +23,6 @@ class TestSuitesController extends Controller
      * @var TestSuitesRepository $testSuitesRepository
      */
     protected $testSuitesRepository;
-    
     public function __construct(TestSuitesRepository $testSuitesRepository)
     {
         $this->testSuitesRepository = $testSuitesRepository;
@@ -33,20 +35,20 @@ class TestSuitesController extends Controller
      */
     public function index()
     {
-        return [
-            [
-                'id' => 10,
-                'name' => 'Suite 001',
-                'description' => 'Test suite 003'
-            ],
-            [
-                'id' => 20,
-                'name' => 'Suite 002',
-                'description' => 'Test suite 002'
-            ]
+        return [ 
+                [ 
+                        'id' => 10,
+                        'name' => 'Suite 001',
+                        'description' => 'Test suite 003' 
+                ],
+                [ 
+                        'id' => 20,
+                        'name' => 'Suite 002',
+                        'description' => 'Test suite 002' 
+                ] 
         ];
     }
-
+    
     /**
      * Show the form for creating a new resource.
      *
@@ -56,11 +58,11 @@ class TestSuitesController extends Controller
     {
         //
     }
-
+    
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request            
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
@@ -71,7 +73,7 @@ class TestSuitesController extends Controller
                 'name' => 'required|max:255|unique:projects',
                 'description' => 'max:1000',
                 'project_id' => 'required|integer|min:1',
-                'created_by' => 'required|integer|min:1'
+                'created_by' => 'required|integer|min:1' 
         ]);
         
         if ($validator->fails())
@@ -79,15 +81,24 @@ class TestSuitesController extends Controller
             $this->throwValidationException($request, $validator);
         }
         
-        $entity = $this->testSuitesRepository->createWithAncestor($payload, $request->get('parent', $payload['project_id']));
+        $ancestorNodeId = NavigationTree::projectId($payload ['project_id']);
+        $parentId = (int) $request->get('parent', 0);
+        if ($parentId > 0)
+        {
+            $ancestorNodeId = NavigationTree::testSuiteId($parentId); 
+        }
+        
+        Log::debug("Ancestor ID: " . $ancestorNodeId);
+        
+        $entity = $this->testSuitesRepository->createWithAncestor($payload, $ancestorNodeId);
         
         return $entity;
     }
-
+    
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param int $id            
      * @return \Illuminate\Http\Response
      */
     public function show($projectId, $id)
@@ -97,34 +108,34 @@ class TestSuitesController extends Controller
         $testSuite->formatted_description = Parsedown::instance()->text($testSuite->description);
         return $testSuite;
     }
-
+    
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param int $id            
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
     {
         //
     }
-
+    
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param \Illuminate\Http\Request $request            
+     * @param int $id            
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
     {
         //
     }
-
+    
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param int $id            
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
