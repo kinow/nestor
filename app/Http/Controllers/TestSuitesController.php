@@ -82,7 +82,7 @@ class TestSuitesController extends Controller
         }
         
         $ancestorNodeId = NavigationTree::projectId($payload ['project_id']);
-        $parentId = (int) $request->get('parent', 0);
+        $parentId = (int) $request->get('parent_id', 0);
         if ($parentId > 0)
         {
             $ancestorNodeId = NavigationTree::testSuiteId($parentId); 

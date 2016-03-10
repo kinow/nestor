@@ -9,11 +9,9 @@ define([
 ], function($, _, Backbone, app, NavigationTreeCollection, NavigationTreeView, navigationTreeTemplate) {
 
     var NavigationTreeView = Backbone.View.extend({
-        el: $("#navigation-tree"),
 
         initialize: function(options) {
             _.bindAll(this, 'render');
-            this.el = options.element;
             this.projectId = options.projectId;
 
             this.collection = new NavigationTreeCollection();
@@ -24,13 +22,11 @@ define([
 
         },
 
-        render: function(options) {
+        render: function() {
             var self = this;
             this.collection.setRootId(this.projectId);
             this.collection.fetch({
                 success: function() {
-                    var element = options.element;
-                    self.setElement(options.element);
                     var models = self.collection.models;
                     var model = null;
                     if (models.length > 0) {

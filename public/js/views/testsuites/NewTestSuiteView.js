@@ -40,6 +40,7 @@ define([
                     wait: true,
                     success: function(mod, res) {
                         app.showAlert('Success!', 'New test suite ' + this.$("#testsuite-name-input").val() + ' created!', 'success')
+                        Backbone.trigger('navigationtree_changed');
                         Backbone.history.history.back();
                         return false;
                     },

@@ -34,6 +34,9 @@ define([
             this.viewNodeItemView = new ViewNodeItemView();
             this.newTestSuiteView = new NewTestSuiteView();
 
+            // Events
+            Backbone.on('navigationtree_changed', this.navigationTreeView.render);
+
             // For GC
             this.subviews = new Object();
             this.subviews.navigationTreeView = this.navigationTreeView;
@@ -49,9 +52,10 @@ define([
             var compiledTemplate = _.template(viewProjectTemplate, {});
             this.$el.html(compiledTemplate);
 
-            var navigationTreeContent = this.navigationTreeView.render({
-                element: this.$el.find('#navigation-tree')
-            });
+            this.navigationTreeView.render();
+            this.navigationTreeView.delegateEvents();
+            this.$('#content-main').empty();
+            this.$('#navigation-tree').append(this.navigationTreeView.el);
         },
 
         /**
