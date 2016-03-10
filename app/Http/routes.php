@@ -71,13 +71,11 @@ $api->version('v1', function ($api) {
 //             'middleware' => 'api.auth' 
 //     ], 'Nestor\Http\Controllers\TestSuitesController@show');
     $api->get('projects/{projectId}/testsuites/{testSuiteId}', 'Nestor\Http\Controllers\TestSuitesController@show');
+    $api->post('projects/{projectId}/testsuites', 'Nestor\Http\Controllers\TestSuitesController@store');
     
     // navigation tree
     $api->get('navigationtree', 'Nestor\Http\Controllers\NavigationTreeController@index');
-    // $api->post('navigationtree', 'Nestor\Http\Controllers\NavigationTreeController@store');
     $api->get('navigationtree/{id}', 'Nestor\Http\Controllers\NavigationTreeController@show');
-    // $api->put('navigationtree/{id}', 'Nestor\Http\Controllers\NavigationTreeController@update');
-    // $api->delete('navigationtree/{id}', 'Nestor\Http\Controllers\NavigationTreeController@destroy');
 });
 
 // Display all SQL executed in Eloquent
