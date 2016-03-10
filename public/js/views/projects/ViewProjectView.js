@@ -55,7 +55,7 @@ define([
             this.navigationTreeView.render();
             this.navigationTreeView.delegateEvents();
             this.$('#content-main').empty();
-            this.$('#navigation-tree').append(this.navigationTreeView.el);
+            this.$('#navigation-tree').replaceWith(this.navigationTreeView.el);
         },
 
         /**

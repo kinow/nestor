@@ -16,6 +16,9 @@ define([
 
             this.collection = new NavigationTreeCollection();
             this.listenTo(this.collection, 'reset', this.render);
+
+            this.$el.attr('id', 'navigation-tree');
+            this.$el.attr('class', 'ui list');
         },
 
         events: {
