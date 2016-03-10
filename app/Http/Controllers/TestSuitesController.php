@@ -65,7 +65,23 @@ class TestSuitesController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        Log::debug("Creating a test suite");
+        $payload = $request->only('name', 'description', 'project_id', 'created_by');
+        $validator = Validator::make($payload, [ 
+                'name' => 'required|max:255|unique:projects',
+                'description' => 'max:1000',
+                'project_id' => 'required|integer|min:1',
+                'created_by' => 'required|integer|min:1'
+        ]);
+        
+        if ($validator->fails())
+        {
+            $this->throwValidationException($request, $validator);
+        }
+        
+        $entity = $this->testSuitesRepository->createWithAncestor($payload, $request->get('parent', $payload['project_id']));
+        
+        return $entity;
     }
 
     /**
