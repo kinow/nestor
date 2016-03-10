@@ -318,11 +318,13 @@ define([
 
         testSuitesRouter.on('route:showAddTestSuite', function(projectId, queryString) {
             var params = parseQueryString(queryString);
-            var parentId = projectId;
+            var parentId = null;
+            // the parent **must** be a test suite id, not a project id
             if (typeof(params.parent) != "undefined") {
                 parentId = params.parent;
             }
             if (!app.viewProjectView) {
+                console.log('Creating view project view');
                 app.viewProjectView = new ViewProjectView({
                     projectId: projectId
                 });
@@ -330,8 +332,10 @@ define([
             app.viewProjectView.projectId = projectId;
             app.viewProjectView.parentId = parentId;
             if (typeof app.currentView !== 'undefined' && app.currentView.cid == app.viewProjectView.cid) {
+                console.log('Re-using existing view project view. Displaying new test suite view');
                 app.viewProjectView.displayNewTestSuite();
             } else {
+                console.log('Displaying new test suite view');
                 app.showView(app.viewProjectView, {
                     requiresAuth: true,
                     onSuccess: app.viewProjectView.displayNewTestSuite

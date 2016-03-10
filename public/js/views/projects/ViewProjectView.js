@@ -54,12 +54,6 @@ define([
             });
         },
 
-        display: function(element) {
-            var el = element;
-            $(el).attr('id', 'content-main');
-            this.$('#content-main').replaceWith(el);
-        },
-
         /**
          * Display project node item on the right panel of the screen.
          */
@@ -78,7 +72,8 @@ define([
 
                     var compiledTemplate = _.template(projectNodeItemTemplate, data);
                     self.viewNodeItemView.$el.html(compiledTemplate);
-                    self.display(self.viewNodeItemView.el);
+                    this.$('#content-main').empty();
+                    this.$('#content-main').append(self.viewNodeItemView.el);
                 },
                 error: function() {
                     throw new Error("Failed to fetch project");
@@ -95,7 +90,9 @@ define([
             // this.$('#content-area').replaceWith(this.viewNodeItemView.el);
 
             this.newTestSuiteView.render({parent_id: this.parentId});
-            this.display(this.newTestSuiteView.el);
+            this.newTestSuiteView.delegateEvents();
+            this.$('#content-main').empty();
+            this.$('#content-main').append(this.newTestSuiteView.el);
         },
 
         /**
@@ -117,7 +114,8 @@ define([
 
                     var compiledTemplate = _.template(testSuiteNodeItemTemplate, data);
                     self.viewNodeItemView.$el.html(compiledTemplate);
-                    self.display(self.viewNodeItemView.el);
+                    self.$('#content-main').empty();
+                    self.$('#content-main').append(self.viewNodeItemView.el);
                 },
                 error: function() {
                     throw new Error("Failed to fetch test suite");

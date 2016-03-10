@@ -30,6 +30,8 @@ define([
             event.preventDefault();
             event.stopPropagation();
 
+            return false;
+
             if (this.$("#new-testsuite-form").parsley().validate()) {
                 this.collection.create({
                     name: this.$("#testsuite-name-input").val(),
@@ -41,6 +43,7 @@ define([
                     success: function(mod, res) {
                         app.showAlert('Success!', 'New test suite ' + this.$("#testsuite-name-input").val() + ' created!', 'success')
                         Backbone.history.history.back();
+                        return false;
                     },
                     error: function(model, response, options) {
                         var message = _.has(response, 'statusText') ? response.statusText : 'Unknown error!';
@@ -58,6 +61,8 @@ define([
             } else {
                 if (typeof DEBUG != 'undefined' && DEBUG) console.log("Did not pass clientside validation");
             }
+
+            return false;
         }
 
     });
