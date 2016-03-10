@@ -30,8 +30,6 @@ define([
             event.preventDefault();
             event.stopPropagation();
 
-            return false;
-
             if (this.$("#new-testsuite-form").parsley().validate()) {
                 this.collection.create({
                     name: this.$("#testsuite-name-input").val(),

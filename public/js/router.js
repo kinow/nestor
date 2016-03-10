@@ -318,10 +318,10 @@ define([
 
         testSuitesRouter.on('route:showAddTestSuite', function(projectId, queryString) {
             var params = parseQueryString(queryString);
-            var parentId = null;
+            var parentId = 0;
             // the parent **must** be a test suite id, not a project id
             if (typeof(params.parent) != "undefined") {
-                parentId = params.parent;
+                parentId = parseInt(params.parent);
             }
             if (!app.viewProjectView) {
                 console.log('Creating view project view');
