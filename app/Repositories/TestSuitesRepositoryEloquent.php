@@ -12,6 +12,7 @@ use Nestor\Repositories\TestSuitesRepository;
 use Prettus\Repository\Criteria\RequestCriteria;
 use Prettus\Repository\Eloquent\BaseRepository;
 use Prettus\Repository\Events\RepositoryEntityCreated;
+use Prettus\Repository\Events\RepositoryEntityUpdated;
 
 /**
  * Class TestSuitesRepositoryEloquent
