@@ -2,9 +2,10 @@ define([
     'jquery',
     'underscore',
     'backbone',
+    'simplemde',
     'models/testsuite/TestSuiteModel',
     'text!templates/testsuites/testSuiteTemplate.html'
-], function($, _, Backbone, TestSuiteModel, testSuiteTemplate) {
+], function($, _, Backbone, SimpleMDE, TestSuiteModel, testSuiteTemplate) {
 
     var TestSuiteView = Backbone.View.extend({
 
@@ -23,6 +24,18 @@ define([
             }
             var compiledTemplate = _.template(testSuiteTemplate, data);
             this.$el.html(compiledTemplate);
+            this.simplemde = new SimpleMDE({
+                autoDownloadFontAwesome: true, 
+                autofocus: false,
+                autosave: {
+                    enabled: false
+                },
+                element: this.$('#testsuite-description-input')[0],
+                indentWithTabs: false,
+                spellChecker: false,
+                tabSize: 4
+            });
+            this.simplemde.value(this.model.get('description'));
         },
 
         save: function(e) {

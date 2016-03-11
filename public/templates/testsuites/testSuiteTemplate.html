@@ -7,7 +7,7 @@
 		  </div>
 		  <div class="field">
 			<label>Description</label>
-			<input name="description" placeholder="Description" type="text" value="<%= testsuite.get('description') %>" />
+            <textarea name="description" placeholder="Description" id="testsuite-description-input" data-parsley-required="false" data-parsley-length="[1,1000]"></textarea>
 		  </div>
 		  <button class="positive ui left floated button">
 			  Okay
