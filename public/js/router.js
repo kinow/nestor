@@ -38,7 +38,6 @@ define([
     ProjectView,
     ConfirmDeleteProjectView,
     ViewProjectView,
-
     TestSuiteView) {
 
     'use strict';
