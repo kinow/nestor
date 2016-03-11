@@ -3,11 +3,12 @@ define([
     'underscore',
     'backbone',
     'app',
+    'simplemde',
     'models/project/ProjectModel',
     'collections/project/ProjectsCollection',
     'views/projects/ProjectsListView',
     'text!templates/projects/newProjectTemplate.html'
-], function($, _, Backbone, app, ProjectModel, ProjectsCollection, ProjectsListView, newProjectTemplate) {
+], function($, _, Backbone, app, SimpleMDE, ProjectModel, ProjectsCollection, ProjectsListView, newProjectTemplate) {
 
     var NewProjectView = Backbone.View.extend({
         el: $("#page"),
@@ -26,16 +27,27 @@ define([
             $('.menu a[href="#/projects"]').addClass('active');
 
             this.$el.html(newProjectTemplate);
+            var simplemde = new SimpleMDE({
+                autoDownloadFontAwesome: true, 
+                autofocus: false,
+                autosave: {
+                    enabled: false
+                },
+                element: $('#project-description-input')[0],
+                indentWithTabs: false,
+                spellChecker: false,
+                tabSize: 4
+            });
         },
 
         save: function(event) {
             event.preventDefault();
             event.stopPropagation();
-
+            
             if (this.$("#new-project-form").parsley().validate()) {
                 this.collection.create({
                     name: this.$("#project-name-input").val(),
-                    description: this.$("#project-description-input").val(),
+                    description:            ,
                     created_by: app.session.user_id
                 }, {
                     wait: true,
