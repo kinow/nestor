@@ -27,7 +27,7 @@ define([
             $('.menu a[href="#/projects"]').addClass('active');
 
             this.$el.html(newProjectTemplate);
-            var simplemde = new SimpleMDE({
+            this.simplemde = new SimpleMDE({
                 autoDownloadFontAwesome: true, 
                 autofocus: false,
                 autosave: {
@@ -43,11 +43,11 @@ define([
         save: function(event) {
             event.preventDefault();
             event.stopPropagation();
-            
+
             if (this.$("#new-project-form").parsley().validate()) {
                 this.collection.create({
                     name: this.$("#project-name-input").val(),
-                    description:            ,
+                    description: this.simplemde.value(),
                     created_by: app.session.user_id
                 }, {
                     wait: true,
