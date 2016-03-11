@@ -10,9 +10,8 @@ define([
 
     var NavigationTreeView = Backbone.View.extend({
 
-        initialize: function(options) {
+        initialize: function() {
             _.bindAll(this, 'render');
-            this.projectId = options.projectId;
 
             this.collection = new NavigationTreeCollection();
             this.listenTo(this.collection, 'reset', this.render);

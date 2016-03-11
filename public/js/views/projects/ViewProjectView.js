@@ -29,9 +29,7 @@ define([
             this.testSuiteId = 0;
 
             // Views
-            this.navigationTreeView = new NavigationTreeView({
-                projectId: this.projectId
-            });
+            this.navigationTreeView = new NavigationTreeView();
             this.viewNodeItemView = new ViewNodeItemView();
             this.newTestSuiteView = new NewTestSuiteView();
             this.testSuiteView = new TestSuiteView();
@@ -55,8 +53,6 @@ define([
             var compiledTemplate = _.template(viewProjectTemplate, {});
             this.$el.html(compiledTemplate);
 
-            this.navigationTreeView.render();
-            this.navigationTreeView.delegateEvents();
             this.$('#content-main').empty();
             this.$('#navigation-tree').replaceWith(this.navigationTreeView.el);
         },
@@ -66,6 +62,8 @@ define([
          */
         displayProject: function() {
             this.navigationTreeView.projectId = this.projectId;
+            this.navigationTreeView.render();
+            this.navigationTreeView.delegateEvents();
 
             this.projectModel = new ProjectModel();
             this.projectModel.id = this.projectId;
