@@ -22,9 +22,9 @@ define([
             var url = '/api/projects/' + this.get('project_id') + '/testsuites';
             if (this.get('id') != null) {
                 url += '/' + this.get('id');
-            }
-            if (this.id)
+            } else if (this.id) {
                 url += '/' + this.id;
+            }
             return url;
         },
 
