@@ -7,4 +7,5 @@ config.cson
 .buildpath
 .project
 .settings/
-
+.idea/
+_ide_helper.php
