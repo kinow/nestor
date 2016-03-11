@@ -137,7 +137,7 @@ class ProjectsRepositoryEloquent extends BaseRepository implements ProjectsRepos
 
             DB::commit();
             event(new RepositoryEntityDeleted($this, $originalModel));
-            Log::info(sprintf("Project %s deleted!", $deleted->name));
+            Log::info(sprintf("Project %s deleted!", $originalModel->name));
             return $deleted;
         } catch ( Exception $e )
         {
