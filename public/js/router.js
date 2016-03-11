@@ -286,6 +286,8 @@ define([
             });
         });
 
+        // --- displayed as specification screen ---
+
         projectsRouter.on('route:viewProject', function(id) {
             if (!app.viewProjectView) {
                 app.viewProjectView = new ViewProjectView({

@@ -23,7 +23,8 @@ define([
         events: {},
 
         initialize: function(options) {
-            _.bindAll(this, 'render', 'displayProject', 'displayNewTestSuite', 'displayTestSuite', 'displayShowTestSuite');
+            _.bindAll(this, 'render', 'setProjectId', 'onProjectIdChange', 'displayProject', 'displayNewTestSuite', 'displayTestSuite', 'displayShowTestSuite');
+            _.extend(this, Backbone.Events);
 
             this.projectId = options.projectId;
             this.testSuiteId = 0;
@@ -35,7 +36,8 @@ define([
             this.testSuiteView = new TestSuiteView();
 
             // Events
-            Backbone.on('navigationtree_changed', this.navigationTreeView.render);
+            this.on('nestor:navigationtree:project_changed', this.onProjectIdChange);
+            this.on('nestor:navigationtree_changed', this.navigationTreeView.render);
 
             // For GC
             this.subviews = new Object();
@@ -53,20 +55,31 @@ define([
             var compiledTemplate = _.template(viewProjectTemplate, {});
             this.$el.html(compiledTemplate);
 
-            this.navigationTreeView.projectId = this.projectId;
-            this.navigationTreeView.render();
-            this.navigationTreeView.delegateEvents();
-
             this.$('#content-main').empty();
             this.$('#navigation-tree').replaceWith(this.navigationTreeView.el);
+        },
+
+        setProjectId: function(projectId) {
+            this.projectId = projectId;
+            this.navigationTreeView.projectId = this.projectId;
+
+            // update project ID in models
+            this.projectModel = new ProjectModel();
+            this.projectModel.id = this.projectId;
+
+            this.testSuiteModel = new TestSuiteModel();
+            this.testSuiteModel.project_id = this.projectId;
+        },
+
+        onProjectIdChange: function(event) {
+            this.navigationTreeView.render();
+            this.navigationTreeView.delegateEvents();
         },
 
         /**
          * Display project node item on the right panel of the screen.
          */
         displayProject: function() {
-            this.projectModel = new ProjectModel();
-            this.projectModel.id = this.projectId;
             var self = this;
             this.projectModel.fetch({
                 success: function(responseData) {
@@ -102,8 +115,6 @@ define([
          * Display project node item on the right panel of the screen.
          */
         displayTestSuite: function() {
-            this.testSuiteModel = new TestSuiteModel();
-            this.testSuiteModel.project_id = this.projectId;
             this.testSuiteModel.id = this.testSuiteId;
             var self = this;
             this.testSuiteModel.fetch({
@@ -128,9 +139,6 @@ define([
          * Display test suite item on the right panel of the screen for edit.
          */
         displayShowTestSuite: function() {
-            this.testSuiteModel = new TestSuiteModel();
-            this.testSuiteModel.project_id = this.projectId;
-            this.testSuiteModel.id = this.testSuiteId;
             var self = this;
             this.testSuiteModel.fetch({
                 success: function(responseData) {
@@ -156,10 +164,6 @@ define([
                     throw new Error("Failed to fetch test suite");
                 }
             });
-        },
-
-        rendered: function() {
-            return !$("#navigation-tree").length == 0;
         }
 
     });

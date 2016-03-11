@@ -52,9 +52,8 @@ define([
                     wait: true,
                     success: function(mod, res) {
                         app.showAlert('Success!', 'New test suite ' + this.$("#testsuite-name-input").val() + ' created!', 'success')
-                        Backbone.trigger('navigationtree_changed');
+                        Backbone.trigger('nestor:navigationtree_changed');
                         Backbone.history.history.back();
-                        return false;
                     },
                     error: function(model, response, options) {
                         var message = _.has(response, 'statusText') ? response.statusText : 'Unknown error!';

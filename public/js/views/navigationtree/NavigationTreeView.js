@@ -25,6 +25,7 @@ define([
         },
 
         render: function() {
+            console.log('Rendering navigation tree for project ID [' + this.projectId + ']');
             var self = this;
             this.collection.setRootId(this.projectId);
             this.collection.fetch({
