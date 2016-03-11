@@ -73,7 +73,8 @@ $api->version('v1', function ($api) {
 //     ], 'Nestor\Http\Controllers\TestSuitesController@show');
     $api->get('projects/{projectId}/testsuites/{testSuiteId}', 'Nestor\Http\Controllers\TestSuitesController@show');
     $api->post('projects/{projectId}/testsuites', 'Nestor\Http\Controllers\TestSuitesController@store');
-    
+    $api->put('projects/{projectId}/testsuites/{testSuiteId}', 'Nestor\Http\Controllers\TestSuitesController@update');
+
     // navigation tree
     $api->get('navigationtree', 'Nestor\Http\Controllers\NavigationTreeController@index');
     $api->get('navigationtree/{id}', 'Nestor\Http\Controllers\NavigationTreeController@show');
