@@ -3,6 +3,7 @@
 namespace Nestor\Repositories;
 
 use DB;
+use Exception;
 use Illuminate\Container\Container as Application;
 use Log;
 use Nestor\Entities\NavigationTree;
