@@ -92,4 +92,49 @@ class TestSuitesRepositoryEloquent extends BaseRepository implements TestSuitesR
             throw $e;
         }
     }
+
+    public function update(array $attributes, $id)
+    {
+        Log::debug(sprintf("Updating test suite %d", $id));
+        $this->applyScope();
+    
+        if ( !is_null($this->validator) ) {
+            $this->validator->with($attributes)
+            ->setId($id)
+            ->passesOrFail( ValidatorInterface::RULE_UPDATE );
+        }
+    
+        $_skipPresenter = $this->skipPresenter;
+    
+        $this->skipPresenter(true);
+    
+        DB::beginTransaction();
+    
+        try
+        {
+            $model = $this->model->findOrFail($id);
+            $model->fill($attributes);
+            $model->save();
+    
+            $this->skipPresenter($_skipPresenter);
+            $this->resetModel();
+    
+            Log::debug("Deleting navigation tree node");
+            $testSuiteNodeId = NavigationTree::testSuiteId($model->id);
+            $node = $this->navigationTreeRepository->update(
+                    $testSuiteNodeId, $testSuiteNodeId, $model->id,
+                    NavigationTree::TEST_SUITE_TYPE, $model->name
+                    );
+    
+            DB::commit();
+            event(new RepositoryEntityUpdated($this, $model));
+            Log::info(sprintf("Test Suite %s updated!", $model->name));
+            return $this->parserResult($model);
+        } catch ( Exception $e )
+        {
+            Log::error($e);
+            DB::rollback();
+            throw $e;
+        }
+    }
 }
