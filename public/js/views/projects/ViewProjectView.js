@@ -64,11 +64,11 @@ define([
         /**
          * Display project node item on the right panel of the screen.
          */
-        displayProject: function(projectId) {
-            this.navigationTreeView.projectId = projectId;
+        displayProject: function() {
+            this.navigationTreeView.projectId = this.projectId;
 
             this.projectModel = new ProjectModel();
-            this.projectModel.id = projectId;
+            this.projectModel.id = this.projectId;
             var self = this;
             this.projectModel.fetch({
                 success: function(responseData) {

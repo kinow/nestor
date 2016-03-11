@@ -295,16 +295,15 @@ define([
 
             app.viewProjectView.projectId = id;
             if (typeof app.currentView !== 'undefined' && app.currentView.cid == app.viewProjectView.cid) {
-                app.viewProjectView.displayProject(id);
+                app.viewProjectView.displayProject();
             } else {
                 app.showView(app.viewProjectView, {
                     requiresAuth: true,
-                    // TBD: using a closure here with a variable in a different scope doesn't look very elegant
-                    onSuccess: function() { app.viewProjectView.displayProject(id) }
+                    onSuccess: app.viewProjectView.displayProject
                 });
             }
             
-            app.viewProjectView.displayProject(id);
+            //app.viewProjectView.displayProject(id);
         });
 
         projectsRouter.on('route:showContributors', function() {
