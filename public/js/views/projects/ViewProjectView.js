@@ -147,10 +147,6 @@ define([
             this.testSuiteModel.set('id', this.testSuiteId);
             this.testSuiteModel.fetch({
                 success: function(responseData) {
-                    var data = {
-                        testsuite: self.testSuiteModel,
-                        _: _
-                    };
                     self.testSuiteView.render({
                         model: self.testSuiteModel,
                         project_id: self.projectId
@@ -158,11 +154,6 @@ define([
                     self.testSuiteView.delegateEvents();
                     self.$('#content-main').empty();
                     self.$('#content-main').append(self.testSuiteView.el);
-
-                    // var compiledTemplate = _.template(testSuiteNodeItemTemplate, data);
-                    // self.viewNodeItemView.$el.html(compiledTemplate);
-                    // self.$('#content-main').empty();
-                    // self.$('#content-main').append(self.viewNodeItemView.el);
                 },
                 error: function() {
                     throw new Error("Failed to fetch test suite");
