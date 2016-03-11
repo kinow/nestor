@@ -290,12 +290,9 @@ define([
 
         projectsRouter.on('route:viewProject', function(id) {
             if (!app.viewProjectView) {
-                app.viewProjectView = new ViewProjectView({
-                    projectId: id
-                });
+                app.viewProjectView = new ViewProjectView();
             }
-
-            app.viewProjectView.projectId = id;
+            app.viewProjectView.setProjectId(id);
             if (typeof app.currentView !== 'undefined' && app.currentView.cid == app.viewProjectView.cid) {
                 app.viewProjectView.displayProject();
             } else {
@@ -325,11 +322,9 @@ define([
             }
             if (!app.viewProjectView) {
                 console.log('Creating view project view');
-                app.viewProjectView = new ViewProjectView({
-                    projectId: projectId
-                });
+                app.viewProjectView = new ViewProjectView();
             }
-            app.viewProjectView.projectId = projectId;
+            app.viewProjectView.setProjectId(projectId);
             app.viewProjectView.parentId = parentId;
             if (typeof app.currentView !== 'undefined' && app.currentView.cid == app.viewProjectView.cid) {
                 console.log('Re-using existing view project view. Displaying new test suite view');
@@ -345,12 +340,10 @@ define([
 
         testSuitesRouter.on('route:showTestSuite', function(projectId, testSuiteId) {
             if (!app.viewProjectView) {
-                app.viewProjectView = new ViewProjectView({
-                    projectId: projectId
-                });
+                app.viewProjectView = new ViewProjectView();
             }
             
-            app.viewProjectView.projectId = projectId;
+            app.viewProjectView.setProjectId(projectId);
             app.viewProjectView.testSuiteId = testSuiteId;
             if (typeof app.currentView !== 'undefined' && app.currentView.cid == app.viewProjectView.cid) {
                 app.viewProjectView.displayShowTestSuite();
@@ -363,9 +356,7 @@ define([
         });
 
         testSuitesRouter.on('route:showConfirmDeleteTestSuite', function(id) {
-            var projectView = new ViewProjectView({
-                id: projectId
-            });
+            var projectView = new ViewProjectView();
             projectView.render();
             var confirmDeleteTestSuiteView = new ConfirmDeleteTestSuiteView({
                 id: id
@@ -375,12 +366,10 @@ define([
 
         testSuitesRouter.on('route:viewTestSuite', function(projectId, testSuiteId) {
             if (!app.viewProjectView) {
-                app.viewProjectView = new ViewProjectView({
-                    projectId: projectId
-                });
+                app.viewProjectView = new ViewProjectView();
             }
             
-            app.viewProjectView.projectId = projectId;
+            app.viewProjectView.setProjectId(projectId);
             app.viewProjectView.testSuiteId = testSuiteId;
             if (typeof app.currentView !== 'undefined' && app.currentView.cid == app.viewProjectView.cid) {
                 app.viewProjectView.displayTestSuite();

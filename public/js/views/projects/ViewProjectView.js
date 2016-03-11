@@ -22,11 +22,10 @@ define([
 
         events: {},
 
-        initialize: function(options) {
-            _.bindAll(this, 'render', 'setProjectId', 'onProjectIdChange', 'displayProject', 'displayNewTestSuite', 'displayTestSuite', 'displayShowTestSuite');
-            _.extend(this, Backbone.Events);
+        initialize: function() {
+            _.bindAll(this, 'render', 'setProjectId', 'updateNavigationTree', 'displayProject', 'displayNewTestSuite', 'displayTestSuite', 'displayShowTestSuite');
 
-            this.projectId = options.projectId;
+            this.projectId = 0;
             this.testSuiteId = 0;
 
             // Views
@@ -36,8 +35,8 @@ define([
             this.testSuiteView = new TestSuiteView();
 
             // Events
-            this.on('nestor:navigationtree:project_changed', this.onProjectIdChange);
-            this.on('nestor:navigationtree_changed', this.navigationTreeView.render);
+            Backbone.on('nestor:navigationtree:project_changed', this.updateNavigationTree);
+            Backbone.on('nestor:navigationtree_changed', this.updateNavigationTree);
 
             // For GC
             this.subviews = new Object();
@@ -60,18 +59,23 @@ define([
         },
 
         setProjectId: function(projectId) {
-            this.projectId = projectId;
-            this.navigationTreeView.projectId = this.projectId;
+            this.navigationTreeView.projectId = projectId;
 
             // update project ID in models
             this.projectModel = new ProjectModel();
-            this.projectModel.id = this.projectId;
+            this.projectModel.id = projectId;
 
             this.testSuiteModel = new TestSuiteModel();
-            this.testSuiteModel.project_id = this.projectId;
+            this.testSuiteModel.project_id = projectId;
+
+            if (this.projectId !== projectId) {
+                this.projectId = projectId;
+                Backbone.trigger('nestor:navigationtree:project_changed');
+            }
         },
 
-        onProjectIdChange: function(event) {
+        updateNavigationTree: function(event) {
+            console.log('Rendering navigation tree!');
             this.navigationTreeView.render();
             this.navigationTreeView.delegateEvents();
         },

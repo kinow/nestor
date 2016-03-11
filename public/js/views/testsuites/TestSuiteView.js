@@ -20,8 +20,6 @@ define([
 
         render: function(options) {
             this.model = options.model;
-            $('.menu a').removeClass('active');
-            $('.menu a[href="#/projects"]').addClass('active');
             var data = {
                 testsuite: this.model,
                 projectId: options.project_id,
