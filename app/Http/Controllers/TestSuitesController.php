@@ -129,7 +129,20 @@ class TestSuitesController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        Log::debug("Updating an existing test suite");
+        $payload = $request->only('name', 'description');
+        $validator = Validator::make($payload, [ 
+                'name' => 'required|max:255',
+                'description' => 'max:1000' 
+        ]);
+
+        if ($validator->fails())
+        {
+            $this->throwValidationException($request, $validator);
+        }
+
+        $entity = $this->testSuitesRepository->update($payload, $id);
+        return $entity;
     }
     
     /**
