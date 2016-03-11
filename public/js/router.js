@@ -302,8 +302,6 @@ define([
                     onSuccess: app.viewProjectView.displayProject
                 });
             }
-            
-            //app.viewProjectView.displayProject(id);
         });
 
         projectsRouter.on('route:showContributors', function() {
