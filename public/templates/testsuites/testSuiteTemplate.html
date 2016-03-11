@@ -1,15 +1,15 @@
 <h1 class="ui top attached header"><%= testsuite.get('name') %></h1>
 <div class="ui attached segment">
-	<form class='ui form'>
+	<form class='ui form' id="testsuite-form" data-parsley-validate>
 		  <div class="field">
 			<label>Name</label>
-			<input name="name" placeholder="Name" type="text" value="<%= testsuite.get('name') %>" />
+			<input name="name" id="testsuite-name-input" placeholder="Name" type="text" value="<%= testsuite.get('name') %>" />
 		  </div>
 		  <div class="field">
 			<label>Description</label>
             <textarea name="description" placeholder="Description" id="testsuite-description-input" data-parsley-required="false" data-parsley-length="[1,1000]"></textarea>
 		  </div>
-		  <button class="positive ui left floated button">
+		  <button class="positive ui left floated button" id="testsuite-btn">
 			  Okay
 		  </button>
 		  <a href="javascript: window.history.back();" class="ui left floated button">
