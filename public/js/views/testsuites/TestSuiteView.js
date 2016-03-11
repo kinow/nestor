@@ -22,7 +22,7 @@ define([
                 _: _
             }
             var compiledTemplate = _.template(testSuiteTemplate, data);
-            $("#content-area").html(compiledTemplate);
+            this.$el.html(compiledTemplate);
         },
 
         save: function(e) {
