@@ -7,7 +7,7 @@ define([
     var TestSuiteModel = BaseModel.extend({
 
         defaults: {
-            id: null,
+            id: 0,
             project_id: 1,
             name: 'No test suite name',
             description: 'No description',
@@ -20,10 +20,8 @@ define([
 
         url: function() {
             var url = '/api/projects/' + this.get('project_id') + '/testsuites';
-            if (this.get('id') != null) {
+            if (this.get('id') != undefined && this.get('id') > 0) {
                 url += '/' + this.get('id');
-            } else if (this.id) {
-                url += '/' + this.id;
             }
             return url;
         },

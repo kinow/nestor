@@ -54,7 +54,7 @@ define([
                     wait: true,
                     success: function(mod, res) {
                         app.showAlert('Success!', 'Test Suite ' + this.$("#testsuite-name-input").val() + ' updated!', 'success')
-                            //Backbone.history.navigate("#/projects/" + self.model.id, { trigger: false });
+                        Backbone.trigger('nestor:navigationtree_changed');
                         Backbone.history.history.back();
                     },
                     error: function(model, response, options) {

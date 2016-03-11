@@ -119,8 +119,8 @@ define([
          * Display project node item on the right panel of the screen.
          */
         displayTestSuite: function() {
-            this.testSuiteModel.id = this.testSuiteId;
             var self = this;
+            this.testSuiteModel.set('id', this.testSuiteId);
             this.testSuiteModel.fetch({
                 success: function(responseData) {
                     var data = {
@@ -144,13 +144,13 @@ define([
          */
         displayShowTestSuite: function() {
             var self = this;
+            this.testSuiteModel.set('id', this.testSuiteId);
             this.testSuiteModel.fetch({
                 success: function(responseData) {
                     var data = {
                         testsuite: self.testSuiteModel,
                         _: _
                     };
-
                     self.testSuiteView.render({
                         model: self.testSuiteModel,
                         project_id: self.projectId
