@@ -53,6 +53,10 @@ define([
             var compiledTemplate = _.template(viewProjectTemplate, {});
             this.$el.html(compiledTemplate);
 
+            this.navigationTreeView.projectId = this.projectId;
+            this.navigationTreeView.render();
+            this.navigationTreeView.delegateEvents();
+
             this.$('#content-main').empty();
             this.$('#navigation-tree').replaceWith(this.navigationTreeView.el);
         },
@@ -61,10 +65,6 @@ define([
          * Display project node item on the right panel of the screen.
          */
         displayProject: function() {
-            this.navigationTreeView.projectId = this.projectId;
-            this.navigationTreeView.render();
-            this.navigationTreeView.delegateEvents();
-
             this.projectModel = new ProjectModel();
             this.projectModel.id = this.projectId;
             var self = this;
@@ -102,8 +102,6 @@ define([
          * Display project node item on the right panel of the screen.
          */
         displayTestSuite: function() {
-            this.navigationTreeView.projectId = this.projectId;
-
             this.testSuiteModel = new TestSuiteModel();
             this.testSuiteModel.project_id = this.projectId;
             this.testSuiteModel.id = this.testSuiteId;
@@ -130,8 +128,6 @@ define([
          * Display test suite item on the right panel of the screen for edit.
          */
         displayShowTestSuite: function() {
-            this.navigationTreeView.projectId = this.projectId;
-
             this.testSuiteModel = new TestSuiteModel();
             this.testSuiteModel.project_id = this.projectId;
             this.testSuiteModel.id = this.testSuiteId;
