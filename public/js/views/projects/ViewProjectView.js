@@ -5,13 +5,14 @@ define([
     'views/navigationtree/NavigationTreeView',
     'views/projects/ViewNodeItemView',
     'views/testsuites/NewTestSuiteView',
+    'views/testsuites/TestSuiteView',
     'models/project/ProjectModel',
     'models/testsuite/TestSuiteModel',
     'text!templates/projects/viewProjectTemplate.html',
     'text!templates/projects/projectNodeItemTemplate.html',
     'text!templates/testsuites/newTestSuiteTemplate.html',
     'text!templates/testsuites/testSuiteNodeItemTemplate.html'
-], function($, _, Backbone, NavigationTreeView, ViewNodeItemView, NewTestSuiteView, ProjectModel, TestSuiteModel, viewProjectTemplate, projectNodeItemTemplate, newTestSuiteTemplate, testSuiteNodeItemTemplate) {
+], function($, _, Backbone, NavigationTreeView, ViewNodeItemView, NewTestSuiteView, TestSuiteView, ProjectModel, TestSuiteModel, viewProjectTemplate, projectNodeItemTemplate, newTestSuiteTemplate, testSuiteNodeItemTemplate) {
 
     /**
      * Displays the navigation tree.
@@ -22,7 +23,7 @@ define([
         events: {},
 
         initialize: function(options) {
-            _.bindAll(this, 'render', 'displayProject', 'displayNewTestSuite', 'displayTestSuite');
+            _.bindAll(this, 'render', 'displayProject', 'displayNewTestSuite', 'displayTestSuite', 'displayShowTestSuite');
 
             this.projectId = options.projectId;
             this.testSuiteId = 0;
@@ -33,6 +34,7 @@ define([
             });
             this.viewNodeItemView = new ViewNodeItemView();
             this.newTestSuiteView = new NewTestSuiteView();
+            this.testSuiteView = new TestSuiteView();
 
             // Events
             Backbone.on('navigationtree_changed', this.navigationTreeView.render);
@@ -42,6 +44,7 @@ define([
             this.subviews.navigationTreeView = this.navigationTreeView;
             this.subviews.viewNodeItemView = this.viewNodeItemView;
             this.subviews.newTestSuiteView = this.newTestSuiteView;
+            this.subviews.testSuiteView = this.testSuiteView;
         },
 
 
@@ -93,7 +96,9 @@ define([
             // this.viewNodeItemView.$el.html(compiledTemplate);
             // this.$('#content-area').replaceWith(this.viewNodeItemView.el);
 
-            this.newTestSuiteView.render({parent_id: this.parentId});
+            this.newTestSuiteView.render({
+                parent_id: this.parentId
+            });
             this.newTestSuiteView.delegateEvents();
             this.$('#content-main').empty();
             this.$('#content-main').append(this.newTestSuiteView.el);
@@ -120,6 +125,42 @@ define([
                     self.viewNodeItemView.$el.html(compiledTemplate);
                     self.$('#content-main').empty();
                     self.$('#content-main').append(self.viewNodeItemView.el);
+                },
+                error: function() {
+                    throw new Error("Failed to fetch test suite");
+                }
+            });
+        },
+
+        /**
+         * Display test suite item on the right panel of the screen for edit.
+         */
+        displayShowTestSuite: function() {
+            this.navigationTreeView.projectId = this.projectId;
+
+            this.testSuiteModel = new TestSuiteModel();
+            this.testSuiteModel.project_id = this.projectId;
+            this.testSuiteModel.id = this.testSuiteId;
+            var self = this;
+            this.testSuiteModel.fetch({
+                success: function(responseData) {
+                    var data = {
+                        testsuite: self.testSuiteModel,
+                        _: _
+                    };
+
+                    self.testSuiteView.render({
+                        model: self.testSuiteModel,
+                        project_id: self.projectId
+                    });
+                    self.testSuiteView.delegateEvents();
+                    self.$('#content-main').empty();
+                    self.$('#content-main').append(self.testSuiteView.el);
+
+                    // var compiledTemplate = _.template(testSuiteNodeItemTemplate, data);
+                    // self.viewNodeItemView.$el.html(compiledTemplate);
+                    // self.$('#content-main').empty();
+                    // self.$('#content-main').append(self.viewNodeItemView.el);
                 },
                 error: function() {
                     throw new Error("Failed to fetch test suite");

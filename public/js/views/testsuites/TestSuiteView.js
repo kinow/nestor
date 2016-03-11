@@ -8,34 +8,21 @@ define([
 
     var TestSuiteView = Backbone.View.extend({
 
-        initialize: function(options) {
-            this.id = options.testSuiteId;
-            this.projectId = options.projectId;
-            this.model = new TestSuiteModel({
-                id: this.id,
-                projectId: this.projectId
-            });
+        initialize: function() {
             _.bindAll(this, 'render', 'save');
         },
 
-        render: function() {
+        render: function(options) {
+            this.model = options.model;
             $('.menu a').removeClass('active');
             $('.menu a[href="#/projects"]').addClass('active');
-            var self = this;
-            this.model.fetch({
-                success: function() {
-                    var data = {
-                        testsuite: self.model,
-                        projectId: self.projectId,
-                        _: _
-                    }
-                    var compiledTemplate = _.template(testSuiteTemplate, data);
-                    $("#content-area").html(compiledTemplate);
-                },
-                error: function() {
-                    throw new Error("Failed to fetch test suite");
-                }
-            });
+            var data = {
+                testsuite: this.model,
+                projectId: options.project_id,
+                _: _
+            }
+            var compiledTemplate = _.template(testSuiteTemplate, data);
+            $("#content-area").html(compiledTemplate);
         },
 
         save: function(e) {
