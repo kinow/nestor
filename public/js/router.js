@@ -27,16 +27,12 @@ define([
     Backbone,
     Navigation,
     Parsley,
-
     app,
-
     HomeView,
     HeaderView,
     BreadcrumbView,
-
     SignUpView,
     SignInView,
-
     ProjectsView,
     NewProjectView,
     ProjectView,
