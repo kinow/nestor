@@ -90,10 +90,6 @@ define([
          * Display new test suite form.
          */
         displayNewTestSuite: function() {
-            // var compiledTemplate = _.template(newTestSuiteTemplate, {});
-            // this.viewNodeItemView.$el.html(compiledTemplate);
-            // this.$('#content-area').replaceWith(this.viewNodeItemView.el);
-
             this.newTestSuiteView.render({
                 parent_id: this.parentId
             });
