@@ -3,11 +3,12 @@ define([
     'underscore',
     'backbone',
     'app',
+    'simplemde',
     'models/project/ProjectModel',
     'models/testsuite/TestSuiteModel',
     'collections/testsuite/TestSuitesCollection',
     'text!templates/testsuites/newTestSuiteTemplate.html'
-], function($, _, Backbone, app, ProjectModel, TestSuiteModel, TestSuitesCollection, newTestSuiteTemplate) {
+], function($, _, Backbone, app, SimpleMDE, ProjectModel, TestSuiteModel, TestSuitesCollection, newTestSuiteTemplate) {
 
     var NewTestSuiteView = Backbone.View.extend({
 
@@ -24,6 +25,17 @@ define([
             this.parent_id = options.parent_id; // FIXME: remove this comment when we prevent insecure object direct reference
             var compiledTemplate = _.template(newTestSuiteTemplate, {});
             this.$el.html(compiledTemplate);
+            this.simplemde = new SimpleMDE({
+                autoDownloadFontAwesome: true, 
+                autofocus: false,
+                autosave: {
+                    enabled: false
+                },
+                element: this.$('#testsuite-description-input')[0],
+                indentWithTabs: false,
+                spellChecker: false,
+                tabSize: 4
+            });
         },
 
         save: function(event) {
@@ -33,7 +45,7 @@ define([
             if (this.$("#new-testsuite-form").parsley().validate()) {
                 this.collection.create({
                     name: this.$("#testsuite-name-input").val(),
-                    description: this.$("#testsuite-description-input").val(),
+                    description: this.simplemde.value(),
                     parent_id: this.parent_id,
                     created_by: app.session.user_id
                 }, {
