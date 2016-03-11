@@ -20,8 +20,6 @@ define([
     'views/projects/ProjectView',
     'views/projects/ConfirmDeleteProjectView',
     'views/projects/ViewProjectView',
-    // Test Suite views
-    'views/testsuites/TestSuiteView'
 ], function(
     _,
     Backbone,
@@ -37,8 +35,7 @@ define([
     NewProjectView,
     ProjectView,
     ConfirmDeleteProjectView,
-    ViewProjectView,
-    TestSuiteView) {
+    ViewProjectView) {
 
     'use strict';
 
@@ -177,6 +174,15 @@ define([
                 'TestSuites.viewTestSuite': {
                     template: function(args) {
                         var tpl = _.template('View Test Suite <%= args[":testsuiteId"] %>');
+                        return tpl({
+                            args: args
+                        });
+                    },
+                    parent: 'Projects.viewProject'
+                },
+                'TestSuites.showTestSuite': {
+                    template: function(args) {
+                        var tpl = _.template('Edit Test Suite <%= args[":testsuiteId"] %>');
                         return tpl({
                             args: args
                         });
@@ -339,14 +345,22 @@ define([
         });
 
         testSuitesRouter.on('route:showTestSuite', function(projectId, testSuiteId) {
-            if (!app.testSuiteView) {
-                app.testSuiteView = new TestSuiteView();
+            if (!app.viewProjectView) {
+                app.viewProjectView = new ViewProjectView({
+                    projectId: projectId
+                });
             }
-            app.testSuiteView.projectId = projectId;
-            app.testSuiteView.testSuiteId = testSuiteId;
-            app.showView(app.testSuiteView, {
-                requiresAuth: true
-            });
+            
+            app.viewProjectView.projectId = projectId;
+            app.viewProjectView.testSuiteId = testSuiteId;
+            if (typeof app.currentView !== 'undefined' && app.currentView.cid == app.viewProjectView.cid) {
+                app.viewProjectView.displayShowTestSuite();
+            } else {
+                app.showView(app.viewProjectView, {
+                    requiresAuth: true,
+                    onSuccess: app.viewProjectView.displayShowTestSuite
+                });
+            }
         });
 
         testSuitesRouter.on('route:showConfirmDeleteTestSuite', function(id) {
