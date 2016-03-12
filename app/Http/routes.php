@@ -68,13 +68,13 @@ $api->version('v1', function ($api) {
     
     // TODO: example with auth, to use in the future when locking the API
     // test suites
-//     $api->get('projects/{projectId}/testsuites/{testSuiteId}', [ 
-//             'middleware' => 'api.auth' 
-//     ], 'Nestor\Http\Controllers\TestSuitesController@show');
+    // $api->get('projects/{projectId}/testsuites/{testSuiteId}', [
+    // 'middleware' => 'api.auth'
+    // ], 'Nestor\Http\Controllers\TestSuitesController@show');
     $api->get('projects/{projectId}/testsuites/{testSuiteId}', 'Nestor\Http\Controllers\TestSuitesController@show');
     $api->post('projects/{projectId}/testsuites', 'Nestor\Http\Controllers\TestSuitesController@store');
     $api->put('projects/{projectId}/testsuites/{testSuiteId}', 'Nestor\Http\Controllers\TestSuitesController@update');
-
+    
     // navigation tree
     $api->get('navigationtree', 'Nestor\Http\Controllers\NavigationTreeController@index');
     $api->get('navigationtree/{id}', 'Nestor\Http\Controllers\NavigationTreeController@show');
