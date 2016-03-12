@@ -138,4 +138,55 @@ class TestSuitesRepositoryEloquent extends BaseRepository implements TestSuitesR
             throw $e;
         }
     }
+    
+    /**
+     * {@inheritDoc}
+     * @see \Prettus\Repository\Eloquent\BaseRepository::delete()
+     */
+    public function delete($id)
+    {
+        Log::debug(sprintf("Deleting test suite %d", $id));
+        $this->applyScope();
+    
+        $_skipPresenter = $this->skipPresenter;
+        $this->skipPresenter(true);
+    
+        $model = $this->find($id);
+        $originalModel = clone $model;
+    
+        $this->skipPresenter($_skipPresenter);
+        $this->resetModel();
+    
+        DB::beginTransaction();
+    
+        try
+        {
+            $deleted = $model->delete();
+    
+            if (!$deleted)
+            {
+                throw new Exception("Failed to delete entity: " . $model->id);
+            }
+    
+            Log::debug("Deleting navigation tree node");
+            $testSuiteNodeId = NavigationTree::testSuiteId($originalModel->id);
+            $node = $this->navigationTreeRepository->find($testSuiteNodeId, $testSuiteNodeId);
+            $deleted = $this->navigationTreeRepository->deleteWithAllChildren($node->ancestor, $node->descendant);
+    
+            if (!$deleted)
+            {
+                throw new Exception("Failed to delete node: " . $node->display_name);
+            }
+    
+            DB::commit();
+            event(new RepositoryEntityDeleted($this, $originalModel));
+            Log::info(sprintf("Test Suite %s deleted!", $originalModel->name));
+            return $deleted;
+        } catch ( Exception $e )
+        {
+            Log::error($e);
+            DB::rollback();
+            throw $e;
+        }
+    }
 }

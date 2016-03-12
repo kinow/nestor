@@ -42,7 +42,7 @@ define([
             this.model.destroy({
                 wait: true,
                 success: function(mod, res) {
-                    app.showAlert('Success!', 'Project deleted!', 'success')
+                    app.showAlert('Success!', 'Test Suite deleted!', 'success')
                     Backbone.history.navigate("#/projects", { trigger: false });
                 },
                 error: function(model, response, options) {

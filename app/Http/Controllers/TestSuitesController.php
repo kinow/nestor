@@ -155,6 +155,8 @@ class TestSuitesController extends Controller
      */
     public function destroy($id)
     {
-        //
+        return array (
+                'Result' => $this->testSuitesRepository->delete($id) 
+        );
     }
 }
