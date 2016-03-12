@@ -150,10 +150,11 @@ class TestSuitesController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param int $id            
+     * @param int $projectId
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy($projectId, $id)
     {
         return array (
                 'Result' => $this->testSuitesRepository->delete($id) 
