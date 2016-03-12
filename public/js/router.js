@@ -19,6 +19,8 @@ define([
     'views/projects/NewProjectView',
     'views/projects/ProjectView',
     'views/projects/ConfirmDeleteProjectView',
+    // This is the view displayed when you browse the navigation tree. It has methods to display
+    // other nested views, and garbage collect them.
     'views/projects/ViewProjectView',
 ], function(
     _,
@@ -356,12 +358,30 @@ define([
         });
 
         testSuitesRouter.on('route:showConfirmDeleteTestSuite', function(id) {
-            var projectView = new ViewProjectView();
-            projectView.render();
-            var confirmDeleteTestSuiteView = new ConfirmDeleteTestSuiteView({
-                id: id
+            if (!app.viewProjectView) {
+                app.viewProjectView = new ViewProjectView();
+            }
+            
+            app.viewProjectView.setProjectId(projectId);
+            app.viewProjectView.testSuiteId = testSuiteId;
+            if (typeof app.currentView !== 'undefined' && app.currentView.cid == app.viewProjectView.cid) {
+                app.viewProjectView.displayConfirmDeleteTestSuite();
+            } else {
+                app.showView(app.viewProjectView, {
+                    requiresAuth: true,
+                    onSuccess: app.viewProjectView.displayConfirmDeleteTestSuite
+                });
+            }
+        });
+
+        projectsRouter.on('route:showConfirmDeleteProject', function(id) {
+            if (!app.confirmDeleteProjectView) {
+                app.confirmDeleteProjectView = new ConfirmDeleteProjectView();
+            }
+            app.confirmDeleteProjectView.model.id = id;
+            app.showView(app.confirmDeleteProjectView, {
+                requiresAuth: true
             });
-            confirmDeleteTestSuiteView.render();
         });
 
         testSuitesRouter.on('route:viewTestSuite', function(projectId, testSuiteId) {
