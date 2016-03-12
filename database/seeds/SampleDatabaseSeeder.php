@@ -96,7 +96,7 @@ class SampleDatabaseSeeder extends Seeder
         
         $testSuiteA = $this->testSuitesRepository->createWithAncestor(array (
                 'name' => 'Test Suite A',
-                'description' => '# First test suiteA\n\nThis is the *very first* test suite!',
+                'description' => "# First test suiteA\n\nThis is the *very first* test suite!",
                 'created_by' => $user->id,
                 'project_id' => $projectB->id
         ), $parentProjectNodeId);
