@@ -164,7 +164,7 @@ define([
             'projects/:projectId/testsuites/new?*queryString': 'showAddTestSuite',
             'projects/:projectId/testsuites/:testsuiteId/view': 'viewTestSuite',
             'projects/:projectId/testsuites/:testsuiteId': 'showTestSuite',
-            'projects/:projectId/testsuites/showConfirmDeleteTestSuite': 'showConfirmDeleteTestSuite'
+            'projects/:projectId/testsuites/:testsuiteId/confirmDelete': 'showConfirmDeleteTestSuite'
         },
         navigation: {
             prefix: 'TestSuites',
@@ -357,7 +357,7 @@ define([
             }
         });
 
-        testSuitesRouter.on('route:showConfirmDeleteTestSuite', function(id) {
+        testSuitesRouter.on('route:showConfirmDeleteTestSuite', function(projectId, testSuiteId) {
             if (!app.viewProjectView) {
                 app.viewProjectView = new ViewProjectView();
             }
