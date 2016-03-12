@@ -62,10 +62,11 @@ class TestSuitesController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param \Illuminate\Http\Request $request            
+     * @param \Illuminate\Http\Request $request
+     * @param int $projectId Test suite's project ID         
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request, $projectId)
     {
         Log::debug("Creating a test suite");
         $payload = $request->only('name', 'description', 'project_id', 'created_by');
@@ -78,7 +79,8 @@ class TestSuitesController extends Controller
         
         if ($validator->fails())
         {
-            $this->throwValidationException($request, $validator);
+            throw new \Dingo\Api\Exception\StoreResourceFailedException('Could not create new test suite.', $validator->errors());
+            //$this->throwValidationException($request, $validator);
         }
         
         $ancestorNodeId = NavigationTree::projectId($payload ['project_id']);

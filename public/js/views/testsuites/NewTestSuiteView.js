@@ -4,11 +4,10 @@ define([
     'backbone',
     'app',
     'simplemde',
-    'models/project/ProjectModel',
     'models/testsuite/TestSuiteModel',
     'collections/testsuite/TestSuitesCollection',
     'text!templates/testsuites/newTestSuiteTemplate.html'
-], function($, _, Backbone, app, SimpleMDE, ProjectModel, TestSuiteModel, TestSuitesCollection, newTestSuiteTemplate) {
+], function($, _, Backbone, app, SimpleMDE, TestSuiteModel, TestSuitesCollection, newTestSuiteTemplate) {
 
     var NewTestSuiteView = Backbone.View.extend({
 
@@ -65,7 +64,7 @@ define([
                         ) {
                             message = response.responseJSON.name[0];
                         }
-                        app.showAlert('Failed to add new Project', message, 'error');
+                        app.showAlert('Failed to add new Test Suite', message, 'error');
                     }
                 });
             } else {
