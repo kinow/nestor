@@ -3,15 +3,12 @@ define([
     'underscore',
     'backbone',
     'app',
-    'models/testsuite/TestSuiteModel',
     'text!templates/testsuites/confirmDeleteTestSuiteTemplate.html'
-], function($, _, Backbone, app, TestSuiteModel, confirmDeleteTestSuiteTemplate) {
+], function($, _, Backbone, app, confirmDeleteTestSuiteTemplate) {
 
     var ConfirmDeleteTestSuiteView = Backbone.View.extend({
-        el: $("#page"),
 
         initialize: function() {
-            this.model = new TestSuiteModel();
             _.bindAll(this, 'render', 'doDelete');
         },
 
@@ -19,20 +16,20 @@ define([
             'click #remove-testsuite-btn': 'doDelete'
         },
 
-        render: function() {
+        render: function(options) {
             var self = this;
+            this.model = options.model;
             this.model.fetch({
-                success: function(project) {
+                success: function(testsuite) {
                     var data = {
-                        project: project,
+                        testsuite: testsuite,
                         _: _
                     }
                     var compiledTemplate = _.template(confirmDeleteTestSuiteTemplate, data);
                     self.$el.html(compiledTemplate);
                 },
                 error: function() {
-                    //throw new Error("Failed to fetch project");
-                    app.showAlert('Failed to delete Project', 'Error fetching project!', 'error');
+                    app.showAlert('Failed to delete Test Suite', 'Error fetching test suite!', 'error');
                     Backbone.history.navigate("#/projects", { trigger: false });
                 }
             });

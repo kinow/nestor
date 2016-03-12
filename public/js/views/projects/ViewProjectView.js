@@ -33,6 +33,7 @@ define([
             this.viewNodeItemView = new ViewNodeItemView();
             this.newTestSuiteView = new NewTestSuiteView();
             this.testSuiteView = new TestSuiteView();
+            this.confirmDeleteTestSuiteView = new ConfirmDeleteTestSuiteView();
 
             // Events
             Backbone.on('nestor:navigationtree:project_changed', this.updateNavigationTree);
@@ -44,6 +45,7 @@ define([
             this.subviews.viewNodeItemView = this.viewNodeItemView;
             this.subviews.newTestSuiteView = this.newTestSuiteView;
             this.subviews.testSuiteView = this.testSuiteView;
+            this.subviews.confirmDeleteTestSuiteView = this.confirmDeleteTestSuiteView;
         },
 
 
@@ -163,7 +165,21 @@ define([
 
         displayConfirmDeleteTestSuite: function() {
             var self = this;
-
+            this.testSuiteModel.set('id', this.testSuiteId);
+            this.testSuiteModel.fetch({
+                success: function(responseData) {
+                    self.confirmDeleteTestSuiteView.render({
+                        model: self.testSuiteModel,
+                        project_id: self.projectId
+                    });
+                    self.confirmDeleteTestSuiteView.delegateEvents();
+                    self.$('#content-main').empty();
+                    self.$('#content-main').append(self.confirmDeleteTestSuiteView.el);
+                },
+                error: function() {
+                    throw new Error("Failed to fetch test suite");
+                }
+            });
         }
 
     });
