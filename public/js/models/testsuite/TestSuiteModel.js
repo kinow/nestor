@@ -7,7 +7,7 @@ define([
     var TestSuiteModel = BaseModel.extend({
 
         defaults: {
-            id: 0,
+            id: null,
             project_id: 1,
             name: 'No test suite name',
             description: 'No description',
