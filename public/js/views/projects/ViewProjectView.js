@@ -6,13 +6,13 @@ define([
     'views/projects/ViewNodeItemView',
     'views/testsuites/NewTestSuiteView',
     'views/testsuites/TestSuiteView',
+    'views/testsuites/ConfirmDeleteTestSuiteView',
     'models/project/ProjectModel',
     'models/testsuite/TestSuiteModel',
     'text!templates/projects/viewProjectTemplate.html',
     'text!templates/projects/projectNodeItemTemplate.html',
-    'text!templates/testsuites/newTestSuiteTemplate.html',
     'text!templates/testsuites/testSuiteNodeItemTemplate.html'
-], function($, _, Backbone, NavigationTreeView, ViewNodeItemView, NewTestSuiteView, TestSuiteView, ProjectModel, TestSuiteModel, viewProjectTemplate, projectNodeItemTemplate, newTestSuiteTemplate, testSuiteNodeItemTemplate) {
+], function($, _, Backbone, NavigationTreeView, ViewNodeItemView, NewTestSuiteView, TestSuiteView, ConfirmDeleteTestSuiteView, ProjectModel, TestSuiteModel, viewProjectTemplate, projectNodeItemTemplate, testSuiteNodeItemTemplate) {
 
     /**
      * Displays the navigation tree.
@@ -23,7 +23,7 @@ define([
         events: {},
 
         initialize: function() {
-            _.bindAll(this, 'render', 'setProjectId', 'updateNavigationTree', 'displayProject', 'displayNewTestSuite', 'displayTestSuite', 'displayShowTestSuite');
+            _.bindAll(this, 'render', 'setProjectId', 'updateNavigationTree', 'displayProject', 'displayNewTestSuite', 'displayTestSuite', 'displayShowTestSuite', 'displayConfirmDeleteTestSuite');
 
             this.projectId = 0;
             this.testSuiteId = 0;
@@ -159,6 +159,11 @@ define([
                     throw new Error("Failed to fetch test suite");
                 }
             });
+        },
+
+        displayConfirmDeleteTestSuite: function() {
+            var self = this;
+
         }
 
     });
