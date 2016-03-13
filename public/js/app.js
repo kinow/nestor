@@ -7,11 +7,31 @@ define([
 ], function($, _, Backbone, SessionModel) {
     'use strict';
 
+    /**
+     * The app object. Used throughtout the system, providing basic properties and common methods.
+     */
     var app = {
         root: "/", // The root path to run the application through.
         URL: "/", // Base application URL
         API: "/api", // Base API URL (used by models & collections)
 
+        /**
+         * Gets the text of the alert message.
+         * 
+         * If the alert is a string, then returns the alert itself.
+         * 
+         * If the alert is an object, with the message attribute, then returns alert.message.
+         * 
+         * Otherwise, returns a &lt;ul&gt; element, where each attribute of the object is added as a
+         * &lt;li*gt; element.
+         * 
+         * Does not handle null, undefined and other values. Cleaning must be done before calling this
+         * function.
+         * 
+         * @param mixed alert
+         * @return string text
+         * @since 0.13
+         */
         getAlertText: function(alert) {
             var text = '';
 
