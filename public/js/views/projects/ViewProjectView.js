@@ -110,7 +110,8 @@ define([
          */
         displayNewTestSuite: function() {
             this.newTestSuiteView.render({
-                parent_id: this.parentId
+                parent_id: this.parentId,
+                project_id: this.projectId
             });
             this.newTestSuiteView.delegateEvents();
             this.$('#content-main').empty();

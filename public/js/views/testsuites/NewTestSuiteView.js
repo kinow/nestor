@@ -21,7 +21,8 @@ define([
         },
 
         render: function(options) {
-            this.parent_id = options.parent_id; // FIXME: remove this comment when we prevent insecure object direct reference
+            this.parentId = options.parent_id; // FIXME: remove this comment when we prevent insecure object direct reference
+            this.projectId = options.project_id;
             var compiledTemplate = _.template(newTestSuiteTemplate, {});
             this.$el.html(compiledTemplate);
             this.simplemde = new SimpleMDE({
@@ -45,7 +46,8 @@ define([
                 this.collection.create({
                     name: this.$("#testsuite-name-input").val(),
                     description: this.simplemde.value(),
-                    parent_id: this.parent_id,
+                    parent_id: this.parentId,
+                    project_id: this.projectId,
                     created_by: app.session.user_id
                 }, {
                     wait: true,
