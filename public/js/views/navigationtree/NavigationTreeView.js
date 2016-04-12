@@ -27,9 +27,9 @@ define([
         render: function() {
             console.log('Rendering navigation tree for project ID [' + this.projectId + ']');
             var self = this;
-            this.collection.setRootId(this.projectId);
+            this.collection.setProjectId(this.projectId);
             this.collection.fetch({
-                success: function() {
+                success: function(results) {
                     var models = self.collection.models;
                     var model = null;
                     if (models.length > 0) {
@@ -42,7 +42,7 @@ define([
                     var compiledTemplate = _.template(navigationTreeTemplate, data);
                     self.$el.html(compiledTemplate);
                 },
-                error: function() {
+                error: function(collection, response, options) {
                     throw new Error("Failed to fetch projects");
                 }
             });
