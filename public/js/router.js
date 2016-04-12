@@ -4,7 +4,6 @@ define([
     'underscore',
     'backbone',
     'navigation',
-    'parsley',
     // app
     'app',
     // Base views
@@ -26,7 +25,6 @@ define([
     _,
     Backbone,
     Navigation,
-    Parsley,
     app,
     HomeView,
     HeaderView,

@@ -26,10 +26,11 @@ require.config({
 require([
     'jquery',
     'semanticui',
+    'parsley',
     // Load our app module and pass it to our definition function
     'app',
     'router'
-], function($, SemanticUI, app, router) {
+], function($, SemanticUI, Parsley, app, router) {
     // Just use GET and POST to support all browsers
     Backbone.emulateHTTP = true;
 
