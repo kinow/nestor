@@ -4,7 +4,7 @@ define([
     'backbone',
     'app',
     'simplemde',
-    'models/testcase/TestSuiteModel',
+    'models/testcase/TestCaseModel',
     'collections/testsuite/TestSuitesCollection',
     'text!templates/testsuites/newTestSuiteTemplate.html'
 ], function($, _, Backbone, app, SimpleMDE, TestSuiteModel, TestSuitesCollection, newTestSuiteTemplate) {
