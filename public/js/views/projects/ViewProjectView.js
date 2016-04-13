@@ -7,12 +7,13 @@ define([
     'views/testsuites/NewTestSuiteView',
     'views/testsuites/TestSuiteView',
     'views/testsuites/ConfirmDeleteTestSuiteView',
+    'views/testcases/NewTestCaseView',
     'models/project/ProjectModel',
     'models/testsuite/TestSuiteModel',
     'text!templates/projects/viewProjectTemplate.html',
     'text!templates/projects/projectNodeItemTemplate.html',
     'text!templates/testsuites/testSuiteNodeItemTemplate.html'
-], function($, _, Backbone, NavigationTreeView, ViewNodeItemView, NewTestSuiteView, TestSuiteView, ConfirmDeleteTestSuiteView, ProjectModel, TestSuiteModel, viewProjectTemplate, projectNodeItemTemplate, testSuiteNodeItemTemplate) {
+], function($, _, Backbone, NavigationTreeView, ViewNodeItemView, NewTestSuiteView, TestSuiteView, ConfirmDeleteTestSuiteView, NewTestCaseView, ProjectModel, TestSuiteModel, viewProjectTemplate, projectNodeItemTemplate, testSuiteNodeItemTemplate) {
 
     /**
      * Displays the navigation tree.
@@ -32,6 +33,7 @@ define([
             this.navigationTreeView = new NavigationTreeView();
             this.viewNodeItemView = new ViewNodeItemView();
             this.newTestSuiteView = new NewTestSuiteView();
+            this.newTestCaseView = new NewTestCaseView();
             this.testSuiteView = new TestSuiteView();
             this.confirmDeleteTestSuiteView = new ConfirmDeleteTestSuiteView();
 
@@ -46,6 +48,7 @@ define([
             this.subviews.newTestSuiteView = this.newTestSuiteView;
             this.subviews.testSuiteView = this.testSuiteView;
             this.subviews.confirmDeleteTestSuiteView = this.confirmDeleteTestSuiteView;
+            this.subviews.newTestCaseView = this.newTestCaseView;
         },
 
 
@@ -180,7 +183,20 @@ define([
                     throw new Error("Failed to fetch test suite");
                 }
             });
-        }
+        },
+
+        /**
+         * Display new test case form.
+         */
+        displayNewTestCase: function() {
+            this.newTestCaseView.render({
+                parent_id: this.parentId,
+                project_id: this.projectId
+            });
+            this.newTestCaseView.delegateEvents();
+            this.$('#content-main').empty();
+            this.$('#content-main').append(this.newTestCaseView.el);
+        },
 
     });
 
