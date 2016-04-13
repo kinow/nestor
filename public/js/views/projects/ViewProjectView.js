@@ -61,8 +61,6 @@ define([
         },
 
         setProjectId: function(projectId) {
-            this.navigationTreeView.projectId = projectId;
-
             // update project ID in models
             this.projectModel = new ProjectModel();
             this.projectModel.id = projectId;
@@ -70,7 +68,8 @@ define([
             this.testSuiteModel = new TestSuiteModel();
             this.testSuiteModel.project_id = projectId;
 
-            if (this.projectId !== projectId) {
+            if (this.projectId !== projectId || !$.trim($(this.navigationTreeView.el).html())) {
+                this.navigationTreeView.projectId = projectId;
                 this.projectId = projectId;
                 Backbone.trigger('nestor:navigationtree:project_changed');
             }

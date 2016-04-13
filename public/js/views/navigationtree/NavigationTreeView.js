@@ -14,7 +14,7 @@ define([
             _.bindAll(this, 'render');
 
             this.collection = new NavigationTreeCollection();
-            this.listenTo(this.collection, 'reset', this.render);
+            //this.listenTo(this.collection, 'reset', this.render);
 
             this.$el.attr('id', 'navigation-tree');
             this.$el.attr('class', 'ui list');
@@ -29,6 +29,7 @@ define([
             var self = this;
             this.collection.setProjectId(this.projectId);
             this.collection.fetch({
+                reset: true,
                 success: function(results) {
                     var models = self.collection.models;
                     var model = null;
