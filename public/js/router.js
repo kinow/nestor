@@ -193,6 +193,43 @@ define([
         }
     });
 
+    var TestCasesRouter = Backbone.Router.extend({
+        routes: {
+            'projects/:projectId/testsuites/:testsuiteId/testcases/new': 'showAddTestCase',
+            'projects/:projectId/testsuites/:testsuiteId/testcases/new?*queryString': 'showAddTestCase',
+            'projects/:projectId/testsuites/:testsuiteId/testcases/:testcaseId/view': 'viewTestCase',
+            'projects/:projectId/testsuites/:testsuiteId/testcases/:testcaseId': 'showTestCase',
+            'projects/:projectId/testsuites/:testsuiteId/testcases/:testcaseId/confirmDelete': 'showConfirmDeleteTestCase'
+        },
+        navigation: {
+            prefix: 'TestCases',
+            pages: {
+                'TestCases.showAddTestSuite': {
+                    template: 'Add new Test Case',
+                    parent: 'TestSuites.viewTestSuite'
+                },
+                'TestCases.viewTestCase': {
+                    template: function(args) {
+                        var tpl = _.template('View Test Case <%= args[":testcaseId"] %>');
+                        return tpl({
+                            args: args
+                        });
+                    },
+                    parent: 'TestSuites.viewTestSuite'
+                },
+                'TestCases.showTestCase': {
+                    template: function(args) {
+                        var tpl = _.template('Edit Test Case <%= args[":testcaseId"] %>');
+                        return tpl({
+                            args: args
+                        });
+                    },
+                    parent: 'TestSuites.viewTestSuite'
+                }
+            }
+        }
+    });
+
     var initialize = function() {
 
         // --- common views ---
@@ -400,6 +437,36 @@ define([
         });
 
         // --- end test suites router ---
+
+        // --- test cases router ---
+        var testCasesRouter = new TestCasesRouter();
+
+        testCasesRouter.on('route:showAddTestCase', function(projectId, testsuiteId, queryString) {
+            var params = parseQueryString(queryString);
+            var parentId = 0;
+            // the parent **must** be a test suite id, not a project id
+            if (typeof(params.parent) != "undefined") {
+                parentId = parseInt(params.parent);
+            }
+            if (!app.viewProjectView) {
+                console.log('Creating view project view');
+                app.viewProjectView = new ViewProjectView();
+            }
+            app.viewProjectView.setProjectId(projectId);
+            app.viewProjectView.parentId = parentId;
+            if (typeof app.currentView !== 'undefined' && app.currentView.cid == app.viewProjectView.cid) {
+                console.log('Re-using existing view project view. Displaying new test case view');
+                app.viewProjectView.displayNewTestCase();
+            } else {
+                console.log('Displaying new test case view');
+                app.showView(app.viewProjectView, {
+                    requiresAuth: true,
+                    onSuccess: app.viewProjectView.displayNewTestCase
+                });
+            }
+        });
+
+        // --- end test cases router ---
 
         navigation.appendRouter(baseRouter);
         navigation.appendRouter(authRouter);
