@@ -25,13 +25,24 @@ define([
             this.projectId = options.project_id;
             var compiledTemplate = _.template(newTestCaseTemplate, {});
             this.$el.html(compiledTemplate);
-            this.simplemde = new SimpleMDE({
+            this.description_simplemde = new SimpleMDE({
                 autoDownloadFontAwesome: true, 
                 autofocus: false,
                 autosave: {
                     enabled: false
                 },
                 element: this.$('#testcase-description-input')[0],
+                indentWithTabs: false,
+                spellChecker: false,
+                tabSize: 4
+            });
+            this.prerequisite_simplemde = new SimpleMDE({
+                autoDownloadFontAwesome: true, 
+                autofocus: false,
+                autosave: {
+                    enabled: false
+                },
+                element: this.$('#testcase-prerequisite-input')[0],
                 indentWithTabs: false,
                 spellChecker: false,
                 tabSize: 4
@@ -45,7 +56,8 @@ define([
             if (this.$("#new-testcase-form").parsley().validate()) {
                 this.collection.create({
                     name: this.$("#testcase-name-input").val(),
-                    description: this.simplemde.value(),
+                    description: this.description_simplemde.value(),
+                    prerequisite: this.prerequisite_simplemde.value(),
                     parent_id: this.parentId,
                     project_id: this.projectId,
                     created_by: app.session.user_id
