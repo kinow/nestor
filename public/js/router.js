@@ -204,7 +204,7 @@ define([
         navigation: {
             prefix: 'TestCases',
             pages: {
-                'TestCases.showAddTestSuite': {
+                'TestCases.showAddTestCase': {
                     template: 'Add new Test Case',
                     parent: 'TestSuites.viewTestSuite'
                 },
@@ -409,16 +409,6 @@ define([
             }
         });
 
-        projectsRouter.on('route:showConfirmDeleteProject', function(id) {
-            if (!app.confirmDeleteProjectView) {
-                app.confirmDeleteProjectView = new ConfirmDeleteProjectView();
-            }
-            app.confirmDeleteProjectView.model.id = id;
-            app.showView(app.confirmDeleteProjectView, {
-                requiresAuth: true
-            });
-        });
-
         testSuitesRouter.on('route:viewTestSuite', function(projectId, testSuiteId) {
             if (!app.viewProjectView) {
                 app.viewProjectView = new ViewProjectView();
@@ -442,7 +432,6 @@ define([
         var testCasesRouter = new TestCasesRouter();
 
         testCasesRouter.on('route:showAddTestCase', function(projectId, testsuiteId, queryString) {
-            console.log('oooo');
             var params = parseQueryString(queryString);
             var parentId = 0;
             // the parent **must** be a test suite id, not a project id

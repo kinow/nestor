@@ -6,7 +6,7 @@ define([
     'simplemde',
     'models/testcase/TestCaseModel',
     'collections/testsuite/TestSuitesCollection',
-    'text!templates/testsuites/newTestCaseTemplate.html'
+    'text!templates/testcases/newTestCaseTemplate.html'
 ], function($, _, Backbone, app, SimpleMDE, TestSuiteModel, TestSuitesCollection, newTestCaseTemplate) {
 
     var NewTestCaseView = Backbone.View.extend({
@@ -31,7 +31,7 @@ define([
                 autosave: {
                     enabled: false
                 },
-                element: this.$('#testsuite-description-input')[0],
+                element: this.$('#testcase-description-input')[0],
                 indentWithTabs: false,
                 spellChecker: false,
                 tabSize: 4
@@ -42,9 +42,9 @@ define([
             event.preventDefault();
             event.stopPropagation();
 
-            if (this.$("#new-testsuite-form").parsley().validate()) {
+            if (this.$("#new-testcase-form").parsley().validate()) {
                 this.collection.create({
-                    name: this.$("#testsuite-name-input").val(),
+                    name: this.$("#testcase-name-input").val(),
                     description: this.simplemde.value(),
                     parent_id: this.parentId,
                     project_id: this.projectId,
@@ -52,7 +52,7 @@ define([
                 }, {
                     wait: true,
                     success: function(mod, res) {
-                        app.showAlert('Success!', 'New test suite ' + this.$("#testsuite-name-input").val() + ' created!', 'success')
+                        app.showAlert('Success!', 'New test suite ' + this.$("#testcase-name-input").val() + ' created!', 'success')
                         Backbone.trigger('nestor:navigationtree_changed');
                         Backbone.history.history.back();
                     },
