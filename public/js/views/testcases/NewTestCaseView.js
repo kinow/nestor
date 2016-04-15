@@ -6,8 +6,8 @@ define([
     'simplemde',
     'models/testcase/TestCaseModel',
     'collections/testsuite/TestSuitesCollection',
-    'text!templates/testsuites/newTestSuiteTemplate.html'
-], function($, _, Backbone, app, SimpleMDE, TestSuiteModel, TestSuitesCollection, newTestSuiteTemplate) {
+    'text!templates/testsuites/newTestCaseTemplate.html'
+], function($, _, Backbone, app, SimpleMDE, TestSuiteModel, TestSuitesCollection, newTestCaseTemplate) {
 
     var NewTestCaseView = Backbone.View.extend({
 
@@ -23,7 +23,7 @@ define([
         render: function(options) {
             this.parentId = options.parent_id; // FIXME: remove this comment when we prevent insecure object direct reference
             this.projectId = options.project_id;
-            var compiledTemplate = _.template(newTestSuiteTemplate, {});
+            var compiledTemplate = _.template(newTestCaseTemplate, {});
             this.$el.html(compiledTemplate);
             this.simplemde = new SimpleMDE({
                 autoDownloadFontAwesome: true, 

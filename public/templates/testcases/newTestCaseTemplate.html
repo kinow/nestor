@@ -1,0 +1,21 @@
+<h1 class="ui top attached header">Add new Test Case</h1>
+<div class="ui attached segment">
+	<form class='ui form' id="new-testcase-form" data-parsley-validate>
+		  <div class="field">
+			<label>Name</label>
+			<input name="name" id="testcase-name-input" placeholder="Name" type="text" value="" data-parsley-required="true" data-parsley-length="[1,255]">
+		  </div>
+		  <div class="field">
+			<label>Description</label>
+            <textarea name="description" placeholder="Description" id="testcase-description-input" data-parsley-required="false" data-parsley-length="[1,1000]"></textarea>
+		  </div>
+		  <button class="positive ui left floated button" id="new-testcase-btn">
+			  Okay
+		  </button>
+		  <a href="javascript: window.history.back();" class="ui left floated button">
+			  Cancel
+		  </a>
+		  <br class='clearfix' />
+		  <br/>	
+	</form>
+</div>
