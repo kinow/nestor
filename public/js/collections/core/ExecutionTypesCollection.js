@@ -8,12 +8,10 @@ define([
 
         model: ExecutionTypeModel,
 
-        initialize: function(options) {
+        url: 'api/executiontypes/',
 
-        },
-
-        url: function() {
-            return 'api/executiontypes/';
+        parse: function(response) {
+            return response ? response.execution_types : [];
         }
 
     });

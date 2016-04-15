@@ -17,7 +17,7 @@
             <label>Execution type</label>
             <select>
             <% _.each(execution_types, function(execution_type) { %>
-                <option value='<%= execution_type.id %>'><%= execution_type.name %></option>
+                <option value='<%= execution_type.id %>'><%= execution_type.get('name') %></option>
             <% }); %>
             </select>
           </div>

@@ -10,10 +10,11 @@ define([
     'views/testcases/NewTestCaseView',
     'models/project/ProjectModel',
     'models/testsuite/TestSuiteModel',
+    'collections/core/ExecutionTypesCollection',
     'text!templates/projects/viewProjectTemplate.html',
     'text!templates/projects/projectNodeItemTemplate.html',
     'text!templates/testsuites/testSuiteNodeItemTemplate.html'
-], function($, _, Backbone, NavigationTreeView, ViewNodeItemView, NewTestSuiteView, TestSuiteView, ConfirmDeleteTestSuiteView, NewTestCaseView, ProjectModel, TestSuiteModel, viewProjectTemplate, projectNodeItemTemplate, testSuiteNodeItemTemplate) {
+], function($, _, Backbone, NavigationTreeView, ViewNodeItemView, NewTestSuiteView, TestSuiteView, ConfirmDeleteTestSuiteView, NewTestCaseView, ProjectModel, TestSuiteModel, ExecutionTypesCollection, viewProjectTemplate, projectNodeItemTemplate, testSuiteNodeItemTemplate) {
 
     /**
      * Displays the navigation tree.
@@ -36,6 +37,9 @@ define([
             this.newTestCaseView = new NewTestCaseView();
             this.testSuiteView = new TestSuiteView();
             this.confirmDeleteTestSuiteView = new ConfirmDeleteTestSuiteView();
+
+            // Collections
+            this.executionTypesCollection = new ExecutionTypesCollection();
 
             // Events
             Backbone.on('nestor:navigationtree:project_changed', this.updateNavigationTree);
@@ -195,13 +199,22 @@ define([
          * Display new test case form.
          */
         displayNewTestCase: function() {
-            this.newTestCaseView.render({
-                project_id: this.projectId,
-                testsuite_id: this.testSuiteId
+            var self = this;
+            this.executionTypesCollection.fetch({
+                success: function() {
+                    self.newTestCaseView.render({
+                        project_id: self.projectId,
+                        testsuite_id: self.testSuiteId,
+                        execution_types: self.executionTypesCollection.models
+                    });
+                    self.newTestCaseView.delegateEvents();
+                    self.$('#content-main').empty();
+                    self.$('#content-main').append(self.newTestCaseView.el);
+                },
+                error: function() {
+                    throw new Error('Failure to retrieve executiont types!');
+                }
             });
-            this.newTestCaseView.delegateEvents();
-            this.$('#content-main').empty();
-            this.$('#content-main').append(this.newTestCaseView.el);
         },
 
     });

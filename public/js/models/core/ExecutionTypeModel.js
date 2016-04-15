@@ -12,12 +12,9 @@ define([
         },
 
         initialize: function(options) {
-            _.bindAll(this, 'url');
         },
 
-        url: function() {
-            return '/api/executiontypes';
-        }
+        urlRoot: '/api/executiontypes'
 
     });
 
