@@ -442,6 +442,7 @@ define([
         var testCasesRouter = new TestCasesRouter();
 
         testCasesRouter.on('route:showAddTestCase', function(projectId, testsuiteId, queryString) {
+            console.log('oooo');
             var params = parseQueryString(queryString);
             var parentId = 0;
             // the parent **must** be a test suite id, not a project id
@@ -472,6 +473,7 @@ define([
         navigation.appendRouter(authRouter);
         navigation.appendRouter(projectsRouter);
         navigation.appendRouter(testSuitesRouter);
+        navigation.appendRouter(testCasesRouter);
         navigation.mapRouters();
 
         Backbone.history.start();
@@ -486,7 +488,8 @@ define([
         BaseRouter: BaseRouter,
         AuthRouter: AuthRouter,
         ProjectsRouter: ProjectsRouter,
-        TestSuitesRouter: TestSuitesRouter
+        TestSuitesRouter: TestSuitesRouter,
+        TestCasesRouter: TestCasesRouter
     };
 
     return AppRouter;
