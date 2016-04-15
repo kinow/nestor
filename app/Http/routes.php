@@ -58,6 +58,9 @@ $api->version('v1', function ($api) {
         $api->get('auth/logout', 'Nestor\Http\Controllers\UsersController@doLogout');
         $api->post('auth/logout', 'Nestor\Http\Controllers\UsersController@doLogout');
     }
+
+    // core
+    $api->get('executiontypes', 'Nestor\Http\Controllers\ExecutionTypesController@index');
     
     // projects
     $api->get('projects', 'Nestor\Http\Controllers\ProjectsController@index');
