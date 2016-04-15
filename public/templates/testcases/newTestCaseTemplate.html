@@ -15,7 +15,11 @@
           </div>
           <div class="field">
             <label>Execution type</label>
-            <select></select>
+            <select>
+            <% _.each(execution_types, function(execution_type) { %>
+                <option value='<%= execution_type.id %>'><%= execution_type.name %></option>
+            <% }); %>
+            </select>
           </div>
 		  <button class="positive ui left floated button" id="new-testcase-btn">
 			  Okay

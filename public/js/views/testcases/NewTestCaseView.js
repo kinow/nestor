@@ -6,8 +6,9 @@ define([
     'simplemde',
     'models/testcase/TestCaseModel',
     'collections/testsuite/TestSuitesCollection',
+    'collections/core/ExecutionTypesCollection',
     'text!templates/testcases/newTestCaseTemplate.html'
-], function($, _, Backbone, app, SimpleMDE, TestSuiteModel, TestSuitesCollection, newTestCaseTemplate) {
+], function($, _, Backbone, app, SimpleMDE, TestSuiteModel, TestSuitesCollection, ExecutionTypesCollection, newTestCaseTemplate) {
 
     var NewTestCaseView = Backbone.View.extend({
 
@@ -18,12 +19,15 @@ define([
         initialize: function() {
             _.bindAll(this, 'render', 'save');
             this.collection = new TestSuitesCollection();
+            this.executionTypesCollection = new ExecutionTypesCollection();
         },
 
         render: function(options) {
             this.parentId = options.parent_id; // FIXME: remove this comment when we prevent insecure object direct reference
             this.projectId = options.project_id;
-            var compiledTemplate = _.template(newTestCaseTemplate, {});
+            var executionTypes = this.executionTypesCollection.fetch();
+            console.log(executionTypes);
+            var compiledTemplate = _.template(newTestCaseTemplate, { execution_types: executionTypes });
             this.$el.html(compiledTemplate);
             this.description_simplemde = new SimpleMDE({
                 autoDownloadFontAwesome: true, 

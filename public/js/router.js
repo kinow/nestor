@@ -443,7 +443,7 @@ define([
                 app.viewProjectView = new ViewProjectView();
             }
             app.viewProjectView.setProjectId(projectId);
-            app.viewProjectView.parentId = parentId;
+            app.viewProjectView.setTestSuiteId(testsuiteId);
             if (typeof app.currentView !== 'undefined' && app.currentView.cid == app.viewProjectView.cid) {
                 console.log('Re-using existing view project view. Displaying new test case view');
                 app.viewProjectView.displayNewTestCase();

@@ -24,7 +24,7 @@ define([
         events: {},
 
         initialize: function() {
-            _.bindAll(this, 'render', 'setProjectId', 'updateNavigationTree', 'displayProject', 'displayNewTestSuite', 'displayTestSuite', 'displayShowTestSuite', 'displayConfirmDeleteTestSuite');
+            _.bindAll(this, 'render', 'setProjectId', 'updateNavigationTree', 'displayProject', 'displayNewTestSuite', 'displayTestSuite', 'displayShowTestSuite', 'displayConfirmDeleteTestSuite', 'displayNewTestCase');
 
             this.projectId = 0;
             this.testSuiteId = 0;
@@ -76,6 +76,12 @@ define([
                 this.projectId = projectId;
                 Backbone.trigger('nestor:navigationtree:project_changed');
             }
+        },
+
+        setTestSuiteId: function(testsuiteId) {
+            this.testSuiteModel = new TestSuiteModel();
+            this.testSuiteModel.project_id = this.projectId;
+            this.testsuiteId = testsuiteId;
         },
 
         updateNavigationTree: function(event) {
@@ -190,8 +196,8 @@ define([
          */
         displayNewTestCase: function() {
             this.newTestCaseView.render({
-                parent_id: this.parentId,
-                project_id: this.projectId
+                project_id: this.projectId,
+                testsuite_id: this.testSuiteId
             });
             this.newTestCaseView.delegateEvents();
             this.$('#content-main').empty();
