@@ -4,10 +4,9 @@ define([
     'backbone',
     'app',
     'simplemde',
-    'models/testcase/TestCaseModel',
-    'collections/testsuite/TestSuitesCollection',
+    'collections/testcase/TestCasesCollection',
     'text!templates/testcases/newTestCaseTemplate.html'
-], function($, _, Backbone, app, SimpleMDE, TestSuiteModel, TestSuitesCollection, newTestCaseTemplate) {
+], function($, _, Backbone, app, SimpleMDE, TestCasesCollection, newTestCaseTemplate) {
 
     var NewTestCaseView = Backbone.View.extend({
 
@@ -17,7 +16,7 @@ define([
 
         initialize: function(options) {
             _.bindAll(this, 'render', 'save');
-            this.collection = new TestSuitesCollection();
+            this.collection = new TestCasesCollection();
         },
 
         render: function(options) {
@@ -65,7 +64,7 @@ define([
                 }, {
                     wait: true,
                     success: function(mod, res) {
-                        app.showAlert('Success!', 'New test suite ' + this.$("#testcase-name-input").val() + ' created!', 'success')
+                        app.showAlert('Success!', 'New test case ' + this.$("#testcase-name-input").val() + ' created!', 'success')
                         Backbone.trigger('nestor:navigationtree_changed');
                         Backbone.history.history.back();
                     },
@@ -79,7 +78,7 @@ define([
                         ) {
                             message = response.responseJSON.name[0];
                         }
-                        app.showAlert('Failed to add new Test Suite', message, 'error');
+                        app.showAlert('Failed to add new Test Case', message, 'error');
                     }
                 });
             } else {
