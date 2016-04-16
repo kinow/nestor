@@ -1,14 +1,15 @@
-<% node_url = function(node) {
+<% node_url = function(node, parent) {
+    console.log(node);
     var url = '';
     switch (parseInt(node.node_type_id)) {
         case 1:
             url = '/#/projects/' + node.node_id + '/view';
             break;
         case 2:
-            url = '/#/projects/' + project_id + '/testsuites/' + node.node_id + '/view';
+            url = '/#/projects/' + parent.node_id + '/testsuites/' + node.node_id + '/view';
             break;
         case 3:
-            url = 'ssss';
+            url = '/#/projects/' + project_id + '/testsuites/' + parent.node_id + '/testcases/' + node.node_id + '/view';
             break;
         default:
             url = '/';
@@ -17,11 +18,11 @@
     return url;
 } %>
 
-<% fn = function(node) { %>
+<% fn = function(node, parent) { %>
 <div class='item'>
     <i class="folder icon"></i>
     <div class="content">
-        <a href="<%= node_url(node) %>" data-node-type-id='<%= node.node_type_id %>' data-node-id='<%= node.node_id %>'>
+        <a href="<%= node_url(node, parent) %>" data-node-type-id='<%= node.node_type_id %>' data-node-id='<%= node.node_id %>'>
             <%= node.display_name %>
         </a>
         <% 
@@ -29,7 +30,7 @@
         if (children.length > 0) { %>
         <div class="list">
             <% for (var i = 0; i < children.length; i++) {
-                fn(children[i]);
+                fn(children[i], node);
             } %>
         </div>
         <% } %>
@@ -37,4 +38,4 @@
 </div>
 <% } %>
 
-<% fn(items); %>
+<% fn(items, {}); %>
