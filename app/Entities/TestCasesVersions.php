@@ -6,18 +6,16 @@ use Illuminate\Database\Eloquent\Model;
 use Prettus\Repository\Contracts\Transformable;
 use Prettus\Repository\Traits\TransformableTrait;
 
-class TestCases extends Model implements Transformable
+class TestCasesVersions extends Model implements Transformable
 {
     use TransformableTrait;
 
-    protected $fillable = ['project_id', 'test_suite_id'];
+    protected $fillable = ['version', 'test_case_id', 'execution_type_id', 'name', 'prerequisite',' description'];
 
     /**
      * The database table used by the model.
      *
      * @var string
      */
-    protected $table = 'test_cases';
-
-    public $version = null;
+    protected $table = 'test_cases_versions';
 }

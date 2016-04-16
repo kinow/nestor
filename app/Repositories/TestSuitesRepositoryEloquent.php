@@ -3,12 +3,13 @@
 namespace Nestor\Repositories;
 
 use DB;
-use Exception;
+use \Exception;
 use Illuminate\Container\Container as Application;
 use Log;
 use Nestor\Entities\NavigationTree;
 use Nestor\Entities\TestSuites;
 use Nestor\Repositories\TestSuitesRepository;
+use Nestor\Repositories\NavigationTreeRepository;
 use Prettus\Repository\Criteria\RequestCriteria;
 use Prettus\Repository\Eloquent\BaseRepository;
 use Prettus\Repository\Events\RepositoryEntityCreated;
