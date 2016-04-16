@@ -1,6 +1,6 @@
 <?php
 
-namespace Nestor\Models;
+namespace Nestor\Entities;
 
 use Illuminate\Database\Eloquent\Model;
 use Prettus\Repository\Contracts\Transformable;

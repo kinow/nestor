@@ -20,7 +20,7 @@ define([
         },
 
         render: function(options) {
-            this.parentId = options.parent_id; // FIXME: remove this comment when we prevent insecure object direct reference
+            this.testsuite_id = options.testsuite_id; // FIXME: remove this comment when we prevent insecure object direct reference
             this.projectId = options.project_id;
             var executionTypes = options.execution_types;
             var compiledTemplate = _.template(newTestCaseTemplate, { execution_types: executionTypes });
@@ -58,7 +58,8 @@ define([
                     name: this.$("#testcase-name-input").val(),
                     description: this.description_simplemde.value(),
                     prerequisite: this.prerequisite_simplemde.value(),
-                    parent_id: this.parentId,
+                    execution_type_id: this.$("#testcase-executiontype_id-input").val(),
+                    test_suite_id: this.testsuite_id,
                     project_id: this.projectId,
                     created_by: app.session.user_id
                 }, {

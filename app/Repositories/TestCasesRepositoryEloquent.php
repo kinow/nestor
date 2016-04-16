@@ -67,31 +67,32 @@ class TestCasesRepositoryEloquent extends BaseRepository implements TestCasesRep
      */
     public function createWithAncestor(array $testcaseAttributes, array $testcaseVersionAttributes, $ancestorNodeId)
     {
-        if (!is_null($this->testcaseValidator)) {
-            $this->testcaseValidator->with($testcaseAttributes)->passesOrFail(ValidatorInterface::RULE_CREATE);
-        }
+        // if (!is_null($this->testcaseValidator)) {
+        //     $this->testcaseValidator->with($testcaseAttributes)->passesOrFail(ValidatorInterface::RULE_CREATE);
+        // }
 
-        if (!is_null($this->testcaseVersionValidator)) {
-            $this->testcaseVersionValidator->with($testcaseVersionAttributes)->passesOrFail(ValidatorInterface::RULE_CREATE);
-        }
+        // if (!is_null($this->testcaseVersionValidator)) {
+        //     $this->testcaseVersionValidator->with($testcaseVersionAttributes)->passesOrFail(ValidatorInterface::RULE_CREATE);
+        // }
         
         DB::beginTransaction();
         
         try {
-            Log::debug("Creating new test case");
+            Log::debug("Creating test case");
             $testcase = $this->model->newInstance($testcaseAttributes);
             $testcase->save();
             $this->resetModel();
 
             $testcaseId = $testcase->id;
 
-            $testcaseVersion = new TestCasesVersions(collect($testcaseVersionAttributes));
+            $testcaseVersionAttributes['test_case_id'] = $testcaseId;
+            $testcaseVersion = new TestCasesVersions(collect($testcaseVersionAttributes)->toArray());
             $testcaseVersion->save();
 
             $testcase->version = $testcaseVersion;
 
-            $testSuiteNodeId = NavigationTree::testSuiteId($testcaseId);
-            $this->navigationTreeRepository->create($ancestorNodeId, $testSuiteNodeId, $testcaseId, NavigationTree::TEST_SUITE_TYPE, $testcaseVersion->name);
+            $testCaseNodeId = NavigationTree::testCaseId($testcaseId);
+            $this->navigationTreeRepository->create($ancestorNodeId, $testCaseNodeId, $testcaseId, NavigationTree::TEST_SUITE_TYPE, $testcaseVersion->name);
             
             DB::commit();
             event(new RepositoryEntityCreated($this, $testcase));

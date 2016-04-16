@@ -78,6 +78,12 @@ $api->version('v1', function ($api) {
     $api->post('projects/{projectId}/testsuites', 'Nestor\Http\Controllers\TestSuitesController@store');
     $api->put('projects/{projectId}/testsuites/{testSuiteId}', 'Nestor\Http\Controllers\TestSuitesController@update');
     $api->delete('projects/{projectId}/testsuites/{testSuiteId}', 'Nestor\Http\Controllers\TestSuitesController@destroy');
+
+    // test cases
+    $api->get('projects/{projectId}/testsuites/{testsuiteId}/testcases/{testcaseId}', 'Nestor\Http\Controllers\TestCasesController@show');
+    $api->post('projects/{projectId}/testsuites/{testsuiteId}/testcases', 'Nestor\Http\Controllers\TestCasesController@store');
+    $api->put('projects/{projectId}/testsuites/{testsuiteId}/testcases/{testcaseId}', 'Nestor\Http\Controllers\TestCasesController@update');
+    $api->delete('projects/{projectId}/testsuites/{testsuiteId}/testcases/{testcaseId}', 'Nestor\Http\Controllers\TestCasesController@destroy');
     
     // navigation tree
     $api->get('navigationtree', 'Nestor\Http\Controllers\NavigationTreeController@index');
