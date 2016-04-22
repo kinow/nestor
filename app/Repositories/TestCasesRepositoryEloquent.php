@@ -118,7 +118,7 @@ class TestCasesRepositoryEloquent extends BaseRepository implements TestCasesRep
         $this->applyScope();
         $model = $this->model->findOrFail($id, $columns);
         $this->resetModel();
-        return $this->parserResult($model);
+        
 
         // test case
         $testCase = $this
@@ -129,25 +129,25 @@ class TestCasesRepositoryEloquent extends BaseRepository implements TestCasesRep
         $version = $testCase->latestVersion();
 
         // labels
-        $labels = $version->labels()->get();
+        //$labels = $version->labels()->get();
 
         // steps
-        $steps = $version->sortedSteps()->with(array('executionStatus'))->get();
+        //$steps = $version->sortedSteps()->with(array('executionStatus'))->get();
 
         // execution type
         $executionType = $version->executionType()->firstOrFail();
 
-        $labels = $labels->toArray();
+        //$labels = $labels->toArray();
         $testCase = $testCase->toArray();
         $version = $version->toArray();
-        $steps = $steps->toArray();
+        //$steps = $steps->toArray();
         $executionType = $executionType->toArray();
 
-        $version['labels'] = $labels;
-        $version['steps'] = $steps;
+        //$version['labels'] = $labels;
+        //$version['steps'] = $steps;
         $version['execution_type'] = $executionType;
         $testCase['version'] = $version;
 
-        return $testCase;
+        return $this->parserResult($testCase);
     }
 }

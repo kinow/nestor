@@ -95,8 +95,8 @@ class TestCasesController extends Controller
     {
         // TBD: should we use projectId here too?
         $testCase = $this->testCasesRepository->find($id);
-        $testCase->formatted_description = Parsedown::instance()->text($testCase->description);
-        $testCase->formatted_prerequisite = Parsedown::instance()->text($testCase->prerequisite);
+        $testCase['formatted_description'] = Parsedown::instance()->text($testCase['version']['description']);
+        $testCase['formatted_prerequisite'] = Parsedown::instance()->text($testCase['version']['prerequisite']);
         return $testCase;
     }
 
