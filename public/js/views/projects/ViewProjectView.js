@@ -273,6 +273,8 @@ define([
          */
         displayTestCase: function() {
             var self = this;
+            this.testCaseModel.set('project_id', this.projectId);
+            this.testCaseModel.set('test_suite_id', this.testSuiteId);
             this.testCaseModel.set('id', this.testCaseId);
             this.testCaseModel.fetch({
                 success: function(responseData) {

@@ -93,7 +93,11 @@ class TestCasesController extends Controller
      */
     public function show($id)
     {
-        //
+        // TBD: should we use projectId here too?
+        $testCase = $this->testCasesRepository->find($id);
+        $testCase->formatted_description = Parsedown::instance()->text($testCase->description);
+        $testCase->formatted_prerequisite = Parsedown::instance()->text($testCase->prerequisite);
+        return $testCase;
     }
 
     /**

@@ -20,4 +20,32 @@ class TestCases extends Model implements Transformable
     protected $table = 'test_cases';
 
     public $version = null;
+
+    public function project()
+    {
+        return $this->belongsTo('Nestor\\Entities\\Projects', 'project_id');
+    }
+
+    public function testSuite()
+    {
+        return $this->belongsTo('Nestor\\Entities\\TestSuites', 'test_suite_id');
+    }
+
+    public function testCaseVersions()
+    {
+        return $this->hasMany('Nestor\\Entities\\TestCaseVersions', 'test_case_id');
+    }
+
+    public function latestVersion()
+    {
+        return $this->hasMany('Nestor\\Entities\\TestCaseVersions', 'test_case_id')
+            ->orderBy('version', 'desc')
+            ->take(1)
+            ->firstOrFail(); // FIXME: redundant take1?
+    }
+
+    // public function steps()
+    // {
+    //     return $this->hasManyThrough('Nestor\\Model\\TestCaseStepVersion', 'Nestor\\Model\\TestCaseVersion', 'test_case_id', 'test_case_version_id');
+    // }
 }

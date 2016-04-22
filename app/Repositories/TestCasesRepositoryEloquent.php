@@ -104,4 +104,50 @@ class TestCasesRepositoryEloquent extends BaseRepository implements TestCasesRep
             throw $e;
         }
     }
+
+    /**
+     * Find data by id
+     *
+     * @param $id
+     * @param array $columns
+     * @return mixed
+     */
+    public function find($id, $columns = array('*'))
+    {
+        $this->applyCriteria();
+        $this->applyScope();
+        $model = $this->model->findOrFail($id, $columns);
+        $this->resetModel();
+        return $this->parserResult($model);
+
+        // test case
+        $testCase = $this
+            ->model
+            ->findOrFail($id, $columns);
+
+        // version
+        $version = $testCase->latestVersion();
+
+        // labels
+        $labels = $version->labels()->get();
+
+        // steps
+        $steps = $version->sortedSteps()->with(array('executionStatus'))->get();
+
+        // execution type
+        $executionType = $version->executionType()->firstOrFail();
+
+        $labels = $labels->toArray();
+        $testCase = $testCase->toArray();
+        $version = $version->toArray();
+        $steps = $steps->toArray();
+        $executionType = $executionType->toArray();
+
+        $version['labels'] = $labels;
+        $version['steps'] = $steps;
+        $version['execution_type'] = $executionType;
+        $testCase['version'] = $version;
+
+        return $testCase;
+    }
 }
