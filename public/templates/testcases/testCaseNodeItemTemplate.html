@@ -1,7 +1,13 @@
 <div class="ui attached segment">
 	<h4><%= testcase.get('version')['name'] %></h4>
 
-    <%= testcase.get('version')['formatted_description'] %>
+    <h5>Description</h5>
+
+    <%= testcase.get('formatted_description') %>
+
+    <h5>Prerequisites</h5>
+
+    <%= testcase.get('formatted_prerequisite') %>
 
     <div class="item">
         <div class="ui divider"></div>

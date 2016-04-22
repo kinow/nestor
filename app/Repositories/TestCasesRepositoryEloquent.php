@@ -116,14 +116,12 @@ class TestCasesRepositoryEloquent extends BaseRepository implements TestCasesRep
     {
         $this->applyCriteria();
         $this->applyScope();
-        $model = $this->model->findOrFail($id, $columns);
-        $this->resetModel();
-        
 
         // test case
         $testCase = $this
             ->model
             ->findOrFail($id, $columns);
+        $this->resetModel();
 
         // version
         $version = $testCase->latestVersion();
