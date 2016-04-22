@@ -255,7 +255,7 @@ define([
                 success: function() {
                     self.newTestCaseView.render({
                         project_id: self.projectId,
-                        testsuite_id: self.testsuiteId,
+                        testsuite_id: self.testSuiteId,
                         execution_types: self.executionTypesCollection.models
                     });
                     self.newTestCaseView.delegateEvents();
