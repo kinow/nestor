@@ -13,8 +13,9 @@ define([
     'collections/core/ExecutionTypesCollection',
     'text!templates/projects/viewProjectTemplate.html',
     'text!templates/projects/projectNodeItemTemplate.html',
-    'text!templates/testsuites/testSuiteNodeItemTemplate.html'
-], function($, _, Backbone, NavigationTreeView, ViewNodeItemView, NewTestSuiteView, TestSuiteView, ConfirmDeleteTestSuiteView, NewTestCaseView, ProjectModel, TestSuiteModel, ExecutionTypesCollection, viewProjectTemplate, projectNodeItemTemplate, testSuiteNodeItemTemplate) {
+    'text!templates/testsuites/testSuiteNodeItemTemplate.html',
+    'text!templates/testcases/testCaseNodeItemTemplate.html'
+], function($, _, Backbone, NavigationTreeView, ViewNodeItemView, NewTestSuiteView, TestSuiteView, ConfirmDeleteTestSuiteView, NewTestCaseView, ProjectModel, TestSuiteModel, ExecutionTypesCollection, viewProjectTemplate, projectNodeItemTemplate, testSuiteNodeItemTemplate, testCaseNodeItemTemplate) {
 
     /**
      * Displays the navigation tree.
@@ -25,10 +26,11 @@ define([
         events: {},
 
         initialize: function() {
-            _.bindAll(this, 'render', 'setProjectId', 'updateNavigationTree', 'displayProject', 'displayNewTestSuite', 'displayTestSuite', 'displayShowTestSuite', 'displayConfirmDeleteTestSuite', 'displayNewTestCase');
+            _.bindAll(this, 'render', 'setProjectId', 'updateNavigationTree', 'displayProject', 'displayNewTestSuite', 'displayTestSuite', 'displayShowTestSuite', 'displayConfirmDeleteTestSuite', 'displayNewTestCase', 'displayTestCase');
 
             this.projectId = 0;
             this.testSuiteId = 0;
+            this.testCaseId = 0;
 
             // Views
             this.navigationTreeView = new NavigationTreeView();
@@ -75,17 +77,14 @@ define([
             this.testSuiteModel = new TestSuiteModel();
             this.testSuiteModel.project_id = projectId;
 
+            this.testCaseModel = new TestCaseModel();
+            this.testCaseModel.project_id = projectId;
+
             if (this.projectId !== projectId || !$.trim($(this.navigationTreeView.el).html())) {
                 this.navigationTreeView.projectId = projectId;
                 this.projectId = projectId;
                 Backbone.trigger('nestor:navigationtree:project_changed');
             }
-        },
-
-        setTestSuiteId: function(testsuiteId) {
-            this.testSuiteModel = new TestSuiteModel();
-            this.testSuiteModel.project_id = this.projectId;
-            this.testsuiteId = testsuiteId;
         },
 
         updateNavigationTree: function(event) {
@@ -213,6 +212,30 @@ define([
                 },
                 error: function() {
                     throw new Error('Failure to retrieve executiont types!');
+                }
+            });
+        },
+
+        /**
+         * Display project node item on the right panel of the screen.
+         */
+        displayTestCase: function() {
+            var self = this;
+            this.testCaseModel.set('id', this.testCaseId);
+            this.testCaseModel.fetch({
+                success: function(responseData) {
+                    var data = {
+                        testcase: self.testCaseModel,
+                        _: _
+                    };
+
+                    var compiledTemplate = _.template(testCaseNodeItemTemplate, data);
+                    self.viewNodeItemView.$el.html(compiledTemplate);
+                    self.$('#content-main').empty();
+                    self.$('#content-main').append(self.viewNodeItemView.el);
+                },
+                error: function() {
+                    throw new Error("Failed to fetch test case");
                 }
             });
         },
