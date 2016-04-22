@@ -381,7 +381,7 @@ define([
             }
             
             app.viewProjectView.setProjectId(projectId);
-            app.viewProjectView.testSuiteId = testSuiteId;
+            app.viewProjectView.setTestSuiteId(testSuiteId);
             if (typeof app.currentView !== 'undefined' && app.currentView.cid == app.viewProjectView.cid) {
                 app.viewProjectView.displayShowTestSuite();
             } else {
@@ -398,7 +398,7 @@ define([
             }
             
             app.viewProjectView.setProjectId(projectId);
-            app.viewProjectView.testSuiteId = testSuiteId;
+            app.viewProjectView.setTestSuiteId(testSuiteId);
             if (typeof app.currentView !== 'undefined' && app.currentView.cid == app.viewProjectView.cid) {
                 app.viewProjectView.displayConfirmDeleteTestSuite();
             } else {
@@ -415,7 +415,7 @@ define([
             }
             
             app.viewProjectView.setProjectId(projectId);
-            app.viewProjectView.testSuiteId = testSuiteId;
+            app.viewProjectView.setTestSuiteId(testSuiteId);
             if (typeof app.currentView !== 'undefined' && app.currentView.cid == app.viewProjectView.cid) {
                 app.viewProjectView.displayTestSuite();
             } else {
@@ -443,7 +443,7 @@ define([
                 app.viewProjectView = new ViewProjectView();
             }
             app.viewProjectView.setProjectId(projectId);
-            app.viewProjectView.setTestSuiteId(testsuiteId);
+            app.viewProjectView.setTestSuiteId(testSuiteId);
             if (typeof app.currentView !== 'undefined' && app.currentView.cid == app.viewProjectView.cid) {
                 console.log('Re-using existing view project view. Displaying new test case view');
                 app.viewProjectView.displayNewTestCase();

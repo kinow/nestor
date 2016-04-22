@@ -87,6 +87,28 @@ define([
             }
         },
 
+        setTestSuiteId: function(testSuiteId) {
+            // update test suite ID in models
+            his.testSuiteModel = new TestSuiteModel();
+            this.testSuiteModel.project_id = projectId;
+            this.testSuiteModel.id = testSuiteId;
+            this.testSuiteId = testSuiteId;
+
+            this.testCaseModel = new TestCaseModel();
+            this.testCaseModel.project_id = projectId;
+            this.testCaseModel.testsuite_id = testSuiteId;
+        },
+
+        setTestCaseId: function(testCaseId) {
+            // update test suite ID in models
+            this.testCaseModel = new TestCaseModel();
+            this.testCaseModel.project_id = projectId;
+            this.testCaseModel.testsuite_id = testSuiteId;
+            this.testCaseModel.id = testCaseId;
+
+            this.testCaseId = testCaseId;
+        },
+
         updateNavigationTree: function(event) {
             console.log('Rendering navigation tree!');
             this.navigationTreeView.render();

@@ -15,7 +15,7 @@ define([
       	},
 
       	initialize: function (options) {
-            _.bindAll(this, 'updateSessionUser', 'checkAuth', 'postAuth', 'login', 'logout', 'signup');
+            _.bindAll(this, 'updateSessionUser', 'checkAuth', 'login', 'logout', 'signup');
 
             // Singleton user object
             // Access or listen on this throughout any module with app.session.user
