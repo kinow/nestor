@@ -10,12 +10,30 @@ define([
     'views/testcases/NewTestCaseView',
     'models/project/ProjectModel',
     'models/testsuite/TestSuiteModel',
+    'models/testcase/TestCaseModel',
     'collections/core/ExecutionTypesCollection',
     'text!templates/projects/viewProjectTemplate.html',
     'text!templates/projects/projectNodeItemTemplate.html',
     'text!templates/testsuites/testSuiteNodeItemTemplate.html',
     'text!templates/testcases/testCaseNodeItemTemplate.html'
-], function($, _, Backbone, NavigationTreeView, ViewNodeItemView, NewTestSuiteView, TestSuiteView, ConfirmDeleteTestSuiteView, NewTestCaseView, ProjectModel, TestSuiteModel, ExecutionTypesCollection, viewProjectTemplate, projectNodeItemTemplate, testSuiteNodeItemTemplate, testCaseNodeItemTemplate) {
+], function(
+    $, 
+    _, 
+    Backbone, 
+    NavigationTreeView, 
+    ViewNodeItemView, 
+    NewTestSuiteView, 
+    TestSuiteView, 
+    ConfirmDeleteTestSuiteView, 
+    NewTestCaseView, 
+    ProjectModel, 
+    TestSuiteModel, 
+    TestCaseModel,
+    ExecutionTypesCollection, 
+    viewProjectTemplate, 
+    projectNodeItemTemplate, 
+    testSuiteNodeItemTemplate, 
+    testCaseNodeItemTemplate) {
 
     /**
      * Displays the navigation tree.
@@ -26,7 +44,19 @@ define([
         events: {},
 
         initialize: function() {
-            _.bindAll(this, 'render', 'setProjectId', 'updateNavigationTree', 'displayProject', 'displayNewTestSuite', 'displayTestSuite', 'displayShowTestSuite', 'displayConfirmDeleteTestSuite', 'displayNewTestCase', 'displayTestCase');
+            _.bindAll(this, 
+                'render', 
+                'setProjectId', 
+                'setTestSuiteId', 
+                'setTestCaseId', 
+                'updateNavigationTree', 
+                'displayProject', 
+                'displayNewTestSuite', 
+                'displayTestSuite', 
+                'displayShowTestSuite', 
+                'displayConfirmDeleteTestSuite', 
+                'displayNewTestCase', 
+                'displayTestCase');
 
             this.projectId = 0;
             this.testSuiteId = 0;
@@ -89,21 +119,21 @@ define([
 
         setTestSuiteId: function(testSuiteId) {
             // update test suite ID in models
-            his.testSuiteModel = new TestSuiteModel();
-            this.testSuiteModel.project_id = projectId;
+            this.testSuiteModel = new TestSuiteModel();
+            this.testSuiteModel.project_id = this.projectId;
             this.testSuiteModel.id = testSuiteId;
             this.testSuiteId = testSuiteId;
 
             this.testCaseModel = new TestCaseModel();
-            this.testCaseModel.project_id = projectId;
+            this.testCaseModel.project_id = this.projectId;
             this.testCaseModel.testsuite_id = testSuiteId;
         },
 
         setTestCaseId: function(testCaseId) {
             // update test suite ID in models
             this.testCaseModel = new TestCaseModel();
-            this.testCaseModel.project_id = projectId;
-            this.testCaseModel.testsuite_id = testSuiteId;
+            this.testCaseModel.project_id = this.projectId;
+            this.testCaseModel.testsuite_id = this.testSuiteId;
             this.testCaseModel.id = testCaseId;
 
             this.testCaseId = testCaseId;
