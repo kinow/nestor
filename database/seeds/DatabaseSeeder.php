@@ -1,7 +1,4 @@
 <?php
-use \App;
-use \DB;
-use \Log;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Seeder;

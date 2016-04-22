@@ -1,7 +1,4 @@
 <?php
-use \DB;
-use \Hash;
-
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Seeder;
 
