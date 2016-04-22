@@ -62,7 +62,7 @@ class AuthController extends Controller
     public function checkLogin(Request $request)
     {
         $credentials = $this->getCredentials($request);
-        
+
         if (Auth::attempt($credentials, $request->has('remember'))) {
             return $this->handleUserWasAuthenticated($request, false /* $throttles */);
         }
