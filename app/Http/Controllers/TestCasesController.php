@@ -91,7 +91,7 @@ class TestCasesController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($projectId, $testSuiteId, $id)
     {
         // TBD: should we use projectId here too?
         $testCase = $this->testCasesRepository->find($id);

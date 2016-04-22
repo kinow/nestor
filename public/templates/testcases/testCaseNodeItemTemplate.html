@@ -1,4 +1,16 @@
 <div class="ui attached segment">
 	<h4><%= testcase.get('version')['name'] %></h4>
 
+    <%= testcase.get('version')['formatted_description'] %>
+
+    <div class="item">
+        <div class="ui divider"></div>
+        <div class="right floated content">
+            <a href="#/projects/<%= testcase.get('project_id') %>/testsuites/<%= testcase.get('test_suite_id') %>/testcases/<%= testcase.get('id') %>" class="ui button">Edit</a>
+            <a href="#/projects/<%= testcase.get('project_id') %>/testsuites/<%= testcase.get('test_suite_id') %>/testcases/<%= testcase.get('id') %>/confirmDelete" class="ui button">Delete</a>
+        </div>
+    </div>
+
+    <% console.log(testcase) %>
+
 </div>
