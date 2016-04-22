@@ -1,5 +1,6 @@
 // Filename: main.js
 require.config({
+    urlArgs: "bust=" + (new Date()).getTime(),
     paths: {
         jquery: 'libs/jquery/dist/jquery.min',
         underscore: 'libs/underscore-amd/underscore-min',

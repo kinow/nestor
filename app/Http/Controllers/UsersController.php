@@ -125,7 +125,8 @@ class UsersController extends Controller
         
         $credentials = $this->getCredentials($request);
         
-        if (Auth::attempt($credentials, $request->has('remember'))) {
+        $authenticated = Auth::attempt($credentials, $request->has('remember'));
+        if ($authenticated) {
             return $this->handleUserWasAuthenticated($request, $throttles);
         }
         

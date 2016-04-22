@@ -16,7 +16,6 @@ define([
          * updating the user and session after receiving an API response
          */
         postAuth: function(opts, callback, args) {
-            return false;
             var self = this;
             var postData = _.omit(opts, 'method');
             if (typeof DEBUG != 'undefined' && DEBUG) console.log(postData);

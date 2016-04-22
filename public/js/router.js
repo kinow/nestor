@@ -379,7 +379,7 @@ define([
             if (!app.viewProjectView) {
                 app.viewProjectView = new ViewProjectView();
             }
-            
+
             app.viewProjectView.setProjectId(projectId);
             app.viewProjectView.setTestSuiteId(testSuiteId);
             if (typeof app.currentView !== 'undefined' && app.currentView.cid == app.viewProjectView.cid) {
@@ -396,7 +396,7 @@ define([
             if (!app.viewProjectView) {
                 app.viewProjectView = new ViewProjectView();
             }
-            
+
             app.viewProjectView.setProjectId(projectId);
             app.viewProjectView.setTestSuiteId(testSuiteId);
             if (typeof app.currentView !== 'undefined' && app.currentView.cid == app.viewProjectView.cid) {
@@ -413,7 +413,7 @@ define([
             if (!app.viewProjectView) {
                 app.viewProjectView = new ViewProjectView();
             }
-            
+
             app.viewProjectView.setProjectId(projectId);
             app.viewProjectView.setTestSuiteId(testSuiteId);
             if (typeof app.currentView !== 'undefined' && app.currentView.cid == app.viewProjectView.cid) {
@@ -460,7 +460,7 @@ define([
             if (!app.viewProjectView) {
                 app.viewProjectView = new ViewProjectView();
             }
-            
+
             app.viewProjectView.setProjectId(projectId);
             app.viewProjectView.setTestSuiteId(testSuiteId);
             app.viewProjectView.setTestCaseId(testCaseId);
