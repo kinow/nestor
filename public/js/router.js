@@ -478,7 +478,6 @@ define([
             if (!app.viewProjectView) {
                 app.viewProjectView = new ViewProjectView();
             }
-            console.log(app.viewProjectView);
             app.viewProjectView.setProjectId(projectId);
             app.viewProjectView.setTestSuiteId(testSuiteId);
             app.viewProjectView.setTestCaseId(testCaseId);
