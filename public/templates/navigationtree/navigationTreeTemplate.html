@@ -17,9 +17,28 @@
     return url;
 } %>
 
+<% node_icon = function(node) {
+    var icon = '';
+    switch (parseInt(node.node_type_id)) {
+        case 1:
+            icon = 'book icon';
+            break;
+        case 2:
+            icon = 'folder open icon';
+            break;
+        case 3:
+            icon = 'file text outline icon';
+            break;
+        default:
+            icon = 'folder icon';
+            break;
+    }
+    return icon;
+} %>
+
 <% fn = function(node, parent) { %>
 <div class='item'>
-    <i class="folder icon"></i>
+    <i class="<%= node_icon(node) %>"></i>
     <div class="content">
         <a href="<%= node_url(node, parent) %>" data-node-type-id='<%= node.node_type_id %>' data-node-id='<%= node.node_id %>'>
             <%= node.display_name %>
