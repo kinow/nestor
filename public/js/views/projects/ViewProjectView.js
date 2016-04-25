@@ -309,14 +309,22 @@ define([
             this.testCaseModel.set('id', this.testCaseId);
             this.testCaseModel.fetch({
                 success: function(responseData) {
-                    self.testCaseView.render({
-                        model: self.testCaseModel,
-                        project_id: self.projectId,
-                        test_suite_id: self.testSuiteId
+                    self.executionTypesCollection.fetch({
+                        success: function() {
+                            self.testCaseView.render({
+                                model: self.testCaseModel,
+                                project_id: self.projectId,
+                                test_suite_id: self.testSuiteId,
+                                execution_types: self.executionTypesCollection.models
+                            });
+                            self.testCaseView.delegateEvents();
+                            self.$('#content-main').empty();
+                            self.$('#content-main').append(self.testCaseView.el);
+                        },
+                        error: function() {
+                            throw new Error('Failure to retrieve executiont types!');
+                        }
                     });
-                    self.testCaseView.delegateEvents();
-                    self.$('#content-main').empty();
-                    self.$('#content-main').append(self.testCaseView.el);
                 },
                 error: function() {
                     throw new Error("Failed to fetch test suite");

@@ -20,10 +20,12 @@ define([
 
         render: function(options) {
             this.model = options.model;
+            var executionTypes = options.execution_types;
             var data = {
                 testcase: this.model,
                 projectId: options.project_id,
                 testSuiteId: options.test_suite_id,
+                execution_types: executionTypes,
                 _: _
             }
             var compiledTemplate = _.template(testCaseTemplate, data);

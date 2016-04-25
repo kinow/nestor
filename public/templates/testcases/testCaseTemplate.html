@@ -13,6 +13,18 @@
             <label>Prerequisites</label>
             <textarea name="prerequisite" placeholder="Prerequisites" id="testcase-prerequisite-input" data-parsley-required="false" data-parsley-length="[1,1000]"></textarea>
           </div>
+          <div class="field">
+            <label>Execution type</label>
+            <select name='executiontype_id' id='testcase-executiontype_id-input' data-parsley-required="true" data-parsley-min="1">
+            <% _.each(execution_types, function(execution_type) { %>
+                <% if (testcase.get('version')['execution_type_id'] == execution_type.get('id')) { %>
+                <option value='<%= execution_type.id %>' selected='selected'><%= execution_type.get('name') %></option>
+                <% } else { %>
+                <option value='<%= execution_type.id %>'><%= execution_type.get('name') %></option>
+                <% } %>
+            <% }); %>
+            </select>
+          </div>
           <button class="positive ui left floated button" id="testcase-btn">
               Okay
           </button>
