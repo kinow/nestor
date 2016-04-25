@@ -10,7 +10,7 @@ class TestCasesVersions extends Model implements Transformable
 {
     use TransformableTrait;
 
-    protected $fillable = ['version', 'test_case_id', 'execution_type_id', 'name', 'prerequisite',' description'];
+    protected $fillable = ['version', 'test_case_id', 'execution_type_id', 'name', 'prerequisite','description'];
 
     /**
      * The database table used by the model.
@@ -18,6 +18,10 @@ class TestCasesVersions extends Model implements Transformable
      * @var string
      */
     protected $table = 'test_cases_versions';
+
+    public function __construct(array $attributes = []) {
+        parent::__construct($attributes);
+    }
 
     public function testcase()
     {
