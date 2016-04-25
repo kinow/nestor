@@ -8,6 +8,7 @@ define([
     'views/testsuites/TestSuiteView',
     'views/testsuites/ConfirmDeleteTestSuiteView',
     'views/testcases/NewTestCaseView',
+    'views/testcases/TestCaseView',
     'models/project/ProjectModel',
     'models/testsuite/TestSuiteModel',
     'models/testcase/TestCaseModel',
@@ -25,7 +26,8 @@ define([
     NewTestSuiteView, 
     TestSuiteView, 
     ConfirmDeleteTestSuiteView, 
-    NewTestCaseView, 
+    NewTestCaseView,
+    TestCaseView, 
     ProjectModel, 
     TestSuiteModel, 
     TestCaseModel,
@@ -56,7 +58,8 @@ define([
                 'displayShowTestSuite', 
                 'displayConfirmDeleteTestSuite', 
                 'displayNewTestCase', 
-                'displayTestCase');
+                'displayTestCase',
+                'displayShowTestCase');
 
             this.projectId = 0;
             this.testSuiteId = 0;
@@ -69,6 +72,7 @@ define([
             this.newTestCaseView = new NewTestCaseView();
             this.testSuiteView = new TestSuiteView();
             this.confirmDeleteTestSuiteView = new ConfirmDeleteTestSuiteView();
+            this.testCaseView = new TestCaseView();
 
             // Collections
             this.executionTypesCollection = new ExecutionTypesCollection();
@@ -85,6 +89,7 @@ define([
             this.subviews.testSuiteView = this.testSuiteView;
             this.subviews.confirmDeleteTestSuiteView = this.confirmDeleteTestSuiteView;
             this.subviews.newTestCaseView = this.newTestCaseView;
+            this.subviews.testCaseView = this.testCaseView;
         },
 
 
@@ -290,6 +295,31 @@ define([
                 },
                 error: function() {
                     throw new Error("Failed to fetch test case");
+                }
+            });
+        },
+
+        /**
+         * Display test case item on the right panel of the screen for edit.
+         */
+        displayShowTestCase: function() {
+            var self = this;
+            this.testCaseModel.set('project_id', this.projectId);
+            this.testCaseModel.set('test_suite_id', this.testSuiteId);
+            this.testCaseModel.set('id', this.testCaseId);
+            this.testCaseModel.fetch({
+                success: function(responseData) {
+                    self.testCaseView.render({
+                        model: self.testCaseModel,
+                        project_id: self.projectId,
+                        test_suite_id: self.testSuiteId
+                    });
+                    self.testCaseView.delegateEvents();
+                    self.$('#content-main').empty();
+                    self.$('#content-main').append(self.testCaseView.el);
+                },
+                error: function() {
+                    throw new Error("Failed to fetch test suite");
                 }
             });
         },

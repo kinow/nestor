@@ -474,6 +474,24 @@ define([
             }
         });
 
+        testCasesRouter.on('route:showTestCase', function(projectId, testSuiteId, testCaseId) {
+            if (!app.viewProjectView) {
+                app.viewProjectView = new ViewProjectView();
+            }
+            console.log(app.viewProjectView);
+            app.viewProjectView.setProjectId(projectId);
+            app.viewProjectView.setTestSuiteId(testSuiteId);
+            app.viewProjectView.setTestCaseId(testCaseId);
+            if (typeof app.currentView !== 'undefined' && app.currentView.cid == app.viewProjectView.cid) {
+                app.viewProjectView.displayShowTestCase();
+            } else {
+                app.showView(app.viewProjectView, {
+                    requiresAuth: true,
+                    onSuccess: app.viewProjectView.displayShowTestCase
+                });
+            }
+        });
+
         // --- end test cases router ---
 
         navigation.appendRouter(baseRouter);
