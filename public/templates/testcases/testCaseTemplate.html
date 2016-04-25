@@ -1,9 +1,9 @@
-<h1 class="ui top attached header"><%= testcase.get('name') %></h1>
+<h1 class="ui top attached header"><%= testcase.get('version')['name'] %></h1>
 <div class="ui attached segment">
     <form class='ui form' id="testcase-form" data-parsley-validate>
           <div class="field">
             <label>Name</label>
-            <input name="name" id="testcase-name-input" placeholder="Name" type="text" value="<%= testcase.get('name') %>" />
+            <input name="name" id="testcase-name-input" placeholder="Name" type="text" value="<%= testcase.get('version')['name'] %>" />
           </div>
           <div class="field">
             <label>Description</label>
