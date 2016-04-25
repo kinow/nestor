@@ -58,15 +58,19 @@ define([
             event.preventDefault();
             event.stopPropagation();
 
-            if (this.$("#testsuite-form").parsley().validate()) {
-                var self = this;
-                this.model.save({
-                    name: this.$("#testsuite-name-input").val(),
-                    description: this.$("#testsuite-description-input").val(),
+            if (this.$("#testcase-form").parsley().validate()) {
+                this.collection.create({
+                    name: this.$("#testcase-name-input").val(),
+                    description: this.description_simplemde.value(),
+                    prerequisite: this.prerequisite_simplemde.value(),
+                    execution_type_id: this.$("#testcase-executiontype_id-input").val(),
+                    test_suite_id: this.testsuite_id,
+                    project_id: this.projectId,
+                    created_by: app.session.user_id
                 }, {
                     wait: true,
                     success: function(mod, res) {
-                        app.showAlert('Success!', 'Test Suite ' + this.$("#testsuite-name-input").val() + ' updated!', 'success')
+                        app.showAlert('Success!', 'Test case ' + this.$("#testcase-name-input").val() + ' updated!', 'success')
                         Backbone.trigger('nestor:navigationtree_changed');
                         Backbone.history.history.back();
                     },
@@ -80,12 +84,14 @@ define([
                         ) {
                             message = response.responseJSON.name[0];
                         }
-                        app.showAlert('Failed to update Test Suite', message, 'error');
+                        app.showAlert('Failed to add new Test Case', message, 'error');
                     }
                 });
             } else {
                 if (typeof DEBUG != 'undefined' && DEBUG) console.log("Did not pass clientside validation");
             }
+
+            return false;
         }
 
     });
