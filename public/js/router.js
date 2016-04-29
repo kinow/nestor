@@ -499,8 +499,6 @@ define([
         navigation.appendRouter(testSuitesRouter);
         navigation.appendRouter(testCasesRouter);
         navigation.mapRouters();
-
-        
     };
 
     var AppRouter = {
