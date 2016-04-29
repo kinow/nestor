@@ -23,8 +23,8 @@ define([
         },
 
         render: function() {
-            $('.menu a').removeClass('active');
-            $('.menu a[href="#/projects"]').addClass('active');
+            $('.item').removeClass('active');
+            $('.item a[href="#/projects"]').parent().addClass('active');
 
             this.$el.html(newProjectTemplate);
             this.simplemde = new SimpleMDE({
