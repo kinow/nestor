@@ -23,10 +23,12 @@ define([
             this.testsuite_id = options.testsuite_id; // FIXME: remove this comment when we prevent insecure object direct reference
             this.projectId = options.project_id;
             var executionTypes = options.execution_types;
-            var compiledTemplate = _.template(newTestCaseTemplate, { execution_types: executionTypes });
+            var compiledTemplate = _.template(newTestCaseTemplate, {
+                execution_types: executionTypes
+            });
             this.$el.html(compiledTemplate);
             this.description_simplemde = new SimpleMDE({
-                autoDownloadFontAwesome: true, 
+                autoDownloadFontAwesome: true,
                 autofocus: false,
                 autosave: {
                     enabled: false
@@ -37,7 +39,7 @@ define([
                 tabSize: 4
             });
             this.prerequisite_simplemde = new SimpleMDE({
-                autoDownloadFontAwesome: true, 
+                autoDownloadFontAwesome: true,
                 autofocus: false,
                 autosave: {
                     enabled: false
