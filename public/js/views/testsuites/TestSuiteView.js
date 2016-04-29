@@ -19,6 +19,8 @@ define([
         },
 
         render: function(options) {
+            $('.item').removeClass('active');
+            $('.item a[href="#/projects"]').parent().addClass('active');
             this.model = options.model;
             var data = {
                 testsuite: this.model,
