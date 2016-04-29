@@ -44,7 +44,8 @@ define([
         },
 
         render: function() {
-            $('.menu a').removeClass('active');
+            $('.item').removeClass('active');
+            $('a[href="#/signin"]').addClass('active');
             this.$el.html(signInTemplate);
             $("#login-username-input").focus();
         }
