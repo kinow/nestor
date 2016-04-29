@@ -17,6 +17,8 @@ define([
         },
 
         render: function(options) {
+            $('.item').removeClass('active');
+            $('.item a[href="#/projects"]').parent().addClass('active');
             var self = this;
             this.model = options.model;
             this.projectId = options.project_id;
