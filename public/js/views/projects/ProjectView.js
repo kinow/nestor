@@ -33,7 +33,7 @@ define([
                     var compiledTemplate = _.template(projectTemplate, data);
                     self.$el.html(compiledTemplate);
                     var simplemde = new SimpleMDE({
-                        autoDownloadFontAwesome: true, 
+                        autoDownloadFontAwesome: true,
                         autofocus: false,
                         autosave: {
                             enabled: false
