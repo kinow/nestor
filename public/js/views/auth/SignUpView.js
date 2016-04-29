@@ -45,7 +45,8 @@ define([
         },
 
         render: function() {
-            $('.menu a').removeClass('active');
+            $('.item').removeClass('active');
+            $('a[href="#/signup"]').addClass('active');
             this.$el.html(signUpTemplate);
             $("#signup-username-input").focus();
         }
