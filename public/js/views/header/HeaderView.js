@@ -60,9 +60,6 @@ define([
       // update the HTML element of this view
       this.$el.html(compiledTemplate);
 
-      $('.menu a').removeClass('active');
-      $('.menu a[href="#"]').addClass('active');
-
       // dropdown menus
       $('.ui.dropdown')
         .dropdown()

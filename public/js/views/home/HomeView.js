@@ -13,9 +13,6 @@ define([
     },
 
     render: function(){
-      $('.menu a').removeClass('active');
-      $('.menu a[href="#"]').addClass('active');
-
       this.$el.html(homeTemplate);
     }
   });
