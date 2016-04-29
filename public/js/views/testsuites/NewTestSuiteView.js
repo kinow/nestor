@@ -26,7 +26,7 @@ define([
             var compiledTemplate = _.template(newTestSuiteTemplate, {});
             this.$el.html(compiledTemplate);
             this.simplemde = new SimpleMDE({
-                autoDownloadFontAwesome: true, 
+                autoDownloadFontAwesome: true,
                 autofocus: false,
                 autosave: {
                     enabled: false
