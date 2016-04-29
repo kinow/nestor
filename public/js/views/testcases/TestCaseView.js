@@ -31,7 +31,7 @@ define([
             var compiledTemplate = _.template(testCaseTemplate, data);
             this.$el.html(compiledTemplate);
             this.description_simplemde = new SimpleMDE({
-                autoDownloadFontAwesome: true, 
+                autoDownloadFontAwesome: true,
                 autofocus: false,
                 autosave: {
                     enabled: false
@@ -43,7 +43,7 @@ define([
             });
             this.description_simplemde.value(this.model.get('version')['description']);
             this.prerequisite_simplemde = new SimpleMDE({
-                autoDownloadFontAwesome: true, 
+                autoDownloadFontAwesome: true,
                 autofocus: false,
                 autosave: {
                     enabled: false
