@@ -6,7 +6,7 @@ define([
     // Pull in the Collection module from above,
     'models/project/ProjectModel',
     'text!templates/projects/projectsListTemplate.html'
-], function($, _, Backbone, ProjectModel, projectsListTemplate){
+], function($, _, Backbone, ProjectModel, projectsListTemplate) {
     var ProjectListView = Backbone.View.extend({
         el: $("#projects-list"),
 
@@ -14,10 +14,10 @@ define([
             var self = this;
             this.collection.fetch({
                 success: function() {
-                  self.render();
+                    self.render();
                 },
                 error: function() {
-                  throw new Error("Failed to fetch projects");
+                    throw new Error("Failed to fetch projects");
                 }
             });
             this.listenTo(this.collection, 'reset', this.render);
@@ -27,10 +27,10 @@ define([
             var data = {
                 projects: this.collection.models,
                 collection: this.collection,
-                _: _ 
+                _: _
             };
-            var compiledTemplate = _.template( projectsListTemplate, data );
-            $("#projects-list").html( compiledTemplate );
+            var compiledTemplate = _.template(projectsListTemplate, data);
+            $("#projects-list").html(compiledTemplate);
         }
 
     });
