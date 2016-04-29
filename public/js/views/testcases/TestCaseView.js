@@ -21,6 +21,7 @@ define([
         render: function(options) {
             $('.item').removeClass('active');
             $('.item a[href="#/projects"]').parent().addClass('active');
+            
             this.model = options.model;
             var executionTypes = options.execution_types;
             var data = {
