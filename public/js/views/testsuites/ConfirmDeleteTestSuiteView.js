@@ -31,7 +31,9 @@ define([
                 },
                 error: function() {
                     app.showAlert('Failed to delete Test Suite', 'Error fetching test suite!', 'error');
-                    Backbone.history.navigate("#/projects/" + self.projectId + "/view", { trigger: false });
+                    Backbone.history.navigate("#/projects/" + self.projectId + "/view", {
+                        trigger: false
+                    });
                 }
             });
         },
@@ -46,7 +48,9 @@ define([
                 success: function(mod, res) {
                     app.showAlert('Success!', 'Test Suite deleted!', 'success');
                     Backbone.trigger('nestor:navigationtree_changed');
-                    Backbone.history.navigate("#/projects/" + self.projectId + "/view", { trigger: false });
+                    Backbone.history.navigate("#/projects/" + self.projectId + "/view", {
+                        trigger: false
+                    });
                 },
                 error: function(model, response, options) {
                     var message = _.has(response, 'statusText') ? response.statusText : 'Unknown error!';
@@ -59,7 +63,9 @@ define([
                         message = response.responseJSON.name[0];
                     }
                     app.showAlert('Failed to delete Project', message, 'error');
-                    Backbone.history.navigate("#/projects/" + self.projectId + "/view", { trigger: false });
+                    Backbone.history.navigate("#/projects/" + self.projectId + "/view", {
+                        trigger: false
+                    });
                 }
             });
         }
