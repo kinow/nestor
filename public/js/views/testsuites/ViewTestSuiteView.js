@@ -14,6 +14,8 @@ define([
         },
 
         render: function() {
+            $('.item').removeClass('active');
+            $('.item a[href="#/projects"]').parent().addClass('active');
             this.model = new TestSuiteModel({
                 id: this.testSuiteId,
                 projectId: this.projectId
