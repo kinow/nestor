@@ -14,12 +14,11 @@ define([
             _.bindAll(this, 'render');
             this.$el
                 .attr('id', 'content-main')
-                .attr('class', 'twelve wide column')
-            ;
+                .attr('class', 'twelve wide column');
         },
 
         events: {
-            
+
         },
 
         render: function() {
