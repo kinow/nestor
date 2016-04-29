@@ -21,6 +21,8 @@ define([
         },
 
         render: function(options) {
+            $('.item').removeClass('active');
+            $('.item a[href="#/projects"]').parent().addClass('active');
             this.parentId = options.parent_id; // FIXME: remove this comment when we prevent insecure object direct reference
             this.projectId = options.project_id;
             var compiledTemplate = _.template(newTestSuiteTemplate, {});
