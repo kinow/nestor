@@ -13,6 +13,8 @@ define([
     },
 
     render: function(){
+      $('.item').removeClass('active');
+      $('.item a[href="#"]').parent().addClass('active');
       this.$el.html(homeTemplate);
     }
   });

@@ -40,17 +40,22 @@ require([
 
     app.session.checkAuth({
 
-        // complete: function() {
-        //
-        //   // HTML5 pushState for URLs without hashbangs
-        //   var hasPushstate = !!(window.history && history.pushState);
-        //   if(hasPushstate) {
-        //     Backbone.history.start({ pushState: true, root: '/' });
-        //   } else {
-        //     Backbone.history.start();
-        //   }
-        //
-        // }
+        complete: function() {
+
+            // HTML5 pushState for URLs without hashbangs
+            // var hasPushstate = !!(window.history && history.pushState);
+            // if (hasPushstate) {
+            //     Backbone.history.start({
+            //         pushState: true,
+            //         root: '/'
+            //     });
+            // } else {
+            //     Backbone.history.start();
+            // }
+
+            Backbone.history.start();
+
+        }
 
     });
 

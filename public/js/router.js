@@ -255,9 +255,6 @@ define([
                 app.homeView = new HomeView();
             }
             app.showView(app.homeView);
-
-            $('.item').removeClass('active');
-            $('.item a[href="#"]').parent().addClass('active');
         });
         // --- end base router
 
@@ -295,9 +292,6 @@ define([
             app.showView(app.projectsView, {
                 requiresAuth: true
             });
-
-            $('.item').removeClass('active');
-            $('.item a[href="#/projects"]').parent().addClass('active');
         });
 
         projectsRouter.on('route:showAddProject', function() {
@@ -506,7 +500,7 @@ define([
         navigation.appendRouter(testCasesRouter);
         navigation.mapRouters();
 
-        Backbone.history.start();
+        
     };
 
     var AppRouter = {

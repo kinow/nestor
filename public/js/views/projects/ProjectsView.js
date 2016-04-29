@@ -20,8 +20,8 @@ define([
     },
 
     render: function() {
-        $('.menu a').removeClass('active');
-        $('.menu a[href="'+window.location.hash+'"]').addClass('active');
+        $('.item').removeClass('active');
+        $('.item a[href="#/projects"]').parent().addClass('active');
 
         this.$el.html(projectsTemplate);
         var projectsCollection = new ProjectsCollection();
