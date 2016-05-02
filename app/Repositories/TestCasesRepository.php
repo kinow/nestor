@@ -10,5 +10,8 @@ use Prettus\Repository\Contracts\RepositoryInterface;
  */
 interface TestCasesRepository extends RepositoryInterface
 {
-    //
+
+    function createWithAncestor(array $testcaseAttributes, array $testcaseVersionAttributes, $ancestorNodeId);
+
+    function findTestCaseWithVersion($id, $columns = array('*'));
 }

@@ -106,13 +106,9 @@ class TestCasesRepositoryEloquent extends BaseRepository implements TestCasesRep
     }
 
     /**
-     * Find data by id
-     *
-     * @param $id
-     * @param array $columns
-     * @return mixed
+     * {@inheritDoc}
      */
-    public function find($id, $columns = array('*'))
+    public function findTestCaseWithVersion($id, $columns = array('*'))
     {
         $this->applyCriteria();
         $this->applyScope();
