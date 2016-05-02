@@ -491,6 +491,24 @@ define([
             }
         });
 
+        testCasesRouter.on('route:showConfirmDeleteTestCase', function(projectId, testSuiteId, testCaseId) {
+            if (!app.viewProjectView) {
+                app.viewProjectView = new ViewProjectView();
+            }
+
+            app.viewProjectView.setProjectId(projectId);
+            app.viewProjectView.setTestSuiteId(testSuiteId);
+            app.viewProjectView.setTestCaseId(testCaseId);
+            if (typeof app.currentView !== 'undefined' && app.currentView.cid == app.viewProjectView.cid) {
+                app.viewProjectView.displayConfirmDeleteTestCase();
+            } else {
+                app.showView(app.viewProjectView, {
+                    requiresAuth: true,
+                    onSuccess: app.viewProjectView.displayConfirmDeleteTestCase
+                });
+            }
+        });
+
         // --- end test cases router ---
 
         navigation.appendRouter(baseRouter);
