@@ -61,7 +61,8 @@ define([
                 'displayConfirmDeleteTestSuite',
                 'displayNewTestCase',
                 'displayTestCase',
-                'displayShowTestCase');
+                'displayShowTestCase',
+                'displayConfirmDeleteTestCase');
 
             this.projectId = 0;
             this.testSuiteId = 0;
