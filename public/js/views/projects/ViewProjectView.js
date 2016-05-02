@@ -9,6 +9,7 @@ define([
     'views/testsuites/ConfirmDeleteTestSuiteView',
     'views/testcases/NewTestCaseView',
     'views/testcases/TestCaseView',
+    'views/testcases/ConfirmDeleteTestCaseView',
     'models/project/ProjectModel',
     'models/testsuite/TestSuiteModel',
     'models/testcase/TestCaseModel',
@@ -28,6 +29,7 @@ define([
     ConfirmDeleteTestSuiteView,
     NewTestCaseView,
     TestCaseView,
+    ConfirmDeleteTestCaseView,
     ProjectModel,
     TestSuiteModel,
     TestCaseModel,
@@ -73,6 +75,7 @@ define([
             this.testSuiteView = new TestSuiteView();
             this.confirmDeleteTestSuiteView = new ConfirmDeleteTestSuiteView();
             this.testCaseView = new TestCaseView();
+            this.confirmDeleteTestCaseView = new ConfirmDeleteTestCaseView();
 
             // Collections
             this.executionTypesCollection = new ExecutionTypesCollection();
@@ -90,6 +93,7 @@ define([
             this.subviews.confirmDeleteTestSuiteView = this.confirmDeleteTestSuiteView;
             this.subviews.newTestCaseView = this.newTestCaseView;
             this.subviews.testCaseView = this.testCaseView;
+            this.subviews.confirmDeleteTestCaseView = this.confirmDeleteTestCaseView;
         },
 
 
@@ -319,6 +323,36 @@ define([
                             self.testCaseView.delegateEvents();
                             self.$('#content-main').empty();
                             self.$('#content-main').append(self.testCaseView.el);
+                        },
+                        error: function() {
+                            throw new Error('Failure to retrieve executiont types!');
+                        }
+                    });
+                },
+                error: function() {
+                    throw new Error("Failed to fetch test suite");
+                }
+            });
+        },
+
+        displayConfirmDeleteTestCase: function() {
+            var self = this;
+            this.testCaseModel.set('project_id', this.projectId);
+            this.testCaseModel.set('test_suite_id', this.testSuiteId);
+            this.testCaseModel.set('id', this.testCaseId);
+            this.testCaseModel.fetch({
+                success: function(responseData) {
+                    self.executionTypesCollection.fetch({
+                        success: function() {
+                            self.confirmDeleteTestCaseView.render({
+                                model: self.testCaseModel,
+                                project_id: self.projectId,
+                                test_suite_id: self.testSuiteId,
+                                execution_types: self.executionTypesCollection.models
+                            });
+                            self.confirmDeleteTestCaseView.delegateEvents();
+                            self.$('#content-main').empty();
+                            self.$('#content-main').append(self.confirmDeleteTestCaseView.el);
                         },
                         error: function() {
                             throw new Error('Failure to retrieve executiont types!');
