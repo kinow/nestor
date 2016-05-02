@@ -126,10 +126,12 @@ class TestCasesController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  int  $projectId project ID
+     * @param  int  $testSuiteId test suite ID
+     * @param  int  $id test case ID
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy($projectId, $testSuiteId, $id)
     {
         return array (
             'Result' => $this->testCasesRepository->delete($id) 

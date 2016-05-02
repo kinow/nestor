@@ -10,7 +10,6 @@ use Nestor\Entities\NavigationTree;
 use Nestor\Entities\TestCases;
 use Nestor\Entities\TestCasesVersions;
 use Nestor\Repositories\TestCasesRepository;
-use Nestor\Repositories\TestSuitesRepository;
 use Prettus\Repository\Eloquent\BaseRepository;
 use Prettus\Repository\Criteria\RequestCriteria;
 use Prettus\Repository\Events\RepositoryEntityCreated;
@@ -143,5 +142,56 @@ class TestCasesRepositoryEloquent extends BaseRepository implements TestCasesRep
         $testCase['version'] = $version;
 
         return $this->parserResult($testCase);
+    }
+
+    /**
+     * {@inheritDoc}
+     * @see \Prettus\Repository\Eloquent\BaseRepository::delete()
+     */
+    public function delete($id)
+    {
+        Log::debug(sprintf("Deleting test case %d", $id));
+        $this->applyScope();
+    
+        $_skipPresenter = $this->skipPresenter;
+        $this->skipPresenter(true);
+    
+        $model = $this->find($id);
+        $originalModel = clone $model;
+    
+        $this->skipPresenter($_skipPresenter);
+        $this->resetModel();
+    
+        DB::beginTransaction();
+    
+        try
+        {
+            $deleted = $model->delete();
+    
+            if (!$deleted)
+            {
+                throw new Exception("Failed to delete entity: " . $model->id);
+            }
+    
+            Log::debug("Deleting navigation tree node");
+            $testCaseNodeId = NavigationTree::testCaseId($originalModel->id);
+            $node = $this->navigationTreeRepository->find($testCaseNodeId, $testCaseNodeId);
+            $deleted = $this->navigationTreeRepository->deleteWithAllChildren($node->ancestor, $node->descendant);
+    
+            if (!$deleted)
+            {
+                throw new Exception("Failed to delete node: " . $node->display_name);
+            }
+    
+            DB::commit();
+            event(new RepositoryEntityDeleted($this, $originalModel));
+            Log::info(sprintf("Test Case %s deleted!", $originalModel->name));
+            return $deleted;
+        } catch ( Exception $e )
+        {
+            Log::error($e);
+            DB::rollback();
+            throw $e;
+        }
     }
 }
