@@ -16,6 +16,9 @@ define([
 
         initialize: function() {
             _.bindAll(this, 'render', 'save');
+            this.project_id    = 0;
+            this.test_suite_id = 0;
+            this.test_case_id  = 0;
         },
 
         render: function(options) {
@@ -24,10 +27,14 @@ define([
             
             this.model = options.model;
             var executionTypes = options.execution_types;
+            this.projectId   = options.project_id;
+            this.testSuiteId = options.test_suite_id;
+            this.testCaseId  = options.test_case_id;
             var data = {
                 testcase: this.model,
                 projectId: options.project_id,
                 testSuiteId: options.test_suite_id,
+                testCaseId: options.test_case_id,
                 execution_types: executionTypes,
                 _: _
             }
@@ -64,12 +71,13 @@ define([
             event.stopPropagation();
 
             if (this.$("#testcase-form").parsley().validate()) {
-                this.collection.create({
+                this.model.save({
                     name: this.$("#testcase-name-input").val(),
                     description: this.description_simplemde.value(),
                     prerequisite: this.prerequisite_simplemde.value(),
                     execution_type_id: this.$("#testcase-executiontype_id-input").val(),
-                    test_suite_id: this.testsuite_id,
+                    test_suite_id: this.testSuiteId,
+                    test_case_id: this.testCaseId,
                     project_id: this.projectId,
                     created_by: app.session.user_id
                 }, {

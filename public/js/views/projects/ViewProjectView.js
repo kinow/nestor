@@ -317,6 +317,7 @@ define([
                         success: function() {
                             self.testCaseView.render({
                                 model: self.testCaseModel,
+                                test_case_id: self.testCaseId,
                                 project_id: self.projectId,
                                 test_suite_id: self.testSuiteId,
                                 execution_types: self.executionTypesCollection.models

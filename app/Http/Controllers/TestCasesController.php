@@ -115,12 +115,33 @@ class TestCasesController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
+     * @param  int  $projectId project ID
+     * @param  int  $testsuiteId test suite ID
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, $projectId, $testsuiteId, $id)
     {
-        //
+        Log::debug("Updating an existing test case");
+        $testcaseVersionAttributes = $request->only('test_case_id', 'execution_type_id', 'name', 'prerequisite', 'description');
+        $testcaseVersionAttributesValidator = Validator::make($testcaseVersionAttributes, [
+            'test_case_id' => 'required|integer|min:1',
+            'execution_type_id' => 'required|integer|min:1',
+            'name' => 'required|min:1|max:255',
+            'prerequisite' => 'max:1000',
+            'description' => 'max:1000'
+        ]);
+        if ($testcaseVersionAttributesValidator->fails()) {
+            throw new \Dingo\Api\Exception\StoreResourceFailedException('Could not update test case version.', $testcaseVersionAttributesValidator->errors());
+        }
+
+        $ancestorNodeId = NavigationTree::testsuiteId($testsuiteId);
+        Log::debug("Ancestor ID: " . $ancestorNodeId);
+
+        $testcaseVersionAttributes['version'] = 1;
+
+        $entity = $this->testCasesRepository->updateWithAncestor($testcaseVersionAttributes, $ancestorNodeId);
+        return $entity;
     }
 
     /**

@@ -131,7 +131,7 @@ class TestCasesRepositoryEloquent extends BaseRepository implements TestCasesRep
         $executionType = $version->executionType()->firstOrFail();
 
         //$labels = $labels->toArray();
-        $testCase = $testCase->toArray();
+        //$testCase = $testCase->toArray();
         $version = $version->toArray();
         //$steps = $steps->toArray();
         $executionType = $executionType->toArray();
@@ -139,7 +139,7 @@ class TestCasesRepositoryEloquent extends BaseRepository implements TestCasesRep
         //$version['labels'] = $labels;
         //$version['steps'] = $steps;
         $version['execution_type'] = $executionType;
-        $testCase['version'] = $version;
+        $testCase->version = $version;
 
         return $this->parserResult($testCase);
     }
@@ -189,6 +189,36 @@ class TestCasesRepositoryEloquent extends BaseRepository implements TestCasesRep
             return $deleted;
         } catch ( Exception $e )
         {
+            Log::error($e);
+            DB::rollback();
+            throw $e;
+        }
+    }
+
+    public function updateWithAncestor(array $testcaseVersionAttributes, $ancestorNodeId)
+    {
+        DB::beginTransaction();
+        
+        try {
+            $testcase = $this->findTestCaseWithVersion($testcaseVersionAttributes['test_case_id']);
+            Log::debug(sprintf("Updating test case %d", $testcaseVersionAttributes['test_case_id']));
+            $version = $testcase['version'];
+            $newVersion = intval($version['version']) + 1;
+            Log::debug(sprintf("Creating a new version %d", $newVersion));
+            $testcaseVersionAttributes['version'] = $newVersion;
+            $testcaseVersion = new TestCasesVersions(collect($testcaseVersionAttributes)->toArray());
+            $testcaseVersion->save();
+
+            $testcase['version'] = $testcaseVersion->toArray();
+
+            $testCaseNodeId = NavigationTree::testCaseId($testcaseVersionAttributes['test_case_id']);
+            $this->navigationTreeRepository->update($ancestorNodeId, $testCaseNodeId, $testcaseVersionAttributes['test_case_id'], NavigationTree::TEST_CASE_TYPE, $testcaseVersion->name);
+            
+            DB::commit();
+            event(new RepositoryEntityCreated($this, $testcase));
+            Log::info(sprintf("Test case %s updated", $testcaseVersion->name));
+            return $this->parserResult($testcase);
+        } catch (Exception $e) {
             Log::error($e);
             DB::rollback();
             throw $e;
