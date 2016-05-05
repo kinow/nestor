@@ -12,6 +12,8 @@ class TestCases extends Model implements Transformable
 
     protected $fillable = ['project_id', 'test_suite_id'];
 
+    protected $appends = ['version'];
+
     /**
      * The database table used by the model.
      *
@@ -42,6 +44,10 @@ class TestCases extends Model implements Transformable
             ->orderBy('version', 'desc')
             ->take(1)
             ->firstOrFail(); // FIXME: redundant take1?
+    }
+
+    public function getVersionAttribute() {
+        return $this->version;
     }
 
     // public function steps()
