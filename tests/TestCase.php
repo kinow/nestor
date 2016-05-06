@@ -18,4 +18,9 @@ class TestCase extends Illuminate\Foundation\Testing\TestCase
         $app->make(Illuminate\Contracts\Console\Kernel::class)->bootstrap();
         return $app;
     }
+
+    public function tearDown() {
+        parent::tearDown();
+        Mockery::close();
+    }
 }
