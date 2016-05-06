@@ -32,6 +32,7 @@ class UserTest extends TestCase
 
     public function setUp() {
         parent::setUp();
+        $this->createApplication();
     }
 
     public function testClassAttributes() {
