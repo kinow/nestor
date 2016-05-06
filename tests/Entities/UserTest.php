@@ -1,6 +1,9 @@
 <?php
 
+namespace Entities;
+
 use Nestor\Entities\User;
+use \TestCase;
 
 class UserTest extends TestCase
 {
