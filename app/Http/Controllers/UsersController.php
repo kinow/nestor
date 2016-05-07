@@ -91,7 +91,7 @@ class UsersController extends Controller
         
         Auth::loginUsingId($entity['id'], $request->has('remember'));
         
-        return $entity;
+        return $entity->toJson();
     }
     
     /**

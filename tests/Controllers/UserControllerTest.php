@@ -39,8 +39,6 @@ class UserControllerTest extends TestCase
     use DatabaseTransactions;
 
     public function testCreateUser() {
-        $this->withoutMiddleware();
-
         $payload = [
             'username' => 'mariah',
             'name' => 'Mariah', 
@@ -48,9 +46,17 @@ class UserControllerTest extends TestCase
             'password' => '123abc'
         ];
 
-        $response = $this->call('POST', 'auth/signup', $payload);
+        $dispatcher = $this->app->make('Dingo\Api\Dispatcher');
 
-        dd($response);
+        $response = json_decode($dispatcher->post('auth/signup', $payload));
+
+        $this->assertEquals($payload['username'], $response->username);
+        $this->assertEquals($payload['name'], $response->name);
+        $this->assertEquals($payload['email'], $response->email);
+        $this->assertTrue($response->id > 0);
+        $this->assertTrue(isset($response->created_at));
+        $this->assertTrue(isset($response->updated_at));
+        $this->assertFalse(isset($response->password));
     }
 
 }
