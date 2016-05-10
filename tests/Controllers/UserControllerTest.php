@@ -59,4 +59,18 @@ class UserControllerTest extends TestCase
         $this->assertFalse(isset($response->password));
     }
 
+    public function testCreateUserValidator() {
+        $payload = [
+            'username' => 'mariah',
+            'name' => 'Mariah', 
+            //'email' => 'hsifuh#@llsad.ii.com',
+            'password' => '123abc'
+        ];
+
+        $dispatcher = $this->app->make('Dingo\Api\Dispatcher');
+
+        $this->setExpectedException('Dingo\Api\Exception\InternalHttpException');
+        $response = json_decode($dispatcher->post('auth/signup', $payload));
+    }
+
 }
