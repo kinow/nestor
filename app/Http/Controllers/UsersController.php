@@ -103,7 +103,7 @@ class UsersController extends Controller
     public function doCheckLogin(Request $request)
     {
         $user = Auth::user();
-        return $user;
+        return response()->json($user);
     }
 
     /**
@@ -142,14 +142,14 @@ class UsersController extends Controller
         $throttles = $this->isUsingThrottlesLoginsTrait();
         
         if ($throttles && $this->hasTooManyLoginAttempts($request)) {
-            return $this->sendLockoutResponse($request);
+            return response()->json($this->sendLockoutResponse($request));
         }
         
         $credentials = $this->getCredentials($request);
         
         $authenticated = Auth::attempt($credentials, $request->has('remember'));
         if ($authenticated) {
-            return $this->handleUserWasAuthenticated($request, $throttles);
+            return response()->json($this->handleUserWasAuthenticated($request, $throttles));
         }
         
         // If the login attempt was unsuccessful we will increment the number of attempts
@@ -161,7 +161,7 @@ class UsersController extends Controller
         
         $user = Auth::user();
         if ($user)
-            return $user;
+            return response()->json($user);
         return $this->response->error('Invalid username or password.', 401);
     }
 
