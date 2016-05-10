@@ -116,28 +116,56 @@ class UserControllerTest extends TestCase
         $this->assertFalse(isset($response['password']));
     }
 
-    // public function testCheckLogin() {
-    //     $dispatcher = $this->app->make('Dingo\Api\Dispatcher');
+    public function testCheckLogin() {
+        $dispatcher = $this->app->make('Dingo\Api\Dispatcher');
 
-    //     $user = $dispatcher->get('auth');
-    //     $this->assertNull($user);
+        $user = $dispatcher->get('auth');
+        $this->assertEmpty($user);
 
-    //     $payload = [
-    //         'username' => 'mariah',
-    //         'name' => 'Mariah', 
-    //         'email' => 'hsifuh#@llsad.ii.com',
-    //         'password' => '123abc'
-    //     ];
+        $payload = [
+            'username' => 'mariah',
+            'name' => 'Mariah', 
+            'email' => 'hsifuh#@llsad.ii.com',
+            'password' => '123abc'
+        ];
 
-    //     $response = $dispatcher->post('auth/signup', $payload);
+        $response = $dispatcher->post('auth/signup', $payload);
 
-    //     $this->assertEquals($payload['username'], $response['username']);
-    //     $this->assertEquals($payload['name'], $response['name']);
-    //     $this->assertEquals($payload['email'], $response['email']);
-    //     $this->assertTrue($response['id'] > 0);
-    //     $this->assertTrue(isset($response['created_at']));
-    //     $this->assertTrue(isset($response['updated_at']));
-    //     $this->assertFalse(isset($response['password']));
-    // }
+        $this->assertEquals($payload['username'], $response['username']);
+        $this->assertEquals($payload['name'], $response['name']);
+        $this->assertEquals($payload['email'], $response['email']);
+        $this->assertTrue($response['id'] > 0);
+        $this->assertTrue(isset($response['created_at']));
+        $this->assertTrue(isset($response['updated_at']));
+        $this->assertFalse(isset($response['password']));
+
+        $loginPayload = [
+            'username' => 'mariah',
+            'password' => '123abc'
+        ];
+
+        $response = $dispatcher->post('auth/login', $loginPayload);
+
+        $this->assertEquals($payload['username'], $response['username']);
+        $this->assertEquals($payload['name'], $response['name']);
+        $this->assertEquals($payload['email'], $response['email']);
+        $this->assertTrue($response['id'] > 0);
+        $this->assertTrue(isset($response['created_at']));
+        $this->assertTrue(isset($response['updated_at']));
+        $this->assertFalse(isset($response['password']));
+
+        $response = $dispatcher->get('auth');
+        
+        $this->assertNotNull($response);
+        $this->assertNotEmpty($response);
+        
+        $this->assertEquals($payload['username'], $response['username']);
+        $this->assertEquals($payload['name'], $response['name']);
+        $this->assertEquals($payload['email'], $response['email']);
+        $this->assertTrue($response['id'] > 0);
+        $this->assertTrue(isset($response['created_at']));
+        $this->assertTrue(isset($response['updated_at']));
+        $this->assertFalse(isset($response['password']));
+    }
 
 }
