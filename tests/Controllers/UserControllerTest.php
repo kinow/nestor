@@ -48,15 +48,15 @@ class UserControllerTest extends TestCase
 
         $dispatcher = $this->app->make('Dingo\Api\Dispatcher');
 
-        $response = json_decode($dispatcher->post('auth/signup', $payload));
+        $response = $dispatcher->post('auth/signup', $payload);
 
-        $this->assertEquals($payload['username'], $response->username);
-        $this->assertEquals($payload['name'], $response->name);
-        $this->assertEquals($payload['email'], $response->email);
-        $this->assertTrue($response->id > 0);
-        $this->assertTrue(isset($response->created_at));
-        $this->assertTrue(isset($response->updated_at));
-        $this->assertFalse(isset($response->password));
+        $this->assertEquals($payload['username'], $response['username']);
+        $this->assertEquals($payload['name'], $response['name']);
+        $this->assertEquals($payload['email'], $response['email']);
+        $this->assertTrue($response['id'] > 0);
+        $this->assertTrue(isset($response['created_at']));
+        $this->assertTrue(isset($response['updated_at']));
+        $this->assertFalse(isset($response['password']));
     }
 
     public function testCreateUserValidator() {
@@ -70,7 +70,15 @@ class UserControllerTest extends TestCase
         $dispatcher = $this->app->make('Dingo\Api\Dispatcher');
 
         $this->setExpectedException('Dingo\Api\Exception\InternalHttpException');
-        $response = json_decode($dispatcher->post('auth/signup', $payload));
+        $dispatcher->post('auth/signup', $payload);
+    }
+
+    public function testLogout() {
+        $dispatcher = $this->app->make('Dingo\Api\Dispatcher');
+
+        $response = $dispatcher->get('auth/logout');
+        $this->assertTrue(isset($response['success']));
+        $this->assertEquals("User successfully logged out.", $response['success']);
     }
 
 }

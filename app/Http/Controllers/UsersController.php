@@ -91,7 +91,7 @@ class UsersController extends Controller
         
         Auth::loginUsingId($entity['id'], $request->has('remember'));
         
-        return $entity->toJson();
+        return response()->json($entity);
     }
     
     /**
@@ -115,7 +115,7 @@ class UsersController extends Controller
     public function doLogout(Request $request)
     {
         Auth::logout();
-        return $this->response->array(array('success' => 'User successfully logged out.'));
+        return response()->json(['success' => 'User successfully logged out.']);
     }
 
     /**
