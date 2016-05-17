@@ -25,8 +25,6 @@
 namespace Repositories;
 
 use \TestCase;
-use \Mockery;
-use \Hash;
 use Nestor\Entities\ProjectStatuses;
 use Nestor\Repositories\ProjectStatusesRepository;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
