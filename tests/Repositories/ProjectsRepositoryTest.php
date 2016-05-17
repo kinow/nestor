@@ -31,7 +31,7 @@ use Nestor\Entities\Projects;
 use Nestor\Repositories\ProjectsRepository;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
-class ProjectRepositoryTest extends TestCase
+class ProjectsRepositoryTest extends TestCase
 {
 
     use DatabaseTransactions;
