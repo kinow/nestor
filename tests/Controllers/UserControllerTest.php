@@ -35,10 +35,10 @@ class UserControllerTest extends TestCase
 
     public function testCreateUser() {
         $payload = [
-            'username' => $this->faker->word,
+            'username' => $this->faker->userName,
             'name' => $this->faker->name, 
             'email' => $this->faker->email,
-            'password' => $this->faker->word
+            'password' => $this->faker->md5
         ];
 
         $dispatcher = $this->app->make('Dingo\Api\Dispatcher');
@@ -56,10 +56,10 @@ class UserControllerTest extends TestCase
 
     public function testCreateUserValidator() {
         $payload = [
-            'username' => 'mariah',
-            'name' => 'Mariah', 
-            //'email' => 'hsifuh#@llsad.ii.com',
-            'password' => '123abc'
+            'username' => $this->faker->userName,
+            'name' => $this->faker->name, 
+            //'email' => $this->faker->email,
+            'password' => $this->faker->md5
         ];
 
         $dispatcher = $this->app->make('Dingo\Api\Dispatcher');
@@ -78,10 +78,10 @@ class UserControllerTest extends TestCase
 
     public function testLogin() {
         $payload = [
-            'username' => 'mariah',
-            'name' => 'Mariah', 
-            'email' => 'hsifuh#@llsad.ii.com',
-            'password' => '123abc'
+            'username' => $this->faker->userName,
+            'name' => $this->faker->name, 
+            'email' => $this->faker->email,
+            'password' => $this->faker->md5
         ];
 
         $dispatcher = $this->app->make('Dingo\Api\Dispatcher');
@@ -97,8 +97,8 @@ class UserControllerTest extends TestCase
         $this->assertFalse(isset($response['password']));
 
         $loginPayload = [
-            'username' => 'mariah',
-            'password' => '123abc'
+            'username' => $payload['username'],
+            'password' => $payload['password']
         ];
 
         $response = $dispatcher->post('auth/login', $loginPayload);
@@ -118,10 +118,10 @@ class UserControllerTest extends TestCase
         $this->assertEmpty($user);
 
         $payload = [
-            'username' => 'mariah',
-            'name' => 'Mariah', 
-            'email' => 'hsifuh#@llsad.ii.com',
-            'password' => '123abc'
+            'username' => $this->faker->userName,
+            'name' => $this->faker->name, 
+            'email' => $this->faker->email,
+            'password' => $this->faker->md5
         ];
 
         $response = $dispatcher->post('auth/signup', $payload);
@@ -135,8 +135,8 @@ class UserControllerTest extends TestCase
         $this->assertFalse(isset($response['password']));
 
         $loginPayload = [
-            'username' => 'mariah',
-            'password' => '123abc'
+            'username' => $payload['username'],
+            'password' => $payload['password']
         ];
 
         $response = $dispatcher->post('auth/login', $loginPayload);
