@@ -37,7 +37,7 @@ class ExecutionTypesRepositoryTest extends TestCase
     use DatabaseTransactions;
 
     public function testRepositoryModelClass() {
-        $repository = $this->app->make('Nestor\Repositories\ExecutionTypesRepository');
+        $repository = $this->app->make(\Nestor\Repositories\ExecutionTypesRepository::class);
         $this->assertEquals(ExecutionTypes::class, $repository->model());
     }
 
@@ -47,12 +47,7 @@ class ExecutionTypesRepositoryTest extends TestCase
             'description' => 'A beautiful and lovely music, that describes a test'
         ];
 
-        $executionTypesRepository = $this->mock(Nestor\Repositories\ExecutionTypesRepository::class);
-        $executionTypesRepository
-            ->shouldReceive('create')
-            ->with(Mockery::any())
-            ->once()
-            ->andReturn(factory(ExecutionTypes::class)->make($payload));
+        $executionTypesRepository = $this->app->make(\Nestor\Repositories\ExecutionTypesRepository::class);
         $executionType = $executionTypesRepository->create($payload);
 
         $this->assertEquals('Musical Test', $executionType['name']);
