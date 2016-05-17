@@ -37,7 +37,7 @@ class ProjectRepositoryTest extends TestCase
     use DatabaseTransactions;
 
     public function testRepositoryModelClass() {
-        $projectsRepository = $this->app->make('Nestor\Repositories\ProjectsRepository');
+        $projectsRepository = $this->app->make(\Nestor\Repositories\ProjectsRepository::class);
         $this->assertEquals(Projects::class, $projectsRepository->model());
     }
 
@@ -49,12 +49,7 @@ class ProjectRepositoryTest extends TestCase
             'project_statuses_id' => 1
         ];
 
-        $projectRepository = $this->mock(Nestor\Repositories\ProjectsRepository::class);
-        $projectRepository
-            ->shouldReceive('create')
-            ->with(Mockery::any())
-            ->once()
-            ->andReturn(factory(Projects::class)->make($payload));
+        $projectRepository = app()->make(\Nestor\Repositories\ProjectsRepository::class);
         $project = $projectRepository->create($payload);
 
         $this->assertTrue($project['id'] > 0);
