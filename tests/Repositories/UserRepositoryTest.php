@@ -40,21 +40,20 @@ class UserRepositoryTest extends TestCase
 
     public function testCreateUser() {
         $payload = [
-            'username' => 'mariah',
-            'name' => 'Mariah', 
-            'email' => 'hsifuh#@llsad.ii.com',
-            'password' => '123abc'
+            'username' => $this->faker->word,
+            'name' => $this->faker->name, 
+            'email' => $this->faker->email,
+            'password' => $this->faker->word
         ];
         $payload['password'] = bcrypt($payload['password']);
 
         $usersRepository = app()->make(\Nestor\Repositories\UsersRepository::class);
-        $user = $usersRepository->create($payload);
+        $object = $usersRepository->create($payload);
 
-        $this->assertEquals('mariah', $user['username']);
-        $this->assertEquals('Mariah', $user['name']);
-        $this->assertEquals('hsifuh#@llsad.ii.com', $user['email']);
-        $this->assertTrue(Hash::check('123abc', $user['password']));
-        $this->assertTrue($user['id'] > 0);
+        $this->assertTrue($object['id'] > 0);
+        foreach ($payload as $key => $value) {
+            $this->assertEquals($payload[$key], $object[$key]);
+        }
     }
 
 }
