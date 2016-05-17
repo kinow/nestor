@@ -50,7 +50,7 @@ class TestCase extends Illuminate\Foundation\Testing\TestCase
         return $app;
     }
 
-     protected function mock($class) {
+    protected function mock($class) {
         $mock = Mockery::mock($class);
         $this->app->instance($class, $mock);
         return $mock;
