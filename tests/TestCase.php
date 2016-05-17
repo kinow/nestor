@@ -22,6 +22,8 @@
  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
  
+use \Faker\Factory;
+
 class TestCase extends Illuminate\Foundation\Testing\TestCase
 {
     /**
@@ -30,6 +32,12 @@ class TestCase extends Illuminate\Foundation\Testing\TestCase
      * @var string
      */
     protected $baseUrl = 'http://localhost';
+    /**
+     * Faker object. Useful for creating fake objects.
+     *
+     * @var \Faker\Factory
+     */
+    protected $faker = null;
     /**
      * Creates the application.
      *
@@ -46,6 +54,11 @@ class TestCase extends Illuminate\Foundation\Testing\TestCase
         $mock = Mockery::mock($class);
         $this->app->instance($class, $mock);
         return $mock;
+    }
+
+    public function setUp() {
+        parent::setUp();
+        $this->faker = Factory::create();
     }
 
     public function tearDown() {
