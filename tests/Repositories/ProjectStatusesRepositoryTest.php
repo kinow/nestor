@@ -41,7 +41,7 @@ class ProjectStatusesRepositoryTest extends TestCase
         $this->assertEquals(ProjectStatuses::class, $repository->model());
     }
 
-    public function testCreateExecutionType() {
+    public function testProjectStatuses() {
         $payload = [
             'name' => 'Some random Test', 
             'description' => 'A good food is hard to find'
@@ -53,11 +53,11 @@ class ProjectStatusesRepositoryTest extends TestCase
             ->with(Mockery::any())
             ->once()
             ->andReturn(factory(ProjectStatuses::class)->make($payload));
-        $executionType = $projectStatusesRepository->create($payload);
+        $projectStatus = $projectStatusesRepository->create($payload);
 
-        $this->assertEquals($payload['name'], $executionType['name']);
-        $this->assertEquals($payload['description'], $executionType['description']);
-        $this->assertTrue($executionType['id'] > 0);
+        $this->assertEquals($payload['name'], $projectStatus['name']);
+        $this->assertEquals($payload['description'], $projectStatus['description']);
+        $this->assertTrue($projectStatus['id'] > 0);
     }
 
 }
