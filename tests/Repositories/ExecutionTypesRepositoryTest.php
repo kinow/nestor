@@ -50,9 +50,10 @@ class ExecutionTypesRepositoryTest extends TestCase
         $executionTypesRepository = $this->app->make(\Nestor\Repositories\ExecutionTypesRepository::class);
         $executionType = $executionTypesRepository->create($payload);
 
-        $this->assertEquals('Musical Test', $executionType['name']);
-        $this->assertEquals('A beautiful and lovely music, that describes a test', $executionType['description']);
         $this->assertTrue($executionType['id'] > 0);
+        foreach ($payload as $key => $value) {
+            $this->assertEquals($payload[$key], $executionType[$key]);
+        }
     }
 
 }
