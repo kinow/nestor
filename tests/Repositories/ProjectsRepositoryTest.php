@@ -25,8 +25,6 @@
 namespace Repositories;
 
 use \TestCase;
-use \Mockery;
-use \Hash;
 use Nestor\Entities\Projects;
 use Nestor\Repositories\ProjectsRepository;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
@@ -43,10 +41,10 @@ class ProjectsRepositoryTest extends TestCase
 
     public function testCreateProject() {
         $payload = [
-            'name' => 'Project !', 
-            'description' => 'A new project',
-            'created_by' => 'phpunit',
-            'project_statuses_id' => 1
+            'name' => $this->faker->name, 
+            'description' => $this->faker->sentence(3),
+            'created_by' => $this->faker->word,
+            'project_statuses_id' => $this->faker->numberBetween(1, 1000)
         ];
 
         $projectRepository = app()->make(\Nestor\Repositories\ProjectsRepository::class);
