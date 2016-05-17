@@ -27,7 +27,6 @@ namespace Controllers;
 use \TestCase;
 use Nestor\Http\Controllers\UsersController;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
-use Illuminate\Foundation\Testing\WithoutMiddleware;
 
 class UserControllerTest extends TestCase
 {
