@@ -25,10 +25,6 @@
 namespace Controllers;
 
 use \TestCase;
-use \Mockery;
-use \Hash;
-use Nestor\Entities\User;
-use Nestor\Repositories\UsersRepository;
 use Nestor\Http\Controllers\UsersController;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Foundation\Testing\WithoutMiddleware;
@@ -40,10 +36,10 @@ class UserControllerTest extends TestCase
 
     public function testCreateUser() {
         $payload = [
-            'username' => 'mariah',
-            'name' => 'Mariah', 
-            'email' => 'hsifuh#@llsad.ii.com',
-            'password' => '123abc'
+            'username' => $this->faker->word,
+            'name' => $this->faker->name, 
+            'email' => $this->faker->email,
+            'password' => $this->faker->word
         ];
 
         $dispatcher = $this->app->make('Dingo\Api\Dispatcher');
