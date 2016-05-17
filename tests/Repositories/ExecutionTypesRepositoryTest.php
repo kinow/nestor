@@ -25,8 +25,6 @@
 namespace Repositories;
 
 use \TestCase;
-use \Mockery;
-use \Hash;
 use Nestor\Entities\ExecutionTypes;
 use Nestor\Repositories\ExecutionTypesRepository;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
@@ -43,8 +41,8 @@ class ExecutionTypesRepositoryTest extends TestCase
 
     public function testCreateExecutionType() {
         $payload = [
-            'name' => 'Musical Test', 
-            'description' => 'A beautiful and lovely music, that describes a test'
+            'name' => $this->faker->word, 
+            'description' => $this->faker->sentence(2)
         ];
 
         $executionTypesRepository = $this->app->make(\Nestor\Repositories\ExecutionTypesRepository::class);
