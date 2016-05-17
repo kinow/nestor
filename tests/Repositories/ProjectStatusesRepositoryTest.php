@@ -37,7 +37,7 @@ class ProjectStatusesRepositoryTest extends TestCase
     use DatabaseTransactions;
 
     public function testRepositoryModelClass() {
-        $repository = $this->app->make('Nestor\Repositories\ProjectStatusesRepository');
+        $repository = $this->app->make(\Nestor\Repositories\ProjectStatusesRepository::class);
         $this->assertEquals(ProjectStatuses::class, $repository->model());
     }
 
@@ -47,12 +47,7 @@ class ProjectStatusesRepositoryTest extends TestCase
             'description' => 'A good food is hard to find'
         ];
 
-        $projectStatusesRepository = $this->mock(Nestor\Repositories\ProjectStatusesRepository::class);
-        $projectStatusesRepository
-            ->shouldReceive('create')
-            ->with(Mockery::any())
-            ->once()
-            ->andReturn(factory(ProjectStatuses::class)->make($payload));
+        $projectStatusesRepository = app()->make(\Nestor\Repositories\ProjectStatusesRepository::class);
         $projectStatus = $projectStatusesRepository->create($payload);
 
         $this->assertEquals($payload['name'], $projectStatus['name']);
