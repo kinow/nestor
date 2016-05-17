@@ -34,7 +34,7 @@ class UserRepositoryTest extends TestCase
 {
 
     public function testRepositoryModelClass() {
-        $repository = $this->app->make('Nestor\Repositories\UsersRepository');
+        $repository = $this->app->make(\Nestor\Repositories\UsersRepository::class);
         $this->assertEquals(User::class, $repository->model());
     }
 
@@ -47,12 +47,7 @@ class UserRepositoryTest extends TestCase
         ];
         $payload['password'] = bcrypt($payload['password']);
 
-        $usersRepository = $this->mock(Nestor\Repositories\UsersRepository::class);
-        $usersRepository
-            ->shouldReceive('create')
-            ->with(Mockery::any())
-            ->once()
-            ->andReturn(factory(User::class)->make($payload));
+        $usersRepository = app()->make(\Nestor\Repositories\UsersRepository::class);
         $user = $usersRepository->create($payload);
 
         $this->assertEquals('mariah', $user['username']);
