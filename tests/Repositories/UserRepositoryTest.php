@@ -25,8 +25,6 @@
 namespace Repositories;
 
 use \TestCase;
-use \Mockery;
-use \Hash;
 use Nestor\Entities\User;
 use Nestor\Repositories\UsersRepository;
 
