@@ -35,7 +35,7 @@ class UserControllerTest extends TestCase
 
     public function testCreateUser() {
         $payload = [
-            'username' => $this->faker->userName,
+            'username' => $this->faker->uuid,
             'name' => $this->faker->name, 
             'email' => $this->faker->email,
             'password' => $this->faker->md5
@@ -56,7 +56,7 @@ class UserControllerTest extends TestCase
 
     public function testCreateUserValidator() {
         $payload = [
-            'username' => $this->faker->userName,
+            'username' => $this->faker->uuid,
             'name' => $this->faker->name, 
             //'email' => $this->faker->email,
             'password' => $this->faker->md5
@@ -78,7 +78,7 @@ class UserControllerTest extends TestCase
 
     public function testLogin() {
         $payload = [
-            'username' => $this->faker->userName,
+            'username' => $this->faker->uuid,
             'name' => $this->faker->name, 
             'email' => $this->faker->email,
             'password' => $this->faker->md5
@@ -118,7 +118,7 @@ class UserControllerTest extends TestCase
         $this->assertEmpty($user);
 
         $payload = [
-            'username' => $this->faker->userName,
+            'username' => $this->faker->uuid,
             'name' => $this->faker->name, 
             'email' => $this->faker->email,
             'password' => $this->faker->md5
