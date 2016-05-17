@@ -27,7 +27,7 @@ $factory->define(Nestor\Entities\Projects::class, function (Faker\Generator $fak
         'id' => $faker->numberBetween(1, 1000),
         'name' => $faker->name,
         'description' => $faker->text,
-        'project_statuses_id' => $$faker->numberBetween(1, 10),
+        'project_statuses_id' => $faker->numberBetween(1, 10),
         'created_by' => $faker->name
     ];
 });
