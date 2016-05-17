@@ -27,8 +27,8 @@ namespace Repositories;
 use \TestCase;
 use \Mockery;
 use \Hash;
-use Nestor\Entities\ProjectStatuses;
-use Nestor\Repositories\ProjectStatusesRepository;
+use Nestor\Entities\Projects;
+use Nestor\Repositories\ProjectsRepository;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class ProjectRepositoryTest extends TestCase
@@ -41,23 +41,26 @@ class ProjectRepositoryTest extends TestCase
         $this->assertEquals(Projects::class, $projectsRepository->model());
     }
 
-    public function testCreateExecutionType() {
+    public function testCreateProject() {
         $payload = [
-            'name' => 'Some random Test', 
-            'description' => 'A good food is hard to find'
+            'name' => 'Project !', 
+            'description' => 'A new project',
+            'created_by' => 'phpunit',
+            'project_statuses_id' => 1
         ];
 
-        $projectStatusesRepository = $this->mock(Nestor\Repositories\ProjectStatusesRepository::class);
-        $projectStatusesRepository
+        $projectRepository = $this->mock(Nestor\Repositories\ProjectsRepository::class);
+        $projectRepository
             ->shouldReceive('create')
             ->with(Mockery::any())
             ->once()
-            ->andReturn(factory(ProjectStatuses::class)->make($payload));
-        $executionType = $projectStatusesRepository->create($payload);
+            ->andReturn(factory(Projects::class)->make($payload));
+        $project = $projectRepository->create($payload);
 
-        $this->assertEquals($payload['name'], $executionType['name']);
-        $this->assertEquals($payload['description'], $executionType['description']);
-        $this->assertTrue($executionType['id'] > 0);
+        $this->assertTrue($project['id'] > 0);
+        foreach ($payload as $key => $value) {
+            $this->assertEquals($payload[$key], $project[$key]);
+        }
     }
 
 }
