@@ -27,9 +27,12 @@ namespace Repositories;
 use \TestCase;
 use Nestor\Entities\User;
 use Nestor\Repositories\UsersRepository;
+use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class UserRepositoryTest extends TestCase
 {
+
+    use DatabaseTransactions;
 
     public function testRepositoryModelClass() {
         $repository = $this->app->make(\Nestor\Repositories\UsersRepository::class);
