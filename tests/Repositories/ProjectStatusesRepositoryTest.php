@@ -41,8 +41,8 @@ class ProjectStatusesRepositoryTest extends TestCase
 
     public function testProjectStatuses() {
         $payload = [
-            'name' => 'Some random Test', 
-            'description' => 'A good food is hard to find'
+            'name' => $this->faker->word, 
+            'description' => $this->faker->sentence(3)
         ];
 
         $projectStatusesRepository = app()->make(\Nestor\Repositories\ProjectStatusesRepository::class);
