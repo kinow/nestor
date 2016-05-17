@@ -50,9 +50,10 @@ class ProjectStatusesRepositoryTest extends TestCase
         $projectStatusesRepository = app()->make(\Nestor\Repositories\ProjectStatusesRepository::class);
         $projectStatus = $projectStatusesRepository->create($payload);
 
-        $this->assertEquals($payload['name'], $projectStatus['name']);
-        $this->assertEquals($payload['description'], $projectStatus['description']);
         $this->assertTrue($projectStatus['id'] > 0);
+        foreach ($payload as $key => $value) {
+            $this->assertEquals($payload[$key], $projectStatus[$key]);
+        }
     }
 
 }
