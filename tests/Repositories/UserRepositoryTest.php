@@ -41,10 +41,10 @@ class UserRepositoryTest extends TestCase
 
     public function testCreateUser() {
         $payload = [
-            'username' => $this->faker->word,
+            'username' => $this->faker->uuid,
             'name' => $this->faker->name, 
             'email' => $this->faker->email,
-            'password' => $this->faker->word
+            'password' => $this->faker->md5
         ];
         $payload['password'] = bcrypt($payload['password']);
 
