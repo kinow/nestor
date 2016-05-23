@@ -169,12 +169,6 @@ class ProjectsRepositoryEloquent extends BaseRepository implements ProjectsRepos
         Log::debug(sprintf("Updating project %d", $id));
         $this->applyScope();
     
-        if ( !is_null($this->validator) ) {
-            $this->validator->with($attributes)
-            ->setId($id)
-            ->passesOrFail( ValidatorInterface::RULE_UPDATE );
-        }
-    
         $_skipPresenter = $this->skipPresenter;
     
         $this->skipPresenter(true);
