@@ -81,4 +81,22 @@ class ProjectsRepositoryTest extends TestCase
         }
     }
 
+    public function testDeleteProject() {
+        $payload = [
+            'name' => $this->faker->uuid, 
+            'description' => $this->faker->sentence(3),
+            'created_by' => $this->faker->word,
+            'project_statuses_id' => $this->faker->numberBetween(1, 1000)
+        ];
+
+        $projectRepository = app()->make(\Nestor\Repositories\ProjectsRepository::class);
+        $project = $projectRepository->create($payload);
+
+        $this->assertTrue($project['id'] > 0);
+        
+        $r = $projectRepository->delete($project['id']);
+
+        $this->assertTrue($r > 0);
+    }
+
 }
