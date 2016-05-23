@@ -89,11 +89,6 @@ class ProjectsRepositoryEloquent extends BaseRepository implements ProjectsRepos
      */
     public function create(array $attributes)
     {
-        if (!is_null($this->validator))
-        {
-            $this->validator->with($attributes)->passesOrFail(ValidatorInterface::RULE_CREATE);
-        }
-        
         DB::beginTransaction();
         
         try
