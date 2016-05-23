@@ -56,4 +56,29 @@ class ProjectsRepositoryTest extends TestCase
         }
     }
 
+    public function testUpdateProject() {
+        $payload = [
+            'name' => $this->faker->uuid, 
+            'description' => $this->faker->sentence(3),
+            'created_by' => $this->faker->word,
+            'project_statuses_id' => $this->faker->numberBetween(1, 1000)
+        ];
+
+        $projectRepository = app()->make(\Nestor\Repositories\ProjectsRepository::class);
+        $project = $projectRepository->create($payload);
+
+        $this->assertTrue($project['id'] > 0);
+        
+        $payload['name'] = 'Updated name';
+
+        $projectUpdated = $projectRepository->update($payload, $project['id']);
+
+        foreach ($payload as $key => $value) {
+            if (strcmp("name", $key) !== 0)
+                $this->assertEquals($payload[$key], $projectUpdated[$key]);
+            else
+                $this->assertEquals('Updated name', $projectUpdated['name']);
+        }
+    }
+
 }
