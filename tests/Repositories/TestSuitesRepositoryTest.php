@@ -39,6 +39,12 @@ class TestSuitesRepositoryTest extends TestCase
         $this->assertEquals(TestSuites::class, $testSuiteRepository->model());
     }
 
+    public function testCreateShouldNotBeUsed() {
+        $testSuiteRepository = $this->app->make(\Nestor\Repositories\TestSuitesRepository::class);
+        $this->setExpectedException('\Exception');
+        $testSuiteRepository->create([]);
+    }
+
     public function testCreateTestSuiteWithAncestor() {
         $payload = [
             'name' => $this->faker->name, 
