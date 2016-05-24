@@ -89,11 +89,6 @@ class TestSuitesRepositoryEloquent extends BaseRepository implements TestSuitesR
      */
     public function createWithAncestor(array $attributes, $ancestorNodeId)
     {
-        if (!is_null($this->validator))
-        {
-            $this->validator->with($attributes)->passesOrFail(ValidatorInterface::RULE_CREATE);
-        }
-        
         DB::beginTransaction();
         
         try
@@ -118,16 +113,14 @@ class TestSuitesRepositoryEloquent extends BaseRepository implements TestSuitesR
         }
     }
 
+    public function create(array $attributes) {
+        throw new Exception("Not supposed to be called. Use createWithAncestor instead.");
+    }
+
     public function update(array $attributes, $id)
     {
         Log::debug(sprintf("Updating test suite %d", $id));
         $this->applyScope();
-    
-        if ( !is_null($this->validator) ) {
-            $this->validator->with($attributes)
-            ->setId($id)
-            ->passesOrFail( ValidatorInterface::RULE_UPDATE );
-        }
     
         $_skipPresenter = $this->skipPresenter;
     
