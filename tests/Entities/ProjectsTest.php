@@ -39,7 +39,7 @@ class ProjectsTest extends TestCase
         $fillable = ['name', 'project_statuses_id', 'description', 'created_by'];
         $hidden = [];
 
-        $projects = new projects();
+        $projects = new Projects();
         $this->assertEmpty(array_diff($fillable, $projects->getFillable()));
 
         $this->assertEmpty(array_diff($hidden, $projects->getHidden()));
