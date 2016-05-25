@@ -32,7 +32,7 @@ class TestCasesVersions extends Model implements Transformable
 {
     use TransformableTrait;
 
-    protected $fillable = ['version', 'test_case_id', 'execution_type_id', 'name', 'prerequisite','description'];
+    protected $fillable = ['version', 'test_case_id', 'execution_type_id', 'name', 'prerequisite', 'description'];
 
     /**
      * The database table used by the model.
