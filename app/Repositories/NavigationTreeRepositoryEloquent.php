@@ -114,31 +114,31 @@ class NavigationTreeRepositoryEloquent implements NavigationTreeRepository
 		$created_at = new DateTime();
 		$created_at = $created_at->format('Y-m-d H:m:s');
 		$updated_at = $created_at;
-		$created =  DB::insert(sprintf(
-			"INSERT INTO %s(" .
-			"ancestor, descendant, length, node_id, node_type_id, display_name, created_at, updated_at) " .
-			"SELECT t.ancestor, '%s', t.length+1, %d, %d, '%s', '%s', '%s' " .
-			"FROM %s AS t " .
-			"WHERE t.descendant = '%s' " .
-			"UNION ALL " .
-			"SELECT '%s', '%s', 0, %d, %d, '%s', '%s', '%s'",
-			'navigation_tree',
-			$descendant,
-			$node_id,
-			$node_type_id,
-			$display_name,
-			$created_at,
-			$updated_at,
-			'navigation_tree',
-			$ancestor,
-			$descendant,
-			$descendant,
-			$node_id,
-			$node_type_id,
-			$display_name,
-			$created_at,
-			$updated_at
-		));
+		$created =  DB::insert(
+			'INSERT INTO navigation_tree(' .
+			'ancestor, descendant, length, node_id, node_type_id, display_name, created_at, updated_at) ' .
+			'SELECT t.ancestor, ?, t.length+1, ?, ?, ?, ?, ? ' .
+			'FROM navigation_tree AS t ' .
+			'WHERE t.descendant = ? ' .
+			'UNION ALL ' .
+			'SELECT ?, ?, 0, ?, ?, ?, ?, ? ',
+			[
+				$descendant,
+				$node_id,
+				$node_type_id,
+				$display_name,
+				$created_at,
+				$updated_at,
+				$ancestor,
+				$descendant,
+				$descendant,
+				$node_id,
+				$node_type_id,
+				$display_name,
+				$created_at,
+				$updated_at
+			]
+		);
 		return $this->find($ancestor, $descendant);
 	}
 	
