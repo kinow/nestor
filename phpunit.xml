@@ -29,6 +29,7 @@
         <env name="SESSION_DRIVER" value="array"/>
         <env name="QUEUE_DRIVER" value="sync"/>
         <env name="DB_DEFAULT" value="sqlite_testing" />
+        <env name="DB_LOG" value="true" />
     </php>
     <logging>
         <log type="coverage-html" target="./report" charset="UTF-8" yui="true" highlight="true" lowUpperBound="50"
