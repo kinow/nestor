@@ -27,6 +27,7 @@ namespace Repositories;
 use \TestCase;
 use Nestor\Entities\TestCases;
 use Nestor\Repositories\TestCasesRepository;
+use Nestor\Repositories\ProjectsRepository;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class TestCasesRepositoryTest extends TestCase
@@ -129,6 +130,101 @@ class TestCasesRepositoryTest extends TestCase
         $r = $testCaseRepository->delete($testCase['id']);
 
         $this->assertTrue($r > 0);
+    }
+
+    public function testRelationshipProject() {
+        $payload = [
+            'name' => $this->faker->name, 
+            'description' => $this->faker->sentence(3),
+            'created_by' => $this->faker->word,
+            'project_statuses_id' => $this->faker->numberBetween(1, 1000)
+        ];
+
+        $projectRepository = app()->make(\Nestor\Repositories\ProjectsRepository::class);
+        $project = $projectRepository->create($payload);
+
+        $testCasePayload = [
+            'project_id' => $project['id'],
+            'test_suite_id' => $this->faker->numberBetween(1, 1000)
+        ];
+
+        $testCaseVersionPayload = [
+            'name' => $this->faker->name, 
+            'description' => $this->faker->sentence(3),
+            'prerequisite' => $this->faker->sentence(5),
+            'version' => $this->faker->numberBetween(1, 10),
+            'execution_type_id' => $this->faker->numberBetween(1, 2),
+            'test_case_id' => $this->faker->numberBetween(1, 5)
+        ];
+
+        $testCaseRepository = app()->make(\Nestor\Repositories\TestCasesRepository::class);
+        $testCase = $testCaseRepository->createWithAncestor($testCasePayload, $testCaseVersionPayload, '1-1');
+
+        $this->assertTrue($testCase['id'] > 0);
+        
+        $testCaseProject = $testCase->project()->first();
+
+        $this->assertEquals($project->toArray(), $testCaseProject->toArray());
+    }
+
+    public function testRelationshipTestSuite() {
+        $payload = [
+            'name' => $this->faker->name, 
+            'description' => $this->faker->sentence(3),
+            'created_by' => $this->faker->word,
+            'project_id' => $this->faker->numberBetween(1, 1000)
+        ];
+
+        $testSuiteRepository = app()->make(\Nestor\Repositories\TestSuitesRepository::class);
+        $testSuite = $testSuiteRepository->createWithAncestor($payload, '1-1');
+
+        $testCasePayload = [
+            'project_id' => $this->faker->numberBetween(1, 1000),
+            'test_suite_id' => $testSuite['id']
+        ];
+
+        $testCaseVersionPayload = [
+            'name' => $this->faker->name, 
+            'description' => $this->faker->sentence(3),
+            'prerequisite' => $this->faker->sentence(5),
+            'version' => $this->faker->numberBetween(1, 10),
+            'execution_type_id' => $this->faker->numberBetween(1, 2),
+            'test_case_id' => $this->faker->numberBetween(1, 5)
+        ];
+
+        $testCaseRepository = app()->make(\Nestor\Repositories\TestCasesRepository::class);
+        $testCase = $testCaseRepository->createWithAncestor($testCasePayload, $testCaseVersionPayload, '1-1');
+
+        $this->assertTrue($testCase['id'] > 0);
+        
+        $testCaseTestSuite = $testCase->testsuite()->first();
+
+        $this->assertEquals($testSuite->toArray(), $testCaseTestSuite->toArray());
+    }
+
+    public function testRelationshipTestCaseVersions() {
+        $testCasePayload = [
+            'project_id' => $this->faker->numberBetween(1, 1000),
+            'test_suite_id' => $this->faker->numberBetween(1, 1000)
+        ];
+
+        $testCaseVersionPayload = [
+            'name' => $this->faker->uuid, 
+            'description' => $this->faker->sentence(3),
+            'prerequisite' => $this->faker->sentence(5),
+            'version' => $this->faker->numberBetween(1, 10),
+            'execution_type_id' => $this->faker->numberBetween(1, 2),
+            'test_case_id' => $this->faker->numberBetween(1, 5)
+        ];
+
+        $testCaseRepository = app()->make(\Nestor\Repositories\TestCasesRepository::class);
+        $testCase = $testCaseRepository->createWithAncestor($testCasePayload, $testCaseVersionPayload, '1-1');
+
+        $this->assertTrue($testCase['id'] > 0);
+        
+        $testCaseTestCaseVersionsCount = $testCase->testcaseVersions()->count();
+
+        $this->assertTrue($testCaseTestCaseVersionsCount > 0);
     }
 
 }
