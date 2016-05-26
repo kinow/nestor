@@ -45,6 +45,14 @@ class TestCases extends Model implements Transformable
 
     public $version = null;
 
+    public function getProjectIdAttribute($value) {
+        return intval($value);
+    }
+
+    public function getTestSuiteIdAttribute($value) {
+        return intval($value);
+    }
+
     public function project()
     {
         return $this->belongsTo('Nestor\\Entities\\Projects', 'project_id');

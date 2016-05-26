@@ -45,6 +45,10 @@ class TestCasesVersions extends Model implements Transformable
         parent::__construct($attributes);
     }
 
+    public function getVersionAttribute($value) {
+        return intval($value);
+    }
+
     public function testcase()
     {
         return $this->belongsTo('Nestor\\Entities\\TestCases', 'test_case_id');
