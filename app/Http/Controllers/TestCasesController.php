@@ -177,7 +177,7 @@ class TestCasesController extends Controller
     public function destroy($projectId, $testSuiteId, $id)
     {
         return array (
-            'Result' => $this->testCasesRepository->delete($id) 
+            'Result' => $this->testCasesRepository->delete($id)
         );
     }
 }

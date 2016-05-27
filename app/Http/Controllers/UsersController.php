@@ -73,15 +73,14 @@ class UsersController extends Controller
     public function doSignUp(Request $request)
     {
         $payload = $request->only('username', 'name', 'email', 'password');
-        $validator = Validator::make($payload, [ 
+        $validator = Validator::make($payload, [
                 'username' => 'required|max:50|unique:users',
                 'name' => 'required|max:255',
                 'email' => 'required|email|max:255',
-                'password' => 'required|min:6' 
+                'password' => 'required|min:6'
         ]);
         
-        if ($validator->fails())
-        {
+        if ($validator->fails()) {
             $this->throwValidationException($request, $validator);
         }
         
@@ -126,13 +125,12 @@ class UsersController extends Controller
      */
     public function doLogin(Request $request)
     {
-        $validator = Validator::make($request->all(), [ 
+        $validator = Validator::make($request->all(), [
             'username' => 'required|max:50',
-            'password' => 'required|min:6' 
+            'password' => 'required|min:6'
         ]);
         
-        if ($validator->fails())
-        {
+        if ($validator->fails()) {
             $this->throwValidationException($request, $validator);
         }
         
@@ -160,8 +158,9 @@ class UsersController extends Controller
         }
         
         $user = Auth::user();
-        if ($user)
+        if ($user) {
             return response()->json($user);
+        }
         return $this->response->error('Invalid username or password.', 401);
     }
 
@@ -173,9 +172,9 @@ class UsersController extends Controller
      */
     protected function authenticated(Request $request, \Nestor\Entities\User $user)
     {
-        if ($user)
+        if ($user) {
             return $user;
-        return NULL;
+        }
+        return null;
     }
-
 }

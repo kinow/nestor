@@ -46,26 +46,26 @@ Route::get('/', function () {
 // Route::post('auth/register', 'Auth\AuthController@postRegister');
 
 app('Dingo\Api\Exception\Handler')->register(function (Symfony\Component\HttpKernel\Exception\UnauthorizedHttpException $exception) {
-    return Response::make([ 
-            'error' => 'Hey, what do you think you are doing!?' 
+    return Response::make([
+            'error' => 'Hey, what do you think you are doing!?'
     ], 401);
 });
 
 app('Dingo\Api\Exception\Handler')->register(function (Symfony\Component\HttpKernel\Exception\NotFoundHttpException $exception) {
-    return Response::make([ 
-            'error' => 'Not found' 
+    return Response::make([
+            'error' => 'Not found'
     ], 404);
 });
 
 app('Dingo\Api\Exception\Handler')->register(function (Dingo\Api\Exception\StoreResourceFailedException $exception) {
-    return Response::make([ 
-            'error' => 'Failed to save user: ' .$exception->getMessage() 
+    return Response::make([
+            'error' => 'Failed to save user: ' .$exception->getMessage()
     ], 422);
 });
 
 app('Dingo\Api\Exception\Handler')->register(function (Illuminate\Http\Exception\HttpResponseException $exception) {
-    return Response::make([ 
-            'error' => 'Validation error: ' .$exception->getMessage() 
+    return Response::make([
+            'error' => 'Validation error: ' .$exception->getMessage()
     ], 422);
 });
 
@@ -117,28 +117,22 @@ $api->version('v1', function ($api) {
 //     Log::debug($query);
 // });
 
-if (Config::get('database.log', false))
-{           
-    Event::listen('illuminate.query', function($query, $bindings, $time, $name)
-    {
+if (Config::get('database.log', false)) {
+    Event::listen('illuminate.query', function ($query, $bindings, $time, $name) {
         $data = compact('bindings', 'time', 'name');
 
         // Format binding data for sql insertion
-        foreach ($bindings as $i => $binding)
-        {   
-            if ($binding instanceof \DateTime)
-            {   
+        foreach ($bindings as $i => $binding) {
+            if ($binding instanceof \DateTime) {
                 $bindings[$i] = $binding->format('\'Y-m-d H:i:s\'');
-            }
-            else if (is_string($binding))
-            {   
+            } else if (is_string($binding)) {
                 $bindings[$i] = "'$binding'";
-            }   
-        }       
+            }
+        }
 
         // Insert bindings into query
         $query = str_replace(array('%', '?'), array('%%', '%s'), $query);
-        $query = vsprintf($query, $bindings); 
+        $query = vsprintf($query, $bindings);
 
         Log::debug($query, $data);
     });

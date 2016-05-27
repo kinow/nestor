@@ -40,7 +40,7 @@ class NavigationTreeController extends Controller
     
     /**
      *
-     * @param NavigationTreeRepository $navigationTreeRepository            
+     * @param NavigationTreeRepository $navigationTreeRepository
      */
     public function __construct(NavigationTreeRepository $navigationTreeRepository)
     {
@@ -70,7 +70,7 @@ class NavigationTreeController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param \Illuminate\Http\Request $request            
+     * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
@@ -81,7 +81,7 @@ class NavigationTreeController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param int $id            
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function show($id, Request $request)
@@ -97,7 +97,7 @@ class NavigationTreeController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param int $id            
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
@@ -108,8 +108,8 @@ class NavigationTreeController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param \Illuminate\Http\Request $request            
-     * @param int $id            
+     * @param \Illuminate\Http\Request $request
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
@@ -120,7 +120,7 @@ class NavigationTreeController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param int $id            
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)

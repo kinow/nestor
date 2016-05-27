@@ -47,7 +47,7 @@ class ProjectsController extends Controller
     
     /**
      *
-     * @param ProjectsRepository $projectsRepository            
+     * @param ProjectsRepository $projectsRepository
      */
     public function __construct(ProjectsRepository $projectsRepository)
     {
@@ -81,21 +81,20 @@ class ProjectsController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param \Illuminate\Http\Request $request            
+     * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
     {
         Log::debug("Creating a project");
         $payload = $request->only('name', 'description', 'project_statuses_id', 'created_by');
-        $validator = Validator::make($payload, [ 
+        $validator = Validator::make($payload, [
                 'name' => 'required|max:255|unique:projects',
                 'description' => 'max:1000',
-                'created_by' => 'required|integer|min:1' 
+                'created_by' => 'required|integer|min:1'
         ]);
         
-        if ($validator->fails())
-        {
+        if ($validator->fails()) {
             $this->throwValidationException($request, $validator);
         }
         
@@ -107,7 +106,7 @@ class ProjectsController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param int $id            
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function show($id)
@@ -120,7 +119,7 @@ class ProjectsController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param int $id            
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
@@ -131,21 +130,20 @@ class ProjectsController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param \Illuminate\Http\Request $request            
-     * @param int $id            
+     * @param \Illuminate\Http\Request $request
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
     {
         Log::debug("Updating an existing project");
         $payload = $request->only('name', 'description');
-        $validator = Validator::make($payload, [ 
+        $validator = Validator::make($payload, [
                 'name' => 'required|max:255',
-                'description' => 'max:1000' 
+                'description' => 'max:1000'
         ]);
 
-        if ($validator->fails())
-        {
+        if ($validator->fails()) {
             $this->throwValidationException($request, $validator);
         }
 
@@ -156,13 +154,13 @@ class ProjectsController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param int $id            
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
     {
         return array (
-                'Result' => $this->projectsRepository->delete($id) 
+            'Result' => $this->projectsRepository->delete($id)
         );
     }
 }
