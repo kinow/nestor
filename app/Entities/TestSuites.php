@@ -40,5 +40,4 @@ class TestSuites extends Model implements Transformable
      * @var string
      */
     protected $table = 'test_suites';
-
 }

@@ -41,11 +41,13 @@ class TestCasesVersions extends Model implements Transformable
      */
     protected $table = 'test_cases_versions';
 
-    public function __construct(array $attributes = []) {
+    public function __construct(array $attributes = [])
+    {
         parent::__construct($attributes);
     }
 
-    public function getVersionAttribute($value) {
+    public function getVersionAttribute($value)
+    {
         return intval($value);
     }
 

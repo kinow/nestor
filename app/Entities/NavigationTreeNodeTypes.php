@@ -33,5 +33,4 @@ class NavigationTreeNodeTypes extends Model implements Transformable
     use TransformableTrait;
 
     protected $fillable = [];
-
 }

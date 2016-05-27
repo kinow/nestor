@@ -51,11 +51,11 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
      *
      * @var array
      */
-    protected $fillable = [ 
+    protected $fillable = [
         'username',
         'name',
         'email',
-        'password' 
+        'password'
     ];
     
     /**
@@ -63,8 +63,8 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
      *
      * @var array
      */
-    protected $hidden = [ 
+    protected $hidden = [
         'password',
-        'remember_token' 
+        'remember_token'
     ];
 }

@@ -42,5 +42,4 @@ class Projects extends Model implements Transformable
      * @var string
      */
     protected $table = 'projects';
-
 }

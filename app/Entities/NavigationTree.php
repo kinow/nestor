@@ -41,19 +41,19 @@ class NavigationTree extends Model implements Transformable
     
     protected $primaryKey = 'ancestor';
     
-    public $incrementing = FALSE;
+    public $incrementing = false;
     
     /**
      * Fillable properties.
      * @var array
      */
-    protected $fillable = [ 
+    protected $fillable = [
             'ancestor',
             'descendant',
             'length',
             'node_id',
             'node_type_id',
-            'display_name' 
+            'display_name'
     ];
     
     const PROJECT_TYPE = 1;
@@ -93,12 +93,11 @@ class NavigationTree extends Model implements Transformable
     /**
      * Get node ID.
      *
-     * @param string $nodeType            
-     * @param string $nodeId            
+     * @param string $nodeType
+     * @param string $nodeId
      */
     public static function nodeId($nodeType, $nodeId)
     {
         return sprintf("%s-%s", $nodeType, $nodeId);
     }
-    
 }

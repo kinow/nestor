@@ -45,11 +45,13 @@ class TestCases extends Model implements Transformable
 
     public $version = null;
 
-    public function getProjectIdAttribute($value) {
+    public function getProjectIdAttribute($value)
+    {
         return intval($value);
     }
 
-    public function getTestSuiteIdAttribute($value) {
+    public function getTestSuiteIdAttribute($value)
+    {
         return intval($value);
     }
 
@@ -76,7 +78,8 @@ class TestCases extends Model implements Transformable
             ->firstOrFail(); // FIXME: redundant take1?
     }
 
-    public function getVersionAttribute() {
+    public function getVersionAttribute()
+    {
         return $this->version;
     }
 

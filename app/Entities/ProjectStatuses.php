@@ -49,5 +49,4 @@ class ProjectStatuses extends Model implements Transformable
     
     const STATUS_NEW = 1;
     const STATUS_CLOSED = 2;
-
 }
