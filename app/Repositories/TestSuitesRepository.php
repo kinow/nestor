@@ -41,5 +41,5 @@ interface TestSuitesRepository extends RepositoryInterface
      * @param string $parentNodeId
      * @return mixed
      */
-    function createWithAncestor(array $attributes, $ancestorNodeId);
+    public function createWithAncestor(array $attributes, $ancestorNodeId);
 }

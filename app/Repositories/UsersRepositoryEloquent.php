@@ -49,6 +49,6 @@ class UsersRepositoryEloquent extends BaseRepository implements UsersRepository
      */
     public function boot()
     {
-        $this->pushCriteria( app(RequestCriteria::class) );
+        $this->pushCriteria(app(RequestCriteria::class));
     }
 }

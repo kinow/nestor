@@ -184,12 +184,10 @@ class TestCasesRepositoryEloquent extends BaseRepository implements TestCasesRep
     
         DB::beginTransaction();
     
-        try
-        {
+        try {
             $deleted = $model->delete();
     
-            if (!$deleted)
-            {
+            if (!$deleted) {
                 throw new Exception("Failed to delete entity: " . $model->id);
             }
     
@@ -198,8 +196,7 @@ class TestCasesRepositoryEloquent extends BaseRepository implements TestCasesRep
             $node = $this->navigationTreeRepository->find($testCaseNodeId, $testCaseNodeId);
             $deleted = $this->navigationTreeRepository->deleteWithAllChildren($node->ancestor, $node->descendant);
     
-            if (!$deleted)
-            {
+            if (!$deleted) {
                 throw new Exception("Failed to delete node: " . $node->display_name);
             }
     
@@ -207,8 +204,7 @@ class TestCasesRepositoryEloquent extends BaseRepository implements TestCasesRep
             event(new RepositoryEntityDeleted($this, $originalModel));
             Log::info(sprintf("Test Case %s deleted!", $originalModel->name));
             return $deleted;
-        } catch ( Exception $e )
-        {
+        } catch (Exception $e) {
             Log::error($e);
             DB::rollback();
             throw $e;

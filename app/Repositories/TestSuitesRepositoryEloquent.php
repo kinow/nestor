@@ -54,8 +54,8 @@ class TestSuitesRepositoryEloquent extends BaseRepository implements TestSuitesR
     
     /**
      *
-     * @param Application $app            
-     * @param NavigationTreeRepository $navigationTreeRepository            
+     * @param Application $app
+     * @param NavigationTreeRepository $navigationTreeRepository
      */
     public function __construct(Application $app, NavigationTreeRepository $navigationTreeRepository)
     {
@@ -91,8 +91,7 @@ class TestSuitesRepositoryEloquent extends BaseRepository implements TestSuitesR
     {
         DB::beginTransaction();
         
-        try
-        {
+        try {
             Log::debug("Creating new test suite");
             $model = $this->model->newInstance($attributes);
             $model->save();
@@ -105,15 +104,15 @@ class TestSuitesRepositoryEloquent extends BaseRepository implements TestSuitesR
             event(new RepositoryEntityCreated($this, $model));
             Log::info(sprintf("Test suite %s created", $model->name));
             return $this->parserResult($model);
-        } catch ( Exception $e )
-        {
+        } catch (Exception $e) {
             Log::error($e);
             DB::rollback();
             throw $e;
         }
     }
 
-    public function create(array $attributes) {
+    public function create(array $attributes)
+    {
         throw new Exception("Not supposed to be called. Use createWithAncestor instead.");
     }
 
@@ -128,8 +127,7 @@ class TestSuitesRepositoryEloquent extends BaseRepository implements TestSuitesR
     
         DB::beginTransaction();
     
-        try
-        {
+        try {
             $model = $this->model->findOrFail($id);
             $model->fill($attributes);
             $model->save();
@@ -140,16 +138,18 @@ class TestSuitesRepositoryEloquent extends BaseRepository implements TestSuitesR
             Log::debug("Deleting navigation tree node");
             $testSuiteNodeId = NavigationTree::testSuiteId($model->id);
             $node = $this->navigationTreeRepository->update(
-                    $testSuiteNodeId, $testSuiteNodeId, $model->id,
-                    NavigationTree::TEST_SUITE_TYPE, $model->name
-                    );
+                $testSuiteNodeId,
+                $testSuiteNodeId,
+                $model->id,
+                NavigationTree::TEST_SUITE_TYPE,
+                $model->name
+            );
     
             DB::commit();
             event(new RepositoryEntityUpdated($this, $model));
             Log::info(sprintf("Test Suite %s updated!", $model->name));
             return $this->parserResult($model);
-        } catch ( Exception $e )
-        {
+        } catch (Exception $e) {
             Log::error($e);
             DB::rollback();
             throw $e;
@@ -176,12 +176,10 @@ class TestSuitesRepositoryEloquent extends BaseRepository implements TestSuitesR
     
         DB::beginTransaction();
     
-        try
-        {
+        try {
             $deleted = $model->delete();
     
-            if (!$deleted)
-            {
+            if (!$deleted) {
                 throw new Exception("Failed to delete entity: " . $model->id);
             }
     
@@ -190,8 +188,7 @@ class TestSuitesRepositoryEloquent extends BaseRepository implements TestSuitesR
             $node = $this->navigationTreeRepository->find($testSuiteNodeId, $testSuiteNodeId);
             $deleted = $this->navigationTreeRepository->deleteWithAllChildren($node->ancestor, $node->descendant);
     
-            if (!$deleted)
-            {
+            if (!$deleted) {
                 throw new Exception("Failed to delete node: " . $node->display_name);
             }
     
@@ -199,8 +196,7 @@ class TestSuitesRepositoryEloquent extends BaseRepository implements TestSuitesR
             event(new RepositoryEntityDeleted($this, $originalModel));
             Log::info(sprintf("Test Suite %s deleted!", $originalModel->name));
             return $deleted;
-        } catch ( Exception $e )
-        {
+        } catch (Exception $e) {
             Log::error($e);
             DB::rollback();
             throw $e;

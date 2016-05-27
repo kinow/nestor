@@ -49,6 +49,6 @@ class ExecutionTypesRepositoryEloquent extends BaseRepository implements Executi
      */
     public function boot()
     {
-        $this->pushCriteria( app(RequestCriteria::class) );
+        $this->pushCriteria(app(RequestCriteria::class));
     }
 }

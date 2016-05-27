@@ -53,8 +53,8 @@ class ProjectsRepositoryEloquent extends BaseRepository implements ProjectsRepos
     
     /**
      *
-     * @param Application $app            
-     * @param NavigationTreeRepository $navigationTreeRepository            
+     * @param Application $app
+     * @param NavigationTreeRepository $navigationTreeRepository
      */
     public function __construct(Application $app, NavigationTreeRepository $navigationTreeRepository)
     {
@@ -84,15 +84,14 @@ class ProjectsRepositoryEloquent extends BaseRepository implements ProjectsRepos
      * Save a new entity in repository
      *
      * @throws ValidatorException
-     * @param array $attributes            
+     * @param array $attributes
      * @return mixed
      */
     public function create(array $attributes)
     {
         DB::beginTransaction();
         
-        try
-        {
+        try {
             Log::debug("Creating new project");
             $model = $this->model->newInstance($attributes);
             $model->save();
@@ -105,8 +104,7 @@ class ProjectsRepositoryEloquent extends BaseRepository implements ProjectsRepos
             event(new RepositoryEntityCreated($this, $model));
             Log::info(sprintf("Project %s created", $model->name));
             return $this->parserResult($model);
-        } catch ( Exception $e )
-        {
+        } catch (Exception $e) {
             Log::error($e);
             DB::rollback();
             throw $e;
@@ -133,12 +131,10 @@ class ProjectsRepositoryEloquent extends BaseRepository implements ProjectsRepos
     
         DB::beginTransaction();
         
-        try
-        {
+        try {
             $deleted = $model->delete();
             
-            if (!$deleted)
-            {
+            if (!$deleted) {
                 throw new Exception("Failed to delete entity: " . $model->id);
             }
             
@@ -147,8 +143,7 @@ class ProjectsRepositoryEloquent extends BaseRepository implements ProjectsRepos
             $node = $this->navigationTreeRepository->find($projectNodeId, $projectNodeId);
             $deleted = $this->navigationTreeRepository->deleteWithAllChildren($node->ancestor, $node->descendant);
             
-            if (!$deleted)
-            {
+            if (!$deleted) {
                 throw new Exception("Failed to delete node: " . $node->display_name);
             }
 
@@ -156,8 +151,7 @@ class ProjectsRepositoryEloquent extends BaseRepository implements ProjectsRepos
             event(new RepositoryEntityDeleted($this, $originalModel));
             Log::info(sprintf("Project %s deleted!", $originalModel->name));
             return $deleted;
-        } catch ( Exception $e )
-        {
+        } catch (Exception $e) {
             Log::error($e);
             DB::rollback();
             throw $e;
@@ -175,8 +169,7 @@ class ProjectsRepositoryEloquent extends BaseRepository implements ProjectsRepos
         
         DB::beginTransaction();
         
-        try
-        {
+        try {
             $model = $this->model->findOrFail($id);
             $model->fill($attributes);
             $model->save();
@@ -187,20 +180,21 @@ class ProjectsRepositoryEloquent extends BaseRepository implements ProjectsRepos
             Log::debug("Deleting navigation tree node");
             $projectNodeId = NavigationTree::projectId($model->id);
             $node = $this->navigationTreeRepository->update(
-				$projectNodeId, $projectNodeId, $model->id,
-				NavigationTree::PROJECT_TYPE, $model->name
-			);
+                $projectNodeId,
+                $projectNodeId,
+                $model->id,
+                NavigationTree::PROJECT_TYPE,
+                $model->name
+            );
         
             DB::commit();
             event(new RepositoryEntityUpdated($this, $model));
             Log::info(sprintf("Project %s updated!", $model->name));
             return $this->parserResult($model);
-        } catch ( Exception $e )
-        {
+        } catch (Exception $e) {
             Log::error($e);
             DB::rollback();
             throw $e;
         }
     }
-    
 }

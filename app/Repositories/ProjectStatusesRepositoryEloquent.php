@@ -49,6 +49,6 @@ class ProjectStatusesRepositoryEloquent extends BaseRepository implements Projec
      */
     public function boot()
     {
-        $this->pushCriteria( app(RequestCriteria::class) );
+        $this->pushCriteria(app(RequestCriteria::class));
     }
 }
