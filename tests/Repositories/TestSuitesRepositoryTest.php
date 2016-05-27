@@ -34,20 +34,23 @@ class TestSuitesRepositoryTest extends TestCase
 
     use DatabaseTransactions;
 
-    public function testRepositoryModelClass() {
+    public function testRepositoryModelClass()
+    {
         $testSuiteRepository = $this->app->make(\Nestor\Repositories\TestSuitesRepository::class);
         $this->assertEquals(TestSuites::class, $testSuiteRepository->model());
     }
 
-    public function testCreateShouldNotBeUsed() {
+    public function testCreateShouldNotBeUsed()
+    {
         $testSuiteRepository = $this->app->make(\Nestor\Repositories\TestSuitesRepository::class);
         $this->setExpectedException('\Exception');
         $testSuiteRepository->create([]);
     }
 
-    public function testCreateTestSuiteWithAncestor() {
+    public function testCreateTestSuiteWithAncestor()
+    {
         $payload = [
-            'name' => $this->faker->name, 
+            'name' => $this->faker->name,
             'description' => $this->faker->sentence(3),
             'created_by' => $this->faker->word,
             'project_id' => $this->faker->numberBetween(1, 1000)
@@ -62,9 +65,10 @@ class TestSuitesRepositoryTest extends TestCase
         }
     }
 
-    public function testUpdateTestSuite() {
+    public function testUpdateTestSuite()
+    {
         $payload = [
-            'name' => $this->faker->uuid, 
+            'name' => $this->faker->uuid,
             'description' => $this->faker->sentence(3),
             'created_by' => $this->faker->word,
             'project_id' => $this->faker->numberBetween(1, 1000)
@@ -80,16 +84,18 @@ class TestSuitesRepositoryTest extends TestCase
         $testSuiteUpdated = $testSuiteRepository->update($payload, $testSuite['id']);
 
         foreach ($payload as $key => $value) {
-            if (strcmp("name", $key) !== 0)
+            if (strcmp("name", $key) !== 0) {
                 $this->assertEquals($payload[$key], $testSuiteUpdated[$key]);
-            else
+            } else {
                 $this->assertEquals('Updated name', $testSuiteUpdated['name']);
+            }
         }
     }
 
-    public function testDeleteTestSuite() {
+    public function testDeleteTestSuite()
+    {
         $payload = [
-            'name' => $this->faker->uuid, 
+            'name' => $this->faker->uuid,
             'description' => $this->faker->sentence(3),
             'created_by' => $this->faker->word,
             'project_id' => $this->faker->numberBetween(1, 1000)
@@ -104,5 +110,4 @@ class TestSuitesRepositoryTest extends TestCase
 
         $this->assertTrue($r > 0);
     }
-
 }

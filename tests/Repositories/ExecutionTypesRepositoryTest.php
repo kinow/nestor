@@ -34,14 +34,16 @@ class ExecutionTypesRepositoryTest extends TestCase
 
     use DatabaseTransactions;
 
-    public function testRepositoryModelClass() {
+    public function testRepositoryModelClass()
+    {
         $repository = $this->app->make(\Nestor\Repositories\ExecutionTypesRepository::class);
         $this->assertEquals(ExecutionTypes::class, $repository->model());
     }
 
-    public function testCreateExecutionType() {
+    public function testCreateExecutionType()
+    {
         $payload = [
-            'name' => $this->faker->word, 
+            'name' => $this->faker->word,
             'description' => $this->faker->sentence(2)
         ];
 
@@ -53,5 +55,4 @@ class ExecutionTypesRepositoryTest extends TestCase
             $this->assertEquals($payload[$key], $executionType[$key]);
         }
     }
-
 }

@@ -35,25 +35,28 @@ class TestCasesRepositoryTest extends TestCase
 
     use DatabaseTransactions;
 
-    public function testRepositoryModelClass() {
+    public function testRepositoryModelClass()
+    {
         $testCaseRepository = $this->app->make(\Nestor\Repositories\TestCasesRepository::class);
         $this->assertEquals(TestCases::class, $testCaseRepository->model());
     }
 
-    public function testCreateShouldNotBeUsed() {
+    public function testCreateShouldNotBeUsed()
+    {
         $testCaseRepository = $this->app->make(\Nestor\Repositories\TestCasesRepository::class);
         $this->setExpectedException('\Exception');
         $testCaseRepository->create([]);
     }
 
-    public function testCreateTestCaseWithAncestor() {
+    public function testCreateTestCaseWithAncestor()
+    {
         $testCasePayload = [
             'project_id' => $this->faker->numberBetween(1, 1000),
             'test_suite_id' => $this->faker->numberBetween(1, 1000)
         ];
 
         $testCaseVersionPayload = [
-            'name' => $this->faker->name, 
+            'name' => $this->faker->name,
             'description' => $this->faker->sentence(3),
             'prerequisite' => $this->faker->sentence(5),
             'version' => $this->faker->numberBetween(1, 10),
@@ -70,14 +73,15 @@ class TestCasesRepositoryTest extends TestCase
         }
     }
 
-    public function testUpdateTestCase() {
+    public function testUpdateTestCase()
+    {
         $testCasePayload = [
             'project_id' => $this->faker->numberBetween(1, 1000),
             'test_suite_id' => $this->faker->numberBetween(1, 1000)
         ];
 
         $testCaseVersionPayload = [
-            'name' => $this->faker->name, 
+            'name' => $this->faker->name,
             'description' => $this->faker->sentence(3),
             'prerequisite' => $this->faker->sentence(5),
             'version' => $this->faker->numberBetween(1, 10),
@@ -98,23 +102,25 @@ class TestCasesRepositoryTest extends TestCase
         }
 
         foreach ($testCaseVersionPayload as $key => $value) {
-            if (strcmp("name", $key) !== 0 && strcmp("version", $key) !== 0)
+            if (strcmp("name", $key) !== 0 && strcmp("version", $key) !== 0) {
                 $this->assertEquals($testCaseVersionPayload[$key], $testCaseUpdated->version[$key]);
-            else if (strcmp("name", $key) === 0)
+            } else if (strcmp("name", $key) === 0) {
                 $this->assertEquals('Updated name', $testCaseUpdated->version['name']);
-            else if (strcmp("version", $key) === 0)
+            } else if (strcmp("version", $key) === 0) {
                 $this->assertEquals($testCaseVersionPayload[$key]+1, $testCaseUpdated->version['version']);
+            }
         }
     }
 
-    public function testDeleteTestCase() {
+    public function testDeleteTestCase()
+    {
         $testCasePayload = [
             'project_id' => $this->faker->numberBetween(1, 1000),
             'test_suite_id' => $this->faker->numberBetween(1, 1000)
         ];
 
         $testCaseVersionPayload = [
-            'name' => $this->faker->name, 
+            'name' => $this->faker->name,
             'description' => $this->faker->sentence(3),
             'prerequisite' => $this->faker->sentence(5),
             'version' => $this->faker->numberBetween(1, 10),
@@ -132,9 +138,10 @@ class TestCasesRepositoryTest extends TestCase
         $this->assertTrue($r > 0);
     }
 
-    public function testRelationshipProject() {
+    public function testRelationshipProject()
+    {
         $payload = [
-            'name' => $this->faker->name, 
+            'name' => $this->faker->name,
             'description' => $this->faker->sentence(3),
             'created_by' => $this->faker->word,
             'project_statuses_id' => $this->faker->numberBetween(1, 1000)
@@ -149,7 +156,7 @@ class TestCasesRepositoryTest extends TestCase
         ];
 
         $testCaseVersionPayload = [
-            'name' => $this->faker->name, 
+            'name' => $this->faker->name,
             'description' => $this->faker->sentence(3),
             'prerequisite' => $this->faker->sentence(5),
             'version' => $this->faker->numberBetween(1, 10),
@@ -167,9 +174,10 @@ class TestCasesRepositoryTest extends TestCase
         $this->assertEquals($project->toArray(), $testCaseProject->toArray());
     }
 
-    public function testRelationshipTestSuite() {
+    public function testRelationshipTestSuite()
+    {
         $payload = [
-            'name' => $this->faker->name, 
+            'name' => $this->faker->name,
             'description' => $this->faker->sentence(3),
             'created_by' => $this->faker->word,
             'project_id' => $this->faker->numberBetween(1, 1000)
@@ -184,7 +192,7 @@ class TestCasesRepositoryTest extends TestCase
         ];
 
         $testCaseVersionPayload = [
-            'name' => $this->faker->name, 
+            'name' => $this->faker->name,
             'description' => $this->faker->sentence(3),
             'prerequisite' => $this->faker->sentence(5),
             'version' => $this->faker->numberBetween(1, 10),
@@ -202,14 +210,15 @@ class TestCasesRepositoryTest extends TestCase
         $this->assertEquals($testSuite->toArray(), $testCaseTestSuite->toArray());
     }
 
-    public function testRelationshipTestCaseVersions() {
+    public function testRelationshipTestCaseVersions()
+    {
         $testCasePayload = [
             'project_id' => $this->faker->numberBetween(1, 1000),
             'test_suite_id' => $this->faker->numberBetween(1, 1000)
         ];
 
         $testCaseVersionPayload = [
-            'name' => $this->faker->uuid, 
+            'name' => $this->faker->uuid,
             'description' => $this->faker->sentence(3),
             'prerequisite' => $this->faker->sentence(5),
             'version' => $this->faker->numberBetween(1, 10),
@@ -227,14 +236,15 @@ class TestCasesRepositoryTest extends TestCase
         $this->assertTrue($testCaseTestCaseVersionsCount > 0);
     }
 
-    public function testRelationshipTestCase() {
+    public function testRelationshipTestCase()
+    {
         $testCasePayload = [
             'project_id' => $this->faker->numberBetween(1, 1000),
             'test_suite_id' => $this->faker->numberBetween(1, 1000)
         ];
 
         $testCaseVersionPayload = [
-            'name' => $this->faker->uuid, 
+            'name' => $this->faker->uuid,
             'description' => $this->faker->sentence(3),
             'prerequisite' => $this->faker->sentence(5),
             'version' => $this->faker->numberBetween(1, 10),
@@ -252,5 +262,4 @@ class TestCasesRepositoryTest extends TestCase
         $testCaseVersionTestCase = $testCaseVersion->testcase()->first();
         $this->assertEquals($testCaseVersionTestCase->toArray(), $testCase->toArray());
     }
-
 }

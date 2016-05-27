@@ -30,12 +30,14 @@ use \TestCase;
 class ExecutionTypesTest extends TestCase
 {
 
-    public function setUp() {
+    public function setUp()
+    {
         parent::setUp();
         $this->createApplication();
     }
 
-    public function testClassAttributes() {
+    public function testClassAttributes()
+    {
         $fillable = ['name', 'description'];
         $hidden = [];
 

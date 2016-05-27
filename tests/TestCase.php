@@ -50,18 +50,21 @@ class TestCase extends Illuminate\Foundation\Testing\TestCase
         return $app;
     }
 
-    protected function mock($class) {
+    protected function mock($class)
+    {
         $mock = Mockery::mock($class);
         $this->app->instance($class, $mock);
         return $mock;
     }
 
-    public function setUp() {
+    public function setUp()
+    {
         parent::setUp();
         $this->faker = Factory::create();
     }
 
-    public function tearDown() {
+    public function tearDown()
+    {
         parent::tearDown();
         Mockery::close();
     }

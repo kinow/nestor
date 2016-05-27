@@ -30,12 +30,14 @@ use \TestCase;
 class UserTest extends TestCase
 {
 
-    public function setUp() {
+    public function setUp()
+    {
         parent::setUp();
         $this->createApplication();
     }
 
-    public function testClassAttributes() {
+    public function testClassAttributes()
+    {
         $fillable = ['username', 'name', 'email', 'password'];
         $hidden = ['password', 'remember_token'];
 

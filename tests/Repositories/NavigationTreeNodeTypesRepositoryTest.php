@@ -34,9 +34,9 @@ class NavigationTreeNodeTypesRepositoryTest extends TestCase
 
     use DatabaseTransactions;
 
-    public function testRepositoryModelClass() {
+    public function testRepositoryModelClass()
+    {
         $repository = $this->app->make(\Nestor\Repositories\NavigationTreeNodeTypesRepository::class);
         $this->assertEquals(NavigationTreeNodeTypes::class, $repository->model());
     }
-
 }

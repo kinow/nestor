@@ -30,12 +30,14 @@ use \TestCase;
 class TestCasesTest extends TestCase
 {
 
-    public function setUp() {
+    public function setUp()
+    {
         parent::setUp();
         $this->createApplication();
     }
 
-    public function testClassAttributes() {
+    public function testClassAttributes()
+    {
         $fillable = ['project_id', 'test_suite_id'];
         $hidden = [];
 

@@ -33,10 +33,11 @@ class UserControllerTest extends TestCase
 
     use DatabaseTransactions;
 
-    public function testCreateUser() {
+    public function testCreateUser()
+    {
         $payload = [
             'username' => $this->faker->uuid,
-            'name' => $this->faker->name, 
+            'name' => $this->faker->name,
             'email' => $this->faker->email,
             'password' => $this->faker->md5
         ];
@@ -54,10 +55,11 @@ class UserControllerTest extends TestCase
         $this->assertFalse(isset($response['password']));
     }
 
-    public function testCreateUserValidator() {
+    public function testCreateUserValidator()
+    {
         $payload = [
             'username' => $this->faker->uuid,
-            'name' => $this->faker->name, 
+            'name' => $this->faker->name,
             //'email' => $this->faker->email,
             'password' => $this->faker->md5
         ];
@@ -68,7 +70,8 @@ class UserControllerTest extends TestCase
         $dispatcher->post('auth/signup', $payload);
     }
 
-    public function testLogout() {
+    public function testLogout()
+    {
         $dispatcher = $this->app->make('Dingo\Api\Dispatcher');
 
         $response = $dispatcher->get('auth/logout');
@@ -76,10 +79,11 @@ class UserControllerTest extends TestCase
         $this->assertEquals("User successfully logged out.", $response['success']);
     }
 
-    public function testLogin() {
+    public function testLogin()
+    {
         $payload = [
             'username' => $this->faker->uuid,
-            'name' => $this->faker->name, 
+            'name' => $this->faker->name,
             'email' => $this->faker->email,
             'password' => $this->faker->md5
         ];
@@ -111,10 +115,11 @@ class UserControllerTest extends TestCase
         $this->assertFalse(isset($response['password']));
     }
 
-    public function testLoginValidator() {
+    public function testLoginValidator()
+    {
         $payload = [
             'username' => $this->faker->uuid,
-            'name' => $this->faker->name, 
+            'name' => $this->faker->name,
             'email' => $this->faker->email,
             'password' => $this->faker->md5
         ];
@@ -140,7 +145,8 @@ class UserControllerTest extends TestCase
         $dispatcher->post('auth/login', $loginPayload);
     }
 
-    public function testCheckLogin() {
+    public function testCheckLogin()
+    {
         $dispatcher = $this->app->make('Dingo\Api\Dispatcher');
 
         $user = $dispatcher->get('auth');
@@ -148,7 +154,7 @@ class UserControllerTest extends TestCase
 
         $payload = [
             'username' => $this->faker->uuid,
-            'name' => $this->faker->name, 
+            'name' => $this->faker->name,
             'email' => $this->faker->email,
             'password' => $this->faker->md5
         ];
@@ -191,5 +197,4 @@ class UserControllerTest extends TestCase
         $this->assertTrue(isset($response['updated_at']));
         $this->assertFalse(isset($response['password']));
     }
-
 }

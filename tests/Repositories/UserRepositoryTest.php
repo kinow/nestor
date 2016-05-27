@@ -34,15 +34,17 @@ class UserRepositoryTest extends TestCase
 
     use DatabaseTransactions;
 
-    public function testRepositoryModelClass() {
+    public function testRepositoryModelClass()
+    {
         $repository = $this->app->make(\Nestor\Repositories\UsersRepository::class);
         $this->assertEquals(User::class, $repository->model());
     }
 
-    public function testCreateUser() {
+    public function testCreateUser()
+    {
         $payload = [
             'username' => $this->faker->uuid,
-            'name' => $this->faker->name, 
+            'name' => $this->faker->name,
             'email' => $this->faker->email,
             'password' => $this->faker->md5
         ];
@@ -56,5 +58,4 @@ class UserRepositoryTest extends TestCase
             $this->assertEquals($payload[$key], $object[$key]);
         }
     }
-
 }

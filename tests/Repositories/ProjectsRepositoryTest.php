@@ -34,14 +34,16 @@ class ProjectsRepositoryTest extends TestCase
 
     use DatabaseTransactions;
 
-    public function testRepositoryModelClass() {
+    public function testRepositoryModelClass()
+    {
         $projectsRepository = $this->app->make(\Nestor\Repositories\ProjectsRepository::class);
         $this->assertEquals(Projects::class, $projectsRepository->model());
     }
 
-    public function testCreateProject() {
+    public function testCreateProject()
+    {
         $payload = [
-            'name' => $this->faker->name, 
+            'name' => $this->faker->name,
             'description' => $this->faker->sentence(3),
             'created_by' => $this->faker->word,
             'project_statuses_id' => $this->faker->numberBetween(1, 1000)
@@ -56,9 +58,10 @@ class ProjectsRepositoryTest extends TestCase
         }
     }
 
-    public function testUpdateProject() {
+    public function testUpdateProject()
+    {
         $payload = [
-            'name' => $this->faker->uuid, 
+            'name' => $this->faker->uuid,
             'description' => $this->faker->sentence(3),
             'created_by' => $this->faker->word,
             'project_statuses_id' => $this->faker->numberBetween(1, 1000)
@@ -74,16 +77,18 @@ class ProjectsRepositoryTest extends TestCase
         $projectUpdated = $projectRepository->update($payload, $project['id']);
 
         foreach ($payload as $key => $value) {
-            if (strcmp("name", $key) !== 0)
+            if (strcmp("name", $key) !== 0) {
                 $this->assertEquals($payload[$key], $projectUpdated[$key]);
-            else
+            } else {
                 $this->assertEquals('Updated name', $projectUpdated['name']);
+            }
         }
     }
 
-    public function testDeleteProject() {
+    public function testDeleteProject()
+    {
         $payload = [
-            'name' => $this->faker->uuid, 
+            'name' => $this->faker->uuid,
             'description' => $this->faker->sentence(3),
             'created_by' => $this->faker->word,
             'project_statuses_id' => $this->faker->numberBetween(1, 1000)
@@ -98,5 +103,4 @@ class ProjectsRepositoryTest extends TestCase
 
         $this->assertTrue($r > 0);
     }
-
 }

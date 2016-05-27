@@ -34,7 +34,8 @@ class NavigationTreeRepositoryTest extends TestCase
 
     use DatabaseTransactions;
 
-    public function testNavigationTree() {
+    public function testNavigationTree()
+    {
         $ancestor = '10-10';
         $descendant = '10-10';
         $display_name = $this->faker->word;

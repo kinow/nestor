@@ -34,14 +34,16 @@ class ProjectStatusesRepositoryTest extends TestCase
 
     use DatabaseTransactions;
 
-    public function testRepositoryModelClass() {
+    public function testRepositoryModelClass()
+    {
         $repository = $this->app->make(\Nestor\Repositories\ProjectStatusesRepository::class);
         $this->assertEquals(ProjectStatuses::class, $repository->model());
     }
 
-    public function testProjectStatuses() {
+    public function testProjectStatuses()
+    {
         $payload = [
-            'name' => $this->faker->word, 
+            'name' => $this->faker->word,
             'description' => $this->faker->sentence(3)
         ];
 
@@ -53,5 +55,4 @@ class ProjectStatusesRepositoryTest extends TestCase
             $this->assertEquals($payload[$key], $projectStatus[$key]);
         }
     }
-
 }

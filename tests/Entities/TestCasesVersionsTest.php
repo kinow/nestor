@@ -30,12 +30,14 @@ use \TestCase;
 class TestCasesVersionsTest extends TestCase
 {
 
-    public function setUp() {
+    public function setUp()
+    {
         parent::setUp();
         $this->createApplication();
     }
 
-    public function testClassAttributes() {
+    public function testClassAttributes()
+    {
         $fillable = ['version', 'test_case_id', 'execution_type_id', 'name', 'prerequisite', 'description'];
         $hidden = [];
 
