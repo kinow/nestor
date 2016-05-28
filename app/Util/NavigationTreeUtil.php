@@ -250,7 +250,7 @@ class NavigationTreeUtil
     public static function getAncestorNodeType($ancestor)
     {
         list ( $executionType, $nodeId ) = explode("-", $ancestor);
-        return (int) $executionType;
+        return intval($executionType);
     }
     public static function getAncestorNodeId($ancestor)
     {
@@ -260,7 +260,7 @@ class NavigationTreeUtil
     public static function getDescendantNodeType($descendant)
     {
         list ( $executionType, $nodeId ) = explode("-", $descendant);
-        return (int) $executionType;
+        return intval($executionType);
     }
     public static function getDescendantNodeId($descendant)
     {
