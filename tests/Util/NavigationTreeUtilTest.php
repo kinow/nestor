@@ -30,6 +30,123 @@ use Nestor\Util\NavigationTreeUtil;
 class NavigationTreeUtilTest extends TestCase
 {
 
+    public function testContainsNodeTreeNodeNotFound()
+    {
+        $temp = $this->createNode('1-1', '1-1', []);
+
+        $children = [];
+        $children[] = $temp;
+
+        $temp = $this->createNode('0-0', '0-0', $children);
+        
+        $tree = [];
+        $tree[] = $temp;
+
+        $node = [];
+        $node['ancestor'] = '1-1';
+        $node['descendant'] = '1-2';
+
+        $this->assertFalse(NavigationTreeUtil::containsNode($tree, $node));
+    }
+
+    public function testContainsNodeTreeNodeFound()
+    {
+        $temp = $this->createNode('1-1', '1-1', []);
+
+        $children = [];
+        $children[] = $temp;
+
+        $temp = $this->createNode('0-0', '0-0', $children);
+        
+        $tree = [];
+        $tree[] = $temp;
+
+        $node = [];
+        $node['ancestor'] = '1-1';
+        $node['descendant'] = '1-1';
+
+        $this->assertTrue(NavigationTreeUtil::containsNode($tree, $node));
+    }
+
+    public function testContainsNodeFlatTreeNodeNotFound()
+    {
+        $temp = $this->createNode('1-1', '1-1', []);
+        
+        $tree = [];
+        $tree[] = $temp;
+
+        $node = [];
+        $node['ancestor'] = '1-1';
+        $node['descendant'] = '1-2';
+
+        $this->assertFalse(NavigationTreeUtil::containsNode($tree, $node));
+    }
+
+    public function testContainsNodeFlatTreeNodeFound()
+    {
+        $temp = $this->createNode('1-1', '1-1', []);
+        
+        $tree = [];
+        $tree[] = $temp;
+
+        $node = [];
+        $node['ancestor'] = '1-1';
+        $node['descendant'] = '1-1';
+
+        $this->assertTrue(NavigationTreeUtil::containsNode($tree, $node));
+    }
+
+    private function createNode($ancestor, $descendant, $children)
+    {
+        $node = new \stdClass();
+        $node->ancestor = $ancestor;
+        $node->descendant = $descendant;
+        $node->children = $children;
+        return $node;
+    }
+
+    public function testContainsNodeWithNullNode()
+    {
+        $tree = [];
+        $this->assertFalse(NavigationTreeUtil::containsNode($tree, null));
+    }
+
+    public function testContainsNodeWithEmptyTree()
+    {
+        $tree = [];
+        $this->assertFalse(NavigationTreeUtil::containsNode($tree, []));
+    }
+
+    public function testGetAncestorNodeType()
+    {
+        $expected = [1, 2, 100, 0, 1000];
+        $tests = ['1-1', '2-100', '100-15', '0-0', '1000-3'];
+
+        foreach ($expected as $key => $value) {
+            $this->assertEquals($value, NavigationTreeUtil::getAncestorNodeType($tests[$key]));
+        }
+    }
+
+    public function testGetAncestorNodeId()
+    {
+        $expected = [1, 100, 15, 0, 3];
+        $tests = ['1-1', '2-100', '100-15', '0-0', '1000-3'];
+
+        foreach ($expected as $key => $value) {
+            $this->assertEquals($value, NavigationTreeUtil::getAncestorNodeId($tests[$key]));
+        }
+    }
+
+    public function testGetDescendantNodeType()
+    {
+        $expected = [1, 2, 100, 0, 1000];
+        $tests = ['1-1', '2-100', '100-15', '0-0', '1000-3'];
+
+        foreach ($expected as $key => $value) {
+            $this->assertEquals($value, NavigationTreeUtil::getDescendantNodeType($tests[$key]));
+        }
+    }
+
     public function testGetDescendantNodeId()
     {
         $expected = [1, 100, 15, 0, 3];
