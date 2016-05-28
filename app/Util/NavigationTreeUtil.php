@@ -232,14 +232,14 @@ class NavigationTreeUtil
     }
     public static function containsNode($tree, $node)
     {
-        if ($node == null ||!isset($node)) {
+        if ($node == null || !isset($node)) {
             return false;
         }
         foreach ($tree as $entry) {
             if ($entry->ancestor === $node['ancestor'] && $entry->descendant === $node['descendant']) {
                 return true;
             }
-            if (isset($entry->children) &&!empty($entry->children)) {
+            if (isset($entry->children) && !empty($entry->children)) {
                 if (static::containsNode($entry->children, $node)) {
                     return true;
                 }
