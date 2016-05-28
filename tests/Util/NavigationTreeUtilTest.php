@@ -30,6 +30,36 @@ use Nestor\Util\NavigationTreeUtil;
 class NavigationTreeUtilTest extends TestCase
 {
 
+    public function testCreateNavigationTree()
+    {
+        $nodes = [];
+        $root = '1-1';
+
+        // vertices
+
+        $nodeA = $this->createNode('1-1', '1-1', [], 0);
+        $nodeAA = $this->createNode('2-1', '2-1', [], 0);
+        $nodeAB = $this->createNode('2-2', '2-2', [], 0);
+        $nodeABA = $this->createNode('3-1', '3-1', [], 0);
+
+        // edges
+
+        $nodeA2NodeAA = $this->createNode('1-1', '2-1', [], 1);
+        $nodeA2NodeAB = $this->createNode('1-1', '2-2', [], 1);
+        $nodeAB2NodeABA = $this->createNode('2-2', '3-1', [], 1);
+
+        $nodes[] = $nodeA;
+        $nodes[] = $nodeAA;
+        $nodes[] = $nodeAB;
+        $nodes[] = $nodeABA;
+        $nodes[] = $nodeA2NodeAA;
+        $nodes[] = $nodeA2NodeAB;
+        $nodes[] = $nodeAB2NodeABA;
+
+        $navigationTree = NavigationTreeUtil::createNavigationTree($nodes, $root);
+        $this->assertEquals(2, count($navigationTree[0]->children));
+    }
+
     public function testContainsNodeTreeNodeNotFound()
     {
         $temp = $this->createNode('1-1', '1-1', []);
@@ -96,12 +126,13 @@ class NavigationTreeUtilTest extends TestCase
         $this->assertTrue(NavigationTreeUtil::containsNode($tree, $node));
     }
 
-    private function createNode($ancestor, $descendant, $children)
+    private function createNode($ancestor, $descendant, $children, $length = 0)
     {
         $node = new \stdClass();
         $node->ancestor = $ancestor;
         $node->descendant = $descendant;
         $node->children = $children;
+        $node->length = $length;
         return $node;
     }
 
