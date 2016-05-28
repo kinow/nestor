@@ -134,7 +134,7 @@ class NavigationTreeUtil
     }
     
     // --- HTML
-    public static function createNavigationTreeHtml($navigationTree = array(), $nodeId, $themeName = '', $nodesSelected = array())
+    public static function createNavigationTreeHtml($nodeId, $navigationTree = array(), $nodesSelected = array())
     {
         $buffer = '';
         if (is_null($navigationTree) ||empty($navigationTree)) {
@@ -156,7 +156,7 @@ class NavigationTreeUtil
                 )));
                 if (!empty($node->children)) {
                     $buffer .= "<ul>";
-                    $buffer .= static::createNavigationTreeHtml($node->children, $nodeId, $themeName, $nodesSelected);
+                    $buffer .= static::createNavigationTreeHtml($nodeId, $node->children, $nodesSelected);
                     $buffer .= "</ul>";
                 }
                 $buffer .= "</li></ul>";
@@ -167,7 +167,7 @@ class NavigationTreeUtil
                 )));
                 if (!empty($node->children)) {
                     $buffer .= "<ul>";
-                    $buffer .= static::createNavigationTreeHtml($node->children, $nodeId, $themeName, $nodesSelected);
+                    $buffer .= static::createNavigationTreeHtml($nodeId, $node->children, $nodesSelected);
                     $buffer .= "</ul>";
                 }
                 $buffer .= "</li>";
@@ -180,7 +180,7 @@ class NavigationTreeUtil
         }
         return $buffer;
     }
-    public static function createExecutionNavigationTreeHtml($navigationTree = array(), $nodeId, $themeName = '', $nodesSelected = array(), $filter = array(), $testRunId)
+    public static function createExecutionNavigationTreeHtml($nodeId, $testRunId, $navigationTree = array(), $nodesSelected = array(), $filter = array())
     {
         $buffer = '';
         if (is_null($navigationTree) ||empty($navigationTree)) {
@@ -202,7 +202,7 @@ class NavigationTreeUtil
                 )));
                 if (!empty($node->children)) {
                     $buffer .= "<ul>";
-                    $buffer .= static::createExecutionNavigationTreeHtml($node->children, $nodeId, $themeName, $nodesSelected, $filter, $testRunId);
+                    $buffer .= static::createExecutionNavigationTreeHtml($node->children, $nodeId, $nodesSelected, $filter, $testRunId);
                     $buffer .= "</ul>";
                 }
                 $buffer .= "</li></ul>";
@@ -212,7 +212,7 @@ class NavigationTreeUtil
                 )));
                 if (!empty($node->children)) {
                     $buffer .= "<ul>";
-                    $buffer .= static::createExecutionNavigationTreeHtml($node->children, $nodeId, $themeName, $nodesSelected, $filter, $testRunId);
+                    $buffer .= static::createExecutionNavigationTreeHtml($node->children, $nodeId, $nodesSelected, $filter, $testRunId);
                     $buffer .= "</ul>";
                 }
                 $buffer .= "</li>";
