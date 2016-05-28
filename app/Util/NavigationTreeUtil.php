@@ -247,7 +247,7 @@ class NavigationTreeUtil
         }
         return false;
     }
-    public static function getAncestorExecutionType($ancestor)
+    public static function getAncestorNodeType($ancestor)
     {
         list ( $executionType, $nodeId ) = explode("-", $ancestor);
         return (int) $executionType;
@@ -257,7 +257,7 @@ class NavigationTreeUtil
         list ( $executionType, $nodeId ) = explode("-", $ancestor);
         return $nodeId;
     }
-    public static function getDescendantExecutionType($descendant)
+    public static function getDescendantNodeType($descendant)
     {
         list ( $executionType, $nodeId ) = explode("-", $descendant);
         return (int) $executionType;
