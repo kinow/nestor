@@ -119,19 +119,19 @@ class NavigationTreeUtil
             static::createTreeFromVertex($childVertex);
         }
     }
-    public static function filterNavigationTree(&$filtered, $tree, $nodesToFilter)
-    {
-        foreach ($tree as $key => $node) {
-            if ($node->node_type_id ==Nodes::PROJECT_TYPE) {
-                $filtered [$key] = $node;
-                if (!empty($node->children)) {
-                    static::filterNavigationTree($filtered, $node->children, $nodesToFilter);
-                }
-            } else if ($node->node_type_id ==Nodes::TEST_CASE_TYPE &&array_key_exists($node->node_id, $nodesToFilter)) {
-                $filtered [$key] = $node;
-            }
-        }
-    }
+    // public static function filterNavigationTree(&$filtered, $tree, $nodesToFilter)
+    // {
+    //     foreach ($tree as $key => $node) {
+    //         if ($node->node_type_id ==Nodes::PROJECT_TYPE) {
+    //             $filtered [$key] = $node;
+    //             if (!empty($node->children)) {
+    //                 static::filterNavigationTree($filtered, $node->children, $nodesToFilter);
+    //             }
+    //         } else if ($node->node_type_id ==Nodes::TEST_CASE_TYPE &&array_key_exists($node->node_id, $nodesToFilter)) {
+    //             $filtered [$key] = $node;
+    //         }
+    //     }
+    // }
     
     // --- HTML
     public static function createNavigationTreeHtml($nodeId, $navigationTree = array(), $nodesSelected = array())
