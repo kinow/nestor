@@ -133,103 +133,105 @@ class NavigationTreeUtil
     //     }
     // }
     
+    // TBD: the HTML display is deprecated, now that it is done in the JS layer with templates. Remove this
+    // once we are confident enough this is not necessary anymore
     // --- HTML
-    public static function createNavigationTreeHtml($nodeId, $navigationTree = array(), $nodesSelected = array())
-    {
-        $buffer = '';
-        if (is_null($navigationTree) ||empty($navigationTree)) {
-            return $buffer;
-        }
-        foreach ($navigationTree as $node) {
-            $extra_classes = "";
-            if ($node->descendant ==$nodeId &&$node->ancestor ==$nodeId) {
-                $extra_classes .= " active";
-            }
-            $nodeTypeId = $node->node_type_id;
-            if ($nodeTypeId ==Nodes::TEST_CASE_TYPE &&array_key_exists($node->node_id, $nodesSelected)) {
-                $extra_classes .= " selected";
-            }
-            if ($node->node_type_id ==Nodes::PROJECT_TYPE) {
-                $buffer .= "<ul id='treeData' style='display: none;'>";
-                $buffer .= sprintf("<li data-icon='places/folder.png' id='%s' data-node-type='%s' data-node-id='%s' class='expanded%s'>%s", $node->descendant, $node->node_type_id, $node->node_id, $extra_classes, HTML::link('/specification/nodes/' .$node->descendant, $node->display_name, array (
-                        'target' => '_self'
-                )));
-                if (!empty($node->children)) {
-                    $buffer .= "<ul>";
-                    $buffer .= static::createNavigationTreeHtml($nodeId, $node->children, $nodesSelected);
-                    $buffer .= "</ul>";
-                }
-                $buffer .= "</li></ul>";
-            } else if ($node->node_type_id ==Nodes::TEST_SUITE_TYPE) {
-                // test suite
-                $buffer .= sprintf("<li data-icon='actions/document-open.png' id='%s' data-node-type='%s' data-node-id='%s' class='expanded%s'>%s", $node->descendant, $node->node_type_id, $node->node_id, $extra_classes, HTML::link('/specification/nodes/' .$node->descendant, $node->display_name, array (
-                        'target' => '_self'
-                )));
-                if (!empty($node->children)) {
-                    $buffer .= "<ul>";
-                    $buffer .= static::createNavigationTreeHtml($nodeId, $node->children, $nodesSelected);
-                    $buffer .= "</ul>";
-                }
-                $buffer .= "</li>";
-            } else {
-                // test case
-                $buffer .= sprintf("<li data-icon='mimetypes/text-x-generic.png' id='%s' data-node-type='%s' data-node-id='%s' class='%s'>%s</li>", $node->descendant, $node->node_type_id, $node->node_id, $extra_classes, HTML::link('/specification/nodes/' .$node->descendant, $node->display_name, array (
-                        'target' => '_self'
-                )));
-            }
-        }
-        return $buffer;
-    }
-    public static function createExecutionNavigationTreeHtml($nodeId, $testRunId, $navigationTree = array(), $nodesSelected = array(), $filter = array())
-    {
-        $buffer = '';
-        if (is_null($navigationTree) ||empty($navigationTree)) {
-            return $buffer;
-        }
-        foreach ($navigationTree as $node) {
-            $extra_classes = "";
-            if ($node->descendant ==$nodeId &&$node->ancestor ==$nodeId) {
-                $extra_classes .= " active";
-            }
-            $nodeTypeId = $node->node_type_id;
-            if ($nodeTypeId ==Nodes::TEST_CASE_TYPE &&array_key_exists($node->node_id, $nodesSelected)) {
-                $extra_classes .= " selected";
-            }
-            if ($node->node_type_id ==Nodes::PROJECT_TYPE) {
-                $buffer .= "<ul id='treeData' style='display: none;'>";
-                $buffer .= sprintf("<li data-icon='places/folder.png' id='%s' data-node-type='%s' data-node-id='%s' class='expanded%s'>%s", $node->descendant, $node->node_type_id, $node->node_id, $extra_classes, HTML::link('/specification/nodes/' .$node->descendant, $node->display_name, array (
-                        'target' => '_self'
-                )));
-                if (!empty($node->children)) {
-                    $buffer .= "<ul>";
-                    $buffer .= static::createExecutionNavigationTreeHtml($node->children, $nodeId, $nodesSelected, $filter, $testRunId);
-                    $buffer .= "</ul>";
-                }
-                $buffer .= "</li></ul>";
-            } else if ($node->node_type_id ==Nodes::TEST_SUITE_TYPE) {
-                $buffer .= sprintf("<li data-icon='actions/document-open.png' id='%s' data-node-type='%s' data-node-id='%s' class='expanded%s'>%s", $node->descendant, $node->node_type_id, $node->node_id, $extra_classes, HTML::link('/specification/nodes/' .$node->descendant, $node->display_name, array (
-                        'target' => '_self'
-                )));
-                if (!empty($node->children)) {
-                    $buffer .= "<ul>";
-                    $buffer .= static::createExecutionNavigationTreeHtml($node->children, $nodeId, $nodesSelected, $filter, $testRunId);
-                    $buffer .= "</ul>";
-                }
-                $buffer .= "</li>";
-            } else {
-                if (empty($filter)) {
-                    $buffer .= sprintf("<li data-icon='mimetypes/text-x-generic.png' id='%s' data-node-type='%s' data-node-id='%s' class='%s'>%s</li>", $node->descendant, $node->node_type_id, $node->node_id, $extra_classes, HTML::link('/execution/testruns/' .$testRunId .'/run/testcase/' .$node->node_id, $node->display_name, array (
-                            'target' => '_self'
-                    )));
-                } else if (array_key_exists($node->node_id, $filter)) {
-                    $buffer .= sprintf("<li data-icon='mimetypes/text-x-generic.png' id='%s' data-node-type='%s' data-node-id='%s' class='%s'>%s</li>", $node->descendant, $node->node_type_id, $node->node_id, $extra_classes, HTML::link('/execution/testruns/' .$testRunId .'/run/testcase/' .$node->node_id, $node->display_name, array (
-                            'target' => '_self'
-                    )));
-                }
-            }
-        }
-        return $buffer;
-    }
+    // public static function createNavigationTreeHtml($nodeId, $navigationTree = array(), $nodesSelected = array())
+    // {
+    //     $buffer = '';
+    //     if (is_null($navigationTree) ||empty($navigationTree)) {
+    //         return $buffer;
+    //     }
+    //     foreach ($navigationTree as $node) {
+    //         $extra_classes = "";
+    //         if ($node->descendant ==$nodeId &&$node->ancestor ==$nodeId) {
+    //             $extra_classes .= " active";
+    //         }
+    //         $nodeTypeId = $node->node_type_id;
+    //         if ($nodeTypeId ==Nodes::TEST_CASE_TYPE &&array_key_exists($node->node_id, $nodesSelected)) {
+    //             $extra_classes .= " selected";
+    //         }
+    //         if ($node->node_type_id ==Nodes::PROJECT_TYPE) {
+    //             $buffer .= "<ul id='treeData' style='display: none;'>";
+    //             $buffer .= sprintf("<li data-icon='places/folder.png' id='%s' data-node-type='%s' data-node-id='%s' class='expanded%s'>%s", $node->descendant, $node->node_type_id, $node->node_id, $extra_classes, HTML::link('/specification/nodes/' .$node->descendant, $node->display_name, array (
+    //                     'target' => '_self'
+    //             )));
+    //             if (!empty($node->children)) {
+    //                 $buffer .= "<ul>";
+    //                 $buffer .= static::createNavigationTreeHtml($nodeId, $node->children, $nodesSelected);
+    //                 $buffer .= "</ul>";
+    //             }
+    //             $buffer .= "</li></ul>";
+    //         } else if ($node->node_type_id ==Nodes::TEST_SUITE_TYPE) {
+    //             // test suite
+    //             $buffer .= sprintf("<li data-icon='actions/document-open.png' id='%s' data-node-type='%s' data-node-id='%s' class='expanded%s'>%s", $node->descendant, $node->node_type_id, $node->node_id, $extra_classes, HTML::link('/specification/nodes/' .$node->descendant, $node->display_name, array (
+    //                     'target' => '_self'
+    //             )));
+    //             if (!empty($node->children)) {
+    //                 $buffer .= "<ul>";
+    //                 $buffer .= static::createNavigationTreeHtml($nodeId, $node->children, $nodesSelected);
+    //                 $buffer .= "</ul>";
+    //             }
+    //             $buffer .= "</li>";
+    //         } else {
+    //             // test case
+    //             $buffer .= sprintf("<li data-icon='mimetypes/text-x-generic.png' id='%s' data-node-type='%s' data-node-id='%s' class='%s'>%s</li>", $node->descendant, $node->node_type_id, $node->node_id, $extra_classes, HTML::link('/specification/nodes/' .$node->descendant, $node->display_name, array (
+    //                     'target' => '_self'
+    //             )));
+    //         }
+    //     }
+    //     return $buffer;
+    // }
+    // public static function createExecutionNavigationTreeHtml($nodeId, $testRunId, $navigationTree = array(), $nodesSelected = array(), $filter = array())
+    // {
+    //     $buffer = '';
+    //     if (is_null($navigationTree) ||empty($navigationTree)) {
+    //         return $buffer;
+    //     }
+    //     foreach ($navigationTree as $node) {
+    //         $extra_classes = "";
+    //         if ($node->descendant ==$nodeId &&$node->ancestor ==$nodeId) {
+    //             $extra_classes .= " active";
+    //         }
+    //         $nodeTypeId = $node->node_type_id;
+    //         if ($nodeTypeId ==Nodes::TEST_CASE_TYPE &&array_key_exists($node->node_id, $nodesSelected)) {
+    //             $extra_classes .= " selected";
+    //         }
+    //         if ($node->node_type_id ==Nodes::PROJECT_TYPE) {
+    //             $buffer .= "<ul id='treeData' style='display: none;'>";
+    //             $buffer .= sprintf("<li data-icon='places/folder.png' id='%s' data-node-type='%s' data-node-id='%s' class='expanded%s'>%s", $node->descendant, $node->node_type_id, $node->node_id, $extra_classes, HTML::link('/specification/nodes/' .$node->descendant, $node->display_name, array (
+    //                     'target' => '_self'
+    //             )));
+    //             if (!empty($node->children)) {
+    //                 $buffer .= "<ul>";
+    //                 $buffer .= static::createExecutionNavigationTreeHtml($node->children, $nodeId, $nodesSelected, $filter, $testRunId);
+    //                 $buffer .= "</ul>";
+    //             }
+    //             $buffer .= "</li></ul>";
+    //         } else if ($node->node_type_id ==Nodes::TEST_SUITE_TYPE) {
+    //             $buffer .= sprintf("<li data-icon='actions/document-open.png' id='%s' data-node-type='%s' data-node-id='%s' class='expanded%s'>%s", $node->descendant, $node->node_type_id, $node->node_id, $extra_classes, HTML::link('/specification/nodes/' .$node->descendant, $node->display_name, array (
+    //                     'target' => '_self'
+    //             )));
+    //             if (!empty($node->children)) {
+    //                 $buffer .= "<ul>";
+    //                 $buffer .= static::createExecutionNavigationTreeHtml($node->children, $nodeId, $nodesSelected, $filter, $testRunId);
+    //                 $buffer .= "</ul>";
+    //             }
+    //             $buffer .= "</li>";
+    //         } else {
+    //             if (empty($filter)) {
+    //                 $buffer .= sprintf("<li data-icon='mimetypes/text-x-generic.png' id='%s' data-node-type='%s' data-node-id='%s' class='%s'>%s</li>", $node->descendant, $node->node_type_id, $node->node_id, $extra_classes, HTML::link('/execution/testruns/' .$testRunId .'/run/testcase/' .$node->node_id, $node->display_name, array (
+    //                         'target' => '_self'
+    //                 )));
+    //             } else if (array_key_exists($node->node_id, $filter)) {
+    //                 $buffer .= sprintf("<li data-icon='mimetypes/text-x-generic.png' id='%s' data-node-type='%s' data-node-id='%s' class='%s'>%s</li>", $node->descendant, $node->node_type_id, $node->node_id, $extra_classes, HTML::link('/execution/testruns/' .$testRunId .'/run/testcase/' .$node->node_id, $node->display_name, array (
+    //                         'target' => '_self'
+    //                 )));
+    //             }
+    //         }
+    //     }
+    //     return $buffer;
+    // }
     public static function containsNode($tree, $node)
     {
         if ($node == null || !isset($node)) {
