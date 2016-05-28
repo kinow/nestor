@@ -236,7 +236,7 @@ class NavigationTreeUtil
             return false;
         }
         foreach ($tree as $entry) {
-            if ($entry->ancestor ===$node ['ancestor'] &&$entry->descendant ===$node ['descendant']) {
+            if ($entry->ancestor === $node['ancestor'] && $entry->descendant === $node['descendant']) {
                 return true;
             }
             if (isset($entry->children) &&!empty($entry->children)) {
