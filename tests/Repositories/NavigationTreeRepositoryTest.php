@@ -53,5 +53,4 @@ class NavigationTreeRepositoryTest extends TestCase
         $this->assertEquals($node_id, $navigationTree['node_id']);
         $this->assertEquals($node_type_id, $navigationTree['node_type_id']);
     }
-
 }
