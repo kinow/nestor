@@ -19,6 +19,8 @@
             <exclude>
                 <directory>./app/Console/Commands/</directory>
                 <directory>./app/Exceptions/</directory>
+                <file>./app/Http/Middleware/Authenticate.php</file>
+                <file>./app/Http/Middleware/RedirectIfAuthenticated.php</file>
                 <file>./app/Http/routes.php</file>
             </exclude>
         </whitelist>
