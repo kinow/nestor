@@ -41,10 +41,10 @@ define([
             var self = this;
             this.fetch({
                 success: function(mod, res){
-                    if(!res.error && res.user){
-                        self.updateSessionUser(res.user);
+                    if(!res.error && res.id){
+                        self.updateSessionUser(res);
                         self.set({ logged_in : true });
-                        self.set({ user_id: res.user.id });
+                        self.set({ user_id: res.id });
                         if('success' in callback) callback.success(mod, res);
                     } else {
                         self.set({ logged_in : false });
