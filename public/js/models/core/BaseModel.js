@@ -37,9 +37,9 @@ define([
                 success: function(res) {
                     if (!res.error) {
                         if (_.indexOf(['login', 'signup'], opts.method) !== -1) {
-                            self.updateSessionUser(res.user || {});
+                            self.updateSessionUser(res || {});
                             self.set({
-                                user_id: res.user.id,
+                                user_id: res.id,
                                 logged_in: true
                             });
                         } else {
