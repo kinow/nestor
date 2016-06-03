@@ -59,6 +59,12 @@ class UserRepositoryTest extends TestCase
         }
     }
 
+    /**
+     * Test that a user name is case insensitive in the system. Otherwise users may start filling
+     * bugs complaining that they are not able to log in, and we may get accidental wrong user names too.
+     *
+     * @see https://github.com/nestor-qa/nestor/issues/96
+     */
     public function testCreateUserIsCaseInsensitive()
     {
         $dispatcher = $this->app->make('Dingo\Api\Dispatcher');
