@@ -58,37 +58,4 @@ class UserRepositoryTest extends TestCase
             $this->assertEquals($payload[$key], $object[$key]);
         }
     }
-
-    /**
-     * Test that a user name is case insensitive in the system. Otherwise users may start filling
-     * bugs complaining that they are not able to log in, and we may get accidental wrong user names too.
-     *
-     * @see https://github.com/nestor-qa/nestor/issues/96
-     */
-    public function testCreateUserIsCaseInsensitive()
-    {
-        $dispatcher = $this->app->make('Dingo\Api\Dispatcher');
-        $payload = [
-            'username' => ucfirst($this->faker->word) . $this->faker->uuid,
-            'name' => $this->faker->name,
-            'email' => $this->faker->email,
-            'password' => $this->faker->md5
-        ];
-        $originalPassword = $payload['password'];
-        $payload['password'] = bcrypt($payload['password']);
-
-        $usersRepository = app()->make(\Nestor\Repositories\UsersRepository::class);
-        $object = $usersRepository->create($payload);
-        $this->assertTrue($object['id'] > 0);
-
-        $loweCaseUserName = strtolower($payload['username']);
-
-        $loginPayload = [
-            'username' => $loweCaseUserName,
-            'password' => $originalPassword
-        ];
-
-        $response = $dispatcher->post('auth/login', $loginPayload);
-        $this->assertTrue($response['id'] > 0);
-    }
 }

@@ -85,7 +85,8 @@ class UsersController extends Controller
         }
         
         $payload['password'] = bcrypt($payload['password']);
-        
+        $payload['username'] = strtolower($payload['username']);
+
         $entity = $this->usersRepository->create($payload);
         
         Auth::loginUsingId($entity['id'], $request->has('remember'));
