@@ -197,4 +197,36 @@ class UserControllerTest extends TestCase
         $this->assertTrue(isset($response['updated_at']));
         $this->assertFalse(isset($response['password']));
     }
+
+    /**
+     * Test that a user name is case insensitive in the system. Otherwise users may start filling
+     * bugs complaining that they are not able to log in, and we may get accidental wrong user names too.
+     *
+     * @see https://github.com/nestor-qa/nestor/issues/96
+     */
+    public function testCreateUserIsCaseInsensitive()
+    {
+        $payload = [
+            'username' => $this->faker->uuid,
+            'name' => $this->faker->name,
+            'email' => $this->faker->email,
+            'password' => $this->faker->md5
+        ];
+
+        $dispatcher = $this->app->make('Dingo\Api\Dispatcher');
+
+        $response = $dispatcher->post('auth/signup', $payload);
+
+        $this->assertTrue($response['id'] > 0);
+
+        $loweCaseUserName = strtolower($payload['username']);
+
+        $loginPayload = [
+            'username' => $loweCaseUserName,
+            'password' => $payload['password']
+        ];
+
+        $response = $dispatcher->post('auth/login', $loginPayload);
+        $this->assertTrue($response['id'] > 0);
+    }
 }
