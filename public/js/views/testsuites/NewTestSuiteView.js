@@ -43,9 +43,10 @@ define([
         save: function(event) {
             event.preventDefault();
             event.stopPropagation();
+            var self = this;
 
             if (this.$("#new-testsuite-form").parsley().validate()) {
-                this.collection.create({
+                var testSuite = this.collection.create({
                     name: this.$("#testsuite-name-input").val(),
                     description: this.simplemde.value(),
                     parent_id: this.parentId,
@@ -55,8 +56,12 @@ define([
                     wait: true,
                     success: function(mod, res) {
                         app.showAlert('Success!', 'New test suite ' + this.$("#testsuite-name-input").val() + ' created!', 'success')
+                        var changedAttributes = testSuite.changedAttributes();
+                        var testSuiteId = changedAttributes.id;
                         Backbone.trigger('nestor:navigationtree_changed');
-                        Backbone.history.history.back();
+                        Backbone.history.navigate("#/projects/" + self.projectId + '/testsuites/' + testSuiteId + '/view', {
+                            trigger: false
+                        });
                     },
                     error: function(model, response, options) {
                         var message = _.has(response, 'statusText') ? response.statusText : 'Unknown error!';
