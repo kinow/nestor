@@ -40,7 +40,6 @@ define([
                 spellChecker: false,
                 tabSize: 4
             });
-            this.simplemde.value(this.model.get('description'));
         },
 
         save: function(event) {
