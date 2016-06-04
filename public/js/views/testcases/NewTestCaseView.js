@@ -56,9 +56,10 @@ define([
         save: function(event) {
             event.preventDefault();
             event.stopPropagation();
+            var self = this;
 
             if (this.$("#new-testcase-form").parsley().validate()) {
-                this.collection.create({
+                var testCase = this.collection.create({
                     name: this.$("#testcase-name-input").val(),
                     description: this.description_simplemde.value(),
                     prerequisite: this.prerequisite_simplemde.value(),
@@ -70,8 +71,12 @@ define([
                     wait: true,
                     success: function(mod, res) {
                         app.showAlert('Success!', 'New test case ' + this.$("#testcase-name-input").val() + ' created!', 'success')
+                        var changedAttributes = testCase.changedAttributes();
+                        var testCaseId = changedAttributes.id;
                         Backbone.trigger('nestor:navigationtree_changed');
-                        Backbone.history.history.back();
+                        Backbone.history.navigate("#/projects/" + self.projectId + '/testsuites/' + self.testsuite_id + '/testcases/' + testCaseId + '/view', {
+                            trigger: false
+                        });
                     },
                     error: function(model, response, options) {
                         var message = _.has(response, 'statusText') ? response.statusText : 'Unknown error!';
