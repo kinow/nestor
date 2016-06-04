@@ -51,7 +51,6 @@ define([
                 spellChecker: false,
                 tabSize: 4
             });
-            this.description_simplemde.value(this.model.get('version')['description']);
             this.prerequisite_simplemde = new SimpleMDE({
                 autoDownloadFontAwesome: true,
                 autofocus: false,
@@ -63,7 +62,6 @@ define([
                 spellChecker: false,
                 tabSize: 4
             });
-            this.prerequisite_simplemde.value(this.model.get('version')['prerequisite']);
         },
 
         save: function(event) {

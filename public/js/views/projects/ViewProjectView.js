@@ -229,6 +229,10 @@ define([
                     self.testSuiteView.delegateEvents();
                     self.$('#content-main').empty();
                     self.$('#content-main').append(self.testSuiteView.el);
+                    setTimeout(function() {
+                        self.testSuiteView.simplemde.value(self.testSuiteView.model.get('description'));
+                        self.testSuiteView.simplemde.codemirror.refresh();
+                    }, 1);
                 },
                 error: function() {
                     throw new Error("Failed to fetch test suite");
@@ -325,6 +329,14 @@ define([
                             self.testCaseView.delegateEvents();
                             self.$('#content-main').empty();
                             self.$('#content-main').append(self.testCaseView.el);
+                            setTimeout(function() {
+                                self.testCaseView.description_simplemde.value(self.testCaseView.model.get('version')['description']);
+                                self.testCaseView.description_simplemde.codemirror.refresh();
+                            }, 1);
+                            setTimeout(function() {
+                                self.testCaseView.prerequisite_simplemde.value(self.testCaseView.model.get('version')['prerequisite']);
+                                self.testCaseView.prerequisite_simplemde.codemirror.refresh();
+                            }, 1);
                         },
                         error: function() {
                             throw new Error('Failure to retrieve executiont types!');
