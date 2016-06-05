@@ -91,7 +91,7 @@ class TestPlansController extends Controller
         Log::debug("Creating a test plan");
         $payload = $request->only('name', 'description', 'project_id');
         $validator = Validator::make($payload, [
-            'name' => 'required|max:255|unique:test_plans',
+            'name' => 'required|max:255',
             'description' => 'max:1000',
             'project_id' => 'required|integer|min:1'
         ]);
