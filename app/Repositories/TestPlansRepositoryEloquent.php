@@ -5,7 +5,7 @@ namespace Nestor\Repositories;
 use Prettus\Repository\Eloquent\BaseRepository;
 use Prettus\Repository\Criteria\RequestCriteria;
 use Nestor\Repositories\TestPlansRepository;
-use Nestor\Models\TestPlans;
+use Nestor\Entities\TestPlans;
 use Nestor\Validators\TestPlansValidator;
 
 /**
