@@ -8,9 +8,7 @@
         <a href="#/projects/<%= testsuite.get('project_id') %>/testsuites/<%= testsuite.get('id') %>/testcases/new">Add new Test Case</a>
     </div>
 
-    <div class='item'>
-	   <%= testsuite.get('formatted_description') %>
-    </div>
+    <%= testsuite.get('formatted_description') %>
 
     <div class="item">
         <div class="ui divider"></div>
