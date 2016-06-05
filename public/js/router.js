@@ -591,6 +591,7 @@ define([
         navigation.appendRouter(projectsRouter);
         navigation.appendRouter(testSuitesRouter);
         navigation.appendRouter(testCasesRouter);
+        navigation.appendRouter(testPlansRouter);
         navigation.mapRouters();
     };
 
