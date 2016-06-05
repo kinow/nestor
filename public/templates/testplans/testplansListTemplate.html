@@ -1,0 +1,32 @@
+<% _.each(testplans, function(testplan){ %>
+<div class='item'>
+    <div class="right floated content">
+        <a href="#/testplans/<%= testplan.get('id') %>/view" class="ui button">View</a>
+    <a href="#/testplans/<%= testplan.get('id') %>" class="ui button">Edit</a>
+    <a href="#/testplans/<%= testplan.get('id') %>/confirmDelete" class="ui button">Delete</a>
+  </div>
+    <div class="content">
+        <a class='header' href='/#/testplans/<%= testplan.get("id") %>/view'><%= testplan.get("name") %></a>
+        <div class='description'>
+            <!--%= testplan.get('description') %-->
+        </div>
+    </div>
+</div>
+<% }); %>
+<% if (testplans.length > 0 && collection.lastPage > 1) { %>
+<div class="ui pagination menu">
+<% if (collection.currentPage > 1) { %>
+    <a class="item" rel="prev" href="/#/testplans?page=<%= (collection.currentPage - 1) %>"><i class="chevron left icon"></i> Left</a>
+<% } %>
+<% for (var i = 1; i <= collection.lastPage; i++) { %>
+<% if (collection.currentPage == i) { %>
+    <a class="active item" href="/#/testplans?page=<%= i %>"><%= i %></a>
+<% } else { %>
+    <a class="item" href="/#/testplans?page=<%= i %>"><%= i %></a>
+<% } %>
+<% } %>
+<% if (collection.currentPage < collection.lastPage) { %>
+    <a class="item" rel="next" href="/#/testplans?page=<%= (collection.currentPage + 1) %>">Next &nbsp;<i class="chevron right icon"></i></a>
+<% } %>
+</div>
+<% } %>
