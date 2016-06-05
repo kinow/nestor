@@ -23,6 +23,7 @@ define([
     'views/projects/ViewProjectView',
     // Test plans views
     'views/testplans/TestPlansView',
+    'views/testplans/NewTestPlanView'
 ], function(
     _,
     Backbone,
@@ -38,7 +39,8 @@ define([
     ProjectView,
     ConfirmDeleteProjectView,
     ViewProjectView,
-    TestPlansView) {
+    TestPlansView,
+    NewTestPlanView) {
 
     'use strict';
 
@@ -238,7 +240,7 @@ define([
             // Test Plan routes
             'testplans': 'showTestPlans',
             'testplans?*queryString': 'showTestPlans',
-            // 'projects/new': 'showAddProject',
+            'testplans/new': 'showAddTestPlan',
             // 'projects/:projectId': 'showProject',
             // 'projects/:projectId/confirmDelete': 'showConfirmDeleteProject',
             // 'projects/:projectId/view': 'viewProject',
@@ -249,7 +251,7 @@ define([
                 'TestPlans.showTestPlans': {
                     template: 'Test Plans',
                     parent: 'Base.defaultAction'
-                }
+                },
                 // 'Projects.showProject': {
                 //     template: function(args) {
                 //         var tpl = _.template('Edit Project <%= args[":projectId"] %>');
@@ -259,10 +261,10 @@ define([
                 //     },
                 //     parent: 'Projects.showProjects'
                 // },
-                // 'Projects.showAddProject': {
-                //     template: 'Add new Project',
-                //     parent: 'Projects.showProjects'
-                // },
+                'Projects.showAddTestPlan': {
+                    template: 'Add new Test Plan',
+                    parent: 'Projects.showTestPlans'
+                }
                 // 'Projects.showConfirmDeleteProject': {
                 //     template: function(args) {
                 //         var tpl = _.template('Delete Project <%= args[":projectId"] %>');
@@ -580,6 +582,17 @@ define([
             }
             app.testPlansView.setPage(page);
             app.showView(app.testPlansView, {
+                requiresAuth: true
+            });
+        });
+
+        testPlansRouter.on('route:showAddTestPlan', function(projectId, queryString) {
+            var params = parseQueryString(queryString);
+            if (!app.newTestPlanView) {
+                app.newTestPlanView = new NewTestPlanView();
+            }
+            app.newTestPlanView.setProjectId(projectId);
+            app.showView(app.newTestPlanView, {
                 requiresAuth: true
             });
         });
