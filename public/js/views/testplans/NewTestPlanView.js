@@ -5,8 +5,9 @@ define([
     'app',
     'simplemde',
     'collections/testplan/TestPlansCollection',
+    'collections/project/ProjectsCollection',
     'text!templates/testplans/newTestPlanTemplate.html'
-], function($, _, Backbone, app, SimpleMDE, TestPlansCollection, newTestPlanTemplate) {
+], function($, _, Backbone, app, SimpleMDE, TestPlansCollection, ProjectsCollection, newTestPlanTemplate) {
 
     var NewTestPlanView = Backbone.View.extend({
         el: $("#page"),
@@ -15,6 +16,7 @@ define([
             _.bindAll(this, 'render', 'save', 'setProjectId');
             this.projectId = 0;
             this.collection = new TestPlansCollection();
+            this.projectsCollection = new ProjectsCollection();
         },
 
         events: {
@@ -25,17 +27,31 @@ define([
             $('.item').removeClass('active');
             $('.item a[href="#/testplans"]').parent().addClass('active');
 
-            this.$el.html(newTestPlanTemplate);
-            this.simplemde = new SimpleMDE({
-                autoDownloadFontAwesome: true, 
-                autofocus: false,
-                autosave: {
-                    enabled: false
+            var self = this;
+            this.projectsCollection.fetch({
+                success: function(collection, response, options) {
+                    var projects = collection;
+                    console.log(collection);
+                    var compiledTemplate = _.template(newTestPlanTemplate, {
+                        projects: projects
+                    });
+                    self.$el.html(compiledTemplate);
+                    self.$el.html(newTestPlanTemplate);
+                    self.simplemde = new SimpleMDE({
+                        autoDownloadFontAwesome: true, 
+                        autofocus: false,
+                        autosave: {
+                            enabled: false
+                        },
+                        element: $('#testplan-description-input')[0],
+                        indentWithTabs: false,
+                        spellChecker: false,
+                        tabSize: 4
+                    });
                 },
-                element: $('#testplan-description-input')[0],
-                indentWithTabs: false,
-                spellChecker: false,
-                tabSize: 4
+                error: function(collection, response, options) {
+                    throw new Error('Failure to retrieve projects!');
+                }
             });
         },
 

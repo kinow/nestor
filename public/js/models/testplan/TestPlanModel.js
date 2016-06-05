@@ -21,9 +21,10 @@ define([
         },
 
         url: function() {
-            var url = '/api/testplans/' + this.id;
-            if (this.id != null)
-                url += this.id;
+            var url = '/api/testplans/';
+            if (this.get('id') != undefined && this.get('id') > 0) {
+                url += '/' + this.get('id');
+            }
             return url;
         }
 
