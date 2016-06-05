@@ -65,7 +65,9 @@ class ProjectsController extends Controller
     public function index()
     {
         Log::debug("Returning paginated projects");
-        return $this->projectsRepository->paginate();
+        return $this->projectsRepository->scopeQuery(function ($query) {
+            return $query->orderBy('name', 'ASC');
+        })->paginate();
     }
     
     /**
