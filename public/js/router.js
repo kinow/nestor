@@ -21,6 +21,8 @@ define([
     // This is the view displayed when you browse the navigation tree. It has methods to display
     // other nested views, and garbage collect them.
     'views/projects/ViewProjectView',
+    // Test plans views
+    'views/testplans/TestPlansView',
 ], function(
     _,
     Backbone,
@@ -35,7 +37,8 @@ define([
     NewProjectView,
     ProjectView,
     ConfirmDeleteProjectView,
-    ViewProjectView) {
+    ViewProjectView,
+    TestPlansView) {
 
     'use strict';
 
@@ -226,6 +229,58 @@ define([
                     },
                     parent: 'TestSuites.viewTestSuite'
                 }
+            }
+        }
+    });
+
+    var TestPlansRouter = Backbone.Router.extend({
+        routes: {
+            // Test Plan routes
+            'testplans': 'showTestPlans',
+            'testplans?*queryString': 'showTestPlans',
+            // 'projects/new': 'showAddProject',
+            // 'projects/:projectId': 'showProject',
+            // 'projects/:projectId/confirmDelete': 'showConfirmDeleteProject',
+            // 'projects/:projectId/view': 'viewProject',
+        },
+        navigation: {
+            prefix: 'Test Plans',
+            pages: {
+                'TestPlans.showTestPlans': {
+                    template: 'Test Plans',
+                    parent: 'Base.defaultAction'
+                }
+                // 'Projects.showProject': {
+                //     template: function(args) {
+                //         var tpl = _.template('Edit Project <%= args[":projectId"] %>');
+                //         return tpl({
+                //             args: args
+                //         });
+                //     },
+                //     parent: 'Projects.showProjects'
+                // },
+                // 'Projects.showAddProject': {
+                //     template: 'Add new Project',
+                //     parent: 'Projects.showProjects'
+                // },
+                // 'Projects.showConfirmDeleteProject': {
+                //     template: function(args) {
+                //         var tpl = _.template('Delete Project <%= args[":projectId"] %>');
+                //         return tpl({
+                //             args: args
+                //         });
+                //     },
+                //     parent: 'Projects.showProjects'
+                // },
+                // 'Projects.viewProject': {
+                //     template: function(args) {
+                //         var tpl = _.template('View Project <%= args[":projectId"] %>');
+                //         return tpl({
+                //             args: args
+                //         });
+                //     },
+                //     parent: 'Projects.showProjects'
+                // }
             }
         }
     });
@@ -510,6 +565,26 @@ define([
         });
 
         // --- end test cases router ---
+
+        // --- projects router ---
+        var testPlansRouter = new TestPlansRouter();
+
+        testPlansRouter.on('route:showTestPlans', function(queryString) {
+            var params = parseQueryString(queryString);
+            var page = 1;
+            if (typeof(params.page) != "undefined") {
+                page = params.page;
+            }
+            if (!app.testPlansView) {
+                app.testPlansView = new TestPlansView();
+            }
+            app.testPlansView.setPage(page);
+            app.showView(app.testPlansView, {
+                requiresAuth: true
+            });
+        });
+
+        // --- end test plans router ---
 
         navigation.appendRouter(baseRouter);
         navigation.appendRouter(authRouter);
