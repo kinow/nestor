@@ -246,7 +246,7 @@ define([
             // 'projects/:projectId/view': 'viewProject',
         },
         navigation: {
-            prefix: 'Test Plans',
+            prefix: 'TestPlans',
             pages: {
                 'TestPlans.showTestPlans': {
                     template: 'Test Plans',
@@ -261,9 +261,9 @@ define([
                 //     },
                 //     parent: 'Projects.showProjects'
                 // },
-                'Projects.showAddTestPlan': {
+                'TestPlans.showAddTestPlan': {
                     template: 'Add new Test Plan',
-                    parent: 'Projects.showTestPlans'
+                    parent: 'TestPlans.showTestPlans'
                 }
                 // 'Projects.showConfirmDeleteProject': {
                 //     template: function(args) {
