@@ -6,7 +6,7 @@ define([
 
     var TestPlanModel = BaseModel.extend({
 
-        urlRoot: '/api/projects',
+        urlRoot: '/api/testplans',
 
         defaults: {
             id: null,
@@ -22,6 +22,8 @@ define([
 
         url: function() {
             var url = '/api/testplans/' + this.id;
+            if (this.id != null)
+                url += this.id;
             return url;
         }
 
