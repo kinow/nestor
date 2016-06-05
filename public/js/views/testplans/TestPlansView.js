@@ -21,7 +21,7 @@ define([
 
         render: function() {
             $('.item').removeClass('active');
-            $('.item a[href="#/projects"]').parent().addClass('active');
+            $('.item a[href="#/testplans"]').parent().addClass('active');
 
             this.$el.html(testplansTemplate);
             var testPlansCollection = new TestPlansCollection();
