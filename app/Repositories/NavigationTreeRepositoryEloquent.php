@@ -51,7 +51,7 @@ class NavigationTreeRepositoryEloquent implements NavigationTreeRepository
             ->where('b.ancestor', '=', "$ancestor")
             ->where('a.length', '<=', $length)
             ->groupBy('a.ancestor')->groupBy('a.descendant')->groupBy('a.length')
-            ->orderBy('a.ancestor')
+            ->orderBy('a.display_name')
             ->get();
         $navigationTreeNodes = array();
         Eloquent::unguard();
