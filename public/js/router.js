@@ -605,7 +605,8 @@ define([
         AuthRouter: AuthRouter,
         ProjectsRouter: ProjectsRouter,
         TestSuitesRouter: TestSuitesRouter,
-        TestCasesRouter: TestCasesRouter
+        TestCasesRouter: TestCasesRouter,
+        TestPlansRouter: TestPlansRouter
     };
 
     return AppRouter;
