@@ -7,11 +7,12 @@ define([
     'models/project/ProjectModel',
     'text!templates/projects/projectsListTemplate.html'
 ], function($, _, Backbone, ProjectModel, projectsListTemplate) {
-    var ProjectListView = Backbone.View.extend({
+    var ProjectsListView = Backbone.View.extend({
         el: $("#projects-list"),
 
         initialize: function(options) {
             var self = this;
+            _.bindAll(this, 'render');
             this.collection.fetch({
                 success: function() {
                     self.render();
@@ -34,5 +35,5 @@ define([
         }
 
     });
-    return ProjectListView;
+    return ProjectsListView;
 });
