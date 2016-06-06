@@ -57,7 +57,6 @@ class ProjectPosition
     public function handle($request, Closure $next)
     {
         $projectId = $request->session()->get('project_id');
-        \Log::debug($request->session()->all());
         if (isset($projectId) && !is_null($projectId) && is_int($projectId) && $projectId > 0) {
             return $next($request)
                 ->header('X-NESTORQA-PROJECT-ID', $projectId);
