@@ -165,4 +165,13 @@ class ProjectsController extends Controller
             'Result' => $this->projectsRepository->delete($id)
         );
     }
+
+    public function position(Request $request, $projectId)
+    {
+        $project = $this->projectsRepository->find($projectId);
+        $request->session()->put('project_id', $projectId);
+        return array (
+            'Result' => true
+        );
+    }
 }

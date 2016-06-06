@@ -90,6 +90,7 @@ $api->version('v1', function ($api) {
     $api->get('projects/{id}', 'Nestor\Http\Controllers\ProjectsController@show');
     $api->put('projects/{id}', 'Nestor\Http\Controllers\ProjectsController@update');
     $api->delete('projects/{id}', 'Nestor\Http\Controllers\ProjectsController@destroy');
+    $api->get('projects/{projectId}/position', 'Nestor\Http\Controllers\ProjectsController@position');
     
     // TODO: example with auth, to use in the future when locking the API
     // test suites
