@@ -45,15 +45,17 @@ define([
             event.stopPropagation();
 
             if (this.$("#new-project-form").parsley().validate()) {
-                this.collection.create({
+                var project = this.collection.create({
                     name: this.$("#project-name-input").val(),
                     description: this.simplemde.value(),
                     created_by: app.session.get('user_id')
                 }, {
                     wait: true,
                     success: function(mod, res) {
-                        app.showAlert('Success!', 'New project ' + this.$("#project-name-input").val() + ' created!', 'success')
-                        Backbone.history.navigate("#/projects", {
+                        app.showAlert('Success!', 'New project ' + this.$("#project-name-input").val() + ' created!', 'success');
+                        var changedAttributes = project.changedAttributes();
+                        var projectId = changedAttributes.id;
+                        Backbone.history.navigate("#/projects/", {
                             trigger: false
                         });
                     },
