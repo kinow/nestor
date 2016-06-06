@@ -34,23 +34,25 @@ define([
                     xhr.setRequestHeader('Accept', 'application/vnd.nestorqa.v1+json');
                 },
                 data: JSON.stringify(_.omit(opts, 'method')),
-                success: function(res) {
-                    if (!res.error) {
+                success: function(data, textStatus, request) {
+                    if (!data.error) {
                         if (_.indexOf(['login', 'signup'], opts.method) !== -1) {
-                            self.updateSessionUser(res || {});
+                            self.updateSessionUser(data || {});
                             self.set({
-                                user_id: res.id,
+                                user_id: data.id,
                                 logged_in: true
                             });
                         } else {
                             self.set({
                                 logged_in: false
                             });
+                            var project_id = request.getResponseHeader('X-NESTORQA-PROJECT-ID');
+                            self.set({ 'project_id': parseInt(project_id) });
                         }
 
-                        if (callback && 'success' in callback) callback.success(res);
+                        if (callback && 'success' in callback) callback.success(data);
                     } else {
-                        if (callback && 'error' in callback) callback.error(res);
+                        if (callback && 'error' in callback) callback.error(data);
                     }
                 },
                 error: function(mod, res) {

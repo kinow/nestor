@@ -42,10 +42,10 @@ define([
                 wait: true,
                 success: function(mod, res, options){
                     if(!res.error && res.id){
-                        var project_id = options.xhr.getResponseHeader('X-NESTORQA-PROJECT-ID');
                         self.updateSessionUser(res);
                         self.set({ 'logged_in' : true });
                         self.set({ 'user_id': parseInt(res.id) });
+                        var project_id = options.xhr.getResponseHeader('X-NESTORQA-PROJECT-ID');
                         self.set({ 'project_id': parseInt(project_id) });
                         if('success' in callback) callback.success(mod, res, options);
                     } else {
