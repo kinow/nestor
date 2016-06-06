@@ -235,6 +235,7 @@ define([
         routes: {
             // Test Plan routes
             'planning': 'showTestPlans',
+            'planning?*queryString': 'showTestPlans',
             'testplans': 'showTestPlans',
             'testplans?*queryString': 'showTestPlans',
             'testplans/new': 'showAddTestPlan',

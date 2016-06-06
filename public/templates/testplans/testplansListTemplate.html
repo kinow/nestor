@@ -16,17 +16,17 @@
 <% if (testplans.length > 0 && collection.lastPage > 1) { %>
 <div class="ui pagination menu">
 <% if (collection.currentPage > 1) { %>
-    <a class="item" rel="prev" href="/#/testplans?page=<%= (collection.currentPage - 1) %>"><i class="chevron left icon"></i> Left</a>
+    <a class="item" rel="prev" href="/#/planning?page=<%= (collection.currentPage - 1) %>"><i class="chevron left icon"></i> Left</a>
 <% } %>
 <% for (var i = 1; i <= collection.lastPage; i++) { %>
 <% if (collection.currentPage == i) { %>
-    <a class="active item" href="/#/testplans?page=<%= i %>"><%= i %></a>
+    <a class="active item" href="/#/planning?page=<%= i %>"><%= i %></a>
 <% } else { %>
-    <a class="item" href="/#/testplans?page=<%= i %>"><%= i %></a>
+    <a class="item" href="/#/planning?page=<%= i %>"><%= i %></a>
 <% } %>
 <% } %>
 <% if (collection.currentPage < collection.lastPage) { %>
-    <a class="item" rel="next" href="/#/testplans?page=<%= (collection.currentPage + 1) %>">Next &nbsp;<i class="chevron right icon"></i></a>
+    <a class="item" rel="next" href="/#/planning?page=<%= (collection.currentPage + 1) %>">Next &nbsp;<i class="chevron right icon"></i></a>
 <% } %>
 </div>
 <% } %>

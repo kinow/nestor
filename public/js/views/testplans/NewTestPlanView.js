@@ -25,7 +25,7 @@ define([
 
         render: function() {
             $('.item').removeClass('active');
-            $('.item a[href="#/testplans"]').parent().addClass('active');
+            $('.item a[href="#/planning"]').parent().addClass('active');
 
             var self = this;
             this.projectsCollection.fetch({
