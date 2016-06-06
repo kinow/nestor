@@ -50,15 +50,15 @@ define([
                         console.log(self)
                         if('success' in callback) callback.success(mod, res, options);
                     } else {
-                        self.set({ logged_in : false });
-                        self.set({ user_id: 0 });
-                        self.set({ project_id: 0 });
+                        self.set({ 'logged_in': false });
+                        self.set({ 'user_id': 0 });
+                        self.set({ 'project_id': 0 });
                         if('error' in callback) callback.error(mod, res, options);
                     }
                 }, error:function(mod, res){
-                    self.set({ logged_in : false });
-                    self.set({ user_id: 0 });
-                    self.set({ project_id: 0 });
+                    self.set({ 'logged_in': false });
+                    self.set({ 'user_id': 0 });
+                    self.set({ 'project_id': 0 });
                     if('error' in callback) callback.error(mod, res);
                 }
             }).complete( function(){
