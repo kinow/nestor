@@ -115,7 +115,8 @@ define([
             'projects/new': 'showAddProject',
             'projects/:projectId': 'showProject',
             'projects/:projectId/confirmDelete': 'showConfirmDeleteProject',
-            'projects/:projectId/view': 'viewProject',
+            //'projects/:projectId/view': 'viewProject',
+            'specification': 'viewProject',
             // User routes
             'users': 'showContributors'
         },
@@ -149,13 +150,8 @@ define([
                     parent: 'Projects.showProjects'
                 },
                 'Projects.viewProject': {
-                    template: function(args) {
-                        var tpl = _.template('View Project <%= args[":projectId"] %>');
-                        return tpl({
-                            args: args
-                        });
-                    },
-                    parent: 'Projects.showProjects'
+                    template: 'Specification',
+                    parent: 'Base.defaultAction'
                 }
             }
         }
@@ -383,7 +379,8 @@ define([
 
         // --- displayed as specification screen ---
 
-        projectsRouter.on('route:viewProject', function(id) {
+        projectsRouter.on('route:viewProject', function() {
+            var id = app.session.get('project_id');
             if (!app.viewProjectView) {
                 app.viewProjectView = new ViewProjectView();
             }

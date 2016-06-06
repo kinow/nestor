@@ -100,7 +100,7 @@ define([
 
         render: function() {
             $('.item').removeClass('active');
-            $('.item a[href="#/projects"]').parent().addClass('active');
+            $('.item a[href="#/specification"]').parent().addClass('active');
             var compiledTemplate = _.template(viewProjectTemplate, {});
             this.$el.html(compiledTemplate);
 
