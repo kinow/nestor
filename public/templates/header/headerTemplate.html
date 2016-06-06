@@ -12,6 +12,23 @@
     </div>
     <% } %>
     <div class="right menu">
+      <div class="ui mini simple dropdown item">
+        <input name="project_id" type="hidden">
+        <div class="default text">Choose a Project</div>
+        <div class="menu">
+          <div class="header">
+            <i class="tags icon"></i>
+            Filter by name
+          </div>
+          <div class="ui icon search input">
+            <i class="search icon"></i>
+            <input placeholder="Search projects..." type="text">
+          </div>
+          <div class="divider"></div>
+          <div class="item" data-value="1">Male</div>
+          <div class="item" data-value="0">Female</div>
+        </div>
+      </div>
       <% if(logged_in){ %>
       <div class='ui simple dropdown item'>
         <a href="#/profile"><%= user['name'] %></a>
