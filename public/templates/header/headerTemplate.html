@@ -1,14 +1,26 @@
 <div id="menu">
   <div class='ui pointing menu'>
     <div class='item'>
-      <a href="#">Home</a>
+      <a href="#"><i class="home icon"></i> Home</a>
     </div>
     <% if(logged_in){ %>
     <div class='item'>
-      <a href="#/projects">Projects</a>
+      <a href="#/projects"><i class="book icon"></i> Projects</a>
     </div>
     <div class='item'>
-      <a href="#/testplans">Test Plans</a>
+      <a href="#/specification"><i class="write icon"></i> Specification</a>
+    </div>
+    <div class='item'>
+      <a href="#/planning"><i class="browser icon"></i> Planning</a>
+    </div>
+    <div class='item'>
+      <a href="#/reporting"><i class="terminal icon"></i> Execution</a>
+    </div>
+    <div class='item'>
+      <a href="#/reporting"><i class="bar chart icon"></i> Reporting</a>
+    </div>
+    <div class='item'>
+      <a href="#/dashboards"><i class="dashboard icon"></i> Dashboards</a>
     </div>
     <% } %>
     <div class="right menu">
@@ -31,7 +43,7 @@
       </div>
       <% if(logged_in){ %>
       <div class='ui simple dropdown item'>
-        <a href="#/profile"><%= user['name'] %></a>
+        <a href="#/profile"><i class="user icon"></i> <%= user['name'] %></a>
         <!--<i class="dropdown icon"></i>-->
         <div class="menu">
           <a class="item" id="logout-link" href="#/signout">Sign Out</a>
