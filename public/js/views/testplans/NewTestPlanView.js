@@ -31,7 +31,6 @@ define([
             this.projectsCollection.fetch({
                 success: function(collection, response, options) {
                     var projects = collection;
-                    console.log(collection);
                     var compiledTemplate = _.template(newTestPlanTemplate, {
                         projects: projects
                     });
