@@ -7,6 +7,7 @@
     <div class='item'>
       <a href="#/projects"><i class="book icon"></i> Projects</a>
     </div>
+      <% if (typeof project_id != 'undefined' && project_id > 0) { %>
     <div class='item'>
       <a href="#/specification"><i class="write icon"></i> Specification</a>
     </div>
@@ -22,6 +23,7 @@
     <div class='item'>
       <a href="#/dashboards"><i class="dashboard icon"></i> Dashboards</a>
     </div>
+      <% } %>
     <% } %>
     <div class="right menu">
       <div class="ui simple dropdown item">
