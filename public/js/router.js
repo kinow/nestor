@@ -293,6 +293,7 @@ define([
         if (!app.headerView) {
             app.headerView = new HeaderView();
             app.headerView.render();
+            app.session.bind('reset', app.headerView.updateMenu);
         }
 
         if (!app.breadcrumbView) {

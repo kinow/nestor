@@ -29,7 +29,6 @@ define([
         // Fxn to update user attributes after receiving API response
         updateSessionUser: function( userData ){
             this.user.set(_.pick(userData, _.keys(this.user.defaults)));
-            this.user_id = this.user.id;
         },
 
         /*
@@ -40,20 +39,26 @@ define([
         checkAuth: function(callback, args) {
             var self = this;
             this.fetch({
-                success: function(mod, res){
+                wait: true,
+                success: function(mod, res, options){
                     if(!res.error && res.id){
+                        var project_id = options.xhr.getResponseHeader('X-NESTORQA-PROJECT-ID');
                         self.updateSessionUser(res);
-                        self.set({ logged_in : true });
-                        self.set({ user_id: res.id });
-                        if('success' in callback) callback.success(mod, res);
+                        self.set({ 'logged_in' : true });
+                        self.set({ 'user_id': parseInt(res.id) });
+                        self.set({ 'project_id': parseInt(project_id) });
+                        console.log(self)
+                        if('success' in callback) callback.success(mod, res, options);
                     } else {
                         self.set({ logged_in : false });
                         self.set({ user_id: 0 });
-                        if('error' in callback) callback.error(mod, res);
+                        self.set({ project_id: 0 });
+                        if('error' in callback) callback.error(mod, res, options);
                     }
                 }, error:function(mod, res){
                     self.set({ logged_in : false });
                     self.set({ user_id: 0 });
+                    self.set({ project_id: 0 });
                     if('error' in callback) callback.error(mod, res);
                 }
             }).complete( function(){

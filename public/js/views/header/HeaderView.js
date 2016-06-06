@@ -11,10 +11,11 @@ define([
         el: $("#header"),
 
         initialize: function() {
-            _.bindAll(this, 'onLoginStatusChange', 'render');
+            _.bindAll(this, 'onLoginStatusChange', 'render', 'onPositionProject');
 
             // Listen for session logged_in state changes and re-render
             app.session.on("change:logged_in", this.onLoginStatusChange);
+            app.session.on("change:project_id", this.onPositionProject);
         },
 
         events: {
@@ -49,13 +50,18 @@ define([
             //app.session.removeAccount({});
         },
 
+        onPositionProject: function(evt) {
+            this.render();
+        },
+
         render: function() {
             // data to be passed to UI
             var data = {
-                    logged_in: app.session.get("logged_in"),
-                    user: app.session.user.toJSON()
-                }
-                // render the template
+                logged_in: app.session.get("logged_in"),
+                project_id: app.session.get('project_id'),
+                user: app.session.user.toJSON()
+            };
+            // render the template
             var compiledTemplate = _.template(headerTemplate, data);
 
             // update the HTML element of this view
@@ -63,7 +69,8 @@ define([
 
             // dropdown menus
             $('.ui.dropdown')
-                .dropdown();
+                .dropdown()
+            ;
 
             return this;
         }

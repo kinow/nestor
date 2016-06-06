@@ -24,6 +24,7 @@ define([
                     username: this.$("#login-username-input").val(),
                     password: this.$("#login-password-input").val()
                 }, {
+                    wait: true,
                     success: function(mod, res) {
                         if (typeof DEBUG != 'undefined' && DEBUG) console.log("SUCCESS", mod, res);
                         app.showAlert('Welcome!', 'Log in successful!', 'success');
