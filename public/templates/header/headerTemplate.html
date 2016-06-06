@@ -26,6 +26,7 @@
       <% } %>
     <% } %>
     <div class="right menu">
+      <% if(logged_in){ %>
       <div class="ui simple dropdown item">
         <input name="project_id" type="hidden">
         <div class="default text">Choose a Project</div>
@@ -43,7 +44,6 @@
           <div class="item" data-value="0">Female</div>
         </div>
       </div>
-      <% if(logged_in){ %>
       <div class='ui simple dropdown item'>
         <a href="#/profile"><i class="user icon"></i> <%= user['name'] %></a>
         <!--<i class="dropdown icon"></i>-->
