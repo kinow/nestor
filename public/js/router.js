@@ -234,7 +234,7 @@ define([
     var TestPlansRouter = Backbone.Router.extend({
         routes: {
             // Test Plan routes
-            'testplans': 'showTestPlans',
+            'planning': 'showTestPlans',
             'testplans?*queryString': 'showTestPlans',
             'testplans/new': 'showAddTestPlan',
             // 'projects/:projectId': 'showProject',
