@@ -169,7 +169,7 @@ class ProjectsController extends Controller
     public function position(Request $request, $projectId)
     {
         $project = $this->projectsRepository->find($projectId);
-        $request->session()->put('project_id', $projectId);
+        $request->session()->put('project_id', $project->id);
         return array (
             'Result' => true
         );
