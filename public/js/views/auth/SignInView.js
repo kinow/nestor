@@ -26,7 +26,7 @@ define([
                 }, {
                     success: function(mod, res) {
                         if (typeof DEBUG != 'undefined' && DEBUG) console.log("SUCCESS", mod, res);
-                        app.showAlert('Welcome!', 'Log in successful!', 'success')
+                        app.showAlert('Welcome!', 'Log in successful!', 'success');
                         Backbone.history.navigate("#/projects", {
                             trigger: true
                         });
