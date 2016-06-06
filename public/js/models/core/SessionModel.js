@@ -47,7 +47,6 @@ define([
                         self.set({ 'logged_in' : true });
                         self.set({ 'user_id': parseInt(res.id) });
                         self.set({ 'project_id': parseInt(project_id) });
-                        console.log(self)
                         if('success' in callback) callback.success(mod, res, options);
                     } else {
                         self.set({ 'logged_in': false });
