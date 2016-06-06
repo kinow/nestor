@@ -235,9 +235,10 @@ define([
         routes: {
             // Test Plan routes
             'planning': 'showTestPlans',
+            'testplans': 'showTestPlans',
             'testplans?*queryString': 'showTestPlans',
             'testplans/new': 'showAddTestPlan',
-            // 'projects/:projectId': 'showProject',
+            'testplans/:projectId': 'showTestPlan',
             // 'projects/:projectId/confirmDelete': 'showConfirmDeleteProject',
             // 'projects/:projectId/view': 'viewProject',
         },
@@ -248,19 +249,19 @@ define([
                     template: 'Test Plans',
                     parent: 'Base.defaultAction'
                 },
-                // 'Projects.showProject': {
-                //     template: function(args) {
-                //         var tpl = _.template('Edit Project <%= args[":projectId"] %>');
-                //         return tpl({
-                //             args: args
-                //         });
-                //     },
-                //     parent: 'Projects.showProjects'
-                // },
                 'TestPlans.showAddTestPlan': {
                     template: 'Add new Test Plan',
                     parent: 'TestPlans.showTestPlans'
-                }
+                },
+                'TestPlans.showTestPlan': {
+                    template: function(args) {
+                        var tpl = _.template('Edit Test Plan <%= args[":testPlanId"] %>');
+                        return tpl({
+                            args: args
+                        });
+                    },
+                    parent: 'TestPlans.showTestPlans'
+                },
                 // 'Projects.showConfirmDeleteProject': {
                 //     template: function(args) {
                 //         var tpl = _.template('Delete Project <%= args[":projectId"] %>');
@@ -584,12 +585,12 @@ define([
             });
         });
 
-        testPlansRouter.on('route:showAddTestPlan', function(projectId, queryString) {
+        testPlansRouter.on('route:showAddTestPlan', function(queryString) {
             var params = parseQueryString(queryString);
             if (!app.newTestPlanView) {
                 app.newTestPlanView = new NewTestPlanView();
             }
-            app.newTestPlanView.setProjectId(projectId);
+            app.newTestPlanView.setProjectId(app.session.get('project_id'));
             app.showView(app.newTestPlanView, {
                 requiresAuth: true
             });
