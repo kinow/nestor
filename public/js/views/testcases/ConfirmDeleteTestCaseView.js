@@ -18,7 +18,7 @@ define([
 
         render: function(options) {
             $('.item').removeClass('active');
-            $('.item a[href="#/projects"]').parent().addClass('active');
+            $('.item a[href="#/specification"]').parent().addClass('active');
             var self = this;
             this.model = options.model;
             this.projectId = options.project_id;
@@ -34,7 +34,7 @@ define([
                 },
                 error: function() {
                     app.showAlert('Failed to delete Test Case', 'Error fetching test case!', 'error');
-                    Backbone.history.navigate("#/projects/" + self.projectId + "/view", {
+                    Backbone.history.navigate("#/specification", {
                         trigger: false
                     });
                 }
@@ -66,7 +66,7 @@ define([
                         message = response.responseJSON.name[0];
                     }
                     app.showAlert('Failed to delete Project', message, 'error');
-                    Backbone.history.navigate("#/projects/" + self.projectId + "/view", {
+                    Backbone.history.navigate("#/specification", {
                         trigger: false
                     });
                 }

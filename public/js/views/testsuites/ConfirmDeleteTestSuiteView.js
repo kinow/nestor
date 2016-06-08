@@ -18,7 +18,7 @@ define([
 
         render: function(options) {
             $('.item').removeClass('active');
-            $('.item a[href="#/projects"]').parent().addClass('active');
+            $('.item a[href="#/specification"]').parent().addClass('active');
             var self = this;
             this.model = options.model;
             this.projectId = options.project_id;
@@ -33,7 +33,7 @@ define([
                 },
                 error: function() {
                     app.showAlert('Failed to delete Test Suite', 'Error fetching test suite!', 'error');
-                    Backbone.history.navigate("#/projects/" + self.projectId + "/view", {
+                    Backbone.history.navigate("#/specification", {
                         trigger: false
                     });
                 }
