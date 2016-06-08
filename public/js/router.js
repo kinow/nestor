@@ -23,7 +23,8 @@ define([
     'views/projects/ViewProjectView',
     // Test plans views
     'views/testplans/TestPlansView',
-    'views/testplans/NewTestPlanView'
+    'views/testplans/NewTestPlanView',
+    'views/testplans/TestPlanView'
 ], function(
     _,
     Backbone,
@@ -40,7 +41,8 @@ define([
     ConfirmDeleteProjectView,
     ViewProjectView,
     TestPlansView,
-    NewTestPlanView) {
+    NewTestPlanView,
+    TestPlanView) {
 
     'use strict';
 
@@ -239,7 +241,7 @@ define([
             'testplans': 'showTestPlans',
             'testplans?*queryString': 'showTestPlans',
             'testplans/new': 'showAddTestPlan',
-            'testplans/:projectId': 'showTestPlan',
+            'testplans/:testPlanId': 'showTestPlan',
             // 'projects/:projectId/confirmDelete': 'showConfirmDeleteProject',
             // 'projects/:projectId/view': 'viewProject',
         },
@@ -593,6 +595,16 @@ define([
             }
             app.newTestPlanView.setProjectId(app.session.get('project_id'));
             app.showView(app.newTestPlanView, {
+                requiresAuth: true
+            });
+        });
+
+        testPlansRouter.on('route:showTestPlan', function(testPlanId) {
+            if (!app.testPlanView) {
+                app.testPlanView = new TestPlanView();
+            }
+            app.testPlanView.model.set('id', testPlanId);
+            app.showView(app.testPlanView, {
                 requiresAuth: true
             });
         });

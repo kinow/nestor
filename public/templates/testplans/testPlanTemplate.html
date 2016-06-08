@@ -1,0 +1,24 @@
+<h1 class="ui top attached header"><%= testplan.get('name') %></h1>
+<div class="ui attached segment">
+    <form class='ui form' id="testplan-form" data-parsley-validate>
+          <div class="field">
+            <label>Name</label>
+            <input name="name" id="testplan-name-input" placeholder="Name" type="text" value="<%= testplan.get('name') %>" />
+          </div>
+          <div class="field">
+            <label>Description</label>
+            <textarea name="description" placeholder="Description" id="testplan-description-input" data-parsley-required="false" data-parsley-length="[1,1000]"></textarea>
+          </div>
+          <button class="positive ui left floated button" id="testplan-btn">
+              Okay
+          </button>
+          <a href="javascript: window.history.back();" class="ui left floated button">
+              Cancel
+          </a>
+          <a href="#/projects/<%= testplan.get('project_id') %>/testplans/<%= testplan.get('id') %>/confirmDelete" class="negative ui right floated button">
+              Delete
+          </a>
+          <br class='clearfix' />
+          <br/> 
+    </form>
+</div>

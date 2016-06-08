@@ -9,7 +9,7 @@ define([
         urlRoot: '/api/testplans',
 
         defaults: {
-            id: null,
+            id: 0,
             project_id: 0,
             name: 'No test plan name set',
             description: 'No description set',
@@ -17,15 +17,21 @@ define([
         },
 
         initialize: function(options) {
-            _.bindAll(this, 'url');
+            _.bindAll(this, 'url', 'parse');
         },
 
         url: function() {
             var url = '/api/testplans/';
             if (this.get('id') != undefined && this.get('id') > 0) {
-                url += '/' + this.get('id');
+                url += this.get('id');
             }
             return url;
+        },
+
+        parse: function(obj) {
+            if (typeof(obj.test_plan) != 'undefined')
+                return obj.test_plan;
+            return obj;
         }
 
     });
