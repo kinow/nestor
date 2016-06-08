@@ -51,7 +51,7 @@ define([
                     description: this.simplemde.value(),
                     parent_id: this.parentId,
                     project_id: this.projectId,
-                    created_by: app.session.user_id
+                    created_by: app.session.get('user_id')
                 }, {
                     wait: true,
                     success: function(mod, res) {
