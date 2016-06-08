@@ -60,7 +60,7 @@ define([
                 this.model.save({
                     name: this.$("#testplan-name-input").val(),
                     description: this.description_simplemde.value(),
-                    project_id: this.projectId,
+                    project_id: this.model.get('project_id'),
                     created_by: app.session.get('user_id')
                 }, {
                     wait: true,

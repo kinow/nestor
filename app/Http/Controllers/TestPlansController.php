@@ -147,6 +147,7 @@ class TestPlansController extends Controller
         ]);
 
         if ($validator->fails()) {
+            Log::debug('Validation failed while updating test plan: ' . $validator->errors());
             $this->throwValidationException($request, $validator);
         }
 
