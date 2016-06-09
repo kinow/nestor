@@ -1,0 +1,14 @@
+<h1 class="ui top attached header"><%= testplan.get('name') %></h1>
+<div class="ui attached segment">
+    <h2 class='ui header'>Confirm delete test plan <%= testplan.get('name') %>?</h2>
+    <form class='ui form'>
+          <button class="positive ui left floated button" id="remove-testplan-btn">
+              Okay
+          </button>
+          <a href="javascript: window.history.back();" class="ui left floated button">
+              Cancel
+          </a>
+          <br class='clearfix' />
+          <br/> 
+    </form>
+</div>

@@ -3,7 +3,7 @@
     <form class='ui form' id="testplan-form" data-parsley-validate>
           <div class="field">
             <label>Name</label>
-            <input name="name" id="testplan-name-input" placeholder="Name" type="text" value="<%= testplan.get('name') %>" />
+            <input name="name" id="testplan-name-input" placeholder="Name" type="text" value="<%= testplan.get('name') %>" data-parsley-required="true" data-parsley-length="[1,255]" />
           </div>
           <div class="field">
             <label>Description</label>

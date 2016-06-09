@@ -24,7 +24,8 @@ define([
     // Test plans views
     'views/testplans/TestPlansView',
     'views/testplans/NewTestPlanView',
-    'views/testplans/TestPlanView'
+    'views/testplans/TestPlanView',
+    'views/testplans/ConfirmDeleteTestPlanView'
 ], function(
     _,
     Backbone,
@@ -42,7 +43,8 @@ define([
     ViewProjectView,
     TestPlansView,
     NewTestPlanView,
-    TestPlanView) {
+    TestPlanView,
+    ConfirmDeleteTestPlanView) {
 
     'use strict';
 
@@ -242,7 +244,7 @@ define([
             'testplans?*queryString': 'showTestPlans',
             'testplans/new': 'showAddTestPlan',
             'testplans/:testPlanId': 'showTestPlan',
-            // 'projects/:projectId/confirmDelete': 'showConfirmDeleteProject',
+            'testplans/:testPlanId/confirmDelete': 'showConfirmDeleteTestPlan',
             // 'projects/:projectId/view': 'viewProject',
         },
         navigation: {
@@ -265,15 +267,15 @@ define([
                     },
                     parent: 'TestPlans.showTestPlans'
                 },
-                // 'Projects.showConfirmDeleteProject': {
-                //     template: function(args) {
-                //         var tpl = _.template('Delete Project <%= args[":projectId"] %>');
-                //         return tpl({
-                //             args: args
-                //         });
-                //     },
-                //     parent: 'Projects.showProjects'
-                // },
+                'TestPlans.showConfirmDeleteTestPlan': {
+                    template: function(args) {
+                        var tpl = _.template('Delete Test Plan <%= args[":testPlanId"] %>');
+                        return tpl({
+                            args: args
+                        });
+                    },
+                    parent: 'TestPlans.showTestPlans'
+                }
                 // 'Projects.viewProject': {
                 //     template: function(args) {
                 //         var tpl = _.template('View Project <%= args[":projectId"] %>');
@@ -605,6 +607,16 @@ define([
             }
             app.testPlanView.model.set('id', testPlanId);
             app.showView(app.testPlanView, {
+                requiresAuth: true
+            });
+        });
+
+        testPlansRouter.on('route:showConfirmDeleteTestPlan', function(testPlanId) {
+            if (!app.confirmDeleteTestPlanView) {
+                app.confirmDeleteTestPlanView = new ConfirmDeleteTestPlanView();
+            }
+            app.confirmDeleteTestPlanView.model.set('id', testPlanId);
+            app.showView(app.confirmDeleteTestPlanView, {
                 requiresAuth: true
             });
         });
