@@ -25,7 +25,10 @@ define([
     'views/testplans/TestPlansView',
     'views/testplans/NewTestPlanView',
     'views/testplans/TestPlanView',
-    'views/testplans/ConfirmDeleteTestPlanView'
+    'views/testplans/ConfirmDeleteTestPlanView',
+    // This is the view displayed when you browse the navigation tree in the planning
+    // view.
+    'views/testplans/ViewTestPlanView',
 ], function(
     _,
     Backbone,
@@ -44,7 +47,8 @@ define([
     TestPlansView,
     NewTestPlanView,
     TestPlanView,
-    ConfirmDeleteTestPlanView) {
+    ConfirmDeleteTestPlanView,
+    ViewTestPlanView) {
 
     'use strict';
 
@@ -245,7 +249,7 @@ define([
             'testplans/new': 'showAddTestPlan',
             'testplans/:testPlanId': 'showTestPlan',
             'testplans/:testPlanId/confirmDelete': 'showConfirmDeleteTestPlan',
-            // 'projects/:projectId/view': 'viewProject',
+            'testplans/:testPlanId/view': 'viewTestPlan'
         },
         navigation: {
             prefix: 'TestPlans',
@@ -275,16 +279,16 @@ define([
                         });
                     },
                     parent: 'TestPlans.showTestPlans'
+                },
+                'TestPlans.viewTestPlan': {
+                    template: function(args) {
+                        var tpl = _.template('View Test Plan <%= args[":testPlanId"] %>');
+                        return tpl({
+                            args: args
+                        });
+                    },
+                    parent: 'TestPlans.showTestPlans'
                 }
-                // 'Projects.viewProject': {
-                //     template: function(args) {
-                //         var tpl = _.template('View Project <%= args[":projectId"] %>');
-                //         return tpl({
-                //             args: args
-                //         });
-                //     },
-                //     parent: 'Projects.showProjects'
-                // }
             }
         }
     });
@@ -619,6 +623,25 @@ define([
             app.showView(app.confirmDeleteTestPlanView, {
                 requiresAuth: true
             });
+        });
+
+        // --- displayed as planning screen ---
+
+        testPlansRouter.on('route:viewTestPlan', function(testPlanId) {
+            var id = app.session.get('project_id');
+            if (!app.viewTestPlanView) {
+                app.viewTestPlanView = new ViewTestPlanView();
+            }
+            app.viewTestPlanView.setProjectId(id);
+            app.viewTestPlanView.setTestPlanId(testPlanId);
+            if (typeof app.currentView !== 'undefined' && app.currentView.cid == app.viewTestPlanView.cid) {
+                app.viewTestPlanView.displayProject();
+            } else {
+                app.showView(app.viewTestPlanView, {
+                    requiresAuth: true,
+                    onSuccess: app.viewTestPlanView.displayProject
+                });
+            }
         });
 
         // --- end test plans router ---
