@@ -282,7 +282,7 @@ define([
                 },
                 'TestPlans.viewTestPlan': {
                     template: function(args) {
-                        var tpl = _.template('View Test Plan <%= args[":testPlanId"] %>');
+                        var tpl = _.template('Manage Test Cases');
                         return tpl({
                             args: args
                         });
