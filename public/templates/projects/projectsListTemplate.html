@@ -1,11 +1,15 @@
 <% _.each(projects, function(project){ %>
-<div class='item'>
+<div class='ui middle aligned item'>
   <div class="right floated content">
-    <a href="#/projects/<%= project.get('id') %>" class="ui button">Edit</a>
-    <a href="#/projects/<%= project.get('id') %>/confirmDelete" class="ui button">Delete</a>
+    <div class='ui stackable menu'>
+      <a href="#/projects/<%= project.get('id') %>" class="item">Edit</a>
+      <a href="#/projects/<%= project.get('id') %>/confirmDelete" class="item">Delete</a>
+    </div>
   </div>
-  <div class="content">
-    <%= project.get("name") %>
+  <div class="left floated content">
+    <div class='ui vertical segment'>
+      <%= project.get("name") %>
+    </div>
   </div>
 </div>
 <% }); %>
