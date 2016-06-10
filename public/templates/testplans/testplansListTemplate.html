@@ -1,14 +1,15 @@
 <% _.each(testplans, function(testplan){ %>
-<div class='item'>
+<div class='ui middle aligned item'>
     <div class="right floated content">
-        <a href="#/testplans/<%= testplan.get('id') %>/view" class="ui button">Manage Test Cases</a>
-    <a href="#/testplans/<%= testplan.get('id') %>" class="ui button">Edit</a>
-    <a href="#/testplans/<%= testplan.get('id') %>/confirmDelete" class="ui button">Delete</a>
-  </div>
-    <div class="content">
-        <%= testplan.get("name") %>
-        <div class='description'>
-            <!--%= testplan.get('description') %-->
+        <div class='ui stackable menu'>
+            <a href="#/testplans/<%= testplan.get('id') %>/view" class="item">Manage Test Cases</a>
+            <a href="#/testplans/<%= testplan.get('id') %>" class="item">Edit</a>
+            <a href="#/testplans/<%= testplan.get('id') %>/confirmDelete" class="item">Delete</a>
+        </div>
+    </div>
+    <div class="left floated content">
+        <div class='ui vertical segment'>
+            <%= testplan.get("name") %>
         </div>
     </div>
 </div>
