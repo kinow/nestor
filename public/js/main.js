@@ -9,7 +9,8 @@ require.config({
         navigation: 'libs/core/navigation',
         parsley: 'libs/parsleyjs/dist/parsley.min',
         semanticui: 'libs/semantic/dist/semantic.min',
-        simplemde: 'libs/simplemde/dist/simplemde.min'
+        simplemde: 'libs/simplemde/dist/simplemde.min',
+        dragster: 'libs/dragsterjs/dragster'
     },
 
     shim: {

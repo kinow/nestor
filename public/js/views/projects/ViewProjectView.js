@@ -69,7 +69,9 @@ define([
             this.testCaseId = 0;
 
             // Views
-            this.navigationTreeView = new NavigationTreeView();
+            this.navigationTreeView = new NavigationTreeView({
+                draggable: true
+            });
             this.viewNodeItemView = new ViewNodeItemView();
             this.newTestSuiteView = new NewTestSuiteView();
             this.newTestCaseView = new NewTestCaseView();

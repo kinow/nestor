@@ -37,8 +37,27 @@
     return icon;
 } %>
 
+<% node_class = function(node) {
+    var node_class = '';
+    switch (parseInt(node.node_type_id)) {
+        case 1:
+            node_class = 'nestorqa-project';
+            break;
+        case 2:
+            node_class = 'nestorqa-testsuite draggable';
+            break;
+        case 3:
+            node_class = 'nestorqa-testcase draggable';
+            break;
+        default:
+            node_class = '';
+            break;
+    }
+    return node_class;
+} %>
+
 <% fn = function(node, parent) { %>
-<div class='item'>
+<div class='item <%= node_class(node) %>'>
     <i class="<%= node_icon(node) %>"></i>
     <div class="content">
         <a href="<%= node_url(node, parent) %>" data-node-type-id='<%= node.node_type_id %>' data-node-id='<%= node.node_id %>'>

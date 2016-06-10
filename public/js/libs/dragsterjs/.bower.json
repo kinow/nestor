@@ -1,0 +1,36 @@
+{
+  "name": "dragsterjs",
+  "version": "1.2.0",
+  "homepage": "https://github.com/sunpietro/dragster",
+  "authors": [
+    "Piotr Nalepa <poczta@piotrnalepa.pl>"
+  ],
+  "description": "JS library for drag'n'drop working both on desktop and mobile",
+  "main": "index.html",
+  "keywords": [
+    "drag",
+    "drop",
+    "js",
+    "ui",
+    "vanilla"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests",
+    "*.sublime-*"
+  ],
+  "_release": "1.2.0",
+  "_resolution": {
+    "type": "version",
+    "tag": "1.2.0",
+    "commit": "6968b195965954f09573abb96ff81a6762a6b24d"
+  },
+  "_source": "https://github.com/sunpietro/dragster.git",
+  "_target": "^1.2.0",
+  "_originalSource": "dragsterjs",
+  "_direct": true
+}
