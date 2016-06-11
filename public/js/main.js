@@ -10,7 +10,8 @@ require.config({
         parsley: 'libs/parsleyjs/dist/parsley.min',
         semanticui: 'libs/semantic/dist/semantic.min',
         simplemde: 'libs/simplemde/dist/simplemde.min',
-        dragster: 'libs/dragsterjs/dragster'
+        // navigation tree and dependencies
+        fancytree: 'libs/jquery.fancytree/dist/jquery.fancytree-all.min'
     },
 
     shim: {
@@ -21,6 +22,18 @@ require.config({
         'semanticui': {
             "deps": ["jquery"],
             exports: 'semanticui'
+        },
+        'fancytree': {
+            //'deps': ['jqueryuicore', 'jqueryuieffects'],
+            'deps': [
+                'libs/jquery-ui/ui/core',
+                'libs/jquery-ui/ui/effect',
+                'libs/jquery-ui/ui/effect-blind',
+                'libs/jquery-ui/ui/widget',
+                'libs/jquery-ui/ui/draggable',
+                'libs/jquery-ui/ui/droppable'
+            ],
+            exports: 'fancytree'
         }
     }
 });

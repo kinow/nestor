@@ -57,7 +57,7 @@
 } %>
 
 <% fn = function(node, parent) { %>
-<div class='item <%= node_class(node) %>'>
+<div class='item'>
     <i class="<%= node_icon(node) %>"></i>
     <div class="content">
         <a href="<%= node_url(node, parent) %>" data-node-type-id='<%= node.node_type_id %>' data-node-id='<%= node.node_id %>'>

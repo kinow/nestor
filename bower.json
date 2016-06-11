@@ -9,6 +9,6 @@
     "parsleyjs": "~2.1.3",
     "simplemde": "1.10.x",
     "lato": "^0.3.0",
-    "dragsterjs": "^1.2.0"
+    "jquery.fancytree": "fancytree#^2.18.0"
   }
 }
