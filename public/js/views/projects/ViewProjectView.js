@@ -110,7 +110,8 @@ define([
             this.$('#navigation-tree').replaceWith(this.navigationTreeView.el);
         },
 
-        setProjectId: function(projectId) {
+        setProjectId: function(id) {
+            var projectId = parseInt(id);
             // update project ID in models
             this.projectModel = new ProjectModel();
             this.projectModel.id = projectId;
