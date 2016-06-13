@@ -11,11 +11,10 @@ define([
         el: $("#header"),
 
         initialize: function() {
-            _.bindAll(this, 'onLoginStatusChange', 'render', 'onPositionProject');
+            _.bindAll(this, 'onLoginStatusChange', 'render');
 
             // Listen for session logged_in state changes and re-render
             app.session.on("change:logged_in", this.onLoginStatusChange);
-            app.session.on("change:project_id", this.onPositionProject);
         },
 
         events: {
@@ -48,10 +47,6 @@ define([
         onRemoveAccountClick: function(evt) {
             evt.preventDefault();
             //app.session.removeAccount({});
-        },
-
-        onPositionProject: function(evt) {
-            this.render();
         },
 
         render: function() {
