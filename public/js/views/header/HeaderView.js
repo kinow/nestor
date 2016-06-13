@@ -3,23 +3,36 @@ define([
     'underscore',
     'backbone',
     'app',
+    'views/header/PositionProjectComboboxView',
     'text!templates/header/headerTemplate.html'
-], function($, _, Backbone, app, headerTemplate) {
+], function($, _, Backbone, app, PositionProjectComboboxView, headerTemplate) {
 
     var HeaderView = Backbone.View.extend({
 
         el: $("#header"),
 
         initialize: function() {
-            _.bindAll(this, 'onLoginStatusChange', 'render');
+            _.bindAll(this, 'onLoginStatusChange', 'onPositionProject', 'render');
 
             // Listen for session logged_in state changes and re-render
             app.session.on("change:logged_in", this.onLoginStatusChange);
+            app.session.on("change:project_id", this.onPositionProject);
+            if (!this.positionProjectComboboxView) {
+                this.positionProjectComboboxView = new PositionProjectComboboxView();
+            }
+
+            // For GC
+            this.subviews = new Object();
+            this.subviews.positionProjectComboboxView = this.positionProjectComboboxView;
         },
 
         events: {
             "click #logout-link": "onLogoutClick",
             "click #remove-account-link": "onRemoveAccountClick"
+        },
+
+        onPositionProject: function(evt) {
+            this.render();
         },
 
         onLoginStatusChange: function(evt) {
@@ -62,10 +75,9 @@ define([
             // update the HTML element of this view
             this.$el.html(compiledTemplate);
 
-            // dropdown menus
-            $('.ui.dropdown')
-                .dropdown()
-            ;
+            this.$('#position-project-combobox').empty();
+            this.positionProjectComboboxView.render();
+            this.$('#position-project-combobox').replaceWith(this.positionProjectComboboxView.el);
 
             return this;
         }
