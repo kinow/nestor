@@ -55,7 +55,7 @@ define([
                         app.showAlert('Success!', 'New project ' + this.$("#project-name-input").val() + ' created!', 'success');
                         var changedAttributes = project.changedAttributes();
                         var projectId = changedAttributes.id;
-                        Backbone.history.navigate("#/projects/", {
+                        Backbone.history.navigate("#/projects", {
                             trigger: false
                         });
                     },
