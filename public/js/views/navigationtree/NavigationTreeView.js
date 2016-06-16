@@ -12,7 +12,7 @@ define([
     var NavigationTreeView = Backbone.View.extend({
 
         initialize: function(options) {
-            _.bindAll(this, 'render');
+            _.bindAll(this, 'render', 'convertToTree');
 
             if (typeof options.draggable !== typeof undefined) {
                 this.draggable = options.draggable;
@@ -31,6 +31,20 @@ define([
 
         },
 
+        convertToTree: function(parent, children) {
+            for (idx in children) {
+                var child = children[idx];
+                var node = {
+                    title: child.display_name,
+                    key: child.descendant,
+                    folder: true,
+                    children: []
+                };
+                parent.children.push(node);
+                this.convertToTree();
+            }
+        },
+
         render: function() {
             console.log('Rendering navigation tree for project ID [' + this.projectId + ']');
             var self = this;
@@ -43,16 +57,29 @@ define([
                     if (models.length > 0) {
                         model = models[0].toJSON();
                     }
+
+                    tree = [];
+                    var node = {
+                        title: model.display_name,
+                        key: model.descendant,
+                        folder: true,
+                        children: []
+                    };
+                    self.convertToTree(node, model.children);
+                    tree.push(node);
+
                     var data = {
-                        items: model,
                         project_id: self.projectId
                     };
+                    console.log(tree);
                     var compiledTemplate = _.template(navigationTreeTemplate, data);
-                    self.$el.html(compiledTemplate);
+                    //self.$el.html(compiledTemplate);
 
                     // enable drag and drop
                     if (self.draggable) {
-                        self.$('#navigation-tree').fancytree({
+                        console.log(self.$('#navigation-tree'));
+                        self.$el.fancytree({
+                            source: tree,
                             extensions: ["dnd"],
                             activeVisible: true, // Make sure, active nodes are visible (expanded).
                             aria: false, // Enable WAI-ARIA support.

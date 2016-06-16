@@ -1,0 +1,79 @@
+<% node_url = function(node, parent) {
+    var url = '';
+    switch (parseInt(node.node_type_id)) {
+        case 1:
+            //url = '/#/projects/' + node.node_id + '/view';
+            url = '/#/specification';
+            break;
+        case 2:
+            url = '/#/projects/' + project_id + '/testsuites/' + node.node_id + '/view';
+            break;
+        case 3:
+            url = '/#/projects/' + project_id + '/testsuites/' + parent.node_id + '/testcases/' + node.node_id + '/view';
+            break;
+        default:
+            url = '/';
+            break;
+    }
+    return url;
+} %>
+
+<% node_icon = function(node) {
+    var icon = '';
+    switch (parseInt(node.node_type_id)) {
+        case 1:
+            icon = 'book icon';
+            break;
+        case 2:
+            icon = 'folder open icon';
+            break;
+        case 3:
+            icon = 'file text outline icon';
+            break;
+        default:
+            icon = 'folder icon';
+            break;
+    }
+    return icon;
+} %>
+
+<% node_class = function(node) {
+    var node_class = '';
+    switch (parseInt(node.node_type_id)) {
+        case 1:
+            node_class = 'nestorqa-project';
+            break;
+        case 2:
+            node_class = 'nestorqa-testsuite draggable';
+            break;
+        case 3:
+            node_class = 'nestorqa-testcase draggable';
+            break;
+        default:
+            node_class = '';
+            break;
+    }
+    return node_class;
+} %>
+
+<% fn = function(node, parent) { %>
+<div class='item'>
+    <i class="<%= node_icon(node) %>"></i>
+    <div class="content">
+        <a href="<%= node_url(node, parent) %>" data-node-type-id='<%= node.node_type_id %>' data-node-id='<%= node.node_id %>'>
+            <%= node.display_name %>
+        </a>
+        <% 
+        var children = node.children;
+        if (children.length > 0) { %>
+        <div class="list">
+            <% for (var i = 0; i < children.length; i++) {
+                fn(children[i], node);
+            } %>
+        </div>
+        <% } %>
+    </div>
+</div>
+<% } %>
+
+<% fn(items, {}); %>
