@@ -11,9 +11,11 @@ define([
     var NavigationTreeView = Backbone.View.extend({
 
         initialize: function(options) {
-            _.bindAll(this, 'render', 'convertToTree');
+            _.bindAll(this, 'render', 'convertToTree', 'getNodeTitle');
 
-            if (typeof options.draggable !== typeof undefined) {
+            this.projectId = 0;
+
+            if (typeof options !== typeof undefined && typeof options.draggable !== typeof undefined) {
                 this.draggable = options.draggable;
             } else {
                 this.draggable = false;
@@ -30,16 +32,29 @@ define([
 
         },
 
+        getNodeTitle: function(node, parent) {
+            var url = '/#/projects/' + this.projectId + '/testsuites/';
+            if (parseInt(node.node_type_id) === 2) {
+                url += node.node_id;
+            } else {
+                url += parent.node_id + '/testcases/' + node.node_id;
+            }
+            var title = "<a href='" + url + "'>" + node.display_name + "</a>";
+            return title;
+        },
+
         convertToTree: function(parent, children) {
             for (idx in children) {
                 var child = children[idx];
                 var folder = parseInt(child.node_type_id) === 3 ? false : true;
                 var node = {
-                    title: child.display_name,
+                    title: this.getNodeTitle(child, parent),
                     key: child.descendant,
                     folder: folder,
                     expanded: true,
-                    children: []
+                    children: [],
+                    node_id: child.node_id,
+                    node_type_id: child.node_type_id
                 };
                 parent.children.push(node);
                 this.convertToTree(node, child.children);
@@ -61,15 +76,16 @@ define([
 
                     tree = [];
                     var node = {
-                        title: model.display_name,
+                        title: '<a href="/#/specification">' + model.display_name + '</a>',
                         key: model.descendant,
                         folder: true,
                         expanded: true,
-                        children: []
+                        children: [],
+                        node_id: model.node_id,
+                        node_type_id: model.node_type_id
                     };
                     self.convertToTree(node, model.children);
                     tree.push(node);
-                    console.log(tree);
 
                     var data = {
                         project_id: self.projectId
