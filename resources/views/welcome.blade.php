@@ -14,6 +14,7 @@
     <meta name="description" content="Nestor-QA, Open Source test management server">
     <meta name="author" content="Nestor-QA team, Bruno P. Kinoshita, Peter Florijn">
     <meta name="viewport" content="width=device-width,initial-scale=1">
+    <link href="{{ asset('/js/libs/jquery.fancytree/dist/skin-lion/ui.fancytree.min.css') }}" rel="stylesheet" type="text/css">
     <link href="{{ asset('/css/nestor.css') }}" rel="stylesheet" type="text/css">
     <link href="{{ asset('/css/app.css') }}" rel="stylesheet" type="text/css">
     <title>Nestor-QA</title>

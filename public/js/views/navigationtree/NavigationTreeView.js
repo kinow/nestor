@@ -5,9 +5,8 @@ define([
     'backbone',
     'app',
     'collections/navigationtree/NavigationTreeCollection',
-    'views/navigationtree/NavigationTreeView',
-    'text!templates/navigationtree/navigationTreeTemplate.html'
-], function($, fancytree, _, Backbone, app, NavigationTreeCollection, NavigationTreeView, navigationTreeTemplate) {
+    'views/navigationtree/NavigationTreeView'
+], function($, fancytree, _, Backbone, app, NavigationTreeCollection, NavigationTreeView) {
 
     var NavigationTreeView = Backbone.View.extend({
 
@@ -34,14 +33,16 @@ define([
         convertToTree: function(parent, children) {
             for (idx in children) {
                 var child = children[idx];
+                var folder = parseInt(child.node_type_id) === 3 ? false : true;
                 var node = {
                     title: child.display_name,
                     key: child.descendant,
-                    folder: true,
+                    folder: folder,
+                    expanded: true,
                     children: []
                 };
                 parent.children.push(node);
-                this.convertToTree();
+                this.convertToTree(node, child.children);
             }
         },
 
@@ -63,21 +64,19 @@ define([
                         title: model.display_name,
                         key: model.descendant,
                         folder: true,
+                        expanded: true,
                         children: []
                     };
                     self.convertToTree(node, model.children);
                     tree.push(node);
+                    console.log(tree);
 
                     var data = {
                         project_id: self.projectId
                     };
-                    console.log(tree);
-                    var compiledTemplate = _.template(navigationTreeTemplate, data);
-                    //self.$el.html(compiledTemplate);
 
                     // enable drag and drop
                     if (self.draggable) {
-                        console.log(self.$('#navigation-tree'));
                         self.$el.fancytree({
                             source: tree,
                             extensions: ["dnd"],
@@ -92,12 +91,12 @@ define([
                             disabled: false, // Disable control
                             generateIds: false, // Generate id attributes like <span id='fancytree-id-KEY'>
                             idPrefix: "ft_", // Used to generate node id´s like <span id='fancytree-id-<key>'>.
-                            icons: true, // Display node icons.
+                            icon: true, // Display node icons.
                             keyboard: true, // Support keyboard navigation.
                             keyPathSeparator: "/", // Used by node.getKeyPath() and tree.loadKeyPath().
                             minExpandLevel: 2, // 1: root node is not collapsible
                             selectMode: 1, // 1:single, 2:multi, 3:multi-hier
-                            tabbable: true, // Whole tree behaves as one single control
+                            tabindex: 0, // Whole tree behaves as one single control
                             childcounter: {
                                 deep: true,
                                 hideZeros: true,
