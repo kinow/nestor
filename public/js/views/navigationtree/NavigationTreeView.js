@@ -35,9 +35,9 @@ define([
         getNodeTitle: function(node, parent) {
             var url = '/#/projects/' + this.projectId + '/testsuites/';
             if (parseInt(node.node_type_id) === 2) {
-                url += node.node_id;
+                url += node.node_id + '/view';
             } else {
-                url += parent.node_id + '/testcases/' + node.node_id;
+                url += parent.node_id + '/testcases/' + node.node_id + '/view';
             }
             var title = "<a href='" + url + "'>" + node.display_name + "</a>";
             return title;
