@@ -104,7 +104,6 @@ define([
 
 
         render: function() {
-            console.log("RENDER " + this.projectId);
             $('.item').removeClass('active');
             $('.item a[href="#/specification"]').parent().addClass('active');
             var compiledTemplate = _.template(viewProjectTemplate, {});
@@ -157,7 +156,6 @@ define([
         },
 
         updateNavigationTree: function(event) {
-            console.log("UPDATE NAVIGATION TREE");
             console.log('Rendering navigation tree!');
             this.$('#navigation-tree').fancytree({});
             this.navigationTreeView.render({
