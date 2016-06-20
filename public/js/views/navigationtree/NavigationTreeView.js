@@ -198,9 +198,9 @@ define([
                                 },
                                 dragDrop: function(node, data) {
                                     var selectedNode = data.otherNode; // the selected node
-                                    var descendant = '' + selectedNode.data.node_type_id + '-' + selectedNode.data.nodeId;
-                                    var ancestor = '' + node.data.node_type_id + '-' + node.data.nodeId;
-                                    var url = "/api/v1/navigationtree/move";
+                                    var descendant = '' + selectedNode.data.node_type_id + '-' + selectedNode.data.node_id;
+                                    var ancestor = '' + node.data.node_type_id + '-' + node.data.node_id;
+                                    var url = "/api/navigationtree/move";
                                     $.ajax({
                                       type: "POST",
                                       url: url,

@@ -227,7 +227,7 @@ class NavigationTreeRepositoryEloquent implements NavigationTreeRepository
             // Log::debug($node);
             $this->delete($descendant);
             // $ancestor, $descendant, $node_id, $node_type_id, $display_name
-            $this->create(
+            $node = $this->create(
                 $ancestor,
                 $descendant,
                 $node['node_id'],
@@ -235,6 +235,7 @@ class NavigationTreeRepositoryEloquent implements NavigationTreeRepository
                 $node['display_name']
             );
             DB::commit();
+            return $node;
         } catch (\Exception $e) {
             DB::rollback();
             Log::error($e);

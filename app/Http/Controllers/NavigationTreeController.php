@@ -127,4 +127,16 @@ class NavigationTreeController extends Controller
     {
         //
     }
+
+    public function move(Request $request)
+    {
+        $descendant = $request->get('descendant');
+        $ancestor = $request->get('ancestor');
+
+        // TODO: use a Validator here later
+        if ($ancestor && $descendant) {
+            $node = $this->navigationTreeRepository->move($descendant, $ancestor);
+            return $node;
+        }
+    }
 }

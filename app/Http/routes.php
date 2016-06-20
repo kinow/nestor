@@ -111,6 +111,7 @@ $api->version('v1', function ($api) {
     // navigation tree
     $api->get('navigationtree', 'Nestor\Http\Controllers\NavigationTreeController@index');
     $api->get('navigationtree/{id}', 'Nestor\Http\Controllers\NavigationTreeController@show');
+    $api->post('navigationtree/move', 'Nestor\Http\Controllers\NavigationTreeController@move');
 
     // test plans
     $api->get('testplans', 'Nestor\Http\Controllers\TestPlansController@index');
