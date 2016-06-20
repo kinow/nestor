@@ -19,7 +19,6 @@ define([
 
         setProjectId: function (projectId) {
             this.projectId = projectId;
-            this.fetch();
         },
 
         parse: function (response) {
