@@ -47,7 +47,7 @@ define([
 
         events: {},
 
-        initialize: function() {
+        initialize: function(options) {
             _.bindAll(this,
                 'render',
                 'setProjectId',
@@ -65,6 +65,9 @@ define([
                 'displayConfirmDeleteTestCase');
 
             this.projectId = 0;
+            if (typeof options !== typeof undefined && typeof options.projectId !== typeof undefined) {
+                this.projectId = parseInt(options.projectId);
+            }
             this.testSuiteId = 0;
             this.testCaseId = 0;
 
@@ -101,13 +104,14 @@ define([
 
 
         render: function() {
+            console.log("RENDER " + this.projectId);
             $('.item').removeClass('active');
             $('.item a[href="#/specification"]').parent().addClass('active');
             var compiledTemplate = _.template(viewProjectTemplate, {});
             this.$el.html(compiledTemplate);
 
             this.$('#content-main').empty();
-            this.$('#navigation-tree').replaceWith(this.navigationTreeView.el);
+            this.updateNavigationTree();
         },
 
         setProjectId: function(id) {
@@ -122,8 +126,9 @@ define([
             this.testCaseModel = new TestCaseModel();
             this.testCaseModel.project_id = projectId;
 
-            if (this.projectId !== projectId || !$.trim($(this.navigationTreeView.el).html())) {
-                this.navigationTreeView.projectId = projectId;
+            this.navigationTreeView.projectId = projectId;
+
+            if (this.projectId !== projectId/* || !$.trim($(this.navigationTreeView.el).html())*/) {
                 this.projectId = projectId;
                 Backbone.trigger('nestor:navigationtree:project_changed');
             }
@@ -152,9 +157,12 @@ define([
         },
 
         updateNavigationTree: function(event) {
+            console.log("UPDATE NAVIGATION TREE");
             console.log('Rendering navigation tree!');
-            this.navigationTreeView.render();
-            this.navigationTreeView.delegateEvents();
+            this.$('#navigation-tree').fancytree({});
+            this.navigationTreeView.render({
+                el: this.$('#navigation-tree')
+            });
         },
 
         displayLoading: function() {

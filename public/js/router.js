@@ -392,7 +392,9 @@ define([
         projectsRouter.on('route:viewProject', function() {
             var id = app.session.get('project_id');
             if (!app.viewProjectView) {
-                app.viewProjectView = new ViewProjectView();
+                app.viewProjectView = new ViewProjectView({
+                    projectId: id
+                });
             }
             app.viewProjectView.setProjectId(id);
             if (typeof app.currentView !== 'undefined' && app.currentView.cid == app.viewProjectView.cid) {
@@ -423,8 +425,9 @@ define([
                 parentId = parseInt(params.parent);
             }
             if (!app.viewProjectView) {
-                console.log('Creating view project view');
-                app.viewProjectView = new ViewProjectView();
+                app.viewProjectView = new ViewProjectView({
+                    projectId: projectId
+                });
             }
             app.viewProjectView.setProjectId(projectId);
             app.viewProjectView.parentId = parentId;
@@ -442,7 +445,9 @@ define([
 
         testSuitesRouter.on('route:showTestSuite', function(projectId, testSuiteId) {
             if (!app.viewProjectView) {
-                app.viewProjectView = new ViewProjectView();
+                app.viewProjectView = new ViewProjectView({
+                    projectId: projectId
+                });
             }
 
             app.viewProjectView.setProjectId(projectId);
@@ -459,7 +464,9 @@ define([
 
         testSuitesRouter.on('route:showConfirmDeleteTestSuite', function(projectId, testSuiteId) {
             if (!app.viewProjectView) {
-                app.viewProjectView = new ViewProjectView();
+                app.viewProjectView = new ViewProjectView({
+                    projectId: projectId
+                });
             }
 
             app.viewProjectView.setProjectId(projectId);
@@ -476,7 +483,9 @@ define([
 
         testSuitesRouter.on('route:viewTestSuite', function(projectId, testSuiteId) {
             if (!app.viewProjectView) {
-                app.viewProjectView = new ViewProjectView();
+                app.viewProjectView = new ViewProjectView({
+                    projectId: projectId
+                });
             }
 
             app.viewProjectView.setProjectId(projectId);
@@ -504,8 +513,9 @@ define([
                 parentId = parseInt(params.parent);
             }
             if (!app.viewProjectView) {
-                console.log('Creating view project view');
-                app.viewProjectView = new ViewProjectView();
+                app.viewProjectView = new ViewProjectView({
+                    projectId: projectId
+                });
             }
             app.viewProjectView.setProjectId(projectId);
             app.viewProjectView.setTestSuiteId(testsuiteId);
@@ -523,7 +533,9 @@ define([
 
         testCasesRouter.on('route:viewTestCase', function(projectId, testSuiteId, testCaseId) {
             if (!app.viewProjectView) {
-                app.viewProjectView = new ViewProjectView();
+                app.viewProjectView = new ViewProjectView({
+                    projectId: projectId
+                });
             }
 
             app.viewProjectView.setProjectId(projectId);
@@ -541,7 +553,9 @@ define([
 
         testCasesRouter.on('route:showTestCase', function(projectId, testSuiteId, testCaseId) {
             if (!app.viewProjectView) {
-                app.viewProjectView = new ViewProjectView();
+                app.viewProjectView = new ViewProjectView({
+                    projectId: projectId
+                });
             }
             app.viewProjectView.setProjectId(projectId);
             app.viewProjectView.setTestSuiteId(testSuiteId);
@@ -558,7 +572,9 @@ define([
 
         testCasesRouter.on('route:showConfirmDeleteTestCase', function(projectId, testSuiteId, testCaseId) {
             if (!app.viewProjectView) {
-                app.viewProjectView = new ViewProjectView();
+                app.viewProjectView = new ViewProjectView({
+                    projectId: projectId
+                });
             }
 
             app.viewProjectView.setProjectId(projectId);

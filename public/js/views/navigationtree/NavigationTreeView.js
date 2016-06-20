@@ -22,9 +22,6 @@ define([
             }
 
             this.collection = new NavigationTreeCollection();
-
-            this.$el.attr('id', 'navigation-tree');
-            this.$el.attr('class', 'ui list');
         },
 
         events: {
@@ -70,10 +67,13 @@ define([
             return x === y ? 0 : x > y ? 1 : -1;
         },
 
-        render: function() {
+        render: function(options) {
             console.log('Rendering navigation tree for project ID [' + this.projectId + ']');
+            var el = options.el;
             var self = this;
             this.collection.setProjectId(this.projectId);
+            el.unbind();
+            el.empty();
             this.collection.fetch({
                 reset: true,
                 success: function(results) {
@@ -99,7 +99,8 @@ define([
 
                     // enable drag and drop
                     if (self.draggable) {
-                        self.$el.fancytree({
+                        el.fancytree('destroy');
+                        el.fancytree({
                             source: tree,
                             extensions: ["dnd"],
                             activeVisible: true, // Make sure, active nodes are visible (expanded).
@@ -226,6 +227,7 @@ define([
                                 }
                             }
                         });
+                        // end
                     }
                 },
                 error: function(collection, response, options) {
