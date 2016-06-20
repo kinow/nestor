@@ -219,26 +219,12 @@ define([
                                         selectedNode.moveTo(node, jqXHR.hitMode);
                                         var rootNode = node.tree.rootNode;
                                         rootNode.sortChildren(self.sortCmp, true);
-
-                                        var $messagesHolder = jQuery("#messages-holder");
-                                        $messagesHolder.empty();
-                                        console.log($messagesHolder);
-                                        $messagesHolder.append("<div class='alert alert-success'>\
-                                        <button type='button' class='close' data-dismiss='alert'>&times;</button>\
-                                        <p>Node moved successfully!</p>\
-                                        </div>");
+                                        app.showAlert('Success!', 'Moved successfully!', 'success');
                                       },
                                       error: function(jqXHR, textStatus, data) {
                                         var responseText = jQuery.parseJSON(jqXHR.responseText);
-                                        
-                                        //alert(responseText.error.message);
-                                        var $messagesHolder = jQuery("#messages-holder");
-                                        $messagesHolder.empty();
-                                        console.log($messagesHolder);
-                                        $messagesHolder.append("<div class='alert alert-danger'>\
-                                        <button type='button' class='close' data-dismiss='alert'>&times;</button>\
-                                        <p>"+responseText.error.message+"</p>\
-                                        </div>");
+                                        var message = responseText.error.message;
+                                        app.showAlert('Error moving!', message, 'error');
                                       }
                                     });
                                 },
