@@ -11,7 +11,7 @@ define([
     var NavigationTreeView = Backbone.View.extend({
 
         initialize: function(options) {
-            _.bindAll(this, 'render', 'convertToTree', 'getNodeTitle');
+            _.bindAll(this, 'render', 'convertToTree', 'getNodeHref');
 
             this.projectId = 0;
 
@@ -32,15 +32,15 @@ define([
 
         },
 
-        getNodeTitle: function(node, parent) {
+        getNodeHref: function(node, parent) {
             var url = '/#/projects/' + this.projectId + '/testsuites/';
             if (parseInt(node.node_type_id) === 2) {
                 url += node.node_id + '/view';
             } else {
                 url += parent.node_id + '/testcases/' + node.node_id + '/view';
             }
-            var title = "<a href='" + url + "'>" + node.display_name + "</a>";
-            return title;
+            //var title = "<a href='" + url + "'>" + node.display_name + "</a>";
+            return url;
         },
 
         convertToTree: function(parent, children) {
@@ -48,13 +48,14 @@ define([
                 var child = children[idx];
                 var folder = parseInt(child.node_type_id) === 3 ? false : true;
                 var node = {
-                    title: this.getNodeTitle(child, parent),
+                    title: child.display_name,
                     key: child.descendant,
                     folder: folder,
                     expanded: true,
                     children: [],
                     node_id: child.node_id,
-                    node_type_id: child.node_type_id
+                    node_type_id: child.node_type_id,
+                    href: this.getNodeHref(child, parent),
                 };
                 parent.children.push(node);
                 this.convertToTree(node, child.children);
@@ -76,13 +77,14 @@ define([
 
                     tree = [];
                     var node = {
-                        title: '<a href="/#/specification">' + model.display_name + '</a>',
+                        title: model.display_name,
                         key: model.descendant,
                         folder: true,
                         expanded: true,
                         children: [],
                         node_id: model.node_id,
-                        node_type_id: model.node_type_id
+                        node_type_id: model.node_type_id,
+                        href: '/#/specification'
                     };
                     self.convertToTree(node, model.children);
                     tree.push(node);
@@ -133,7 +135,7 @@ define([
                                     return; // prevent false hits
                                 var node = data.node;
                                 if(node.data.href){
-                                    window.open(node.data.href, node.data.target);
+                                    window.location.href = node.data.href;
                                 }
                             },
                             click: function(e, data) { // allow re-loads
