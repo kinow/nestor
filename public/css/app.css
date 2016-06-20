@@ -2,3 +2,7 @@
 #page {
   margin-bottom: 20px;
 }
+
+.fancytree-active .fancytree-title {
+  background-color: #EEEEEE !important;
+}

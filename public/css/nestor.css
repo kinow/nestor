@@ -28454,7 +28454,7 @@ textarea.parsley-error {
   opacity: 1;
 }
 /**
- * simplemde v1.10.0
+ * simplemde v1.10.1
  * Copyright Next Step Webs, Inc.
  * @link https://github.com/NextStepWebs/simplemde-markdown-editor
  * @license MIT
@@ -28744,6 +28744,7 @@ div.CodeMirror span.CodeMirror-nonmatchingbracket {
   white-space: normal;
   height: 100%;
   display: inline-block;
+  vertical-align: top;
   margin-bottom: -30px;
 }
 
@@ -29092,7 +29093,7 @@ span.CodeMirror-selectedtext {
 
 .editor-statusbar {
   padding: 8px 10px;
-  font-size: 9pt;
+  font-size: 12px;
   color: #959694;
   text-align: right;
 }

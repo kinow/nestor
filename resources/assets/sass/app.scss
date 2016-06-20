@@ -5,3 +5,7 @@ $bottom-margin: 20px;
 #page {
     margin-bottom: $bottom-margin;
 }
+
+.fancytree-active .fancytree-title {
+    background-color: #EEEEEE !important;
+}
