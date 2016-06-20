@@ -157,10 +157,16 @@ define([
             this.navigationTreeView.delegateEvents();
         },
 
+        displayLoading: function() {
+            this.$('#content-main').empty();
+            this.$('#content-main').html('<div class="ui active dimmer"><div class="ui loader"></div></div>');
+        },
+
         /**
          * Display project node item on the right panel of the screen.
          */
         displayProject: function() {
+            this.displayLoading();
             var self = this;
             this.projectModel.fetch({
                 success: function(responseData) {
@@ -184,6 +190,7 @@ define([
          * Display new test suite form.
          */
         displayNewTestSuite: function() {
+            this.displayLoading();
             this.newTestSuiteView.render({
                 parent_id: this.parentId,
                 project_id: this.projectId
@@ -197,6 +204,7 @@ define([
          * Display project node item on the right panel of the screen.
          */
         displayTestSuite: function() {
+            this.displayLoading();
             var self = this;
             this.testSuiteModel.set('id', this.testSuiteId);
             this.testSuiteModel.fetch({
@@ -221,6 +229,7 @@ define([
          * Display test suite item on the right panel of the screen for edit.
          */
         displayShowTestSuite: function() {
+            this.displayLoading();
             var self = this;
             this.testSuiteModel.set('id', this.testSuiteId);
             this.testSuiteModel.fetch({
@@ -244,6 +253,7 @@ define([
         },
 
         displayConfirmDeleteTestSuite: function() {
+            this.displayLoading();
             var self = this;
             this.testSuiteModel.set('id', this.testSuiteId);
             this.testSuiteModel.fetch({
@@ -266,6 +276,7 @@ define([
          * Display new test case form.
          */
         displayNewTestCase: function() {
+            this.displayLoading();
             var self = this;
             this.executionTypesCollection.fetch({
                 success: function() {
@@ -288,6 +299,7 @@ define([
          * Display project node item on the right panel of the screen.
          */
         displayTestCase: function() {
+            this.displayLoading();
             var self = this;
             this.testCaseModel.set('project_id', this.projectId);
             this.testCaseModel.set('test_suite_id', this.testSuiteId);
@@ -314,6 +326,7 @@ define([
          * Display test case item on the right panel of the screen for edit.
          */
         displayShowTestCase: function() {
+            this.displayLoading();
             var self = this;
             this.testCaseModel.set('project_id', this.projectId);
             this.testCaseModel.set('test_suite_id', this.testSuiteId);
@@ -353,6 +366,7 @@ define([
         },
 
         displayConfirmDeleteTestCase: function() {
+            this.displayLoading();
             var self = this;
             this.testCaseModel.set('project_id', this.projectId);
             this.testCaseModel.set('test_suite_id', this.testSuiteId);
