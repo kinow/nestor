@@ -3,6 +3,11 @@
   margin-bottom: 20px;
 }
 
+.fancytree-treefocus span.fancytree-active span.fancytree-title {
+  color: black !important;
+  background-color: #3875D7;
+}
+
 .fancytree-active .fancytree-title {
   background-color: #EEEEEE !important;
 }

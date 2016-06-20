@@ -1,3 +1,4 @@
+@import url(https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic&subset=latin);
 /*
  * # Semantic UI - 2.1.7
  * https://github.com/Semantic-Org/Semantic-UI
@@ -28454,7 +28455,7 @@ textarea.parsley-error {
   opacity: 1;
 }
 /**
- * simplemde v1.10.1
+ * simplemde v1.11.2
  * Copyright Next Step Webs, Inc.
  * @link https://github.com/NextStepWebs/simplemde-markdown-editor
  * @license MIT
@@ -28511,7 +28512,7 @@ textarea.parsley-error {
 
 .cm-fat-cursor .CodeMirror-cursor {
   width: auto;
-  border: 0;
+  border: 0!important;
   background: #7e7;
 }
 
@@ -28737,6 +28738,7 @@ div.CodeMirror span.CodeMirror-nonmatchingbracket {
   position: absolute;
   left: 0;
   top: 0;
+  min-height: 100%;
   z-index: 3;
 }
 
@@ -28776,11 +28778,6 @@ div.CodeMirror span.CodeMirror-nonmatchingbracket {
   min-height: 1px;
 }
 
-.CodeMirror,
-.CodeMirror-scroll {
-  min-height: 300px;
-}
-
 .CodeMirror pre {
   -moz-border-radius: 0;
   -webkit-border-radius: 0;
@@ -28798,6 +28795,8 @@ div.CodeMirror span.CodeMirror-nonmatchingbracket {
   position: relative;
   overflow: visible;
   -webkit-tap-highlight-color: transparent;
+  -webkit-font-variant-ligatures: none;
+  font-variant-ligatures: none;
 }
 
 .CodeMirror-wrap pre {
@@ -28907,12 +28906,17 @@ span.CodeMirror-selectedtext {
 
 .CodeMirror {
   height: auto;
+  min-height: 300px;
   border: 1px solid #ddd;
   border-bottom-left-radius: 4px;
   border-bottom-right-radius: 4px;
   padding: 10px;
   font: inherit;
   z-index: 1;
+}
+
+.CodeMirror-scroll {
+  min-height: 300px;
 }
 
 .CodeMirror-fullscreen {
