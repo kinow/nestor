@@ -44,8 +44,7 @@
     "tag": "2.1.3",
     "commit": "36700a5656d967c4f31647a4e6168ed31d5a3b4f"
   },
-  "_source": "git://github.com/guillaumepotier/Parsley.js.git",
+  "_source": "https://github.com/guillaumepotier/Parsley.js.git",
   "_target": "~2.1.3",
-  "_originalSource": "parsleyjs",
-  "_direct": true
+  "_originalSource": "parsleyjs"
 }
