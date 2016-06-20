@@ -22,7 +22,6 @@ define([
             }
 
             this.collection = new NavigationTreeCollection();
-            //this.listenTo(this.collection, 'reset', this.render);
 
             this.$el.attr('id', 'navigation-tree');
             this.$el.attr('class', 'ui list');
@@ -39,7 +38,6 @@ define([
             } else {
                 url += parent.node_id + '/testcases/' + node.node_id + '/view';
             }
-            //var title = "<a href='" + url + "'>" + node.display_name + "</a>";
             return url;
         },
 
@@ -98,10 +96,6 @@ define([
                     };
                     self.convertToTree(node, model.children);
                     tree.push(node);
-
-                    var data = {
-                        project_id: self.projectId
-                    };
 
                     // enable drag and drop
                     if (self.draggable) {
