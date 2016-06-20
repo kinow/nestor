@@ -149,7 +149,7 @@ define([
                                 dragStart: function(node, data) {
                                     // Defines whether this node is draggable or not
                                     // The top level project should have dnd disabled
-                                    if (node.data.nodeType == 1) { 
+                                    if (node.data.node_type_id == 1) { 
                                         return false;
                                     }
                                     return true;
@@ -172,9 +172,9 @@ define([
                                     // return ["before", "after"];
 
                                     var selectedNode = data.otherNode; // the selected node
-                                    if (selectedNode.data.nodeType == 3) {
+                                    if (selectedNode.data.node_type_id == 3) {
                                         // Test cases should not be dnd onto projects or test cases, only test suites
-                                        if (node.data.nodeType != 2) {
+                                        if (node.data.node_type_id != 2) {
                                             return false;
                                         }
                                         // Test cases should not be dnd onto its own parent
@@ -182,9 +182,9 @@ define([
                                             return false;
                                         }
                                     }
-                                    if (selectedNode.data.nodeType == 2) {
+                                    if (selectedNode.data.node_type_id == 2) {
                                         // Test suites should not be dnd onto test cases
-                                        if (node.data.nodeType == 3) {
+                                        if (node.data.node_type_id == 3) {
                                             return false;
                                         }
                                         // Test suites should not be dnd onto its own parent
@@ -196,9 +196,9 @@ define([
                                 },
                                 dragDrop: function(node, data) {
                                     var selectedNode = data.otherNode; // the selected node
-                                    var descendant = '' + selectedNode.data.nodeType + '-' + selectedNode.data.nodeId;
-                                    var ancestor = '' + node.data.nodeType + '-' + node.data.nodeId;
-                                    var url = '{{ URL.to("api/v1/nodes/move") }}';
+                                    var descendant = '' + selectedNode.data.node_type_id + '-' + selectedNode.data.nodeId;
+                                    var ancestor = '' + node.data.node_type_id + '-' + node.data.nodeId;
+                                    var url = "/api/v1/navigationtree/move";
                                     $.ajax({
                                       type: "POST",
                                       url: url,
