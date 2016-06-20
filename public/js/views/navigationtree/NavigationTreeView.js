@@ -62,6 +62,16 @@ define([
             }
         },
 
+        /**
+         * Used by FancyTree, after a node is moved. This is the sort comparator to organise
+         * the nodes within the tree.
+         */
+        sortCmp: function(a, b) {
+            var x = a.data.node_type_id + a.title.toLowerCase(),
+                y = b.data.node_type_id + b.title.toLowerCase();
+            return x === y ? 0 : x > y ? 1 : -1;
+        },
+
         render: function() {
             console.log('Rendering navigation tree for project ID [' + this.projectId + ']');
             var self = this;
@@ -208,7 +218,7 @@ define([
                                       success: function(jqXHR, textStatus, data) {
                                         selectedNode.moveTo(node, jqXHR.hitMode);
                                         var rootNode = node.tree.rootNode;
-                                        rootNode.sortChildren(sortCmp, true);
+                                        rootNode.sortChildren(self.sortCmp, true);
 
                                         var $messagesHolder = jQuery("#messages-holder");
                                         $messagesHolder.empty();
