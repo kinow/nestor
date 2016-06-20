@@ -50,7 +50,7 @@ define([
                 success: function(mod, res) {
                     app.showAlert('Success!', 'Test Suite deleted!', 'success');
                     Backbone.trigger('nestor:navigationtree_changed');
-                    Backbone.history.navigate("#/projects/" + self.projectId + "/view", {
+                    Backbone.history.navigate("#/specification", {
                         trigger: false
                     });
                 },

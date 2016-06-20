@@ -33,7 +33,7 @@ define([
         },
 
         getNodeHref: function(node, parent) {
-            var url = '/#/projects/' + this.projectId + '/testsuites/';
+            var url = '#/projects/' + this.projectId + '/testsuites/';
             if (parseInt(node.node_type_id) === 2) {
                 url += node.node_id + '/view';
             } else {
@@ -94,7 +94,7 @@ define([
                         children: [],
                         node_id: model.node_id,
                         node_type_id: model.node_type_id,
-                        href: '/#/specification'
+                        href: '#/specification'
                     };
                     self.convertToTree(node, model.children);
                     tree.push(node);
@@ -145,7 +145,7 @@ define([
                                     return; // prevent false hits
                                 var node = data.node;
                                 if(node.data.href){
-                                    window.location.href = node.data.href;
+                                    Backbone.history.navigate(node.data.href, { trigger: true });
                                 }
                             },
                             click: function(e, data) { // allow re-loads
