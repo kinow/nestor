@@ -232,7 +232,6 @@ define([
                                 }
                             }
                         });
-                        console.log('drag...');
                     }
                 },
                 error: function(collection, response, options) {
