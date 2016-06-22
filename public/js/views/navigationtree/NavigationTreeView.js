@@ -50,8 +50,10 @@ define([
                     children: [],
                     node_id: child.node_id,
                     node_type_id: child.node_type_id,
+                    attributes: JSON.parse(child.attributes),
                     href: this.getNodeHref(child, parent),
                 };
+                console.log(node);
                 parent.children.push(node);
                 this.convertToTree(node, child.children);
             }

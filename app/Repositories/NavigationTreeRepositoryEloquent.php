@@ -116,17 +116,18 @@ class NavigationTreeRepositoryEloquent implements NavigationTreeRepository
         $updated_at = $created_at;
         $created =  DB::insert(
             'INSERT INTO navigation_tree(' .
-            'ancestor, descendant, length, node_id, node_type_id, display_name, created_at, updated_at) ' .
-            'SELECT t.ancestor, ?, t.length+1, ?, ?, ?, ?, ? ' .
+            'ancestor, descendant, length, node_id, node_type_id, display_name, attributes, created_at, updated_at) ' .
+            'SELECT t.ancestor, ?, t.length+1, ?, ?, ?, ?, ?, ? ' .
             'FROM navigation_tree AS t ' .
             'WHERE t.descendant = ? ' .
             'UNION ALL ' .
-            'SELECT ?, ?, 0, ?, ?, ?, ?, ? ',
+            'SELECT ?, ?, 0, ?, ?, ?, ?, ?, ? ',
             [
                 $descendant,
                 $node_id,
                 $node_type_id,
                 $display_name,
+                $attributes,
                 $created_at,
                 $updated_at,
                 $ancestor,
@@ -135,6 +136,7 @@ class NavigationTreeRepositoryEloquent implements NavigationTreeRepository
                 $node_id,
                 $node_type_id,
                 $display_name,
+                $attributes,
                 $created_at,
                 $updated_at
             ]
