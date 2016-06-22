@@ -111,7 +111,7 @@ class TestCasesRepositoryEloquent extends BaseRepository implements TestCasesRep
             $testcaseVersion->save();
 
             $testCaseNodeId = NavigationTree::testCaseId($testcaseId);
-            $this->navigationTreeRepository->create($ancestorNodeId, $testCaseNodeId, $testcaseId, NavigationTree::TEST_CASE_TYPE, $testcaseVersion->name);
+            $this->navigationTreeRepository->create($ancestorNodeId, $testCaseNodeId, $testcaseId, NavigationTree::TEST_CASE_TYPE, $testcaseVersion->name, json_encode(array('execution_type_id' => $testcaseVersion->execution_type_id)));
             
             DB::commit();
             event(new RepositoryEntityCreated($this, $testcase));

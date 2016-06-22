@@ -7,6 +7,7 @@ use Nestor\Entities\User;
 use Nestor\Repositories\ProjectsRepository;
 use Nestor\Repositories\TestSuitesRepository;
 use Nestor\Entities\NavigationTree;
+
 class SampleDatabaseSeeder extends Seeder
 {
     protected $projectsRepository;
@@ -46,7 +47,7 @@ class SampleDatabaseSeeder extends Seeder
                 'name' => 'Project A',
                 'description' => "# Project A\n\nThis is the **project A**",
                 'created_by' => $user->id,
-                'project_statuses_id' => ProjectStatuses::STATUS_NEW 
+                'project_statuses_id' => ProjectStatuses::STATUS_NEW
         ));
         
         $parentProjectNodeId = NavigationTree::projectId($projectA->id);
@@ -55,7 +56,7 @@ class SampleDatabaseSeeder extends Seeder
                 'name' => 'Test Suite A',
                 'description' => "# First test suiteA\n\nThis is the *very first* test suite!",
                 'created_by' => $user->id,
-                'project_id' => $projectA->id 
+                'project_id' => $projectA->id
         ), $parentProjectNodeId);
         
         $testSuiteB = $this->testSuitesRepository->createWithAncestor(array (

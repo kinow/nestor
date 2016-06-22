@@ -83,9 +83,10 @@ interface NavigationTreeRepository
      * @param integer $node_id
      * @param integer $node_type_id
      * @param string $display_name
+     * @param string $attributes
      * @return NavigationTree
      */
-    public function create($ancestor, $descendant, $node_id, $node_type_id, $display_name);
+    public function create($ancestor, $descendant, $node_id, $node_type_id, $display_name, $attributes);
     
     /**
      * Update a node.
