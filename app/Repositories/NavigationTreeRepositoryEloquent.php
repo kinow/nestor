@@ -234,7 +234,8 @@ class NavigationTreeRepositoryEloquent implements NavigationTreeRepository
                 $descendant,
                 $node['node_id'],
                 $node['node_type_id'],
-                $node['display_name']
+                $node['display_name'],
+                $node['attributes']
             );
             DB::commit();
             return $node;

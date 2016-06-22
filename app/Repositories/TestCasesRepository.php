@@ -36,4 +36,6 @@ interface TestCasesRepository extends RepositoryInterface
     public function createWithAncestor(array $testcaseAttributes, array $testcaseVersionAttributes, $ancestorNodeId);
 
     public function findTestCaseWithVersion($id, $columns = array('*'));
+
+    public function updateWithAncestor(array $testcaseVersionAttributes, $ancestorNodeId);
 }
