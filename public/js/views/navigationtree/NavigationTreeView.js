@@ -39,7 +39,6 @@ define([
         },
 
         getNodeIcon: function(node) {
-            console.log(node);
             if (node != null) {
                 if (typeof node.attributes !== typeof undefined && node.attributes !== null) {
                     var attributes = JSON.parse(node.attributes);
