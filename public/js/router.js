@@ -255,7 +255,7 @@ define([
             prefix: 'TestPlans',
             pages: {
                 'TestPlans.showTestPlans': {
-                    template: 'Test Plans',
+                    template: 'Planning',
                     parent: 'Base.defaultAction'
                 },
                 'TestPlans.showAddTestPlan': {
