@@ -243,6 +243,7 @@ define([
                             }
                         });
                         // end
+                        el.fancytree('getRootNode').sortChildren(self.sortCmp, true);
                     }
                 },
                 error: function(collection, response, options) {
