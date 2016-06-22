@@ -107,7 +107,8 @@ define([
                         children: [],
                         node_id: model.node_id,
                         node_type_id: model.node_type_id,
-                        href: '#/specification'
+                        href: '#/specification',
+                        icon: true
                     };
                     self.convertToTree(node, model.children);
                     tree.push(node);
