@@ -22,8 +22,8 @@ class CreateNavigationTreeTable extends Migration
             $table->text('attributes')->nullable();
             $table->timestamps();
             $table->primary(array (
-                    'ancestor',
-                    'descendant'
+                'ancestor',
+                'descendant'
             ));
         });
     }
