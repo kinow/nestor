@@ -53,7 +53,8 @@ class NavigationTree extends Model implements Transformable
             'length',
             'node_id',
             'node_type_id',
-            'display_name'
+            'display_name',
+            'attributes'
     ];
     
     const PROJECT_TYPE = 1;

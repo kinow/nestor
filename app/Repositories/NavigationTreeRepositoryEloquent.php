@@ -149,13 +149,13 @@ class NavigationTreeRepositoryEloquent implements NavigationTreeRepository
      * {@inheritDoc}
      * @see \Nestor\Repositories\NavigationTreeRepository::update()
      */
-    public function update($ancestor, $descendant, $node_id, $node_type_id, $display_name)
+    public function update($ancestor, $descendant, $node_id, $node_type_id, $display_name, $attributes = null)
     {
         Log::debug(sprintf('Updating node ancestor %s descendant %s', $ancestor, $descendant));
         $node = NavigationTree::where('ancestor', '=', $ancestor)
             ->where('descendant', '=', $descendant)
             ->firstOrFail();
-        $node->fill(compact('ancestor', 'descendant', 'node_id', 'node_type_id', 'display_name'))->save();
+        $node->fill(compact('ancestor', 'descendant', 'node_id', 'node_type_id', 'display_name', 'attributes'))->save();
         return $node;
     }
     

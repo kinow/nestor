@@ -97,7 +97,7 @@ interface NavigationTreeRepository
      * @param string $display_name
      * @return NavigationTree
      */
-    public function update($ancestor, $descendant, $node_id, $node_type_id, $display_name);
+    public function update($ancestor, $descendant, $node_id, $node_type_id, $display_name, $attributes);
     
     // TBD: is it going to be used?
     public function updateDisplayNameByDescendant($descendantId, $display_name);
