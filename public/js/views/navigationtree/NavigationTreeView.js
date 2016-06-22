@@ -43,7 +43,7 @@ define([
                 if (typeof node.attributes !== typeof undefined && node.attributes !== null) {
                     var attributes = JSON.parse(node.attributes);
                     if (typeof attributes.execution_type_id !== typeof undefined) {
-                        if (attributes.execution_type_id === 2) {
+                        if (parseInt(attributes.execution_type_id) === 2) {
                             return '/icons/robot-icon.png';
                         }
                     }
