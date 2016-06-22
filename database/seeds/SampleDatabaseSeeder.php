@@ -6,16 +6,18 @@ use Nestor\Entities\ProjectStatuses;
 use Nestor\Entities\User;
 use Nestor\Repositories\ProjectsRepository;
 use Nestor\Repositories\TestSuitesRepository;
+use Nestor\Repositories\TestCasesRepository;
 use Nestor\Entities\NavigationTree;
 
 class SampleDatabaseSeeder extends Seeder
 {
     protected $projectsRepository;
     protected $testSuitesRepository;
-    public function __construct(ProjectsRepository $projectsRepository, TestSuitesRepository $testSuitesRepository)
+    public function __construct(ProjectsRepository $projectsRepository, TestSuitesRepository $testSuitesRepository, TestCasesRepository $testCasesRepository)
     {
         $this->projectsRepository = $projectsRepository;
         $this->testSuitesRepository = $testSuitesRepository;
+        $this->testCasesRepository = $testCasesRepository;
     }
     
     /**
@@ -58,6 +60,16 @@ class SampleDatabaseSeeder extends Seeder
                 'created_by' => $user->id,
                 'project_id' => $projectA->id
         ), $parentProjectNodeId);
+
+        {
+            $parentTestSuiteNodeId = NavigationTree::testsuiteId($testSuiteA->id);
+
+            $testCaseA1 = $this->testCasesRepository->createWithAncestor(array('project_id' => $projectA->id, 'test_suite_id' => $testSuiteA->id), array('execution_type_id' => 1, 'name' => 'Test Case A - 1', 'description' => 'Example test case', 'prerequisite' => 'None', 'version' => 1), $parentTestSuiteNodeId);
+
+            $testCaseA2 = $this->testCasesRepository->createWithAncestor(array('project_id' => $projectA->id, 'test_suite_id' => $testSuiteA->id), array('execution_type_id' => 2, 'name' => 'Test Case A - 2', 'description' => 'Example test case', 'prerequisite' => 'Everything must be working!', 'version' => 1), $parentTestSuiteNodeId);
+
+            $testCaseA3 = $this->testCasesRepository->createWithAncestor(array('project_id' => $projectA->id, 'test_suite_id' => $testSuiteA->id), array('execution_type_id' => 1, 'name' => 'Test Case A - 3', 'description' => 'Example test case', 'prerequisite' => 'None', 'version' => 1), $parentTestSuiteNodeId);
+        }
         
         $testSuiteB = $this->testSuitesRepository->createWithAncestor(array (
                 'name' => 'Test Suite B',

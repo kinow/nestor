@@ -109,7 +109,7 @@ class NavigationTreeRepositoryEloquent implements NavigationTreeRepository
      * {@inheritDoc}
      * @see \Nestor\Repositories\NavigationTreeRepository::create()
      */
-    public function create($ancestor, $descendant, $node_id, $node_type_id, $display_name, $attributes)
+    public function create($ancestor, $descendant, $node_id, $node_type_id, $display_name, $attributes = null)
     {
         $created_at = new DateTime();
         $created_at = $created_at->format('Y-m-d H:m:s');
