@@ -38,6 +38,21 @@ define([
             return url;
         },
 
+        getNodeIcon: function(node) {
+            console.log(node);
+            if (node != null) {
+                if (typeof node.attributes !== typeof undefined && node.attributes !== null) {
+                    var attributes = JSON.parse(node.attributes);
+                    if (typeof attributes.execution_type_id !== typeof undefined) {
+                        if (attributes.execution_type_id === 2) {
+                            return '/icons/robot-icon.png';
+                        }
+                    }
+                }
+            }
+            return true;
+        },
+
         convertToTree: function(parent, children) {
             for (idx in children) {
                 var child = children[idx];
@@ -50,10 +65,9 @@ define([
                     children: [],
                     node_id: child.node_id,
                     node_type_id: child.node_type_id,
-                    attributes: JSON.parse(child.attributes),
                     href: this.getNodeHref(child, parent),
+                    icon: this.getNodeIcon(child)
                 };
-                console.log(node);
                 parent.children.push(node);
                 this.convertToTree(node, child.children);
             }
