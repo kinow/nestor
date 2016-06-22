@@ -40,7 +40,7 @@ class SampleDatabaseSeeder extends Seeder
                 'username' => 'bruno1',
                 'password' => Hash::make('bruno1'),
                 'email' => 'bruno1@example.com',
-                'name' => 'Bruno P. Kinoshita' 
+                'name' => 'Bruno P. Kinoshita'
         ));
         
         $projectA = $this->projectsRepository->create(array (
