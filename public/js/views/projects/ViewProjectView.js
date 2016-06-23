@@ -217,8 +217,9 @@ define([
             this.testSuiteModel.set('id', this.testSuiteId);
             this.testSuiteModel.fetch({
                 success: function(responseData) {
+                    var testsuite = self.testSuiteModel;
                     var data = {
-                        testsuite: self.testSuiteModel,
+                        testsuite: testsuite,
                         _: _
                     };
 
@@ -226,6 +227,7 @@ define([
                     self.viewNodeItemView.$el.html(compiledTemplate);
                     self.$('#content-main').empty();
                     self.$('#content-main').append(self.viewNodeItemView.el);
+                    this.$('#navigation-tree').fancytree('getTree').getNodeByKey("2-" + testsuite.get('id')).setActive();
                 },
                 error: function() {
                     throw new Error("Failed to fetch test suite");
