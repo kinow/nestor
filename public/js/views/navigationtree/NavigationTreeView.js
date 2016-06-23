@@ -128,7 +128,7 @@ define([
                             checkbox: false, // Show checkboxes.
                             debugLevel: 1, // 0:quiet, 1:normal, 2:debug
                             disabled: false, // Disable control
-                            generateIds: false, // Generate id attributes like <span id='fancytree-id-KEY'>
+                            generateIds: true, // Generate id attributes like <span id='fancytree-id-KEY'>
                             idPrefix: "ft_", // Used to generate node id´s like <span id='fancytree-id-<key>'>.
                             icon: true, // Display node icons.
                             keyboard: true, // Support keyboard navigation.

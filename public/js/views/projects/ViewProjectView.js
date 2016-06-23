@@ -176,8 +176,9 @@ define([
             var self = this;
             this.projectModel.fetch({
                 success: function(responseData) {
+                    var project = self.projectModel;
                     var data = {
-                        project: self.projectModel,
+                        project: project,
                         _: _
                     };
 
@@ -185,6 +186,7 @@ define([
                     self.viewNodeItemView.$el.html(compiledTemplate);
                     this.$('#content-main').empty();
                     this.$('#content-main').append(self.viewNodeItemView.el);
+                    this.$('#navigation-tree').fancytree('getTree').getNodeByKey("1-" + project.get('id')).setActive();
                 },
                 error: function() {
                     throw new Error("Failed to fetch project");
