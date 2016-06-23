@@ -20,28 +20,28 @@
     <title>Nestor-QA</title>
 </head>
 <body>
-<br/>
-<div class="ui container" id="nestor-app">
-
-    <div class="header" id="header"></div>
     <br/>
-    <div class="ui breadcrumb" id="breadcrumb"></div>
-    <hr class="ui hidden divider" />
+    <div class="ui container" id="nestor-app">
 
-    <div class="ui message" id="header-alert" style="display:none;">
-      <i class="close icon"></i>
-      <div class="header">
-        Error
-      </div>
-      <p>Error message
-    </p></div>
+        <div class="header" id="header"></div>
+        <br/>
+        <div class="ui breadcrumb" id="breadcrumb"></div>
+        <hr class="ui hidden divider" />
 
-    <div id="page">
-        <div class="ui segment">
-          <p></p>
-          <div class="ui active dimmer">
-            <div class="ui loader"></div>
-          </div>
+        <div class="ui message" id="header-alert" style="display:none;">
+          <i class="close icon"></i>
+          <div class="header">
+            Error
+        </div>
+        <p>Error message
+        </p></div>
+
+        <div id="page">
+            <div class="ui segment">
+              <p></p>
+              <div class="ui active dimmer">
+                <div class="ui loader"></div>
+            </div>
         </div>
     </div>
 </div>
