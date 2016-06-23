@@ -316,8 +316,9 @@ define([
             this.testCaseModel.set('id', this.testCaseId);
             this.testCaseModel.fetch({
                 success: function(responseData) {
+                    var testcase = self.testCaseModel;
                     var data = {
-                        testcase: self.testCaseModel,
+                        testcase: testcase,
                         _: _
                     };
 
@@ -325,6 +326,7 @@ define([
                     self.viewNodeItemView.$el.html(compiledTemplate);
                     self.$('#content-main').empty();
                     self.$('#content-main').append(self.viewNodeItemView.el);
+                    this.$('#navigation-tree').fancytree('getTree').getNodeByKey("3-" + testcase.get('id')).setActive();
                 },
                 error: function() {
                     throw new Error("Failed to fetch test case");
