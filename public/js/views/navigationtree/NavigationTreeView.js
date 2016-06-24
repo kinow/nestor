@@ -11,7 +11,7 @@ define([
     var NavigationTreeView = Backbone.View.extend({
 
         initialize: function(options) {
-            _.bindAll(this, 'render', 'convertToTree', 'sortCmp', 'getNodeHref');
+            _.bindAll(this, 'render', 'convertToTree', 'sortCmp', 'getNodeHref', 'getNodeIcon');
 
             this.projectId = 0;
 
@@ -19,6 +19,12 @@ define([
                 this.draggable = options.draggable;
             } else {
                 this.draggable = false;
+            }
+
+            if (typeof options !== typeof undefined && typeof options.checkboxes !== typeof undefined) {
+                this.checkboxes = options.checkboxes;
+            } else {
+                this.checkboxes = false;
             }
 
             this.collection = new NavigationTreeCollection();

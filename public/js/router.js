@@ -646,7 +646,9 @@ define([
         testPlansRouter.on('route:viewTestPlan', function(testPlanId) {
             var id = app.session.get('project_id');
             if (!app.viewTestPlanView) {
-                app.viewTestPlanView = new ViewTestPlanView();
+                app.viewTestPlanView = new ViewTestPlanView({
+                    projectId: id
+                });
             }
             app.viewTestPlanView.setProjectId(id);
             app.viewTestPlanView.setTestPlanId(testPlanId);
