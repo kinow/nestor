@@ -47,17 +47,24 @@ define([
                 'setTestCaseId',
                 'setTestPlanId',
                 'updateNavigationTree',
+                'displayLoading',
                 'displayProject',
                 'displayTestSuite',
                 'displayTestCase');
 
             this.projectId = 0;
+            if (typeof options !== typeof undefined && typeof options.projectId !== typeof undefined) {
+                this.projectId = parseInt(options.projectId);
+            }
             this.testSuiteId = 0;
             this.testCaseId = 0;
             this.testPlanId = 0;
 
             // Views
-            this.navigationTreeView = new NavigationTreeView();
+            this.navigationTreeView = new NavigationTreeView({
+                draggable: false,
+                checkboxes: true
+            });
             this.viewNodeItemView = new ViewNodeItemView();
             this.testSuiteView = new TestSuiteView();
             this.testCaseView = new TestCaseView();
@@ -81,14 +88,15 @@ define([
         render: function() {
             $('.item').removeClass('active');
             $('.item a[href="#/planning"]').parent().addClass('active');
-            var compiledTemplate = _.template(viewProjectTemplate, {});
+            var compiledTemplate = _.template(ViewTestPlanView, {});
             this.$el.html(compiledTemplate);
 
             this.$('#content-main').empty();
-            this.$('#navigation-tree').replaceWith(this.navigationTreeView.el);
+            this.updateNavigationTree();
         },
 
-        setProjectId: function(projectId) {
+        setProjectId: function(id) {
+            var projectId = parseInt(id);
             // update project ID in models
             this.projectModel = new ProjectModel();
             this.projectModel.id = projectId;
@@ -99,8 +107,9 @@ define([
             this.testCaseModel = new TestCaseModel();
             this.testCaseModel.project_id = projectId;
 
-            if (this.projectId !== projectId || !$.trim($(this.navigationTreeView.el).html())) {
-                this.navigationTreeView.projectId = projectId;
+            this.navigationTreeView.projectId = projectId;
+
+            if (this.projectId !== projectId/* || !$.trim($(this.navigationTreeView.el).html())*/) {
                 this.projectId = projectId;
                 Backbone.trigger('nestor:navigationtree:project_changed');
             }
@@ -134,19 +143,28 @@ define([
 
         updateNavigationTree: function(event) {
             console.log('Rendering navigation tree!');
-            this.navigationTreeView.render();
-            this.navigationTreeView.delegateEvents();
+            this.$('#navigation-tree').fancytree({});
+            this.navigationTreeView.render({
+                el: this.$('#navigation-tree')
+            });
+        },
+
+        displayLoading: function() {
+            this.$('#content-main').empty();
+            this.$('#content-main').html('<div class="ui active dimmer"><div class="ui loader"></div></div>');
         },
 
         /**
          * Display project node item on the right panel of the screen.
          */
         displayProject: function() {
+            this.displayLoading();
             var self = this;
             this.projectModel.fetch({
                 success: function(responseData) {
+                    var project = self.projectModel;
                     var data = {
-                        project: self.projectModel,
+                        project: project,
                         _: _
                     };
 
@@ -154,6 +172,7 @@ define([
                     self.viewNodeItemView.$el.html(compiledTemplate);
                     this.$('#content-main').empty();
                     this.$('#content-main').append(self.viewNodeItemView.el);
+                    this.$('#navigation-tree').fancytree('getTree').getNodeByKey("1-" + project.get('id')).setActive();
                 },
                 error: function() {
                     throw new Error("Failed to fetch project");
