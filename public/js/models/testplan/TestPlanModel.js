@@ -6,10 +6,8 @@ define([
 
     var TestPlanModel = BaseModel.extend({
 
-        urlRoot: '/api/testplans',
-
         defaults: {
-            id: 0,
+            id: null,
             project_id: 0,
             name: 'No test plan name set',
             description: 'No description set',
@@ -21,9 +19,9 @@ define([
         },
 
         url: function() {
-            var url = '/api/testplans/';
+            var url = '/api/testplans';
             if (this.get('id') != undefined && this.get('id') > 0) {
-                url += this.get('id');
+                url += '/' + this.get('id');
             }
             return url;
         },

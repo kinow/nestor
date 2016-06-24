@@ -71,7 +71,7 @@ define([
                     wait: true,
                     success: function(mod, res) {
                         var changedAttributes = testPlan.changedAttributes();
-                        var testPlanId = changedAttributes.test_plan.id;
+                        var testPlanId = changedAttributes.id;
                         app.showAlert('Success!', 'New test plan ' + this.$("#testplan-name-input").val() + ' created!', 'success')
                         Backbone.history.navigate("#/planning", {
                             trigger: false
