@@ -50,7 +50,8 @@ define([
                 'displayLoading',
                 'displayProject',
                 'displayTestSuite',
-                'displayTestCase');
+                'displayTestCase',
+                'displayShowTestCase');
 
             this.projectId = 0;
             if (typeof options !== typeof undefined && typeof options.projectId !== typeof undefined) {

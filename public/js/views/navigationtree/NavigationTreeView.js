@@ -11,7 +11,7 @@ define([
     var NavigationTreeView = Backbone.View.extend({
 
         initialize: function(options) {
-            _.bindAll(this, 'render', 'convertToTree', 'getNodeHref');
+            _.bindAll(this, 'render', 'convertToTree', 'sortCmp', 'getNodeHref');
 
             this.projectId = 0;
 
@@ -248,7 +248,10 @@ define([
                         }
                     });
                     // end
-                    el.fancytree('getRootNode').sortChildren(self.sortCmp, true);
+                    var rootNode = el.fancytree('getRootNode');
+                    if (typeof rootNode.sortChildren !== typeof undefined) {
+                        rootNode.sortChildren(self.sortCmp, true);
+                    }
                 },
                 error: function(collection, response, options) {
                     throw new Error("Failed to fetch projects");
