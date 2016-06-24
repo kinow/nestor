@@ -73,7 +73,8 @@ define([
 
             // Views
             this.navigationTreeView = new NavigationTreeView({
-                draggable: true
+                draggable: true,
+                checkboxes: false
             });
             this.viewNodeItemView = new ViewNodeItemView();
             this.newTestSuiteView = new NewTestSuiteView();
