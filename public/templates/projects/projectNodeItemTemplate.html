@@ -8,11 +8,13 @@
 
     <%= project.get('formatted_description') %>
 
+    <% if (typeof editable === typeof undefined || editable) { %>
     <div class="item">
         <div class="ui divider"></div>
         <div class="right floated content">
             <a href="#/projects/<%= project.get('id') %>" class="ui button">Edit Project</a>
         </div>
     </div>
+    <% } %>
 
 </div>

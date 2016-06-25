@@ -165,7 +165,8 @@ define([
                     var project = self.projectModel;
                     var data = {
                         project: project,
-                        _: _
+                        _: _,
+                        editable: false
                     };
 
                     var compiledTemplate = _.template(projectNodeItemTemplate, data);
