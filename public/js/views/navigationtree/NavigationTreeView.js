@@ -122,7 +122,15 @@ define([
                     self.convertToTree(node, model.children, self.nodeUrlPrefix);
                     tree.push(node);
 
+                    // --- check boxes
                     var checkbox = self.checkboxes;
+                    var selectMode = 1;
+                    if (checkbox) {
+                        selectMode = 3;
+                    }
+                    // --- end check boxes
+
+                    // --- drag and drop
                     var extensions = [];
                     var dnd = {};
                     // enable drag and drop
@@ -206,6 +214,7 @@ define([
                             }
                         }
                     };
+                    // --- end of drag and drop
 
                     el.fancytree('destroy');
                     el.fancytree({
@@ -226,7 +235,7 @@ define([
                         keyboard: true, // Support keyboard navigation.
                         keyPathSeparator: "/", // Used by node.getKeyPath() and tree.loadKeyPath().
                         minExpandLevel: 2, // 1: root node is not collapsible
-                        selectMode: 1, // 1:single, 2:multi, 3:multi-hier
+                        selectMode: selectMode, // 1:single, 2:multi, 3:multi-hier
                         tabindex: 0, // Whole tree behaves as one single control
                         childcounter: {
                             deep: true,
