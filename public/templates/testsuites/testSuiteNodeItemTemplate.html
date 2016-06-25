@@ -1,15 +1,18 @@
 <h1 class="ui top attached header"><%= testsuite.get('name') %></h1>
 <div class="ui attached segment items">
 
+    <% if (typeof editable === typeof undefined || editable) { %>
     <div class="item">
     <i class="angle double right icon"></i>
         <a href="#/projects/<%= testsuite.get('project_id') %>/testsuites/new?parent=<%= testsuite.get('id') %>">Add new Test Suite</a>
         <i class="angle double right icon"></i>
         <a href="#/projects/<%= testsuite.get('project_id') %>/testsuites/<%= testsuite.get('id') %>/testcases/new">Add new Test Case</a>
     </div>
+    <% } %>
 
     <%= testsuite.get('formatted_description') %>
 
+    <% if (typeof editable === typeof undefined || editable) { %>
     <div class="item">
         <div class="ui divider"></div>
         <div class="right floated content">
@@ -17,5 +20,6 @@
             <a href="#/projects/<%= testsuite.get('project_id') %>/testsuites/<%= testsuite.get('id') %>/confirmDelete" class="ui button">Delete</a>
         </div>
     </div>
+    <% } %>
 
 </div>

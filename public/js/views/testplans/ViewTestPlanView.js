@@ -191,7 +191,8 @@ define([
                 success: function(responseData) {
                     var data = {
                         testsuite: self.testSuiteModel,
-                        _: _
+                        _: _,
+                        editable: false
                     };
 
                     var compiledTemplate = _.template(testSuiteNodeItemTemplate, data);
