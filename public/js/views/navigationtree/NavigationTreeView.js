@@ -122,6 +122,7 @@ define([
                     self.convertToTree(node, model.children, self.nodeUrlPrefix);
                     tree.push(node);
 
+                    var checkbox = self.checkboxes;
                     var extensions = [];
                     var dnd = {};
                     // enable drag and drop
@@ -216,7 +217,7 @@ define([
                         autoCollapse: false, // Automatically collapse all siblings, when a node is expanded.
                         autoScroll: false, // Automatically scroll nodes into visible area.
                         clickFolderMode: 1, // 1:activate, 2:expand, 3:activate and expand, 4:activate (dblclick expands)
-                        checkbox: false, // Show checkboxes.
+                        checkbox: checkbox, // Show checkboxes.
                         debugLevel: 1, // 0:quiet, 1:normal, 2:debug
                         disabled: false, // Disable control
                         generateIds: true, // Generate id attributes like <span id='fancytree-id-KEY'>
