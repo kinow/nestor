@@ -250,7 +250,7 @@ define([
                     },
                     parent: 'TestSuites.viewTestSuite'
                 },
-                'TestCases.viewPlanTestSuite': {
+                'TestCases.viewPlanTestCase': {
                     template: function(args) {
                         var tpl = _.template('View Test Case <%= args[":testcaseId"] %>');
                         return tpl({
