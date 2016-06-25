@@ -26,7 +26,7 @@ define([
     TestSuiteModel,
     TestCaseModel,
     ExecutionTypesCollection,
-    viewProjectTemplate,
+    viewTestPlanTemplate,
     projectNodeItemTemplate,
     testSuiteNodeItemTemplate,
     testCaseNodeItemTemplate) {
@@ -39,7 +39,7 @@ define([
 
         events: {},
 
-        initialize: function() {
+        initialize: function(options) {
             _.bindAll(this,
                 'render',
                 'setProjectId',
@@ -53,18 +53,17 @@ define([
                 'displayTestCase',
                 'displayShowTestCase');
 
-            this.projectId = 0;
-            if (typeof options !== typeof undefined && typeof options.projectId !== typeof undefined) {
-                this.projectId = parseInt(options.projectId);
-            }
+            this.projectId = parseInt(options.projectId);
             this.testSuiteId = 0;
             this.testCaseId = 0;
-            this.testPlanId = 0;
+            this.testPlanId = parseInt(options.testPlanId);
 
             // Views
             this.navigationTreeView = new NavigationTreeView({
                 draggable: false,
-                checkboxes: true
+                checkboxes: true,
+                rootNodeUrl: '#/testplans/' + options.testPlanId + '/view',
+                nodeUrlPrefix: '#/testplans'
             });
             this.viewNodeItemView = new ViewNodeItemView();
             this.testSuiteView = new TestSuiteView();
@@ -89,7 +88,7 @@ define([
         render: function() {
             $('.item').removeClass('active');
             $('.item a[href="#/planning"]').parent().addClass('active');
-            var compiledTemplate = _.template(ViewTestPlanView, {});
+            var compiledTemplate = _.template(viewTestPlanTemplate, {});
             this.$el.html(compiledTemplate);
 
             this.$('#content-main').empty();

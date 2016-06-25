@@ -27,6 +27,9 @@ define([
                 this.checkboxes = false;
             }
 
+            this.rootNodeUrl = options.rootNodeUrl;
+            this.nodeUrlPrefix = options.nodeUrlPrefix;
+
             this.collection = new NavigationTreeCollection();
         },
 
@@ -34,8 +37,8 @@ define([
 
         },
 
-        getNodeHref: function(node, parent) {
-            var url = '#/projects/' + this.projectId + '/testsuites/';
+        getNodeHref: function(node, parent, nodeUrlPrefix) {
+            var url = nodeUrlPrefix + '/' + this.projectId + '/testsuites/';
             if (parseInt(node.node_type_id) === 2) {
                 url += node.node_id + '/view';
             } else {
@@ -58,7 +61,7 @@ define([
             return true;
         },
 
-        convertToTree: function(parent, children) {
+        convertToTree: function(parent, children, nodeUrlPrefix) {
             for (idx in children) {
                 var child = children[idx];
                 var folder = parseInt(child.node_type_id) === 3 ? false : true;
@@ -70,11 +73,11 @@ define([
                     children: [],
                     node_id: child.node_id,
                     node_type_id: child.node_type_id,
-                    href: this.getNodeHref(child, parent),
+                    href: this.getNodeHref(child, parent, nodeUrlPrefix),
                     icon: this.getNodeIcon(child)
                 };
                 parent.children.push(node);
-                this.convertToTree(node, child.children);
+                this.convertToTree(node, child.children, nodeUrlPrefix);
             }
         },
 
@@ -113,69 +116,18 @@ define([
                         children: [],
                         node_id: model.node_id,
                         node_type_id: model.node_type_id,
-                        href: '#/specification',
+                        href: self.rootNodeUrl,
                         icon: true
                     };
-                    self.convertToTree(node, model.children);
+                    self.convertToTree(node, model.children, self.nodeUrlPrefix);
                     tree.push(node);
 
                     var extensions = [];
+                    var dnd = {};
                     // enable drag and drop
                     if (self.draggable) {
                         extensions.push('dnd');
-                    }
-
-                    el.fancytree('destroy');
-                    el.fancytree({
-                        source: tree,
-                        extensions: extensions,
-                        activeVisible: true, // Make sure, active nodes are visible (expanded).
-                        aria: false, // Enable WAI-ARIA support.
-                        autoActivate: true, // Automatically activate a node when it is focused (using keys).
-                        autoCollapse: false, // Automatically collapse all siblings, when a node is expanded.
-                        autoScroll: false, // Automatically scroll nodes into visible area.
-                        clickFolderMode: 1, // 1:activate, 2:expand, 3:activate and expand, 4:activate (dblclick expands)
-                        checkbox: false, // Show checkboxes.
-                        debugLevel: 1, // 0:quiet, 1:normal, 2:debug
-                        disabled: false, // Disable control
-                        generateIds: true, // Generate id attributes like <span id='fancytree-id-KEY'>
-                        idPrefix: "ft_", // Used to generate node id´s like <span id='fancytree-id-<key>'>.
-                        icon: true, // Display node icons.
-                        keyboard: true, // Support keyboard navigation.
-                        keyPathSeparator: "/", // Used by node.getKeyPath() and tree.loadKeyPath().
-                        minExpandLevel: 2, // 1: root node is not collapsible
-                        selectMode: 1, // 1:single, 2:multi, 3:multi-hier
-                        tabindex: 0, // Whole tree behaves as one single control
-                        childcounter: {
-                            deep: true,
-                            hideZeros: true,
-                            hideExpanded: true
-                        },
-                        focus: function(e, data) {
-                            var node = data.node;
-                            // Auto-activate focused node after 1 second
-                            if(node.data.href){
-                                node.scheduleAction("activate", 100000);
-                            }
-                        },
-                        blur: function(e, data) {
-                            data.node.scheduleAction("cancel");
-                        },
-                        activate: function(e, data) {
-                            if (data.draggable)
-                                return; // prevent false hits
-                            var node = data.node;
-                            if(node.data.href){
-                                Backbone.history.navigate(node.data.href, { trigger: true });
-                            }
-                        },
-                        click: function(e, data) { // allow re-loads
-                            var node = data.node;
-                            if(node.isActive() && node.data.href){
-                                // TODO: data.tree.reactivate();
-                            }
-                        },
-                        dnd: {
+                        dnd = {
                             preventVoidMoves: true, // Prevent dropping nodes 'before self', etc.
                             preventRecursiveMoves: true, // Prevent dropping nodes on own descendants
                             autoExpandMS: 400,
@@ -252,6 +204,59 @@ define([
                             dragLeave: function(node, data) {
                             }
                         }
+                    };
+
+                    el.fancytree('destroy');
+                    el.fancytree({
+                        source: tree,
+                        extensions: extensions,
+                        activeVisible: true, // Make sure, active nodes are visible (expanded).
+                        aria: false, // Enable WAI-ARIA support.
+                        autoActivate: true, // Automatically activate a node when it is focused (using keys).
+                        autoCollapse: false, // Automatically collapse all siblings, when a node is expanded.
+                        autoScroll: false, // Automatically scroll nodes into visible area.
+                        clickFolderMode: 1, // 1:activate, 2:expand, 3:activate and expand, 4:activate (dblclick expands)
+                        checkbox: false, // Show checkboxes.
+                        debugLevel: 1, // 0:quiet, 1:normal, 2:debug
+                        disabled: false, // Disable control
+                        generateIds: true, // Generate id attributes like <span id='fancytree-id-KEY'>
+                        idPrefix: "ft_", // Used to generate node id´s like <span id='fancytree-id-<key>'>.
+                        icon: true, // Display node icons.
+                        keyboard: true, // Support keyboard navigation.
+                        keyPathSeparator: "/", // Used by node.getKeyPath() and tree.loadKeyPath().
+                        minExpandLevel: 2, // 1: root node is not collapsible
+                        selectMode: 1, // 1:single, 2:multi, 3:multi-hier
+                        tabindex: 0, // Whole tree behaves as one single control
+                        childcounter: {
+                            deep: true,
+                            hideZeros: true,
+                            hideExpanded: true
+                        },
+                        focus: function(e, data) {
+                            var node = data.node;
+                            // Auto-activate focused node after 1 second
+                            if(node.data.href){
+                                node.scheduleAction("activate", 100000);
+                            }
+                        },
+                        blur: function(e, data) {
+                            data.node.scheduleAction("cancel");
+                        },
+                        activate: function(e, data) {
+                            if (data.draggable)
+                                return; // prevent false hits
+                            var node = data.node;
+                            if(node.data.href){
+                                Backbone.history.navigate(node.data.href, { trigger: true });
+                            }
+                        },
+                        click: function(e, data) { // allow re-loads
+                            var node = data.node;
+                            if(node.isActive() && node.data.href){
+                                // TODO: data.tree.reactivate();
+                            }
+                        },
+                        dnd: dnd
                     });
                     // end
                     var rootNode = el.fancytree('getRootNode');

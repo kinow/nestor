@@ -647,7 +647,8 @@ define([
             var id = app.session.get('project_id');
             if (!app.viewTestPlanView) {
                 app.viewTestPlanView = new ViewTestPlanView({
-                    projectId: id
+                    projectId: id,
+                    testPlanId: testPlanId
                 });
             }
             app.viewTestPlanView.setProjectId(id);

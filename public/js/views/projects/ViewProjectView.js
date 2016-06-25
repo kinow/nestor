@@ -74,7 +74,9 @@ define([
             // Views
             this.navigationTreeView = new NavigationTreeView({
                 draggable: true,
-                checkboxes: false
+                checkboxes: false,
+                rootNodeUrl: '#/specification',
+                nodeUrlPrefix: '#/projects'
             });
             this.viewNodeItemView = new ViewNodeItemView();
             this.newTestSuiteView = new NewTestSuiteView();
