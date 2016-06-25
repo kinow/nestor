@@ -230,48 +230,6 @@ define([
                     throw new Error("Failed to fetch test case");
                 }
             });
-        },
-
-        /**
-         * Display test case item on the right panel of the screen for edit.
-         */
-        displayShowTestCase: function() {
-            var self = this;
-            this.testCaseModel.set('project_id', this.projectId);
-            this.testCaseModel.set('test_suite_id', this.testSuiteId);
-            this.testCaseModel.set('id', this.testCaseId);
-            this.testCaseModel.fetch({
-                success: function(responseData) {
-                    self.executionTypesCollection.fetch({
-                        success: function() {
-                            self.testCaseView.render({
-                                model: self.testCaseModel,
-                                test_case_id: self.testCaseId,
-                                project_id: self.projectId,
-                                test_suite_id: self.testSuiteId,
-                                execution_types: self.executionTypesCollection.models
-                            });
-                            self.testCaseView.delegateEvents();
-                            self.$('#content-main').empty();
-                            self.$('#content-main').append(self.testCaseView.el);
-                            setTimeout(function() {
-                                self.testCaseView.description_simplemde.value(self.testCaseView.model.get('version')['description']);
-                                self.testCaseView.description_simplemde.codemirror.refresh();
-                            }, 1);
-                            setTimeout(function() {
-                                self.testCaseView.prerequisite_simplemde.value(self.testCaseView.model.get('version')['prerequisite']);
-                                self.testCaseView.prerequisite_simplemde.codemirror.refresh();
-                            }, 1);
-                        },
-                        error: function() {
-                            throw new Error('Failure to retrieve executiont types!');
-                        }
-                    });
-                },
-                error: function() {
-                    throw new Error("Failed to fetch test suite");
-                }
-            });
         }
 
     });
