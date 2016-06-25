@@ -216,11 +216,14 @@ define([
 
     var TestCasesRouter = Backbone.Router.extend({
         routes: {
+            // project
             'projects/:projectId/testsuites/:testsuiteId/testcases/new': 'showAddTestCase',
             'projects/:projectId/testsuites/:testsuiteId/testcases/new?*queryString': 'showAddTestCase',
             'projects/:projectId/testsuites/:testsuiteId/testcases/:testcaseId/view': 'viewTestCase',
             'projects/:projectId/testsuites/:testsuiteId/testcases/:testcaseId': 'showTestCase',
-            'projects/:projectId/testsuites/:testsuiteId/testcases/:testcaseId/confirmDelete': 'showConfirmDeleteTestCase'
+            'projects/:projectId/testsuites/:testsuiteId/testcases/:testcaseId/confirmDelete': 'showConfirmDeleteTestCase',
+            // test plan
+            'testplans/:testPlanId/testsuites/:testsuiteId/testcases/:testcaseId/view': 'viewPlanTestCase'
         },
         navigation: {
             prefix: 'TestCases',
@@ -246,7 +249,16 @@ define([
                         });
                     },
                     parent: 'TestSuites.viewTestSuite'
-                }
+                },
+                'TestCases.viewPlanTestSuite': {
+                    template: function(args) {
+                        var tpl = _.template('View Test Case <%= args[":testcaseId"] %>');
+                        return tpl({
+                            args: args
+                        });
+                    },
+                    parent: 'TestPlans.showTestPlans'
+                },
             }
         }
     });
@@ -620,6 +632,29 @@ define([
                 app.showView(app.viewProjectView, {
                     requiresAuth: true,
                     onSuccess: app.viewProjectView.displayConfirmDeleteTestCase
+                });
+            }
+        });
+
+        testCasesRouter.on('route:viewPlanTestCase', function(testPlanId, testSuiteId, testCaseId) {
+            var id = app.session.get('project_id');
+            if (!app.viewTestPlanView) {
+                app.viewTestPlanView = new ViewTestPlanView({
+                    projectId: id,
+                    testPlanId: testPlanId
+                });
+            }
+
+            app.viewTestPlanView.setProjectId(id);
+            app.viewTestPlanView.setTestPlanId(testPlanId);
+            app.viewTestPlanView.setTestSuiteId(testSuiteId);
+            app.viewTestPlanView.setTestCaseId(testCaseId);
+            if (typeof app.currentView !== 'undefined' && app.currentView.cid == app.viewTestPlanView.cid) {
+                app.viewTestPlanView.displayTestCase();
+            } else {
+                app.showView(app.viewTestPlanView, {
+                    requiresAuth: true,
+                    onSuccess: app.viewTestPlanView.displayTestCase
                 });
             }
         });

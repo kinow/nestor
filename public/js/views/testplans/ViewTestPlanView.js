@@ -50,8 +50,7 @@ define([
                 'displayLoading',
                 'displayProject',
                 'displayTestSuite',
-                'displayTestCase',
-                'displayShowTestCase');
+                'displayTestCase');
 
             this.projectId = parseInt(options.projectId);
             this.testSuiteId = 0;
