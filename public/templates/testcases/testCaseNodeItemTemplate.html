@@ -12,6 +12,7 @@
 
     <%= testcase.get('version')['execution_type']['name'] %>
 
+    <% if (typeof editable === typeof undefined || editable) { %>
     <div class="item">
         <div class="ui divider"></div>
         <div class="right floated content">
@@ -19,5 +20,6 @@
             <a href="#/projects/<%= testcase.get('project_id') %>/testsuites/<%= testcase.get('test_suite_id') %>/testcases/<%= testcase.get('id') %>/confirmDelete" class="ui button">Delete</a>
         </div>
     </div>
+    <% } %>
 
 </div>

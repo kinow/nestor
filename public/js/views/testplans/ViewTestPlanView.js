@@ -217,7 +217,8 @@ define([
                 success: function(responseData) {
                     var data = {
                         testcase: self.testCaseModel,
-                        _: _
+                        _: _,
+                        editable: false
                     };
 
                     var compiledTemplate = _.template(testCaseNodeItemTemplate, data);
