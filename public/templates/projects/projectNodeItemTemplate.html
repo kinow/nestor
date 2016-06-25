@@ -2,21 +2,21 @@
 <div class="ui attached segment items">
 
   <% if (typeof editable === typeof undefined || editable) { %>
-	<div class="item">
-		<i class="angle double right icon"></i>
-		<a href="#/projects/<%= project.get('id') %>/testsuites/new">Add new Test Suite</a>
-	</div>
+  <div class="item">
+    <i class="angle double right icon"></i>
+    <a href="#/projects/<%= project.get('id') %>/testsuites/new">Add new Test Suite</a>
+  </div>
   <% } %>
 
-    <%= project.get('formatted_description') %>
+  <%= project.get('formatted_description') %>
 
-    <% if (typeof editable === typeof undefined || editable) { %>
-    <div class="item">
-        <div class="ui divider"></div>
-        <div class="right floated content">
-            <a href="#/projects/<%= project.get('id') %>" class="ui button">Edit Project</a>
-        </div>
+  <% if (typeof editable === typeof undefined || editable) { %>
+  <div class="item">
+    <div class="ui divider"></div>
+    <div class="right floated content">
+      <a href="#/projects/<%= project.get('id') %>" class="ui button">Edit Project</a>
     </div>
-    <% } %>
+  </div>
+  <% } %>
 
 </div>
