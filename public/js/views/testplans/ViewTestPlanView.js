@@ -38,7 +38,7 @@ define([
         el: $("#page"),
 
         events: {
-            'click #save-testplan-btn': function() { alert('save!'); },
+            'click #save-testplan-btn': 'addTestCasesToTestPlan',
             'click #cancel-testplan-btn': function () { Backbone.history.navigate("#/planning", { trigger: false }); }
         },
 
@@ -53,7 +53,8 @@ define([
                 'displayLoading',
                 'displayProject',
                 'displayTestSuite',
-                'displayTestCase');
+                'displayTestCase',
+                'addTestCasesToTestPlan');
 
             this.projectId = parseInt(options.projectId);
             this.testSuiteId = 0;
@@ -233,6 +234,9 @@ define([
                     throw new Error("Failed to fetch test case");
                 }
             });
+        },
+        addTestCasesToTestPlan: function(evt) {
+            console.log(evt);
         }
 
     });
