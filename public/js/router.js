@@ -306,7 +306,8 @@ define([
                 },
                 'TestPlans.viewTestPlan': {
                     template: function(args) {
-                        var tpl = _.template('Manage Test Cases');
+                        var id = app.session.get('project_id');
+                        var tpl = _.template('Managing Project <%= ' + id +  ' %>');
                         return tpl({
                             args: args
                         });
