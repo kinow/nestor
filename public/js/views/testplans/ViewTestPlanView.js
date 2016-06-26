@@ -37,7 +37,10 @@ define([
     var ViewTestPlanView = Backbone.View.extend({
         el: $("#page"),
 
-        events: {},
+        events: {
+            'click #save-testplan-btn': function() { alert('save!'); },
+            'click #cancel-testplan-btn': function () { Backbone.history.navigate("#/planning", { trigger: false }); }
+        },
 
         initialize: function(options) {
             _.bindAll(this,
