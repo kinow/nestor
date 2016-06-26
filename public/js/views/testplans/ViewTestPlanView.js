@@ -236,7 +236,10 @@ define([
             });
         },
         addTestCasesToTestPlan: function(evt) {
-            console.log(evt);
+            this.$('#navigation-tree').fancytree('getTree').generateFormElements(true, false);
+            var form = $("#testplan-navigation-tree-form");
+            var data = $(form).serializeArray();
+            console.log(data);
         }
 
     });
