@@ -1,5 +1,5 @@
 {
-    "name": "laravel/laravel",
+    "name": "nestor-qa/nestor",
     "description": "Nestor-QA test management server",
     "keywords": ["nestor", "nestor-qa", "quality assurance", "test management", "testing", "quality"],
     "license": "MIT",
