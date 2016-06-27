@@ -57,18 +57,7 @@ class TestSuitesController extends Controller
      */
     public function index()
     {
-        return [
-                [
-                        'id' => 10,
-                        'name' => 'Suite 001',
-                        'description' => 'Test suite 003'
-                ],
-                [
-                        'id' => 20,
-                        'name' => 'Suite 002',
-                        'description' => 'Test suite 002'
-                ]
-        ];
+        //
     }
     
     /**
