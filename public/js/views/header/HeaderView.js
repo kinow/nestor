@@ -18,7 +18,6 @@ define([
             app.session.on("change:logged_in", this.onLoginStatusChange);
             if (!this.positionProjectComboboxView) {
                 var projectId = app.session.get('project_id');
-                console.log(projectId);
                 this.positionProjectComboboxView = new PositionProjectComboboxView({'project_id': projectId});
             }
 
