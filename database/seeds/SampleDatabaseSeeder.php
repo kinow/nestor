@@ -105,8 +105,8 @@ class SampleDatabaseSeeder extends Seeder
         $parentProjectNodeId = NavigationTree::projectId($projectB->id);
         
         $testSuiteA = $this->testSuitesRepository->createWithAncestor(array (
-                'name' => 'Test Suite A',
-                'description' => "# First test suiteA\n\nThis is the *very first* test suite!",
+                'name' => 'Some other ts',
+                'description' => "# a DIFFERENT",
                 'created_by' => $user->id,
                 'project_id' => $projectB->id
         ), $parentProjectNodeId);
