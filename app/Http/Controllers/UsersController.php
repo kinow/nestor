@@ -26,6 +26,7 @@ namespace Nestor\Http\Controllers;
 
 use \Auth;
 use \Validator;
+use \Log;
 
 use Illuminate\Http\Request;
 
