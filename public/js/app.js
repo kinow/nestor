@@ -143,6 +143,11 @@ define([
         this.undelegateEvents();
     };
 
+    // Debug events
+    Backbone.on("all", function(eventName){
+        console.log(eventName + ' was triggered!');
+    });
+
     return app;
 
 });
