@@ -17,7 +17,9 @@ define([
             // Listen for session logged_in state changes and re-render
             app.session.on("change:logged_in", this.onLoginStatusChange);
             if (!this.positionProjectComboboxView) {
-                this.positionProjectComboboxView = new PositionProjectComboboxView();
+                var projectId = app.session.get('project_id');
+                console.log(projectId);
+                this.positionProjectComboboxView = new PositionProjectComboboxView({'project_id': projectId});
             }
 
             // For GC

@@ -13,13 +13,16 @@ define([
 
         className: "ui simple dropdown item",
 
-        initialize: function() {
+        initialize: function(options) {
             _.bindAll(this, 'render', 'onClickPositionProjectItem');
             this.page = 0;
             this.title = 'Choose a Project';
 
             this.projectsCollection = new ProjectsCollection();
             this.projectsCollection.setPage(this.page);
+            if (typeof options !== typeof undefined && typeof options.project_id !== typeof undefined) {
+                this.projectsCollection.position(options.project_id);
+            }
         },
 
         events: {

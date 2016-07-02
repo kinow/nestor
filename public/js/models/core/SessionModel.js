@@ -6,7 +6,8 @@ define([
     'models/core/BaseModel',
     'models/core/UserModel',
     'models/project/ProjectModel',
-], function(_, Backbone, BaseModel, UserModel, ProjectModel) {
+    'collections/project/ProjectsCollection'
+], function(_, Backbone, BaseModel, UserModel, ProjectModel, ProjectsCollection) {
 
     var SessionModel = BaseModel.extend({
 
@@ -34,8 +35,6 @@ define([
         },
 
         updateSessionProject: function(project) {
-            console.log('updateSessionProject');
-            console.log(project);
             var projectId = parseInt(project.id);
             if (projectId !== this.get('project_id')) {
                 this.set('project_id', project.id);
@@ -58,6 +57,10 @@ define([
                         self.set({ 'logged_in' : true });
                         self.set({ 'user_id': parseInt(res.id) });
                         var project_id = options.xhr.getResponseHeader('X-NESTORQA-PROJECT-ID');
+                        if (project_id != self.get('project_id')) {
+                            self.set('project_id', project_id);
+                            new ProjectsCollection().position(project_id);
+                        }
                         if('success' in callback) callback.success(mod, res, options);
                     } else {
                         self.set({ 'logged_in': false });
