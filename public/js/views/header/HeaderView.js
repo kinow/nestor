@@ -61,6 +61,7 @@ define([
 
         onProjectPositioned: function(project) {
             this.positionProjectComboboxView.title = project['name'];
+            app.session.updateSessionProject(project);
             this.render();
         },
 

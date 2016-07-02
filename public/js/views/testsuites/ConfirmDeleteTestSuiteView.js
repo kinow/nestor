@@ -65,7 +65,7 @@ define([
                         message = response.responseJSON.name[0];
                     }
                     app.showAlert('Failed to delete Project', message, 'error');
-                    Backbone.history.navigate("#/projects/" + self.projectId + "/view", {
+                    Backbone.history.navigate("#/specification", {
                         trigger: false
                     });
                 }

@@ -80,6 +80,18 @@ define([
         return params;
     }
 
+    function checkIfProjectIsSet() {
+        var projectId = app.session.get('project_id');
+        if (typeof projectId === typeof undefined || projectId <= 0) {
+            app.showAlert('Internal error', 'Invalid request', 'error');
+            Backbone.history.navigate("#/", {
+                trigger: false
+            });
+            // TODO: global try catch?
+            throw new Error('Invalid request. Aborting program execution');
+        }
+    }
+
     var BaseRouter = Backbone.Router.extend({
         routes: {
             'home': 'defaultAction',
@@ -416,6 +428,7 @@ define([
 
         projectsRouter.on('route:viewProject', function() {
             var id = app.session.get('project_id');
+            checkIfProjectIsSet();
             if (!app.viewProjectView) {
                 app.viewProjectView = new ViewProjectView({
                     projectId: id
@@ -443,6 +456,7 @@ define([
         var testSuitesRouter = new TestSuitesRouter();
 
         testSuitesRouter.on('route:showAddTestSuite', function(projectId, queryString) {
+            checkIfProjectIsSet();
             var params = parseQueryString(queryString);
             var parentId = 0;
             // the parent **must** be a test suite id, not a project id
@@ -469,6 +483,7 @@ define([
         });
 
         testSuitesRouter.on('route:showTestSuite', function(projectId, testSuiteId) {
+            checkIfProjectIsSet();
             if (!app.viewProjectView) {
                 app.viewProjectView = new ViewProjectView({
                     projectId: projectId
@@ -488,6 +503,7 @@ define([
         });
 
         testSuitesRouter.on('route:showConfirmDeleteTestSuite', function(projectId, testSuiteId) {
+            checkIfProjectIsSet();
             if (!app.viewProjectView) {
                 app.viewProjectView = new ViewProjectView({
                     projectId: projectId
@@ -507,6 +523,7 @@ define([
         });
 
         testSuitesRouter.on('route:viewTestSuite', function(projectId, testSuiteId) {
+            checkIfProjectIsSet();
             if (!app.viewProjectView) {
                 app.viewProjectView = new ViewProjectView({
                     projectId: projectId
@@ -526,6 +543,7 @@ define([
         });
 
         testSuitesRouter.on('route:viewPlanTestSuite', function(testPlanId, testSuiteId) {
+            checkIfProjectIsSet();
             var id = app.session.get('project_id');
             if (!app.viewTestPlanView) {
                 app.viewTestPlanView = new ViewTestPlanView({
@@ -553,6 +571,7 @@ define([
         var testCasesRouter = new TestCasesRouter();
 
         testCasesRouter.on('route:showAddTestCase', function(projectId, testsuiteId, queryString) {
+            checkIfProjectIsSet();
             var params = parseQueryString(queryString);
             var parentId = 0;
             // the parent **must** be a test suite id, not a project id
@@ -579,6 +598,7 @@ define([
         });
 
         testCasesRouter.on('route:viewTestCase', function(projectId, testSuiteId, testCaseId) {
+            checkIfProjectIsSet();
             if (!app.viewProjectView) {
                 app.viewProjectView = new ViewProjectView({
                     projectId: projectId
@@ -599,6 +619,7 @@ define([
         });
 
         testCasesRouter.on('route:showTestCase', function(projectId, testSuiteId, testCaseId) {
+            checkIfProjectIsSet();
             if (!app.viewProjectView) {
                 app.viewProjectView = new ViewProjectView({
                     projectId: projectId
@@ -618,6 +639,7 @@ define([
         });
 
         testCasesRouter.on('route:showConfirmDeleteTestCase', function(projectId, testSuiteId, testCaseId) {
+            checkIfProjectIsSet();
             if (!app.viewProjectView) {
                 app.viewProjectView = new ViewProjectView({
                     projectId: projectId
@@ -638,6 +660,7 @@ define([
         });
 
         testCasesRouter.on('route:viewPlanTestCase', function(testPlanId, testSuiteId, testCaseId) {
+            checkIfProjectIsSet();
             var id = app.session.get('project_id');
             if (!app.viewTestPlanView) {
                 app.viewTestPlanView = new ViewTestPlanView({
@@ -666,6 +689,7 @@ define([
         var testPlansRouter = new TestPlansRouter();
 
         testPlansRouter.on('route:showTestPlans', function(queryString) {
+            checkIfProjectIsSet();
             var params = parseQueryString(queryString);
             var page = 1;
             if (typeof(params.page) != "undefined") {
@@ -681,6 +705,7 @@ define([
         });
 
         testPlansRouter.on('route:showAddTestPlan', function(queryString) {
+            checkIfProjectIsSet();
             var params = parseQueryString(queryString);
             if (!app.newTestPlanView) {
                 app.newTestPlanView = new NewTestPlanView();
@@ -692,6 +717,7 @@ define([
         });
 
         testPlansRouter.on('route:showTestPlan', function(testPlanId) {
+            checkIfProjectIsSet();
             if (!app.testPlanView) {
                 app.testPlanView = new TestPlanView();
             }
@@ -702,6 +728,7 @@ define([
         });
 
         testPlansRouter.on('route:showConfirmDeleteTestPlan', function(testPlanId) {
+            checkIfProjectIsSet();
             if (!app.confirmDeleteTestPlanView) {
                 app.confirmDeleteTestPlanView = new ConfirmDeleteTestPlanView();
             }
@@ -714,6 +741,7 @@ define([
         // --- displayed as planning screen ---
 
         testPlansRouter.on('route:viewTestPlan', function(testPlanId) {
+            checkIfProjectIsSet();
             var id = app.session.get('project_id');
             if (!app.viewTestPlanView) {
                 app.viewTestPlanView = new ViewTestPlanView({

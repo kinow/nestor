@@ -33,10 +33,13 @@ define([
             this.user.set(_.pick(userData, _.keys(this.user.defaults)));
         },
 
-        updateSessionProject: function(projectId) {
-            projectId = parseInt(projectId);
+        updateSessionProject: function(project) {
+            console.log('updateSessionProject');
+            console.log(project);
+            var projectId = parseInt(project.id);
             if (projectId !== this.get('project_id')) {
-                this.set('project_id', projectId);
+                this.set('project_id', project.id);
+                this.set('project', project);
             }
         },
 
@@ -55,7 +58,6 @@ define([
                         self.set({ 'logged_in' : true });
                         self.set({ 'user_id': parseInt(res.id) });
                         var project_id = options.xhr.getResponseHeader('X-NESTORQA-PROJECT-ID');
-                        self.updateSessionProject(project_id);
                         if('success' in callback) callback.success(mod, res, options);
                     } else {
                         self.set({ 'logged_in': false });
