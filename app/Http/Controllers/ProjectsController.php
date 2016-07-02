@@ -170,8 +170,7 @@ class ProjectsController extends Controller
     {
         $project = $this->projectsRepository->find($projectId);
         $request->session()->put('project_id', $project->id);
-        return array (
-            'Result' => true
-        );
+        $project->formatted_description = Parsedown::instance()->text($project->description);
+        return $project;
     }
 }

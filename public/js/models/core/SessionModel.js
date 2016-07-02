@@ -3,9 +3,10 @@
 define([
     'underscore',
     'backbone',
-    'models/core/UserModel',
     'models/core/BaseModel',
-], function(_, Backbone, UserModel, BaseModel) {
+    'models/core/UserModel',
+    'models/project/ProjectModel',
+], function(_, Backbone, BaseModel, UserModel, ProjectModel) {
 
     var SessionModel = BaseModel.extend({
 
@@ -15,11 +16,12 @@ define([
       	},
 
       	initialize: function (options) {
-            _.bindAll(this, 'updateSessionUser', 'checkAuth', 'login', 'logout', 'signup');
+            _.bindAll(this, 'updateSessionUser', 'updateSessionProject', 'checkAuth', 'login', 'logout', 'signup');
 
             // Singleton user object
             // Access or listen on this throughout any module with app.session.user
             this.user = new UserModel({});
+            this.project = new ProjectModel({});
       	},
 
         url: function() {
@@ -29,6 +31,13 @@ define([
         // Fxn to update user attributes after receiving API response
         updateSessionUser: function( userData ){
             this.user.set(_.pick(userData, _.keys(this.user.defaults)));
+        },
+
+        updateSessionProject: function(projectId) {
+            projectId = parseInt(projectId);
+            if (projectId !== this.get('project_id')) {
+                this.set('project_id', projectId);
+            }
         },
 
         /*
@@ -46,7 +55,7 @@ define([
                         self.set({ 'logged_in' : true });
                         self.set({ 'user_id': parseInt(res.id) });
                         var project_id = options.xhr.getResponseHeader('X-NESTORQA-PROJECT-ID');
-                        self.set({ 'project_id': parseInt(project_id) });
+                        self.updateSessionProject(project_id);
                         if('success' in callback) callback.success(mod, res, options);
                     } else {
                         self.set({ 'logged_in': false });

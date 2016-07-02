@@ -53,6 +53,7 @@ define([
                 'setProjectId',
                 'setTestSuiteId',
                 'setTestCaseId',
+                'onProjectPositioned',
                 'updateNavigationTree',
                 'displayProject',
                 'displayNewTestSuite',
@@ -92,6 +93,7 @@ define([
             // Events
             Backbone.on('nestor:navigationtree:project_changed', this.updateNavigationTree);
             Backbone.on('nestor:navigationtree_changed', this.updateNavigationTree);
+            Backbone.on('project:position', this.onProjectPositioned);
 
             // For GC
             this.subviews = new Object();
@@ -156,6 +158,10 @@ define([
             this.testCaseModel.id = testCaseId;
 
             this.testCaseId = testCaseId;
+        },
+
+        onProjectPositioned: function(project) {
+            this.setProjectId(project.id);
         },
 
         updateNavigationTree: function(event) {

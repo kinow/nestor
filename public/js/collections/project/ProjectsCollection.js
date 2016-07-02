@@ -49,6 +49,7 @@ define([
         },
 
         position: function(projectId) {
+            projectId = parseInt(projectId);
             var url = 'api/projects/' + projectId + '/position';
             $.ajax({
                 url: url,
@@ -65,7 +66,8 @@ define([
                     xhr.setRequestHeader('Accept', 'application/vnd.nestorqa.v1+json');
                 },
                 success: function(data, textStatus, request) {
-                    console.log('POSITIONED!');
+                    console.log('Positioned project ' + projectId);
+                    Backbone.trigger('project:position', data.project);
                 },
                 error: function(data, textStatus, request) {
                     app.showAlert('Error positioning project', request, 'error');

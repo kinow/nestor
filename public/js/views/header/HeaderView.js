@@ -12,11 +12,10 @@ define([
         el: $("#header"),
 
         initialize: function() {
-            _.bindAll(this, 'onLoginStatusChange', 'onPositionProject', 'render');
+            _.bindAll(this, 'onLoginStatusChange', 'render', 'onProjectPositioned');
 
             // Listen for session logged_in state changes and re-render
             app.session.on("change:logged_in", this.onLoginStatusChange);
-            app.session.on("change:project_id", this.onPositionProject);
             if (!this.positionProjectComboboxView) {
                 this.positionProjectComboboxView = new PositionProjectComboboxView();
             }
@@ -24,15 +23,13 @@ define([
             // For GC
             this.subviews = new Object();
             this.subviews.positionProjectComboboxView = this.positionProjectComboboxView;
+
+            Backbone.on('project:position', this.onProjectPositioned);
         },
 
         events: {
             "click #logout-link": "onLogoutClick",
             "click #remove-account-link": "onRemoveAccountClick"
-        },
-
-        onPositionProject: function(evt) {
-            this.render();
         },
 
         onLoginStatusChange: function(evt) {
@@ -62,6 +59,12 @@ define([
             //app.session.removeAccount({});
         },
 
+        onProjectPositioned: function(project) {
+            console.log(app);
+            this.positionProjectComboboxView.title = project['name'];
+            this.render();
+        },
+
         render: function() {
             // data to be passed to UI
             var data = {
@@ -79,8 +82,6 @@ define([
             this.positionProjectComboboxView.render();
             this.positionProjectComboboxView.delegateEvents();
             this.$('#position-project-combobox').replaceWith(this.positionProjectComboboxView.el);
-
-            return this;
         }
     });
 

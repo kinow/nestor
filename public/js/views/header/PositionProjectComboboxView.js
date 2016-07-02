@@ -20,8 +20,6 @@ define([
 
             this.projectsCollection = new ProjectsCollection();
             this.projectsCollection.setPage(this.page);
-
-            Backbone.on('project:position', this.onProjectPositioned);
         },
 
         events: {
@@ -31,11 +29,6 @@ define([
         onClickPositionProjectItem: function(evt) {
             var projectId = evt.target.dataset.value;
             this.projectsCollection.position(projectId);
-        },
-
-        onProjectPositioned: function(project) {
-            var projectName = project.get('name');
-            this.title = projectName;
         },
 
         render: function() {
