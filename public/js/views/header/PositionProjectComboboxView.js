@@ -3,9 +3,8 @@ define([
     'underscore',
     'backbone',
     'app',
-    'collections/project/ProjectsCollection',
     'text!templates/header/positionProjectComboboxViewTemplate.html'
-], function($, _, Backbone, app, ProjectsCollection, positionProjectComboboxViewTemplate) {
+], function($, _, Backbone, app, positionProjectComboboxViewTemplate) {
 
     var PositionProjectComboboxView = Backbone.View.extend({
 
@@ -18,7 +17,7 @@ define([
             this.page = 0;
             this.title = 'Choose a Project';
 
-            this.projectsCollection = new ProjectsCollection();
+            this.projectsCollection = options.collection;
             this.projectsCollection.setPage(this.page);
             if (typeof options !== typeof undefined && typeof options.project_id !== typeof undefined) {
                 this.projectsCollection.position(options.project_id);

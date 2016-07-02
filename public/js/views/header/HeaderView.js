@@ -11,14 +11,20 @@ define([
 
         el: $("#header"),
 
-        initialize: function() {
+        initialize: function(options) {
             _.bindAll(this, 'onLoginStatusChange', 'render', 'onProjectPositioned');
 
             // Listen for session logged_in state changes and re-render
             app.session.on("change:logged_in", this.onLoginStatusChange);
+
+            options.collection.on('change', this.render, this);
+            options.collection.on('destroy', this.render, this);
+            options.collection.on('all', function(evt) { console.log(evt); });
+
+
             if (!this.positionProjectComboboxView) {
                 var projectId = app.session.get('project_id');
-                this.positionProjectComboboxView = new PositionProjectComboboxView({'project_id': projectId});
+                this.positionProjectComboboxView = new PositionProjectComboboxView({'project_id': projectId, 'collection': options.collection});
             }
 
             // For GC

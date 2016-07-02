@@ -5,17 +5,16 @@ define([
     'app',
     'simplemde',
     'models/project/ProjectModel',
-    'collections/project/ProjectsCollection',
     'views/projects/ProjectsListView',
     'text!templates/projects/newProjectTemplate.html'
-], function($, _, Backbone, app, SimpleMDE, ProjectModel, ProjectsCollection, ProjectsListView, newProjectTemplate) {
+], function($, _, Backbone, app, SimpleMDE, ProjectModel, ProjectsListView, newProjectTemplate) {
 
     var NewProjectView = Backbone.View.extend({
         el: $("#page"),
 
-        initialize: function() {
+        initialize: function(options) {
             _.bindAll(this, 'render', 'save');
-            this.collection = new ProjectsCollection();
+            this.collection = options.collection;
         },
 
         events: {
@@ -50,7 +49,7 @@ define([
                     description: this.simplemde.value(),
                     created_by: app.session.get('user_id')
                 }, {
-                    wait: true,
+                    wait: false,
                     success: function(mod, res) {
                         app.showAlert('Success!', 'New project ' + this.$("#project-name-input").val() + ' created!', 'success');
                         var changedAttributes = project.changedAttributes();

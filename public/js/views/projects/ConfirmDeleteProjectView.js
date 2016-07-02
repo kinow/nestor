@@ -10,8 +10,9 @@ define([
     var ConfirmDeleteProjectView = Backbone.View.extend({
         el: $("#page"),
 
-        initialize: function() {
+        initialize: function(options) {
             this.model = new ProjectModel();
+            this.collection = options.collection;
             _.bindAll(this, 'render', 'doDelete');
         },
 
@@ -44,7 +45,8 @@ define([
             event.preventDefault();
             event.stopPropagation();
 
-            this.model.destroy({
+            var model = this.collection.get(this.model.get('id'));
+            model.destroy({
                 wait: true,
                 success: function(mod, res) {
                     app.showAlert('Success!', 'Project deleted!', 'success');

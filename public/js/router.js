@@ -6,6 +6,8 @@ define([
     'navigation',
     // app
     'app',
+    // Collections
+    'collections/project/ProjectsCollection',
     // Base views
     'views/home/HomeView',
     'views/header/HeaderView',
@@ -34,6 +36,7 @@ define([
     Backbone,
     Navigation,
     app,
+    ProjectsCollection,
     HomeView,
     HeaderView,
     BreadcrumbView,
@@ -332,9 +335,13 @@ define([
 
     var initialize = function() {
 
+        // Projects collection shared by HeaderView and NewProjectView
+        // So when a new project is saved, the header is automatically updated
+        var projectsCollection = new ProjectsCollection();
+
         // --- common views ---
         if (!app.headerView) {
-            app.headerView = new HeaderView();
+            app.headerView = new HeaderView({'collection': projectsCollection});
             app.headerView.render();
             app.session.bind('reset', app.headerView.updateMenu);
         }
@@ -397,7 +404,7 @@ define([
 
         projectsRouter.on('route:showAddProject', function() {
             if (!app.newProjectView) {
-                app.newProjectView = new NewProjectView();
+                app.newProjectView = new NewProjectView({'collection': projectsCollection});
             }
             app.showView(app.newProjectView, {
                 requiresAuth: true
@@ -416,7 +423,7 @@ define([
 
         projectsRouter.on('route:showConfirmDeleteProject', function(id) {
             if (!app.confirmDeleteProjectView) {
-                app.confirmDeleteProjectView = new ConfirmDeleteProjectView();
+                app.confirmDeleteProjectView = new ConfirmDeleteProjectView({'collection': projectsCollection});
             }
             app.confirmDeleteProjectView.model.id = id;
             app.showView(app.confirmDeleteProjectView, {
