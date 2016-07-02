@@ -60,7 +60,6 @@ define([
         },
 
         onProjectPositioned: function(project) {
-            console.log(app);
             this.positionProjectComboboxView.title = project['name'];
             this.render();
         },
@@ -78,10 +77,10 @@ define([
             // update the HTML element of this view
             this.$el.html(compiledTemplate);
 
-            this.$('#position-project-combobox').empty();
+            //this.$('#position-project-combobox').empty();
             this.positionProjectComboboxView.render();
             this.positionProjectComboboxView.delegateEvents();
-            this.$('#position-project-combobox').replaceWith(this.positionProjectComboboxView.el);
+            this.$('#position-project-combobox').html(this.positionProjectComboboxView.el);
         }
     });
 

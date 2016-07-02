@@ -257,7 +257,7 @@ define([
                                 return; // prevent false hits
                             var node = data.node;
                             if(node.data.href){
-                                Backbone.history.navigate(node.data.href, { trigger: true });
+                                Backbone.history.navigate(node.data.href, { trigger: false });
                             }
                         },
                         click: function(e, data) { // allow re-loads
