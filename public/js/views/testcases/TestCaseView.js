@@ -69,7 +69,7 @@ define([
             event.stopPropagation();
 
             if (this.$("#testcase-form").parsley().validate()) {
-                this.model.save({
+                var testCase = this.model.save({
                     name: this.$("#testcase-name-input").val(),
                     description: this.description_simplemde.value(),
                     prerequisite: this.prerequisite_simplemde.value(),
@@ -82,8 +82,12 @@ define([
                     wait: true,
                     success: function(mod, res) {
                         app.showAlert('Success!', 'Test case ' + this.$("#testcase-name-input").val() + ' updated!', 'success')
+                        var changedAttributes = testCase.changedAttributes();
+                        var testCaseId = changedAttributes.id;
                         Backbone.trigger('nestor:navigationtree_changed');
-                        Backbone.history.history.back();
+                        Backbone.history.navigate("#/projects/" + self.projectId + '/testsuites/' + self.testsuite_id + '/testcases/' + testCaseId + '/view', {
+                            trigger: false
+                        });
                     },
                     error: function(model, response, options) {
                         var message = _.has(response, 'statusText') ? response.statusText : 'Unknown error!';

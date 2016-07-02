@@ -22,6 +22,7 @@ define([
             $('.item').removeClass('active');
             $('.item a[href="#/specification"]').parent().addClass('active');
             this.model = options.model;
+            this.projectId = options.project_id;
             var data = {
                 testsuite: this.model,
                 projectId: options.project_id,
@@ -52,11 +53,13 @@ define([
                     name: this.$("#testsuite-name-input").val(),
                     description: this.$("#testsuite-description-input").val(),
                 }, {
-                    wait: true,
+                    wait: false,
                     success: function(mod, res) {
                         app.showAlert('Success!', 'Test Suite ' + this.$("#testsuite-name-input").val() + ' updated!', 'success')
                         Backbone.trigger('nestor:navigationtree_changed');
-                        Backbone.history.history.back();
+                        Backbone.history.navigate("#/projects/" + self.projectId + '/testsuites/' + self.model.get('id') + '/view', {
+                            trigger: false
+                        });
                     },
                     error: function(model, response, options) {
                         var message = _.has(response, 'statusText') ? response.statusText : 'Unknown error!';

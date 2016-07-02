@@ -136,6 +136,7 @@ define([
             if (this.projectId !== projectId/* || !$.trim($(this.navigationTreeView.el).html())*/) {
                 this.projectId = projectId;
                 Backbone.trigger('nestor:navigationtree:project_changed');
+                this.displayProject();
             }
         },
 
@@ -171,7 +172,6 @@ define([
             this.navigationTreeView.render({
                 el: this.$('#navigation-tree')
             });
-            this.displayProject();
         },
 
         displayLoading: function() {
