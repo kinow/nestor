@@ -2,8 +2,9 @@ define([
     'jquery',
     'underscore',
     'backbone',
+    'app',
     'models/project/ProjectModel'
-], function($, _, Backbone, ProjectModel){
+], function($, _, Backbone, app, ProjectModel){
     var ProjectsCollection = Backbone.Collection.extend({
         model: ProjectModel,
         //url: 'api/projects',
@@ -45,6 +46,31 @@ define([
             this.from = response.from;
             this.to = response.to;
             return response ? response.data : [];
+        },
+
+        position: function(projectId) {
+            var url = 'api/projects/' + projectId + '/position';
+            $.ajax({
+                url: url,
+                contentType: 'application/json',
+                dataType: 'json',
+                type: 'GET',
+                beforeSend: function(xhr) {
+                    // Set the CSRF Token in the header for security
+                    var token = $('meta[name="csrf-token"]').attr('content');
+                    if (token) xhr.setRequestHeader('X-CSRF-Token', token);
+
+                    // Set the API version
+                    // TODO: get api tree and sub application name from config
+                    xhr.setRequestHeader('Accept', 'application/vnd.nestorqa.v1+json');
+                },
+                success: function(data, textStatus, request) {
+                    console.log('POSITIONED!');
+                },
+                error: function(data, textStatus, request) {
+                    app.showAlert('Error positioning project', request, 'error');
+                }
+            });
         }
 
     });

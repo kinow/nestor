@@ -16,9 +16,12 @@ define([
         initialize: function() {
             _.bindAll(this, 'render', 'onClickPositionProjectItem');
             this.page = 0;
+            this.title = 'Choose a Project';
 
             this.projectsCollection = new ProjectsCollection();
             this.projectsCollection.setPage(this.page);
+
+            Backbone.on('project:position', this.onProjectPositioned);
         },
 
         events: {
@@ -26,7 +29,13 @@ define([
         },
 
         onClickPositionProjectItem: function(evt) {
-            console.log(evt);
+            var projectId = evt.target.dataset.value;
+            this.projectsCollection.position(projectId);
+        },
+
+        onProjectPositioned: function(project) {
+            var projectName = project.get('name');
+            this.title = projectName;
         },
 
         render: function() {
@@ -36,7 +45,8 @@ define([
                     // data to be passed to UI
                     var data = {
                         projects: self.projectsCollection.models,
-                        collection: self.projectsCollection
+                        collection: self.projectsCollection,
+                        title: self.title
                     };
                     // render the template
                     var compiledTemplate = _.template(positionProjectComboboxViewTemplate, data);
