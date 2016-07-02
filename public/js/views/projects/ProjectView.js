@@ -60,11 +60,12 @@ define([
                     name: this.$("#project-name-input").val(),
                     description: this.$("#project-description-input").val(),
                 }, {
-                    wait: true,
+                    wait: false,
                     success: function(mod, res) {
                         app.showAlert('Success!', 'Project ' + this.$("#project-name-input").val() + ' updated!', 'success')
-                            //Backbone.history.navigate("#/projects/" + self.model.id, { trigger: false });
-                        Backbone.history.history.back();
+                        Backbone.history.navigate("#/specification", {
+                            trigger: false
+                        });
                     },
                     error: function(model, response, options) {
                         var message = _.has(response, 'statusText') ? response.statusText : 'Unknown error!';
