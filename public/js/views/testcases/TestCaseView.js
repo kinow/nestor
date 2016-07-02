@@ -68,8 +68,10 @@ define([
             event.preventDefault();
             event.stopPropagation();
 
+            var self = this;
+
             if (this.$("#testcase-form").parsley().validate()) {
-                var testCase = this.model.save({
+                this.model.save({
                     name: this.$("#testcase-name-input").val(),
                     description: this.description_simplemde.value(),
                     prerequisite: this.prerequisite_simplemde.value(),
@@ -79,13 +81,11 @@ define([
                     project_id: this.projectId,
                     created_by: app.session.user_id
                 }, {
-                    wait: true,
+                    wait: false,
                     success: function(mod, res) {
                         app.showAlert('Success!', 'Test case ' + this.$("#testcase-name-input").val() + ' updated!', 'success')
-                        var changedAttributes = testCase.changedAttributes();
-                        var testCaseId = changedAttributes.id;
                         Backbone.trigger('nestor:navigationtree_changed');
-                        Backbone.history.navigate("#/projects/" + self.projectId + '/testsuites/' + self.testsuite_id + '/testcases/' + testCaseId + '/view', {
+                        Backbone.history.navigate("#/projects/" + self.projectId + '/testsuites/' + self.testSuiteId + '/testcases/' + self.testCaseId + '/view', {
                             trigger: false
                         });
                     },
