@@ -18,7 +18,12 @@ define([
         },
 
         url: function() {
-            return '/api/projects/' + this.get('id');
+            var url = '/api/projects';
+            var id = this.get('id');
+            if (typeof id !== typeof undefined && id > 0) {
+                url = url + '/' + id;
+            }
+            return url;
         },
 
         parse: function(obj) {

@@ -39,6 +39,7 @@ define([
                     Backbone.history.navigate("#/projects", { trigger: false });
                 }
             });
+            this.delegateEvents();
         },
 
         doDelete: function(event) {

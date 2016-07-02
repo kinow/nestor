@@ -37,20 +37,19 @@ define([
                 spellChecker: false,
                 tabSize: 4
             });
+            this.delegateEvents();
         },
 
         save: function(event) {
-            event.preventDefault();
-            event.stopPropagation();
-
             if (this.$("#new-project-form").parsley().validate()) {
                 var project = this.collection.create({
                     name: this.$("#project-name-input").val(),
                     description: this.simplemde.value(),
                     created_by: app.session.get('user_id')
                 }, {
-                    wait: false,
+                    wait: true,
                     success: function(mod, res) {
+                        console.log('eaeee');
                         app.showAlert('Success!', 'New project ' + this.$("#project-name-input").val() + ' created!', 'success');
                         var changedAttributes = project.changedAttributes();
                         var projectId = changedAttributes.id;
