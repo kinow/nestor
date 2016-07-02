@@ -77,6 +77,7 @@ define([
 
             this.$('#position-project-combobox').empty();
             this.positionProjectComboboxView.render();
+            this.positionProjectComboboxView.delegateEvents();
             this.$('#position-project-combobox').replaceWith(this.positionProjectComboboxView.el);
 
             return this;

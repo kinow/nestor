@@ -10,8 +10,10 @@
             <input placeholder="Search projects..." type="text">
           </div>
           <div class="divider"></div>
-          <div class="item" data-value="1">Male</div>
-          <div class="item" data-value="0">Female</div>
+          <% _.each(projects, function(project) { %>
+          <div class="item position-project-item" data-value="<%= project.get('id') %>"><%= project.get('name') %></div>
+          <% }); %>
+          <% if (projects.length > 0 && collection.lastPage > 1) { %>
           <div class="divider"></div>
           <div class='item'>
             <button class="ui small left labeled icon button">
@@ -23,4 +25,5 @@
               Next
             </button>
           </div>
+          <% } %>
         </div>
