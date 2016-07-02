@@ -81,7 +81,8 @@ class UsersController extends Controller
         ]);
         
         if ($validator->fails()) {
-            $this->throwValidationException($request, $validator);
+            Log::debug('Validation errors: ' . $validator->errors());
+            throw new \Dingo\Api\Exception\StoreResourceFailedException('Could not create new user.', $validator->errors());
         }
         
         $payload['password'] = bcrypt($payload['password']);
