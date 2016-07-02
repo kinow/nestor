@@ -3,31 +3,19 @@ define([
     'jquery',
     'underscore',
     'backbone',
-    // Pull in the Collection module from above,
-    'models/project/ProjectModel',
     'text!templates/projects/projectsListTemplate.html'
-], function($, _, Backbone, ProjectModel, projectsListTemplate) {
+], function($, _, Backbone, projectsListTemplate) {
     var ProjectsListView = Backbone.View.extend({
         el: $("#projects-list"),
 
-        initialize: function(options) {
-            var self = this;
+        initialize: function() {
             _.bindAll(this, 'render');
-            this.collection.fetch({
-                success: function() {
-                    self.render();
-                },
-                error: function() {
-                    throw new Error("Failed to fetch projects");
-                }
-            });
-            this.listenTo(this.collection, 'reset', this.render);
         },
 
-        render: function() {
+        render: function(collection) {
             var data = {
-                projects: this.collection.models,
-                collection: this.collection,
+                projects: collection.models,
+                collection: collection,
                 _: _
             };
             var compiledTemplate = _.template(projectsListTemplate, data);

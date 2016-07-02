@@ -12,7 +12,14 @@ define([
         el: $("#page"),
 
         initialize: function(options) {
+            _.bindAll(this, 'setPage', 'render');
             this.page = 1;
+            // Collections
+            this.projectsCollection = new ProjectsCollection();
+            this.projectsListView = new ProjectsListView();
+            // For GC
+            this.subviews = new Object();
+            this.subviews.projectsListView = this.projectsListView;
         },
 
         setPage: function(page) {
@@ -20,16 +27,21 @@ define([
         },
 
         render: function() {
+            var self = this;
             $('.item').removeClass('active');
             $('.item a[href="#/projects"]').parent().addClass('active');
 
             this.$el.html(projectsTemplate);
-            var projectsCollection = new ProjectsCollection();
-            projectsCollection.setPage(this.page);
-            var projectsListView = new ProjectsListView({
-                collection: projectsCollection
+            
+            this.projectsCollection.setPage(this.page);
+            this.projectsCollection.fetch({
+                success: function() {
+                    self.projectsListView.render(self.projectsCollection);
+                },
+                error: function() {
+                    throw new Error("Failed to fetch projects");
+                }
             });
-            // FIXME: garbage collect this subview
         }
 
     });

@@ -125,6 +125,7 @@ define([
 
     // View.close() event for garbage collection
     Backbone.View.prototype.close = function() {
+        console.log('closing view');
         this.$el.empty();
         this.unbind();
         if (this.onClose) {
@@ -139,6 +140,8 @@ define([
                 }
             })
         }
+        this.off();
+        this.undelegateEvents();
     };
 
     return app;
