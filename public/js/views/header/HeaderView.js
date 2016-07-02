@@ -19,8 +19,7 @@ define([
 
             options.collection.on('change', this.render, this);
             options.collection.on('destroy', this.render, this);
-            options.collection.on('all', function(evt) { console.log(evt); });
-
+            //options.collection.on('all', function(evt) { console.log(evt); });
 
             if (!this.positionProjectComboboxView) {
                 var projectId = app.session.get('project_id');

@@ -413,9 +413,9 @@ define([
 
         projectsRouter.on('route:showProject', function(id) {
             if (!app.projectView) {
-                app.projectView = new ProjectView();
+                app.projectView = new ProjectView({'collection': projectsCollection});
             }
-            app.projectView.model.id = id;
+            app.projectView.projectId = id;
             app.showView(app.projectView, {
                 requiresAuth: true
             });
@@ -425,7 +425,7 @@ define([
             if (!app.confirmDeleteProjectView) {
                 app.confirmDeleteProjectView = new ConfirmDeleteProjectView({'collection': projectsCollection});
             }
-            app.confirmDeleteProjectView.model.id = id;
+            app.confirmDeleteProjectView.projectId = id;
             app.showView(app.confirmDeleteProjectView, {
                 requiresAuth: true
             });

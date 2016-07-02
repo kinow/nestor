@@ -1,6 +1,6 @@
 <h1 class="ui top attached header"><%= project.get('name') %></h1>
 <div class="ui attached segment">
-	<form class='ui form' id="project-form" data-parsley-validate>
+	<div class='ui form' id="project-form" data-parsley-validate>
 		  <div class="field">
 			<label>Name</label>
 			<input name="name" id="project-name-input" placeholder="Name" type="text" value="<%= project.get('name') %>" data-parsley-required="true" data-parsley-length="[1,255]" />
@@ -20,5 +20,5 @@
 		  </a>
 		  <br class='clearfix' />
 		  <br/>	
-	</form>
+	</div>
 </div>

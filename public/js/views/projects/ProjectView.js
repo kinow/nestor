@@ -4,19 +4,19 @@ define([
     'backbone',
     'app',
     'simplemde',
-    'models/project/ProjectModel',
     'text!templates/projects/projectTemplate.html'
-], function($, _, Backbone, app, SimpleMDE, ProjectModel, projectTemplate) {
+], function($, _, Backbone, app, SimpleMDE, projectTemplate) {
 
     var ProjectView = Backbone.View.extend({
         el: $("#page"),
 
         events: {
-            'submit form': 'save'
+            'click #project-btn': 'save'
         },
 
         initialize: function(options) {
-            this.model = new ProjectModel();
+            this.collection = options.collection;
+            this.projectId = options.projectId;
             _.bindAll(this, 'render', 'save');
         },
 
@@ -24,48 +24,39 @@ define([
             $('.item').removeClass('active');
             $('.item a[href="#/projects"]').parent().addClass('active');
             var self = this;
-            this.model.fetch({
-                success: function(project) {
-                    var data = {
-                        project: project,
-                        _: _
-                    }
-                    var compiledTemplate = _.template(projectTemplate, data);
-                    self.$el.html(compiledTemplate);
-                    var simplemde = new SimpleMDE({
-                        autoDownloadFontAwesome: true,
-                        autofocus: false,
-                        autosave: {
-                            enabled: false
-                        },
-                        element: $('#project-description-input')[0],
-                        indentWithTabs: false,
-                        spellChecker: false,
-                        tabSize: 4
-                    });
+            var project = this.collection.get(this.projectId);
+
+            var data = {
+                project: project,
+                _: _
+            }
+            var compiledTemplate = _.template(projectTemplate, data);
+            self.$el.html(compiledTemplate);
+            var simplemde = new SimpleMDE({
+                autoDownloadFontAwesome: true,
+                autofocus: false,
+                autosave: {
+                    enabled: false
                 },
-                error: function() {
-                    throw new Error("Failed to fetch project");
-                }
+                element: $('#project-description-input')[0],
+                indentWithTabs: false,
+                spellChecker: false,
+                tabSize: 4
             });
+            this.delegateEvents();
         },
 
         save: function(event) {
-            event.preventDefault();
-            event.stopPropagation();
-
             if (this.$("#project-form").parsley().validate()) {
                 var self = this;
-                this.model.save({
+                var project = this.collection.get(this.projectId);
+                project.save({
                     name: this.$("#project-name-input").val(),
                     description: this.$("#project-description-input").val(),
                 }, {
-                    wait: false,
                     success: function(mod, res) {
                         app.showAlert('Success!', 'Project ' + this.$("#project-name-input").val() + ' updated!', 'success')
-                        Backbone.history.navigate("#/specification", {
-                            trigger: false
-                        });
+                        Backbone.history.history.back();
                     },
                     error: function(model, response, options) {
                         var message = _.has(response, 'statusText') ? response.statusText : 'Unknown error!';

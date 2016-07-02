@@ -6,10 +6,7 @@ define([
 
     var ProjectModel = BaseModel.extend({
 
-        urlRoot: '/api/projects',
-
         defaults: {
-            id: null,
             project_statuses_id: 1,
             name: 'No project name set',
             description: 'No description set',
@@ -21,10 +18,7 @@ define([
         },
 
         url: function() {
-            var url = '/api/projects/';
-            if (this.id != null)
-                url += this.id;
-            return url;
+            return '/api/projects/' + this.get('id');
         },
 
         parse: function(obj) {

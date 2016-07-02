@@ -3,16 +3,15 @@ define([
     'underscore',
     'backbone',
     'app',
-    'models/project/ProjectModel',
     'text!templates/projects/confirmDeleteProjectTemplate.html'
-], function($, _, Backbone, app, ProjectModel, confirmDeleteProjectTemplate) {
+], function($, _, Backbone, app, confirmDeleteProjectTemplate) {
 
     var ConfirmDeleteProjectView = Backbone.View.extend({
         el: $("#page"),
 
         initialize: function(options) {
-            this.model = new ProjectModel();
             this.collection = options.collection;
+            this.projectId = options.projectId;
             _.bindAll(this, 'render', 'doDelete');
         },
 
@@ -24,7 +23,8 @@ define([
             $('.item').removeClass('active');
             $('.item a[href="#/projects"]').parent().addClass('active');
             var self = this;
-            this.model.fetch({
+            var project = this.collection.get(this.projectId);
+            project.fetch({
                 success: function(project) {
                     var data = {
                         project: project,
@@ -42,11 +42,8 @@ define([
         },
 
         doDelete: function(event) {
-            event.preventDefault();
-            event.stopPropagation();
-
-            var model = this.collection.get(this.model.get('id'));
-            model.destroy({
+            var project = this.collection.get(this.projectId);
+            project.destroy({
                 wait: true,
                 success: function(mod, res) {
                     app.showAlert('Success!', 'Project deleted!', 'success');
