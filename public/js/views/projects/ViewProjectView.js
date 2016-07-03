@@ -195,12 +195,14 @@ define([
 
                     var compiledTemplate = _.template(projectNodeItemTemplate, data);
                     self.viewNodeItemView.$el.html(compiledTemplate);
+                    this.$('#content-main').unbind();
                     this.$('#content-main').empty();
                     this.$('#content-main').append(self.viewNodeItemView.el);
+                    self.viewNodeItemView.delegateEvents();
                     var tree = this.$('#navigation-tree').fancytree('getTree');
                     if (typeof tree !== typeof undefined && typeof tree.getNodeByKey !== typeof undefined) {
                         var node = tree.getNodeByKey("1-" + project.get('id'));
-                        if (typeof node !== typeof undefined && typeof node.setActive !== typeof undefined) {
+                        if (node && typeof node !== typeof undefined && typeof node.setActive !== typeof undefined) {
                             node.setActive();
                         } else {
                             console.log('Invalid tree node for node ' + project.get('id'));

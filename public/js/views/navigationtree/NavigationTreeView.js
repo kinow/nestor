@@ -96,8 +96,8 @@ define([
             var el = options.el;
             var self = this;
             this.collection.setProjectId(this.projectId);
-            el.unbind();
-            el.empty();
+            // el.unbind();
+            // el.empty();
             this.collection.fetch({
                 reset: true,
                 success: function(results) {
@@ -278,6 +278,7 @@ define([
                     throw new Error("Failed to fetch projects");
                 }
             });
+            this.delegateEvents();
         }
 
     });

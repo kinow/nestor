@@ -23,6 +23,7 @@ define([
 
         render: function() {
             //this.$el.html(newProjectTemplate);
+            this.delegateEvents();
         }
 
     });
