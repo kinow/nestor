@@ -49,7 +49,6 @@ define([
                 }, {
                     wait: true,
                     success: function(mod, res) {
-                        console.log('eaeee');
                         app.showAlert('Success!', 'New project ' + this.$("#project-name-input").val() + ' created!', 'success');
                         var changedAttributes = project.changedAttributes();
                         var projectId = changedAttributes.id;
