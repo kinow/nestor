@@ -15,9 +15,9 @@ define([
         },
 
         initialize: function(options) {
+            _.bindAll(this, 'render', 'save');
             this.collection = options.collection;
             this.projectId = options.projectId;
-            _.bindAll(this, 'render', 'save');
         },
 
         render: function() {
