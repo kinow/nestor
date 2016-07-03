@@ -197,7 +197,17 @@ define([
                     self.viewNodeItemView.$el.html(compiledTemplate);
                     this.$('#content-main').empty();
                     this.$('#content-main').append(self.viewNodeItemView.el);
-                    this.$('#navigation-tree').fancytree('getTree').getNodeByKey("1-" + project.get('id')).setActive();
+                    var tree = this.$('#navigation-tree').fancytree('getTree');
+                    if (typeof tree !== typeof undefined && typeof tree.getNodeByKey !== typeof undefined) {
+                        var node = tree.getNodeByKey("1-" + project.get('id'));
+                        if (typeof node !== typeof undefined && typeof node.setActive !== typeof undefined) {
+                            node.setActive();
+                        } else {
+                            console.log('Invalid tree node for node ' + project.get('id'));
+                        }
+                    } else {
+                        console.log('Invalid navigation tree for project ' + self.projectId);
+                    }
                 },
                 error: function() {
                     throw new Error("Failed to fetch project");
