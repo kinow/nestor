@@ -156,7 +156,7 @@ define([
                             dragEnter: function(node, data) {
                                 // Defines whether another node can be dragged on this node
                                 // Return ['before', 'after'] to restrict available hitModes.
-                                //  Any other return value will calc the hitMode from the cursor position.
+                                // Any other return value will calc the hitMode from the cursor position.
                                 // Prevent dropping a parent below another parent (only sort
                                 // nodes under the same parent)
                                 // if(node.parent !== data.otherNode.parent){

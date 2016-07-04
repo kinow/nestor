@@ -12,7 +12,18 @@ define([
         el: $("#page"),
 
         initialize: function(options) {
+            _.bindAll(this, 'setPage', 'render');
             this.page = 1;
+
+            this.testPlansCollection = new TestPlansCollection();
+            this.testPlansCollection.setPage(this.page);
+            this.projectsListView = new TestPlansListView({
+                collection: this.testPlansCollection
+            });
+
+            // For GC
+            this.subviews = new Object();
+            this.subviews.projectsListView = this.projectsListView;
         },
 
         setPage: function(page) {
@@ -24,12 +35,6 @@ define([
             $('.item a[href="#/planning"]').parent().addClass('active');
 
             this.$el.html(testplansTemplate);
-            var testPlansCollection = new TestPlansCollection();
-            testPlansCollection.setPage(this.page);
-            var projectsListView = new TestPlansListView({
-                collection: testPlansCollection
-            });
-            // FIXME: garbage collect this subview
         }
 
     });

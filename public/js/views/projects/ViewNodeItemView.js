@@ -6,7 +6,6 @@ define([
 ], function($, _, Backbone, app) {
 
     var ViewNodeItemView = Backbone.View.extend({
-        //el: $("#content-area"),
 
         tagName: 'div',
 
@@ -22,7 +21,6 @@ define([
         },
 
         render: function() {
-            //this.$el.html(newProjectTemplate);
             this.delegateEvents();
         }
 
