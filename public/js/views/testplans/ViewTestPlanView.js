@@ -87,7 +87,6 @@ define([
             this.subviews.testCaseView = this.testCaseView;
         },
 
-
         render: function() {
             $('.item').removeClass('active');
             $('.item a[href="#/planning"]').parent().addClass('active');
@@ -115,6 +114,7 @@ define([
             if (this.projectId !== projectId/* || !$.trim($(this.navigationTreeView.el).html())*/) {
                 this.projectId = projectId;
                 Backbone.trigger('nestor:navigationtree:project_changed');
+                this.displayProject();
             }
         },
 
@@ -174,9 +174,21 @@ define([
 
                     var compiledTemplate = _.template(projectNodeItemTemplate, data);
                     self.viewNodeItemView.$el.html(compiledTemplate);
+                    this.$('#content-main').unbind();
                     this.$('#content-main').empty();
                     this.$('#content-main').append(self.viewNodeItemView.el);
-                    this.$('#navigation-tree').fancytree('getTree').getNodeByKey("1-" + project.get('id')).setActive();
+                    self.viewNodeItemView.delegateEvents();
+                    var tree = this.$('#navigation-tree').fancytree('getTree');
+                    if (typeof tree !== typeof undefined && typeof tree.getNodeByKey !== typeof undefined) {
+                        var node = tree.getNodeByKey("1-" + project.get('id'));
+                        if (node && typeof node !== typeof undefined && typeof node.setActive !== typeof undefined) {
+                            node.setActive();
+                        } else {
+                            console.log('Invalid tree node for node ' + project.get('id'));
+                        }
+                    } else {
+                        console.log('Invalid navigation tree for project ' + self.projectId);
+                    }
                 },
                 error: function() {
                     throw new Error("Failed to fetch project");
