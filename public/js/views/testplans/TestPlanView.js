@@ -16,7 +16,8 @@ define([
 
         initialize: function(options) {
             _.bindAll(this, 'render', 'save');
-            this.model = options.collection;
+            this.collection = options.collection;
+            this.testplanId = options.testplanId;
             this.description_simplemde = null;
         },
 
@@ -24,38 +25,33 @@ define([
             $('.item').removeClass('active');
             $('.item a[href="#/planning"]').parent().addClass('active');
             var self = this;
-            this.model.fetch({
-                success: function(testplan) {
-                    var data = {
-                        testplan: testplan,
-                        _: _
-                    }
-                    var compiledTemplate = _.template(testPlanTemplate, data);
-                    self.$el.html(compiledTemplate);
-                    self.description_simplemde = new SimpleMDE({
-                        autoDownloadFontAwesome: true,
-                        autofocus: false,
-                        autosave: {
-                            enabled: false
-                        },
-                        element: self.$('#testplan-description-input')[0],
-                        indentWithTabs: false,
-                        spellChecker: false,
-                        tabSize: 4
-                    });
+            var testplan = this.collection.get(this.testplanId);
+            console.log(this.testplanId);
+
+            var data = {
+                testplan: testplan,
+                _: _
+            }
+            var compiledTemplate = _.template(testPlanTemplate, data);
+            self.$el.html(compiledTemplate);
+            this.description_simplemde = new SimpleMDE({
+                autoDownloadFontAwesome: true,
+                autofocus: false,
+                autosave: {
+                    enabled: false
                 },
-                error: function() {
-                    throw new Error("Failed to fetch test plan");
-                }
+                element: $('#testplan-description-input')[0],
+                indentWithTabs: false,
+                spellChecker: false,
+                tabSize: 4
             });
+            this.delegateEvents();
         },
 
         save: function(event) {
-            event.preventDefault();
-            event.stopPropagation();
-
             if (this.$("#testplan-form").parsley().validate()) {
-                this.model.save({
+                var testplan = this.collection.get(this.testplanId);
+                testplan.save({
                     name: this.$("#testplan-name-input").val(),
                     description: this.description_simplemde.value(),
                     project_id: this.model.get('project_id'),
