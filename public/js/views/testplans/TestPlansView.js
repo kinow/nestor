@@ -8,22 +8,19 @@ define([
     'text!templates/testplans/testplansTemplate.html'
 ], function($, _, Backbone, TestPlanModel, TestPlansCollection, TestPlansListView, testplansTemplate) {
 
-    var ProjectsView = Backbone.View.extend({
+    var TestPlansView = Backbone.View.extend({
         el: $("#page"),
 
         initialize: function(options) {
             _.bindAll(this, 'setPage', 'render');
             this.page = 1;
-
+            // Collections
             this.testPlansCollection = new TestPlansCollection();
-            this.testPlansCollection.setPage(this.page);
-            this.projectsListView = new TestPlansListView({
-                collection: this.testPlansCollection
-            });
-
+            // Views
+            this.testplansListView = new TestPlansListView();
             // For GC
             this.subviews = new Object();
-            this.subviews.projectsListView = this.projectsListView;
+            this.subviews.testplansListView = this.testplansListView;
         },
 
         setPage: function(page) {
@@ -33,12 +30,23 @@ define([
         render: function() {
             $('.item').removeClass('active');
             $('.item a[href="#/planning"]').parent().addClass('active');
+            var self = this;
 
             this.$el.html(testplansTemplate);
+            
+            this.testPlansCollection.setPage(this.page);
+            this.testPlansCollection.fetch({
+                success: function() {
+                    self.testplansListView.render(self.testPlansCollection);
+                },
+                error: function() {
+                    throw new Error("Failed to fetch projects");
+                }
+            });
         }
 
     });
 
-    return ProjectsView;
+    return TestPlansView;
 
 });

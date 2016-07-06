@@ -16,6 +16,7 @@ define([
             this.page = 1;
             // Collections
             this.projectsCollection = new ProjectsCollection();
+            // Views
             this.projectsListView = new ProjectsListView();
             // For GC
             this.subviews = new Object();
@@ -27,9 +28,9 @@ define([
         },
 
         render: function() {
-            var self = this;
             $('.item').removeClass('active');
             $('.item a[href="#/projects"]').parent().addClass('active');
+            var self = this;
 
             this.$el.html(projectsTemplate);
             

@@ -4,27 +4,25 @@ define([
     'backbone',
     'app',
     'simplemde',
-    'models/testplan/TestPlanModel',
     'text!templates/testplans/testPlanTemplate.html'
-], function($, _, Backbone, app, SimpleMDE, TestPlanModel, testPlanTemplate) {
+], function($, _, Backbone, app, SimpleMDE, testPlanTemplate) {
 
     var TestPlanView = Backbone.View.extend({
         el: $("#page"),
 
         events: {
-            'submit form': 'save'
+            'click #testplan-btn': 'save'
         },
 
-        initialize: function() {
+        initialize: function(options) {
             _.bindAll(this, 'render', 'save');
-            this.model = new TestPlanModel();
+            this.model = options.collection;
             this.description_simplemde = null;
         },
 
         render: function() {
             $('.item').removeClass('active');
             $('.item a[href="#/planning"]').parent().addClass('active');
-            
             var self = this;
             this.model.fetch({
                 success: function(testplan) {
