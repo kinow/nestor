@@ -101,7 +101,8 @@ define([
             var projectId = parseInt(id);
             // update project ID in models
             this.projectModel = new ProjectModel();
-            this.projectModel.id = projectId;
+            this.projectModel.set('id', projectId);
+            this.projectModel.projectId = projectId;
 
             this.testSuiteModel = new TestSuiteModel();
             this.testSuiteModel.project_id = projectId;
