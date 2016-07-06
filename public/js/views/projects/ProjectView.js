@@ -29,7 +29,7 @@ define([
             var data = {
                 project: project,
                 _: _
-            }
+            };
             var compiledTemplate = _.template(projectTemplate, data);
             self.$el.html(compiledTemplate);
             var simplemde = new SimpleMDE({

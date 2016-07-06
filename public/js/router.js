@@ -8,7 +8,6 @@ define([
     'app',
     // Collections
     'collections/project/ProjectsCollection',
-    'collections/testplan/TestPlansCollection',
     // Base views
     'views/home/HomeView',
     'views/header/HeaderView',
@@ -38,7 +37,6 @@ define([
     Navigation,
     app,
     ProjectsCollection,
-    TestPlansCollection,
     HomeView,
     HeaderView,
     BreadcrumbView,
@@ -340,8 +338,6 @@ define([
         // Projects collection shared by HeaderView and NewProjectView
         // So when a new project is saved, the header is automatically updated
         var projectsCollection = new ProjectsCollection();
-
-        var testplansCollection = new TestPlansCollection();
 
         // --- common views ---
         if (!app.headerView) {
@@ -730,7 +726,7 @@ define([
         testPlansRouter.on('route:showTestPlan', function(testPlanId) {
             checkIfProjectIsSet();
             if (!app.testPlanView) {
-                app.testPlanView = new TestPlanView({'collection': testplansCollection});
+                app.testPlanView = new TestPlanView();
             }
             app.testPlanView.testplanId = testPlanId;
             app.showView(app.testPlanView, {

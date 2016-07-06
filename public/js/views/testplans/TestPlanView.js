@@ -4,8 +4,9 @@ define([
     'backbone',
     'app',
     'simplemde',
+    'models/testplan/TestPlanModel',
     'text!templates/testplans/testPlanTemplate.html'
-], function($, _, Backbone, app, SimpleMDE, testPlanTemplate) {
+], function($, _, Backbone, app, SimpleMDE, TestPlanModel, testPlanTemplate) {
 
     var TestPlanView = Backbone.View.extend({
         el: $("#page"),
@@ -14,10 +15,10 @@ define([
             'click #testplan-btn': 'save'
         },
 
-        initialize: function(options) {
+        initialize: function() {
             _.bindAll(this, 'render', 'save');
-            this.collection = options.collection;
-            this.testplanId = options.testplanId;
+            this.testplanId = 0;
+            this.testPlanModel = new TestPlanModel();
             this.description_simplemde = null;
         },
 
@@ -25,36 +26,44 @@ define([
             $('.item').removeClass('active');
             $('.item a[href="#/planning"]').parent().addClass('active');
             var self = this;
-            var testplan = this.collection.get(this.testplanId);
-            console.log(this.testplanId);
 
-            var data = {
-                testplan: testplan,
-                _: _
-            }
-            var compiledTemplate = _.template(testPlanTemplate, data);
-            self.$el.html(compiledTemplate);
-            this.description_simplemde = new SimpleMDE({
-                autoDownloadFontAwesome: true,
-                autofocus: false,
-                autosave: {
-                    enabled: false
+            this.testPlanModel.set('id', this.testplanId);
+            this.testPlanModel.fetch({
+                success: function(testplan) {
+                    // data to be passed to UI
+                    var data = {
+                        testplan: testplan,
+                        _: _
+                    };
+                    var compiledTemplate = _.template(testPlanTemplate, data);
+                    self.$el.html(compiledTemplate);
+                    var inputField = $('#testplan-description-input');
+                    self.description_simplemde = new SimpleMDE({
+                        autoDownloadFontAwesome: true,
+                        autofocus: false,
+                        autosave: {
+                            enabled: false
+                        },
+                        element: $('#testplan-description-input')[0],
+                        indentWithTabs: false,
+                        spellChecker: false,
+                        tabSize: 4
+                    });
                 },
-                element: $('#testplan-description-input')[0],
-                indentWithTabs: false,
-                spellChecker: false,
-                tabSize: 4
+                error: function() {
+                    throw new Error("Failed to fetch projects");
+                }
             });
             this.delegateEvents();
         },
 
         save: function(event) {
+            var self = this;
             if (this.$("#testplan-form").parsley().validate()) {
-                var testplan = this.collection.get(this.testplanId);
-                testplan.save({
+                this.testPlanModel.save({
                     name: this.$("#testplan-name-input").val(),
-                    description: this.description_simplemde.value(),
-                    project_id: this.model.get('project_id'),
+                    description: self.description_simplemde.value(),
+                    project_id: self.testPlanModel.get('project_id'),
                     created_by: app.session.get('user_id')
                 }, {
                     wait: true,
