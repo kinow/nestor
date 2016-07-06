@@ -7,7 +7,6 @@ define([
 ], function($, _, Backbone, app, ProjectModel){
     var ProjectsCollection = Backbone.Collection.extend({
         model: ProjectModel,
-        //url: 'api/projects',
         models: [],
         
         initialize: function(options){
