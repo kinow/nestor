@@ -23,7 +23,7 @@ define([
             this.subviews = new Object();
             this.subviews.testplansListView = this.testplansListView;
 
-            Backbone.on('project:position', this.onProjectPositioned);
+            //Backbone.on('project:position', this.onProjectPositioned);
         },
 
         onProjectPositioned: function(project) {

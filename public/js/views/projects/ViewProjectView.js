@@ -184,6 +184,8 @@ define([
          */
         displayProject: function() {
             this.displayLoading();
+            $('.item').removeClass('active');
+            $('.item a[href="#/specification"]').parent().addClass('active');
             var self = this;
             this.projectModel.fetch({
                 success: function(responseData) {
