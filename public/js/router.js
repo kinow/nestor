@@ -433,6 +433,14 @@ define([
 
         // --- displayed as specification screen ---
 
+        Backbone.on('project:position', function() {
+            if (app.currentView != app.viewProjectView) {
+                Backbone.history.navigate("#/specification", {
+                    trigger: false
+                });
+            }
+        });
+
         projectsRouter.on('route:viewProject', function() {
             var id = app.session.get('project_id');
             checkIfProjectIsSet();

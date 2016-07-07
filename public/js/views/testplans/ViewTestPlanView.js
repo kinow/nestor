@@ -149,11 +149,13 @@ define([
         },
 
         updateNavigationTree: function(event) {
-            console.log('Rendering navigation tree!');
-            this.$('#navigation-tree').fancytree({});
-            this.navigationTreeView.render({
-                el: this.$('#navigation-tree')
-            });
+            if (app.currentView == this) {
+                console.log('Rendering navigation tree!');
+                this.$('#navigation-tree').fancytree({});
+                this.navigationTreeView.render({
+                    el: this.$('#navigation-tree')
+                });
+            }
         },
 
         displayLoading: function() {
