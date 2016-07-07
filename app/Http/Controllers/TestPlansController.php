@@ -114,7 +114,7 @@ class TestPlansController extends Controller
      */
     public function show($id)
     {
-        $testPlan = $this->testPlansRepository->find($id);
+        $testPlan = $this->testPlansRepository->with('testCases')->find($id);
         $testPlan->formatted_description = Parsedown::instance()->text($testPlan->description);
         return $testPlan;
     }

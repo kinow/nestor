@@ -43,13 +43,13 @@ class TestPlans extends Model implements Transformable
 
     public function project()
     {
-        return $this->belongsTo('Nestor\\Entities\\Project', 'project_id');
+        return $this->belongsTo('Nestor\\Entities\\Projects', 'project_id');
     }
 
     public function testCases()
     {
         return $this
-            ->belongsToMany('Nestor\\Entities\\TestCaseVersion', 'test_plans_test_cases')
+            ->belongsToMany('Nestor\\Entities\\TestCasesVersions', 'test_plans_test_cases', 'test_plan_id', 'test_case_version_id')
             ->orderBy('version', 'desc')
             ->with('executionType')
             ->withTimestamps()

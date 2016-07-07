@@ -80,6 +80,9 @@ define([
             // Collections
             this.executionTypesCollection = new ExecutionTypesCollection();
 
+            // Models
+            this.testPlanModel = new TestPlanModel();
+
             // Events
             Backbone.on('nestor:navigationtree:project_changed', this.updateNavigationTree);
             Backbone.on('nestor:navigationtree_changed', this.updateNavigationTree);
@@ -154,11 +157,47 @@ define([
         },
 
         updateNavigationTree: function(event) {
+            var self = this;
             if (app.currentView == this) {
                 console.log('Rendering navigation tree!');
                 this.$('#navigation-tree').fancytree({});
-                this.navigationTreeView.render({
-                    el: this.$('#navigation-tree')
+                this.testPlanModel.set('id', self.testPlanId);
+                this.testPlanModel.fetch({
+                    data: {
+                        project_id: self.projectId
+                    },
+                    success: function(responseData) {
+                        self.navigationTreeView.render({
+                            el: self.$('#navigation-tree')
+                        });
+                        var project = self.projectModel;
+                        var data = {
+                            project: project,
+                            _: _,
+                            editable: false
+                        };
+
+                        var compiledTemplate = _.template(projectNodeItemTemplate, data);
+                        self.viewNodeItemView.$el.html(compiledTemplate);
+                        self.$('#content-main').unbind();
+                        self.$('#content-main').empty();
+                        self.$('#content-main').append(self.viewNodeItemView.el);
+                        self.viewNodeItemView.delegateEvents();
+                        var tree = self.$('#navigation-tree').fancytree('getTree');
+                        if (typeof tree !== typeof undefined && typeof tree.getNodeByKey !== typeof undefined) {
+                            var node = tree.getNodeByKey("1-" + project.get('id'));
+                            if (node && typeof node !== typeof undefined && typeof node.setActive !== typeof undefined) {
+                                node.setActive();
+                            } else {
+                                console.log('Invalid tree node for node ' + project.get('id'));
+                            }
+                        } else {
+                            console.log('Invalid navigation tree for project ' + self.projectId);
+                        }
+                    },
+                    error: function() {
+                        throw new Error("Failed to fetch test plan");
+                    }
                 });
             }
         },
