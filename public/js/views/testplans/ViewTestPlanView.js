@@ -2,6 +2,7 @@ define([
     'jquery',
     'underscore',
     'backbone',
+    'app',
     'views/navigationtree/NavigationTreeView',
     'views/projects/ViewNodeItemView',
     'views/testsuites/TestSuiteView',
@@ -18,6 +19,7 @@ define([
     $,
     _,
     Backbone,
+    app,
     NavigationTreeView,
     ViewNodeItemView,
     TestSuiteView,
@@ -115,7 +117,8 @@ define([
             if (this.projectId !== projectId/* || !$.trim($(this.navigationTreeView.el).html())*/) {
                 this.projectId = projectId;
                 Backbone.trigger('nestor:navigationtree:project_changed');
-                this.displayProject();
+                if (app.currentView == this)
+                    this.displayProject();
             }
         },
 

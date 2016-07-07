@@ -29,8 +29,9 @@ define([
 
         onProjectPositioned: function(project) {
             this.setProjectId(project.id);
-            if (app.currentView == this)
+            if (app.currentView == this) {
                 this.render();
+            }
         },
 
         setPage: function(page) {
