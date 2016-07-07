@@ -12,7 +12,7 @@ define([
         el: $("#page"),
 
         initialize: function(options) {
-            _.bindAll(this, 'setPage', 'setProjectId', 'render');
+            _.bindAll(this, 'setPage', 'setProjectId', 'render', 'onProjectPositioned');
             this.page = 1;
             this.projectId = 0;
             // Collections
@@ -22,6 +22,13 @@ define([
             // For GC
             this.subviews = new Object();
             this.subviews.testplansListView = this.testplansListView;
+
+            Backbone.on('project:position', this.onProjectPositioned);
+        },
+
+        onProjectPositioned: function(project) {
+            this.setProjectId(project.id);
+            this.render();
         },
 
         setPage: function(page) {
@@ -38,7 +45,6 @@ define([
             var self = this;
 
             this.$el.html(testplansTemplate);
-            
             this.testPlansCollection.fetch({
                 data: {
                     page: self.page,

@@ -62,11 +62,12 @@ class TestPlansController extends Controller
      *         @Request({})
      *         @Response(200, body={"id": 1, "name": "test plan name", "description": "test plan description", "project_id": "test plan project ID"})
      */
-    public function index()
+    public function index(Request $request)
     {
         Log::debug("Returning paginated test plans");
-        return $this->testPlansRepository->scopeQuery(function ($query) {
-            return $query->orderBy('name', 'ASC');
+        $projectId = $request->input('project_id', -1);
+        return $this->testPlansRepository->scopeQuery(function ($query) use ($projectId) {
+            return $query->where('project_id', $projectId)->orderBy('name', 'ASC');
         })->paginate();
     }
     

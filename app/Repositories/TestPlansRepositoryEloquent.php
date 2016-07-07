@@ -14,6 +14,7 @@ use Nestor\Validators\TestPlansValidator;
  */
 class TestPlansRepositoryEloquent extends BaseRepository implements TestPlansRepository
 {
+
     /**
      * Specify Model class name
      *
@@ -23,8 +24,6 @@ class TestPlansRepositoryEloquent extends BaseRepository implements TestPlansRep
     {
         return TestPlans::class;
     }
-
-    
 
     /**
      * Boot up the repository, pushing criteria
