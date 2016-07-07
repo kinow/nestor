@@ -2,11 +2,12 @@ define([
     'jquery',
     'underscore',
     'backbone',
+    'app',
     'models/testplan/TestPlanModel',
     'collections/testplan/TestPlansCollection',
     'views/testplans/TestPlansListView',
     'text!templates/testplans/testplansTemplate.html'
-], function($, _, Backbone, TestPlanModel, TestPlansCollection, TestPlansListView, testplansTemplate) {
+], function($, _, Backbone, app, TestPlanModel, TestPlansCollection, TestPlansListView, testplansTemplate) {
 
     var TestPlansView = Backbone.View.extend({
         el: $("#page"),
@@ -23,12 +24,13 @@ define([
             this.subviews = new Object();
             this.subviews.testplansListView = this.testplansListView;
 
-            //Backbone.on('project:position', this.onProjectPositioned);
+            Backbone.on('project:position', this.onProjectPositioned);
         },
 
         onProjectPositioned: function(project) {
             this.setProjectId(project.id);
-            this.render();
+            if (app.currentView == this)
+                this.render();
         },
 
         setPage: function(page) {
