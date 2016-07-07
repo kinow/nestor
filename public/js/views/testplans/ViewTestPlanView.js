@@ -41,7 +41,7 @@ define([
 
         events: {
             'click #save-testplan-btn': 'addTestCasesToTestPlan',
-            'click #cancel-testplan-btn': function () { Backbone.history.navigate("#/planning", { trigger: false }); }
+            'click #cancel-testplan-btn': 'cancel'
         },
 
         initialize: function(options) {
@@ -56,7 +56,8 @@ define([
                 'displayProject',
                 'displayTestSuite',
                 'displayTestCase',
-                'addTestCasesToTestPlan');
+                'addTestCasesToTestPlan',
+                'cancel');
 
             this.projectId = parseInt(options.projectId);
             this.testSuiteId = 0;
@@ -97,6 +98,7 @@ define([
 
             this.$('#content-main').empty();
             this.updateNavigationTree();
+            this.delegateEvents();
         },
 
         setProjectId: function(id) {
@@ -168,6 +170,8 @@ define([
          */
         displayProject: function() {
             this.displayLoading();
+            $('.item').removeClass('active');
+            $('.item a[href="#/planning"]').parent().addClass('active');
             var self = this;
             this.projectModel.fetch({
                 success: function(responseData) {
@@ -253,11 +257,16 @@ define([
                 }
             });
         },
+
         addTestCasesToTestPlan: function(evt) {
             this.$('#navigation-tree').fancytree('getTree').generateFormElements(true, false);
             var form = $("#testplan-navigation-tree-form");
             var data = $(form).serializeArray();
             console.log(data);
+        },
+
+        cancel: function(evt) {
+            Backbone.history.navigate("#/planning", { trigger: false });
         }
 
     });
