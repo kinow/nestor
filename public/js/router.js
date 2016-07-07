@@ -707,6 +707,7 @@ define([
                 app.testPlansView = new TestPlansView();
             }
             app.testPlansView.setPage(page);
+            app.testPlansView.setProjectId(id);
             app.showView(app.testPlansView, {
                 requiresAuth: true
             });

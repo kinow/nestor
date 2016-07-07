@@ -6,7 +6,6 @@ define([
 ], function($, _, Backbone, TestPlanModel){
     var TestPlansCollection = Backbone.Collection.extend({
         model: TestPlanModel,
-        models: [],
 
         url: 'api/testplans',
         
@@ -18,10 +17,6 @@ define([
             this.previousPageUrl = '';
             this.from = 0;
             this.to = 0;
-        },
-
-        fetchSuccess: function(collection, response) {
-            this.models = collection.models;
         },
 
         fetchError: function(collection, response) {

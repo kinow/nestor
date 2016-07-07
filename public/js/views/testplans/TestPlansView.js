@@ -12,8 +12,9 @@ define([
         el: $("#page"),
 
         initialize: function(options) {
-            _.bindAll(this, 'setPage', 'render');
+            _.bindAll(this, 'setPage', 'setProjectId', 'render');
             this.page = 1;
+            this.projectId = 0;
             // Collections
             this.testPlansCollection = new TestPlansCollection();
             // Views
@@ -27,6 +28,10 @@ define([
             this.page = page;
         },
 
+        setProjectId: function(projectId) {
+            this.projectId = projectId;
+        },
+
         render: function() {
             $('.item').removeClass('active');
             $('.item a[href="#/planning"]').parent().addClass('active');
@@ -36,7 +41,8 @@ define([
             
             this.testPlansCollection.fetch({
                 data: {
-                    page: self.page
+                    page: self.page,
+                    project_id: self.projectId
                 },
                 success: function() {
                     self.testplansListView.render(self.testPlansCollection);
