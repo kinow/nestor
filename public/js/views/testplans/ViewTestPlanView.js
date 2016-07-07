@@ -12,6 +12,7 @@ define([
     'models/testcase/TestCaseModel',
     'models/testplan/TestPlanModel',
     'collections/core/ExecutionTypesCollection',
+    'collections/navigationtree/NavigationTreeCollection',
     'text!templates/testplans/viewTestPlanTemplate.html',
     'text!templates/projects/projectNodeItemTemplate.html',
     'text!templates/testsuites/testSuiteNodeItemTemplate.html',
@@ -30,6 +31,7 @@ define([
     TestCaseModel,
     TestPlanModel,
     ExecutionTypesCollection,
+    NavigationTreeCollection,
     viewTestPlanTemplate,
     projectNodeItemTemplate,
     testSuiteNodeItemTemplate,
@@ -48,7 +50,7 @@ define([
 
         initialize: function(options) {
             _.bindAll(this,
-                'render',
+                'render', 'render2',
                 'setProjectId',
                 'setTestSuiteId',
                 'setTestCaseId',
@@ -61,27 +63,34 @@ define([
                 'addTestCasesToTestPlan',
                 'cancelAndGoBack');
 
+            var self = this;
+
             this.projectId = parseInt(options.projectId);
             this.testSuiteId = 0;
             this.testCaseId = 0;
             this.testPlanId = parseInt(options.testPlanId);
+
+            // Collections
+            this.executionTypesCollection = new ExecutionTypesCollection();
+            this.navigationTreeCollection = new NavigationTreeCollection({
+                projectId: self.projectId
+            });
+
+            // Models
+            this.testPlanModel = new TestPlanModel();
+            this.testPlanModel.set('id', this.testPlanId);
 
             // Views
             this.navigationTreeView = new NavigationTreeView({
                 draggable: false,
                 checkboxes: true,
                 rootNodeUrl: '#/testplans/' + options.testPlanId + '/view',
-                nodeUrlPrefix: '#/testplans'
+                nodeUrlPrefix: '#/testplans',
+                collection: self.navigationTreeCollection
             });
             this.viewNodeItemView = new ViewNodeItemView();
             this.testSuiteView = new TestSuiteView();
             this.testCaseView = new TestCaseView();
-
-            // Collections
-            this.executionTypesCollection = new ExecutionTypesCollection();
-
-            // Models
-            this.testPlanModel = new TestPlanModel();
 
             // Events
             Backbone.on('nestor:navigationtree:project_changed', this.updateNavigationTree);
@@ -95,7 +104,7 @@ define([
             this.subviews.testCaseView = this.testCaseView;
         },
 
-        render: function() {
+        render2: function() {
             $('.item').removeClass('active');
             $('.item a[href="#/planning"]').parent().addClass('active');
 
@@ -104,6 +113,26 @@ define([
 
             this.$('#content-main').empty();
             this.updateNavigationTree();
+        },
+
+        render: function() {
+            var self = this;
+            $.when(this.testPlanModel.fetch(), this.navigationTreeCollection.fetch())
+                .done(function() {
+                    self.render2();
+                })
+            ;
+        },
+
+        updateNavigationTree: function(event) {
+            var self = this;
+            if (app.currentView == this) {
+                console.log('Rendering navigation tree!');
+                this.$('#navigation-tree').fancytree({});
+                self.navigationTreeView.render({
+                    el: self.$('#navigation-tree')
+                });
+            }
         },
 
         setProjectId: function(id) {
@@ -153,28 +182,6 @@ define([
 
         setTestPlanId: function(testPlanId) {
             this.testPlanId = testPlanId;
-        },
-
-        updateNavigationTree: function(event) {
-            var self = this;
-            if (app.currentView == this) {
-                console.log('Rendering navigation tree!');
-                this.$('#navigation-tree').fancytree({});
-                this.testPlanModel.set('id', self.testPlanId);
-                this.testPlanModel.fetch({
-                    data: {
-                        project_id: self.projectId
-                    },
-                    success: function(responseData) {
-                        self.navigationTreeView.render({
-                            el: self.$('#navigation-tree')
-                        });
-                    },
-                    error: function() {
-                        throw new Error("Failed to fetch test plan");
-                    }
-                });
-            }
         },
 
         displayLoading: function() {
@@ -269,7 +276,7 @@ define([
                     self.viewNodeItemView.$el.html(compiledTemplate);
                     self.$('#content-main').empty();
                     self.$('#content-main').append(self.viewNodeItemView.el);
-                    this.$('#navigation-tree').fancytree('getTree').getNodeByKey("3-" + testcase.get('id')).setActive();
+                    self.$('#navigation-tree').fancytree('getTree').getNodeByKey("3-" + testcase.get('id')).setActive();
                 },
                 error: function() {
                     throw new Error("Failed to fetch test case");

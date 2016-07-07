@@ -4,9 +4,8 @@ define([
     'underscore',
     'backbone',
     'app',
-    'collections/navigationtree/NavigationTreeCollection',
     'views/navigationtree/NavigationTreeView'
-], function($, fancytree, _, Backbone, app, NavigationTreeCollection, NavigationTreeView) {
+], function($, fancytree, _, Backbone, app, NavigationTreeView) {
 
     var NavigationTreeView = Backbone.View.extend({
 
@@ -30,7 +29,7 @@ define([
             this.rootNodeUrl = options.rootNodeUrl;
             this.nodeUrlPrefix = options.nodeUrlPrefix;
 
-            this.collection = new NavigationTreeCollection();
+            this.collection = options.collection
         },
 
         events: {
@@ -95,189 +94,175 @@ define([
             console.log('Rendering navigation tree for project ID [' + this.projectId + ']');
             var el = options.el;
             var self = this;
-            this.collection.setProjectId(this.projectId);
-            // el.unbind();
-            // el.empty();
-            this.collection.fetch({
-                reset: true,
-                success: function(results) {
-                    var models = self.collection.models;
-                    var model = null;
-                    if (models.length > 0) {
-                        model = models[0].toJSON();
-                    }
+            var model = this.collection.get(this.projectId).toJSON();
 
-                    tree = [];
-                    var node = {
-                        title: model.display_name,
-                        key: model.descendant,
-                        folder: true,
-                        expanded: true,
-                        children: [],
-                        node_id: model.node_id,
-                        node_type_id: model.node_type_id,
-                        href: self.rootNodeUrl,
-                        icon: true
-                    };
-                    self.convertToTree(node, model.children, self.nodeUrlPrefix);
-                    tree.push(node);
+            tree = [];
+            var node = {
+                title: model.display_name,
+                key: model.descendant,
+                folder: true,
+                expanded: true,
+                children: [],
+                node_id: model.node_id,
+                node_type_id: model.node_type_id,
+                href: self.rootNodeUrl,
+                icon: true
+            };
+            self.convertToTree(node, model.children, self.nodeUrlPrefix);
+            tree.push(node);
 
-                    // --- check boxes
-                    var checkbox = self.checkboxes;
-                    var selectMode = 1;
-                    if (checkbox) {
-                        selectMode = 3;
-                    }
-                    // --- end check boxes
+            // --- check boxes
+            var checkbox = self.checkboxes;
+            var selectMode = 1;
+            if (checkbox) {
+                selectMode = 3;
+            }
+            // --- end check boxes
 
-                    // --- drag and drop
-                    var extensions = [];
-                    var dnd = {};
-                    // enable drag and drop
-                    if (self.draggable) {
-                        extensions.push('dnd');
-                        dnd = {
-                            preventVoidMoves: true, // Prevent dropping nodes 'before self', etc.
-                            preventRecursiveMoves: true, // Prevent dropping nodes on own descendants
-                            autoExpandMS: 400,
-                            dragStart: function(node, data) {
-                                // Defines whether this node is draggable or not
-                                // The top level project should have dnd disabled
-                                if (node.data.node_type_id == 1) { 
-                                    return false;
-                                }
-                                return true;
-                            },
-                            dragStop: function(node, data) {
-                                
-                            },
-                            dragOver: function(node, data) {
-                            },
-                            dragEnter: function(node, data) {
-                                // Defines whether another node can be dragged on this node
-                                // Return ['before', 'after'] to restrict available hitModes.
-                                // Any other return value will calc the hitMode from the cursor position.
-                                // Prevent dropping a parent below another parent (only sort
-                                // nodes under the same parent)
-                                // if(node.parent !== data.otherNode.parent){
-                                //   return false;
-                                // }
-                                // Don't allow dropping *over* a node (would create a child)
-                                // return ["before", "after"];
+            // --- drag and drop
+            var extensions = [];
+            var dnd = {};
+            // enable drag and drop
+            if (self.draggable) {
+                extensions.push('dnd');
+                dnd = {
+                    preventVoidMoves: true, // Prevent dropping nodes 'before self', etc.
+                    preventRecursiveMoves: true, // Prevent dropping nodes on own descendants
+                    autoExpandMS: 400,
+                    dragStart: function(node, data) {
+                        // Defines whether this node is draggable or not
+                        // The top level project should have dnd disabled
+                        if (node.data.node_type_id == 1) { 
+                            return false;
+                        }
+                        return true;
+                    },
+                    dragStop: function(node, data) {
+                        
+                    },
+                    dragOver: function(node, data) {
+                    },
+                    dragEnter: function(node, data) {
+                        // Defines whether another node can be dragged on this node
+                        // Return ['before', 'after'] to restrict available hitModes.
+                        // Any other return value will calc the hitMode from the cursor position.
+                        // Prevent dropping a parent below another parent (only sort
+                        // nodes under the same parent)
+                        // if(node.parent !== data.otherNode.parent){
+                        //   return false;
+                        // }
+                        // Don't allow dropping *over* a node (would create a child)
+                        // return ["before", "after"];
 
-                                var selectedNode = data.otherNode; // the selected node
-                                if (selectedNode.data.node_type_id == 3) {
-                                    // Test cases should not be dnd onto projects or test cases, only test suites
-                                    if (node.data.node_type_id != 2) {
-                                        return false;
-                                    }
-                                    // Test cases should not be dnd onto its own parent
-                                    if (node == selectedNode.parent) {
-                                        return false;
-                                    }
-                                }
-                                if (selectedNode.data.node_type_id == 2) {
-                                    // Test suites should not be dnd onto test cases
-                                    if (node.data.node_type_id == 3) {
-                                        return false;
-                                    }
-                                    // Test suites should not be dnd onto its own parent
-                                    if (node == selectedNode.parent) {
-                                        return false;
-                                    }
-                                }
-                                return "over";
-                            },
-                            dragDrop: function(node, data) {
-                                var selectedNode = data.otherNode; // the selected node
-                                var descendant = '' + selectedNode.data.node_type_id + '-' + selectedNode.data.node_id;
-                                var ancestor = '' + node.data.node_type_id + '-' + node.data.node_id;
-                                var url = "/api/navigationtree/move";
-                                $.ajax({
-                                  type: "POST",
-                                  url: url,
-                                  data: {descendant: descendant, ancestor: ancestor},
-                                  success: function(jqXHR, textStatus, data) {
-                                    selectedNode.moveTo(node, jqXHR.hitMode);
-                                    var rootNode = node.tree.rootNode;
-                                    rootNode.sortChildren(self.sortCmp, true);
-                                    app.showAlert('Success!', 'Moved successfully!', 'success');
-                                  },
-                                  error: function(jqXHR, textStatus, data) {
-                                    var responseText = jQuery.parseJSON(jqXHR.responseText);
-                                    var message = responseText.error.message;
-                                    app.showAlert('Error moving!', message, 'error');
-                                  }
-                                });
-                            },
-                            dragLeave: function(node, data) {
+                        var selectedNode = data.otherNode; // the selected node
+                        if (selectedNode.data.node_type_id == 3) {
+                            // Test cases should not be dnd onto projects or test cases, only test suites
+                            if (node.data.node_type_id != 2) {
+                                return false;
+                            }
+                            // Test cases should not be dnd onto its own parent
+                            if (node == selectedNode.parent) {
+                                return false;
                             }
                         }
-                    };
-                    // --- end of drag and drop
+                        if (selectedNode.data.node_type_id == 2) {
+                            // Test suites should not be dnd onto test cases
+                            if (node.data.node_type_id == 3) {
+                                return false;
+                            }
+                            // Test suites should not be dnd onto its own parent
+                            if (node == selectedNode.parent) {
+                                return false;
+                            }
+                        }
+                        return "over";
+                    },
+                    dragDrop: function(node, data) {
+                        var selectedNode = data.otherNode; // the selected node
+                        var descendant = '' + selectedNode.data.node_type_id + '-' + selectedNode.data.node_id;
+                        var ancestor = '' + node.data.node_type_id + '-' + node.data.node_id;
+                        var url = "/api/navigationtree/move";
+                        $.ajax({
+                          type: "POST",
+                          url: url,
+                          data: {descendant: descendant, ancestor: ancestor},
+                          success: function(jqXHR, textStatus, data) {
+                            selectedNode.moveTo(node, jqXHR.hitMode);
+                            var rootNode = node.tree.rootNode;
+                            rootNode.sortChildren(self.sortCmp, true);
+                            app.showAlert('Success!', 'Moved successfully!', 'success');
+                          },
+                          error: function(jqXHR, textStatus, data) {
+                            var responseText = jQuery.parseJSON(jqXHR.responseText);
+                            var message = responseText.error.message;
+                            app.showAlert('Error moving!', message, 'error');
+                          }
+                        });
+                    },
+                    dragLeave: function(node, data) {
+                    }
+                }
+            };
+            // --- end of drag and drop
 
-                    el.fancytree('destroy');
-                    el.fancytree({
-                        source: tree,
-                        extensions: extensions,
-                        activeVisible: true, // Make sure, active nodes are visible (expanded).
-                        aria: false, // Enable WAI-ARIA support.
-                        autoActivate: true, // Automatically activate a node when it is focused (using keys).
-                        autoCollapse: false, // Automatically collapse all siblings, when a node is expanded.
-                        autoScroll: false, // Automatically scroll nodes into visible area.
-                        clickFolderMode: 1, // 1:activate, 2:expand, 3:activate and expand, 4:activate (dblclick expands)
-                        checkbox: checkbox, // Show checkboxes.
-                        debugLevel: 1, // 0:quiet, 1:normal, 2:debug
-                        disabled: false, // Disable control
-                        generateIds: true, // Generate id attributes like <span id='fancytree-id-KEY'>
-                        idPrefix: "ft_", // Used to generate node id´s like <span id='fancytree-id-<key>'>.
-                        icon: true, // Display node icons.
-                        keyboard: true, // Support keyboard navigation.
-                        keyPathSeparator: "/", // Used by node.getKeyPath() and tree.loadKeyPath().
-                        minExpandLevel: 2, // 1: root node is not collapsible
-                        selectMode: selectMode, // 1:single, 2:multi, 3:multi-hier
-                        tabindex: 0, // Whole tree behaves as one single control
-                        childcounter: {
-                            deep: true,
-                            hideZeros: true,
-                            hideExpanded: true
-                        },
-                        focus: function(e, data) {
-                            var node = data.node;
-                            // Auto-activate focused node after 1 second
-                            if(node.data.href){
-                                node.scheduleAction("activate", 100000);
-                            }
-                        },
-                        blur: function(e, data) {
-                            data.node.scheduleAction("cancel");
-                        },
-                        activate: function(e, data) {
-                            if (data.draggable)
-                                return; // prevent false hits
-                            var node = data.node;
-                            if(node.data.href){
-                                Backbone.history.navigate(node.data.href, { trigger: false });
-                            }
-                        },
-                        click: function(e, data) { // allow re-loads
-                            var node = data.node;
-                            if(node.isActive() && node.data.href){
-                                // TODO: data.tree.reactivate();
-                            }
-                        },
-                        dnd: dnd
-                    });
-                    // end
-                    var rootNode = el.fancytree('getRootNode');
-                    if (typeof rootNode.sortChildren !== typeof undefined) {
-                        rootNode.sortChildren(self.sortCmp, true);
+            el.fancytree('destroy');
+            el.fancytree({
+                source: tree,
+                extensions: extensions,
+                activeVisible: true, // Make sure, active nodes are visible (expanded).
+                aria: false, // Enable WAI-ARIA support.
+                autoActivate: true, // Automatically activate a node when it is focused (using keys).
+                autoCollapse: false, // Automatically collapse all siblings, when a node is expanded.
+                autoScroll: false, // Automatically scroll nodes into visible area.
+                clickFolderMode: 1, // 1:activate, 2:expand, 3:activate and expand, 4:activate (dblclick expands)
+                checkbox: checkbox, // Show checkboxes.
+                debugLevel: 1, // 0:quiet, 1:normal, 2:debug
+                disabled: false, // Disable control
+                generateIds: true, // Generate id attributes like <span id='fancytree-id-KEY'>
+                idPrefix: "ft_", // Used to generate node id´s like <span id='fancytree-id-<key>'>.
+                icon: true, // Display node icons.
+                keyboard: true, // Support keyboard navigation.
+                keyPathSeparator: "/", // Used by node.getKeyPath() and tree.loadKeyPath().
+                minExpandLevel: 2, // 1: root node is not collapsible
+                selectMode: selectMode, // 1:single, 2:multi, 3:multi-hier
+                tabindex: 0, // Whole tree behaves as one single control
+                childcounter: {
+                    deep: true,
+                    hideZeros: true,
+                    hideExpanded: true
+                },
+                focus: function(e, data) {
+                    var node = data.node;
+                    // Auto-activate focused node after 1 second
+                    if(node.data.href){
+                        node.scheduleAction("activate", 100000);
                     }
                 },
-                error: function(collection, response, options) {
-                    throw new Error("Failed to fetch projects");
-                }
+                blur: function(e, data) {
+                    data.node.scheduleAction("cancel");
+                },
+                activate: function(e, data) {
+                    if (data.draggable)
+                        return; // prevent false hits
+                    var node = data.node;
+                    if(node.data.href){
+                        Backbone.history.navigate(node.data.href, { trigger: false });
+                    }
+                },
+                click: function(e, data) { // allow re-loads
+                    var node = data.node;
+                    if(node.isActive() && node.data.href){
+                        // TODO: data.tree.reactivate();
+                    }
+                },
+                dnd: dnd
             });
+            // end
+            var rootNode = el.fancytree('getRootNode');
+            if (typeof rootNode.sortChildren !== typeof undefined) {
+                rootNode.sortChildren(self.sortCmp, true);
+            }
+
             this.delegateEvents();
         }
 
