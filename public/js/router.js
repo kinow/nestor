@@ -697,6 +697,7 @@ define([
 
         testPlansRouter.on('route:showTestPlans', function(queryString) {
             checkIfProjectIsSet();
+            var id = app.session.get('project_id');
             var params = parseQueryString(queryString);
             var page = 1;
             if (typeof(params.page) != "undefined") {

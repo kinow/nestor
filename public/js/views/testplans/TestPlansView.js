@@ -34,8 +34,10 @@ define([
 
             this.$el.html(testplansTemplate);
             
-            this.testPlansCollection.setPage(this.page);
             this.testPlansCollection.fetch({
+                data: {
+                    page: self.page
+                },
                 success: function() {
                     self.testplansListView.render(self.testPlansCollection);
                 },

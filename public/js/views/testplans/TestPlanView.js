@@ -18,6 +18,7 @@ define([
         initialize: function() {
             _.bindAll(this, 'render', 'save');
             this.testplanId = 0;
+            this.projectId = 0;
             this.testPlanModel = new TestPlanModel();
             this.description_simplemde = null;
         },
@@ -29,6 +30,9 @@ define([
 
             this.testPlanModel.set('id', this.testplanId);
             this.testPlanModel.fetch({
+                data: {
+                    project_id: self.projectId
+                },
                 success: function(testplan) {
                     // data to be passed to UI
                     var data = {

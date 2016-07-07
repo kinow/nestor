@@ -7,9 +7,10 @@ define([
     var TestPlansCollection = Backbone.Collection.extend({
         model: TestPlanModel,
         models: [],
+
+        url: 'api/testplans',
         
         initialize: function(options){
-            this.page = 0;
             this.perPage = 0;
             this.currentPage = 0;
             this.lastPage = 0;
@@ -17,14 +18,6 @@ define([
             this.previousPageUrl = '';
             this.from = 0;
             this.to = 0;
-        },
-
-        setPage: function(page) {
-            this.page = page;
-        },
-
-        url: function() {
-            return 'api/testplans/?page=' + this.page;
         },
 
         fetchSuccess: function(collection, response) {
