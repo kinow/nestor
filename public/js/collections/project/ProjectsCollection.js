@@ -10,6 +10,7 @@ define([
         models: [],
         
         initialize: function(options){
+            _.bindAll(this, 'setPage', 'url', 'fetch', 'parse', 'position');
             this.page = 0;
             this.perPage = 0;
             this.currentPage = 0;
@@ -28,10 +29,6 @@ define([
             return 'api/projects/?page=' + this.page;
         },
 
-        fetchSuccess: function(collection, response) {
-            this.models = collection.models;
-        },
-
         fetchError: function(collection, response) {
             throw new Error("Projects fetch error");
         },
@@ -47,7 +44,7 @@ define([
             return response ? response.data : [];
         },
 
-        position: function(projectId) {
+        position: function(projectId, reload) {
             projectId = parseInt(projectId);
             var url = 'api/projects/' + projectId + '/position';
             $.ajax({
@@ -66,7 +63,7 @@ define([
                 },
                 success: function(data, textStatus, request) {
                     console.log('Positioned project ' + projectId);
-                    Backbone.trigger('project:position', data.project);
+                    Backbone.trigger('project:position', [data.project, reload]);
                 },
                 error: function(data, textStatus, request) {
                     app.showAlert('Error positioning project', request, 'error');

@@ -20,7 +20,7 @@ define([
             this.projectsCollection = options.collection;
             this.projectsCollection.setPage(this.page);
             if (typeof options !== typeof undefined && typeof options.project_id !== typeof undefined) {
-                this.projectsCollection.position(options.project_id);
+                this.projectsCollection.position(options.project_id, true);
             }
         },
 
@@ -30,7 +30,9 @@ define([
 
         onClickPositionProjectItem: function(evt) {
             var projectId = evt.target.dataset.value;
-            this.projectsCollection.position(projectId);
+            if (projectId != app.session.get('project_id')) {
+                this.projectsCollection.position(projectId, true);
+            }
         },
 
         render: function() {

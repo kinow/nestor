@@ -65,9 +65,9 @@ define([
             //app.session.removeAccount({});
         },
 
-        onProjectPositioned: function(project) {
-            this.positionProjectComboboxView.title = project['name'];
-            app.session.updateSessionProject(project);
+        onProjectPositioned: function(objects) {
+            this.positionProjectComboboxView.title = objects[0]['name'];
+            app.session.updateSessionProject(objects[0]);
             this.render();
         },
 

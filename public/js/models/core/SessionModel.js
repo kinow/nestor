@@ -17,13 +17,19 @@ define([
       	},
 
       	initialize: function (options) {
-            _.bindAll(this, 'updateSessionUser', 'updateSessionProject', 'checkAuth', 'login', 'logout', 'signup');
+            _.bindAll(this, 'onProjectPositioned', 'updateSessionUser', 'updateSessionProject', 'checkAuth', 'login', 'logout', 'signup');
 
             // Singleton user object
             // Access or listen on this throughout any module with app.session.user
             this.user = new UserModel({});
             this.project = new ProjectModel({});
+
+            Backbone.on('project:position', this.onProjectPositioned);
       	},
+
+        onProjectPositioned: function(objects) {
+            this.set('project_id', objects[0].id);
+        },
 
         url: function() {
             return 'api/auth';
@@ -59,7 +65,7 @@ define([
                         var project_id = options.xhr.getResponseHeader('X-NESTORQA-PROJECT-ID');
                         if (project_id != self.get('project_id')) {
                             self.set('project_id', project_id);
-                            new ProjectsCollection().position(project_id);
+                            new ProjectsCollection().position(project_id, false);
                         }
                         if('success' in callback) callback.success(mod, res, options);
                     } else {

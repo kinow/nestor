@@ -166,8 +166,8 @@ define([
             this.testCaseId = testCaseId;
         },
 
-        onProjectPositioned: function(project) {
-            this.setProjectId(project.id);
+        onProjectPositioned: function(objects) {
+            this.setProjectId(objects[0].id);
         },
 
         updateNavigationTree: function(event) {

@@ -433,11 +433,13 @@ define([
 
         // --- displayed as specification screen ---
 
-        Backbone.on('project:position', function() {
+        Backbone.on('project:position', function(objects) {
             if (app.currentView != app.viewProjectView) {
-                Backbone.history.navigate("#/specification", {
-                    trigger: false
-                });
+                if (objects[1] == true) {
+                    Backbone.history.navigate("#/specification", {
+                        trigger: false
+                    });
+                }
             }
         });
 
