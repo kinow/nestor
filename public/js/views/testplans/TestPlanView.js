@@ -31,6 +31,7 @@ define([
             this.testPlanModel.set('id', this.testplanId);
             this.testPlanModel.fetch({
                 data: {
+                    id: this.testplanId,
                     project_id: self.projectId
                 },
                 success: function(testplan) {

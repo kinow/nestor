@@ -10,6 +10,7 @@ define([
     'models/project/ProjectModel',
     'models/testsuite/TestSuiteModel',
     'models/testcase/TestCaseModel',
+    'models/testplan/TestPlanModel',
     'collections/core/ExecutionTypesCollection',
     'text!templates/testplans/viewTestPlanTemplate.html',
     'text!templates/projects/projectNodeItemTemplate.html',
@@ -27,6 +28,7 @@ define([
     ProjectModel,
     TestSuiteModel,
     TestCaseModel,
+    TestPlanModel,
     ExecutionTypesCollection,
     viewTestPlanTemplate,
     projectNodeItemTemplate,
@@ -41,7 +43,7 @@ define([
 
         events: {
             'click #save-testplan-btn': 'addTestCasesToTestPlan',
-            'click #cancel-testplan-btn': 'cancel'
+            'click #cancel-testplan-btn': 'cancelAndGoBack'
         },
 
         initialize: function(options) {
@@ -57,7 +59,7 @@ define([
                 'displayTestSuite',
                 'displayTestCase',
                 'addTestCasesToTestPlan',
-                'cancel');
+                'cancelAndGoBack');
 
             this.projectId = parseInt(options.projectId);
             this.testSuiteId = 0;
@@ -93,6 +95,7 @@ define([
         render: function() {
             $('.item').removeClass('active');
             $('.item a[href="#/planning"]').parent().addClass('active');
+
             var compiledTemplate = _.template(viewTestPlanTemplate, {});
             this.$el.html(compiledTemplate);
 
@@ -106,21 +109,21 @@ define([
             // update project ID in models
             this.projectModel = new ProjectModel();
             this.projectModel.set('id', projectId);
-            this.projectModel.projectId = projectId;
 
             this.testSuiteModel = new TestSuiteModel();
-            this.testSuiteModel.project_id = projectId;
+            this.testSuiteModel.set('project_id', projectId);
 
             this.testCaseModel = new TestCaseModel();
-            this.testCaseModel.project_id = projectId;
+            this.testCaseModel.set('project_id', projectId);
 
             this.navigationTreeView.projectId = projectId;
 
             if (this.projectId !== projectId/* || !$.trim($(this.navigationTreeView.el).html())*/) {
                 this.projectId = projectId;
                 Backbone.trigger('nestor:navigationtree:project_changed');
-                if (app.currentView == this)
+                if (app.currentView == this) {
                     this.displayProject();
+                }
             }
         },
 
@@ -265,7 +268,7 @@ define([
             console.log(data);
         },
 
-        cancel: function(evt) {
+        cancelAndGoBack: function(evt) {
             Backbone.history.navigate("#/planning", { trigger: false });
         }
 

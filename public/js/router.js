@@ -737,10 +737,12 @@ define([
 
         testPlansRouter.on('route:showTestPlan', function(testPlanId) {
             checkIfProjectIsSet();
+            var id = app.session.get('project_id');
             if (!app.testPlanView) {
                 app.testPlanView = new TestPlanView();
             }
             app.testPlanView.testplanId = testPlanId;
+            app.testPlanView.projectId = id;
             app.showView(app.testPlanView, {
                 requiresAuth: true
             });
