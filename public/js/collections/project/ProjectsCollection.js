@@ -7,7 +7,6 @@ define([
 ], function($, _, Backbone, app, ProjectModel){
     var ProjectsCollection = Backbone.Collection.extend({
         model: ProjectModel,
-        models: [],
         
         initialize: function(options){
             _.bindAll(this, 'setPage', 'url', 'fetch', 'parse', 'position');
