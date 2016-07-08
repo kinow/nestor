@@ -20,6 +20,7 @@ define([
             this.to = 0;
         },
 
+        // FIXME: remove, and remove URL. Use data {}
         setPage: function(page) {
             this.page = page;
         },
