@@ -231,14 +231,14 @@ class TestPlansController extends Controller
                     ->take(1)
                     ->first()
                 ;
-                $testcasesForAdding[] = $testCaseversion->version;
+                $testcasesForAdding[] = $testCaseversion->id;
             }
         }
-
-        var_dump($testcasesForAdding);
-        die;
+        $existingTestcaseVersions->attach($testcasesForAdding);
 
         // FIXME: bulk operations
+
+        die;
 
         foreach ($testcasesForAdding as $addMe) {
             Log::info(sprintf('Adding testcase %s version %s to test plan %s', $addMe['name'], $addMe['version'], $testPlan['name']));
