@@ -197,7 +197,7 @@ class TestPlansController extends Controller
         }
 
         $projectId = $testPlan['project_id'];
-        $testcases = $this->testCasesRepository->with(['testCaseVersions', 'latestVersion'])->scopeQuery(function ($query) use ($projectId) {
+        $testcases = $this->testCasesRepository->with(['testCaseVersions'])->scopeQuery(function ($query) use ($projectId) {
             return $query->where('project_id', $projectId);
         })->findWhereIn('id', $nodesSelected);
 
@@ -225,11 +225,17 @@ class TestPlansController extends Controller
                 }
             }
             if (!$found) {
-                $testcasesForAdding[] = $testcase->version;
+                $testCaseversion = $testcase->testCaseVersions = $testcase
+                    ->testCaseVersions
+                    ->sortByDesc('version')
+                    ->take(1)
+                    ->first()
+                ;
+                $testcasesForAdding[] = $testCaseversion->version;
             }
         }
 
-        var_dump($testcase->latestVersion);
+        var_dump($testcasesForAdding);
         die;
 
         // FIXME: bulk operations
