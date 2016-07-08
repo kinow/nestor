@@ -144,6 +144,10 @@ define([
             }
         },
 
+        onProjectPositioned: function(objects) {
+            this.setProjectId(objects[0].id);
+        },
+
         setProjectId: function(id) {
             var projectId = parseInt(id);
             // update project ID in models
@@ -187,10 +191,6 @@ define([
             this.testCaseModel.id = testCaseId;
 
             this.testCaseId = testCaseId;
-        },
-
-        onProjectPositioned: function(objects) {
-            this.setProjectId(objects[0].id);
         },
 
         displayLoading: function() {

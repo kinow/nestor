@@ -9,6 +9,7 @@ define([
         model: NodeItemModel,
 
         initialize: function (options) {
+            _.bindAll(this, 'url', 'setProjectId', 'parse');
             options || (options = {});
             this.projectId = options.projectId;
         },
