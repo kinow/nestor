@@ -333,6 +333,60 @@ define([
         }
     });
 
+    var ExecutionsRouter = Backbone.Router.extend({
+        routes: {
+            // Execution routes
+            'execution': 'showExecuteTestPlans',
+            'execution?*queryString': 'showExecuteTestPlans',
+            'testplans/:testPlanId/executions': 'showExecuteTestPlans',
+            'testplans/:testPlanId/executions?*queryString': 'showExecuteTestPlans',
+            'testplans/:testPlanId/executions/new': 'showAddExecution',
+            'testplans/:testPlanId/executions/:executionId': 'showExecution',
+            'testplans/:testPlanId/executions/:executionId/confirmDelete': 'showConfirmDeleteExecution',
+            'testplans/:testPlanId/executions/:executionId/view': 'viewExecution'
+        },
+        navigation: {
+            prefix: 'Executions',
+            pages: {
+                'Executions.showExecuteTestPlans': {
+                    template: 'Execution',
+                    parent: 'Base.defaultAction'
+                },
+                'Executions.showAddExecution': {
+                    template: 'Add new Execution',
+                    parent: 'Executions.showExecuteTestPlans'
+                },
+                'Executions.showExecution': {
+                    template: function(args) {
+                        var tpl = _.template('Edit Execution <%= args[":executionId"] %>');
+                        return tpl({
+                            args: args
+                        });
+                    },
+                    parent: 'Executions.showExecuteTestPlans'
+                },
+                'Executions.showConfirmDeleteExecution': {
+                    template: function(args) {
+                        var tpl = _.template('Delete Execution <%= args[":executionId"] %>');
+                        return tpl({
+                            args: args
+                        });
+                    },
+                    parent: 'Executions.showExecuteTestPlans'
+                },
+                'Executions.viewExecution': {
+                    template: function(args) {
+                        var tpl = _.template('Executing Test Plan <%= args["testPlanId"] %>');
+                        return tpl({
+                            args: args
+                        });
+                    },
+                    parent: 'Executions.showExecuteTestPlans'
+                }
+            }
+        }
+    });
+
     var initialize = function() {
 
         // Projects collection shared by HeaderView and NewProjectView
