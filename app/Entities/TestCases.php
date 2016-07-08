@@ -75,7 +75,8 @@ class TestCases extends Model implements Transformable
         return $this->hasMany('Nestor\\Entities\\TestCasesVersions', 'test_case_id')
             ->orderBy('version', 'desc')
             ->take(1)
-            ->firstOrFail(); // FIXME: redundant take1?
+            ->firstOrFail() // FIXME: redundant take1?
+        ;
     }
 
     public function getVersionAttribute()

@@ -28,6 +28,8 @@ use Illuminate\Http\Request;
 use Log;
 use Nestor\Http\Controllers\Controller;
 use Nestor\Repositories\TestPlansRepository;
+use Nestor\Repositories\TestCasesRepository;
+use Nestor\Util\NavigationTreeUtil;
 use Parsedown;
 use Validator;
 
@@ -44,14 +46,21 @@ class TestPlansController extends Controller
      * @var TestPlansRepository $testPlansRepository
      */
     protected $testPlansRepository;
+
+    /**
+     *
+     * @var TestCasesRepository $testCasesRepository
+     */
+    protected $testCasesRepository;
     
     /**
      *
      * @param TestPlansRepository $testPlansRepository
      */
-    public function __construct(TestPlansRepository $testPlansRepository)
+    public function __construct(TestPlansRepository $testPlansRepository, TestCasesRepository $testCasesRepository)
     {
         $this->testPlansRepository = $testPlansRepository;
+        $this->testCasesRepository = $testCasesRepository;
     }
     
     /**
@@ -172,25 +181,26 @@ class TestPlansController extends Controller
     public function storeTestCases(Request $request, $id)
     {
         $testPlan = $this->testPlansRepository->with('testCases')->find($id);
-        $existingTestcaseVersions = $testPlan['test_cases'];
+        $existingTestcaseVersions = $testPlan->testCases();
+        
         $nodesSelected = array();
-        $testcases = array();
-        foreach ($_POST as $entry => $value) {
+        foreach ($request->all() as $entry => $value) {
             if (strpos($entry, 'ft_') === 0 && strpos($entry, 'ft_1_active') !== 0) {
                 if (is_array($value)) {
                     foreach ($value as $tempValue) {
-                        $nodesSelected[] = $tempValue;
+                        $nodesSelected[] = NavigationTreeUtil::getDescendantNodeId($tempValue);
                     }
                 } else {
-                    $nodesSelected[] = $value;
+                    $nodesSelected[] = NavigationTreeUtil::getDescendantNodeId($value);
                 }
             }
         }
-        foreach ($nodesSelected as $node) {
-            $children = HMVC::get("api/v1/nodes/$node");
-            $this->getTestCasesFrom($children, $testcases);
-        }
-        
+
+        $projectId = $testPlan['project_id'];
+        $testcases = $this->testCasesRepository->with(['testCaseVersions', 'latestVersion'])->scopeQuery(function ($query) use ($projectId) {
+            return $query->where('project_id', $projectId);
+        })->findWhereIn('id', $nodesSelected);
+
         // What to remove?
         $testcasesForRemoval = array();
         foreach ($existingTestcaseVersions as $existing) {
@@ -215,9 +225,12 @@ class TestPlansController extends Controller
                 }
             }
             if (!$found) {
-                $testcasesForAdding[] = $testcase['version'];
+                $testcasesForAdding[] = $testcase->version;
             }
         }
+
+        var_dump($testcase->latestVersion);
+        die;
 
         // FIXME: bulk operations
 

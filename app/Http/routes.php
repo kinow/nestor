@@ -119,6 +119,7 @@ $api->version('v1', function ($api) {
     $api->get('testplans/{id}', 'Nestor\Http\Controllers\TestPlansController@show');
     $api->put('testplans/{id}', 'Nestor\Http\Controllers\TestPlansController@update');
     $api->delete('testplans/{id}', 'Nestor\Http\Controllers\TestPlansController@destroy');
+    $api->post('testplans/{id}/store', 'Nestor\Http\Controllers\TestPlansController@storeTestCases');
 });
 
 // Display all SQL executed in Eloquent
