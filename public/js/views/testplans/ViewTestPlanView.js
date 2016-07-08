@@ -123,6 +123,7 @@ define([
 
             this.$('#content-main').empty();
             this.updateNavigationTree();
+            this.delegateEvents();
         },
 
         updateNavigationTree: function(event) {
