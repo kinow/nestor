@@ -168,4 +168,69 @@ class TestPlansController extends Controller
             'Result' => $this->testPlansRepository->delete($id)
         );
     }
+
+    public function storeTestCases(Request $request, $id)
+    {
+        $testPlan = $this->testPlansRepository->with('testCases')->find($id);
+        $existingTestcaseVersions = $testPlan['test_cases'];
+        $nodesSelected = array();
+        $testcases = array();
+        foreach ($_POST as $entry => $value) {
+            if (strpos($entry, 'ft_') === 0 && strpos($entry, 'ft_1_active') !== 0) {
+                if (is_array($value)) {
+                    foreach ($value as $tempValue) {
+                        $nodesSelected[] = $tempValue;
+                    }
+                } else {
+                    $nodesSelected[] = $value;
+                }
+            }
+        }
+        foreach ($nodesSelected as $node) {
+            $children = HMVC::get("api/v1/nodes/$node");
+            $this->getTestCasesFrom($children, $testcases);
+        }
+        
+        // What to remove?
+        $testcasesForRemoval = array();
+        foreach ($existingTestcaseVersions as $existing) {
+            $found = false;
+            foreach ($testcases as $testcase) {
+                if ($existing['test_case_id'] == $testcase['id']) {
+                    $found = true;
+                }
+            }
+            if (!$found) {
+                $testcasesForRemoval[] = $existing;
+            }
+        }
+
+        // What do add?
+        $testcasesForAdding = array();
+        foreach ($testcases as $testcase) {
+            $found = false;
+            foreach ($existingTestcaseVersions as $existing) {
+                if ($existing['test_case_id'] == $testcase['id']) {
+                    $found = true;
+                }
+            }
+            if (!$found) {
+                $testcasesForAdding[] = $testcase['version'];
+            }
+        }
+
+        // FIXME: bulk operations
+
+        foreach ($testcasesForAdding as $addMe) {
+            Log::info(sprintf('Adding testcase %s version %s to test plan %s', $addMe['name'], $addMe['version'], $testPlan['name']));
+            $testCaseVersionid = $addMe['id'];
+            HMVC::post("api/v1/testplans/$id/testcases/$testCaseVersionid");
+        }
+
+        foreach ($testcasesForRemoval as $removeMe) {
+            Log::info(sprintf('Removing test case %s version %s from test plan %s', $removeMe['name'], $removeMe['version'], $testPlan['name']));
+            $testCaseVersionid = $removeMe['id'];
+            HMVC::delete("api/v1/testplans/$id/testcases/$testCaseVersionid");
+        }
+    }
 }
