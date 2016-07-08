@@ -185,6 +185,7 @@ define([
 
         setTestPlanId: function(testPlanId) {
             this.testPlanId = testPlanId;
+            this.testPlanModel.set('id', this.testPlanId);
         },
 
         displayLoading: function() {
