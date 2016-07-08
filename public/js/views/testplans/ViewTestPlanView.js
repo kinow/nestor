@@ -101,6 +101,10 @@ define([
             this.subviews.testCaseView = this.testCaseView;
         },
 
+        cancelAndGoBack: function(evt) {
+            Backbone.history.navigate("#/planning", { trigger: false });
+        },
+
         render: function() {
             var self = this;
             $.when(this.testPlanModel.fetch(), this.navigationTreeCollection.fetch({ reset: true }))
@@ -286,10 +290,6 @@ define([
             var form = $("#testplan-navigation-tree-form");
             var data = $(form).serializeArray();
             console.log(data);
-        },
-
-        cancelAndGoBack: function(evt) {
-            Backbone.history.navigate("#/planning", { trigger: false });
         }
 
     });
