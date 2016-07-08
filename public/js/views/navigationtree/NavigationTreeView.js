@@ -29,7 +29,7 @@ define([
             this.rootNodeUrl = options.rootNodeUrl;
             this.nodeUrlPrefix = options.nodeUrlPrefix;
 
-            this.collection = options.collection
+            this.collection = options.collection;
         },
 
         events: {
@@ -94,7 +94,8 @@ define([
             console.log('Rendering navigation tree for project ID [' + this.projectId + ']');
             var el = options.el;
             var self = this;
-            var model = this.collection.get(this.projectId).toJSON();
+            var nodeObject = this.collection.get(this.projectId);
+            var model = nodeObject.toJSON();
 
             tree = [];
             var node = {

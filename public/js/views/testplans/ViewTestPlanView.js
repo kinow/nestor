@@ -11,7 +11,6 @@ define([
     'models/testsuite/TestSuiteModel',
     'models/testcase/TestCaseModel',
     'models/testplan/TestPlanModel',
-    'collections/core/ExecutionTypesCollection',
     'collections/navigationtree/NavigationTreeCollection',
     'text!templates/testplans/viewTestPlanTemplate.html',
     'text!templates/projects/projectNodeItemTemplate.html',
@@ -30,7 +29,6 @@ define([
     TestSuiteModel,
     TestCaseModel,
     TestPlanModel,
-    ExecutionTypesCollection,
     NavigationTreeCollection,
     viewTestPlanTemplate,
     projectNodeItemTemplate,
@@ -71,7 +69,6 @@ define([
             this.testPlanId = parseInt(options.testPlanId);
 
             // Collections
-            this.executionTypesCollection = new ExecutionTypesCollection();
             this.navigationTreeCollection = new NavigationTreeCollection({
                 projectId: self.projectId
             });
@@ -104,6 +101,15 @@ define([
             this.subviews.testCaseView = this.testCaseView;
         },
 
+        render: function() {
+            var self = this;
+            $.when(this.testPlanModel.fetch(), this.navigationTreeCollection.fetch({ reset: true }))
+                .done(function() {
+                    self.render2();
+                })
+            ;
+        },
+
         render2: function() {
             $('.item').removeClass('active');
             $('.item a[href="#/planning"]').parent().addClass('active');
@@ -113,15 +119,6 @@ define([
 
             this.$('#content-main').empty();
             this.updateNavigationTree();
-        },
-
-        render: function() {
-            var self = this;
-            $.when(this.testPlanModel.fetch(), this.navigationTreeCollection.fetch())
-                .done(function() {
-                    self.render2();
-                })
-            ;
         },
 
         updateNavigationTree: function(event) {
