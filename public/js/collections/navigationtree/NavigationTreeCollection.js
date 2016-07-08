@@ -24,29 +24,6 @@ define([
         parse: function (response) {
             return response;
         }
-        // models: [],
-
-        // initialize: function(options) {
-        //     this.rootId = 0;
-        // },
-
-        // setRootId: function(projectId) {
-        //     this.projectId = projectId;
-        //     var rootId = '1-' + projectId;
-        //     this.rootId = rootId;
-        // },
-
-        // url: function() {
-        //     return 'api/navigationtree/' + this.rootId;
-        // },
-
-        // parse: function(response) {
-        //     // TODO: discard?
-        //     var item = new NodeItemModel({
-        //         node_id: this.rootId
-        //     });
-        //     return response;
-        // }
 
     });
 
