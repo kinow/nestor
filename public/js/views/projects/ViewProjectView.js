@@ -98,8 +98,6 @@ define([
             this.confirmDeleteTestCaseView = new ConfirmDeleteTestCaseView();
 
             // Events
-            Backbone.on('nestor:navigationtree:project_changed', this.updateNavigationTree);
-            Backbone.on('nestor:navigationtree_changed', this.updateNavigationTree);
             Backbone.on('project:position', this.onProjectPositioned);
 
             // For GC
@@ -114,11 +112,16 @@ define([
             this.subviews.confirmDeleteTestCaseView = this.confirmDeleteTestCaseView;
         },
 
-        render: function() {
+        render: function(options) {
             var self = this;
+            console.log('fetching...');
             $.when(this.navigationTreeCollection.fetch({ reset: true }))
                 .done(function() {
                     self.render2();
+
+                    if (typeof options !== typeof undefined && typeof options.callback == 'function') {
+                        options.callback();console.log('callbacked');
+                    }
                 })
             ;
         },
@@ -161,12 +164,12 @@ define([
             this.testCaseModel.set('project_id', projectId);
 
             this.navigationTreeView.projectId = projectId;
+            this.navigationTreeCollection.projectId = projectId;
 
             if (this.projectId !== projectId/* || !$.trim($(this.navigationTreeView.el).html())*/) {
                 this.projectId = projectId;
-                Backbone.trigger('nestor:navigationtree:project_changed');
                 if (app.currentView == this) {
-                    this.displayProject();
+                    this.render({ callback: this.displayProject });
                 }
             }
         },
