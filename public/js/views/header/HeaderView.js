@@ -17,9 +17,7 @@ define([
             // Listen for session logged_in state changes and re-render
             app.session.on("change:logged_in", this.onLoginStatusChange);
 
-            options.collection.on('change', this.render, this);
-            options.collection.on('destroy', this.render, this);
-            //options.collection.on('all', function(evt) { console.log(evt); });
+            options.collection.bind('change add remove reset', this.render);
 
             if (!this.positionProjectComboboxView) {
                 var projectId = app.session.get('project_id');

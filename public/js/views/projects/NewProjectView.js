@@ -41,6 +41,7 @@ define([
         },
 
         save: function(event) {
+            var self = this;
             if (this.$("#new-project-form").parsley().validate()) {
                 var project = this.collection.create({
                     name: this.$("#project-name-input").val(),
@@ -52,6 +53,7 @@ define([
                         app.showAlert('Success!', 'New project ' + this.$("#project-name-input").val() + ' created!', 'success');
                         var changedAttributes = project.changedAttributes();
                         var projectId = changedAttributes.id;
+                        self.collection.trigger('change');
                         Backbone.history.navigate("#/projects", {
                             trigger: false
                         });
