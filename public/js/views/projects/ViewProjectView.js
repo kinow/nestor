@@ -99,6 +99,7 @@ define([
 
             // Events
             Backbone.on('project:position', this.onProjectPositioned);
+            Backbone.on('nestor:navigationtree_changed', this.updateNavigationTree);
 
             // For GC
             this.subviews = new Object();
@@ -120,7 +121,7 @@ define([
                     self.render2();
 
                     if (typeof options !== typeof undefined && typeof options.callback == 'function') {
-                        options.callback();console.log('callbacked');
+                        options.callback();
                     }
                 })
             ;
