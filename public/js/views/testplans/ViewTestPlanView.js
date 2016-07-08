@@ -132,7 +132,8 @@ define([
                 console.log('Rendering navigation tree!');
                 this.$('#navigation-tree').fancytree({});
                 self.navigationTreeView.render({
-                    el: self.$('#navigation-tree')
+                    el: self.$('#navigation-tree'),
+                    selected: self.testPlanModel.get('test_cases')
                 });
             }
         },

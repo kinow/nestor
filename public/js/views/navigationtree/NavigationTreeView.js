@@ -60,7 +60,7 @@ define([
             return true;
         },
 
-        convertToTree: function(parent, children, nodeUrlPrefix) {
+        convertToTree: function(parent, children, nodeUrlPrefix, selected) {
             for (idx in children) {
                 var child = children[idx];
                 var folder = parseInt(child.node_type_id) === 3 ? false : true;
@@ -76,7 +76,17 @@ define([
                     icon: this.getNodeIcon(child)
                 };
                 parent.children.push(node);
-                this.convertToTree(node, child.children, nodeUrlPrefix);
+                this.convertToTree(node, child.children, nodeUrlPrefix,selected);
+            }
+
+            // Only test cases can be selected... in the database at least.
+            if (parent.node_type_id == 3) {
+                for (entry in selected) {
+                    if (selected[entry]['test_case_id'] == parent.node_id) {
+                        parent.selected = true;
+                        parent.preselected = true;
+                    }
+                }
             }
         },
 
@@ -93,6 +103,10 @@ define([
         render: function(options) {
             console.log('Rendering navigation tree for project ID [' + this.projectId + ']');
             var el = options.el;
+            var selected = [];
+            if (typeof options.selected !== typeof undefined) {
+                selected = options.selected;
+            }
             var self = this;
             var nodeObject = this.collection.get(this.projectId);
             var model = nodeObject.toJSON();
@@ -107,9 +121,11 @@ define([
                 node_id: model.node_id,
                 node_type_id: model.node_type_id,
                 href: self.rootNodeUrl,
-                icon: true
+                icon: true,
+                selected: false,
+                preselected: false
             };
-            self.convertToTree(node, model.children, self.nodeUrlPrefix);
+            self.convertToTree(node, model.children, self.nodeUrlPrefix, selected);
             tree.push(node);
 
             // --- check boxes
@@ -255,6 +271,12 @@ define([
                     if(node.isActive() && node.data.href){
                         // TODO: data.tree.reactivate();
                     }
+                },
+                // https://github.com/mar10/fancytree/issues/581
+                init: function (e, data) {
+                    data.tree.getRootNode().visit(function (node) {
+                        if (node.data.preselected) node.setSelected(true);
+                    });
                 },
                 dnd: dnd
             });
