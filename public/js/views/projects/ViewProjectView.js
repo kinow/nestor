@@ -15,6 +15,7 @@ define([
     'models/testsuite/TestSuiteModel',
     'models/testcase/TestCaseModel',
     'collections/core/ExecutionTypesCollection',
+    'collections/navigationtree/NavigationTreeCollection',
     'text!templates/projects/viewProjectTemplate.html',
     'text!templates/projects/projectNodeItemTemplate.html',
     'text!templates/testsuites/testSuiteNodeItemTemplate.html',
@@ -36,6 +37,7 @@ define([
     TestSuiteModel,
     TestCaseModel,
     ExecutionTypesCollection,
+    NavigationTreeCollection,
     viewProjectTemplate,
     projectNodeItemTemplate,
     testSuiteNodeItemTemplate,
@@ -51,7 +53,7 @@ define([
 
         initialize: function(options) {
             _.bindAll(this,
-                'render',
+                'render', 'render2',
                 'setProjectId',
                 'setTestSuiteId',
                 'setTestCaseId',
@@ -67,19 +69,25 @@ define([
                 'displayShowTestCase',
                 'displayConfirmDeleteTestCase');
 
-            this.projectId = 0;
-            if (typeof options !== typeof undefined && typeof options.projectId !== typeof undefined) {
-                this.projectId = parseInt(options.projectId);
-            }
+            var self = this;
+
+            this.projectId = parseInt(options.projectId);
             this.testSuiteId = 0;
             this.testCaseId = 0;
+
+            // Collections
+            this.executionTypesCollection = new ExecutionTypesCollection();
+            this.navigationTreeCollection = new NavigationTreeCollection({
+                projectId: self.projectId
+            });
 
             // Views
             this.navigationTreeView = new NavigationTreeView({
                 draggable: true,
                 checkboxes: false,
                 rootNodeUrl: '#/specification',
-                nodeUrlPrefix: '#/projects'
+                nodeUrlPrefix: '#/projects',
+                collection: self.navigationTreeCollection
             });
             this.viewNodeItemView = new ViewNodeItemView();
             this.newTestSuiteView = new NewTestSuiteView();
@@ -88,9 +96,6 @@ define([
             this.confirmDeleteTestSuiteView = new ConfirmDeleteTestSuiteView();
             this.testCaseView = new TestCaseView();
             this.confirmDeleteTestCaseView = new ConfirmDeleteTestCaseView();
-
-            // Collections
-            this.executionTypesCollection = new ExecutionTypesCollection();
 
             // Events
             Backbone.on('nestor:navigationtree:project_changed', this.updateNavigationTree);
@@ -109,8 +114,16 @@ define([
             this.subviews.confirmDeleteTestCaseView = this.confirmDeleteTestCaseView;
         },
 
-
         render: function() {
+            var self = this;
+            $.when(this.navigationTreeCollection.fetch({ reset: true }))
+                .done(function() {
+                    self.render2();
+                })
+            ;
+        },
+
+        render2: function() {
             $('.item').removeClass('active');
             $('.item a[href="#/specification"]').parent().addClass('active');
 
@@ -121,18 +134,27 @@ define([
             this.updateNavigationTree();
         },
 
+        updateNavigationTree: function(event) {
+            console.log('Rendering navigation tree!');
+            if (app.currentView == this) {
+                this.$('#navigation-tree').fancytree({});
+                this.navigationTreeView.render({
+                    el: this.$('#navigation-tree')
+                });
+            }
+        },
+
         setProjectId: function(id) {
             var projectId = parseInt(id);
             // update project ID in models
             this.projectModel = new ProjectModel();
             this.projectModel.set('id', projectId);
-            this.projectModel.projectId = projectId;
 
             this.testSuiteModel = new TestSuiteModel();
-            this.testSuiteModel.project_id = projectId;
+            this.testSuiteModel.set('project_id', projectId);
 
             this.testCaseModel = new TestCaseModel();
-            this.testCaseModel.project_id = projectId;
+            this.testCaseModel.set('project_id', projectId);
 
             this.navigationTreeView.projectId = projectId;
 
@@ -169,14 +191,6 @@ define([
 
         onProjectPositioned: function(objects) {
             this.setProjectId(objects[0].id);
-        },
-
-        updateNavigationTree: function(event) {
-            console.log('Rendering navigation tree!');
-            this.$('#navigation-tree').fancytree({});
-            this.navigationTreeView.render({
-                el: this.$('#navigation-tree')
-            });
         },
 
         displayLoading: function() {
