@@ -838,12 +838,95 @@ define([
 
         // --- end test plans router ---
 
+        // --- executions router ---
+        var executionsRouter = new ExecutionsRouter();
+
+        executionsRouter.on('route:showExecutions', function(queryString) {
+            checkIfProjectIsSet();
+            var id = app.session.get('project_id');
+            var params = parseQueryString(queryString);
+            var page = 1;
+            if (typeof(params.page) != "undefined") {
+                page = params.page;
+            }
+            // if (!app.testPlansView) {
+            //     app.testPlansView = new TestPlansView();
+            // }
+            // app.testPlansView.setPage(page);
+            // app.testPlansView.setProjectId(id);
+            // app.showView(app.testPlansView, {
+            //     requiresAuth: true
+            // });
+        });
+
+        executionsRouter.on('route:showAddExecution', function(testPlanId, queryString) {
+            checkIfProjectIsSet();
+            var params = parseQueryString(queryString);
+            // if (!app.newTestPlanView) {
+            //     app.newTestPlanView = new NewTestPlanView();
+            // }
+            // app.newTestPlanView.setProjectId(app.session.get('project_id'));
+            // app.showView(app.newTestPlanView, {
+            //     requiresAuth: true
+            // });
+        });
+
+        executionsRouter.on('route:showExecution', function(testPlanId, executionId) {
+            checkIfProjectIsSet();
+            var id = app.session.get('project_id');
+            // if (!app.testPlanView) {
+            //     app.testPlanView = new TestPlanView();
+            // }
+            // app.testPlanView.testplanId = testPlanId;
+            // app.testPlanView.projectId = id;
+            // app.showView(app.testPlanView, {
+            //     requiresAuth: true
+            // });
+        });
+
+        executionsRouter.on('route:showConfirmDeleteExecution', function(testPlanId, executionId) {
+            checkIfProjectIsSet();
+            // if (!app.confirmDeleteTestPlanView) {
+            //     app.confirmDeleteTestPlanView = new ConfirmDeleteTestPlanView();
+            // }
+            // app.confirmDeleteTestPlanView.model.set('id', testPlanId);
+            // app.showView(app.confirmDeleteTestPlanView, {
+            //     requiresAuth: true
+            // });
+        });
+
+        // --- displayed as execution screen ---
+
+        executionsRouter.on('route:viewExecution', function(testPlanId, executionId) {
+            checkIfProjectIsSet();
+            var id = app.session.get('project_id');
+            // if (!app.viewTestPlanView) {
+            //     app.viewTestPlanView = new ViewTestPlanView({
+            //         projectId: id,
+            //         testPlanId: testPlanId
+            //     });
+            // }
+            // app.viewTestPlanView.setProjectId(id);
+            // app.viewTestPlanView.setTestPlanId(testPlanId);
+            // if (typeof app.currentView !== 'undefined' && app.currentView.cid == app.viewTestPlanView.cid) {
+            //     app.viewTestPlanView.displayProject();
+            // } else {
+            //     app.showView(app.viewTestPlanView, {
+            //         requiresAuth: true,
+            //         onSuccess: app.viewTestPlanView.displayProject
+            //     });
+            // }
+        });
+
+        // --- end executions router ---
+
         navigation.appendRouter(baseRouter);
         navigation.appendRouter(authRouter);
         navigation.appendRouter(projectsRouter);
         navigation.appendRouter(testSuitesRouter);
         navigation.appendRouter(testCasesRouter);
         navigation.appendRouter(testPlansRouter);
+        navigation.appendRouter(executionsRouter);
         navigation.mapRouters();
     };
 
