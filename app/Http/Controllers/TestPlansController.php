@@ -197,9 +197,12 @@ class TestPlansController extends Controller
         }
 
         $projectId = $testPlan['project_id'];
-        $testcases = $this->testCasesRepository->with(['testCaseVersions'])->scopeQuery(function ($query) use ($projectId) {
-            return $query->where('project_id', $projectId);
-        })->findWhereIn('id', $nodesSelected);
+        $testcases = $this->testCasesRepository
+            ->with(['testCaseVersions'])
+            ->scopeQuery(function ($query) use ($projectId) {
+                return $query->where('project_id', $projectId);
+            })
+            ->findWhereIn('id', $nodesSelected);
 
         // What to remove?
         $testcasesForRemoval = array();
@@ -211,7 +214,7 @@ class TestPlansController extends Controller
                 }
             }
             if (!$found) {
-                $testcasesForRemoval[] = $existing;
+                $testcasesForRemoval[] = $existing['test_case_id'];
             }
         }
 
@@ -234,22 +237,14 @@ class TestPlansController extends Controller
                 $testcasesForAdding[] = $testCaseversion->id;
             }
         }
+
+        $existingTestcaseVersions->detach($testcasesForRemoval);
         $existingTestcaseVersions->attach($testcasesForAdding);
 
-        // FIXME: bulk operations
-
-        die;
-
-        foreach ($testcasesForAdding as $addMe) {
-            Log::info(sprintf('Adding testcase %s version %s to test plan %s', $addMe['name'], $addMe['version'], $testPlan['name']));
-            $testCaseVersionid = $addMe['id'];
-            HMVC::post("api/v1/testplans/$id/testcases/$testCaseVersionid");
-        }
-
-        foreach ($testcasesForRemoval as $removeMe) {
-            Log::info(sprintf('Removing test case %s version %s from test plan %s', $removeMe['name'], $removeMe['version'], $testPlan['name']));
-            $testCaseVersionid = $removeMe['id'];
-            HMVC::delete("api/v1/testplans/$id/testcases/$testCaseVersionid");
-        }
+        return array(
+            'test_plan' => $testPlan,
+            'attach' => $testcasesForAdding,
+            'detach' => $testcasesForRemoval
+        );
     }
 }
