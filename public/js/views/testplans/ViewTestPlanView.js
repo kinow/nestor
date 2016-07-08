@@ -12,6 +12,7 @@ define([
     'models/testcase/TestCaseModel',
     'models/testplan/TestPlanModel',
     'collections/navigationtree/NavigationTreeCollection',
+    'collections/testplan/TestPlansCollection',
     'text!templates/testplans/viewTestPlanTemplate.html',
     'text!templates/projects/projectNodeItemTemplate.html',
     'text!templates/testsuites/testSuiteNodeItemTemplate.html',
@@ -30,6 +31,7 @@ define([
     TestCaseModel,
     TestPlanModel,
     NavigationTreeCollection,
+    TestPlansCollection,
     viewTestPlanTemplate,
     projectNodeItemTemplate,
     testSuiteNodeItemTemplate,
@@ -72,6 +74,7 @@ define([
             this.navigationTreeCollection = new NavigationTreeCollection({
                 projectId: self.projectId
             });
+            this.testPlansCollection = new TestPlansCollection();
 
             // Models
             this.testPlanModel = new TestPlanModel();
@@ -292,7 +295,8 @@ define([
             this.$('#navigation-tree').fancytree('getTree').generateFormElements(true, false);
             var form = $("#testplan-navigation-tree-form");
             var data = $(form).serializeArray();
-            console.log(data);
+
+            this.testPlansCollection.store(this.testPlanId, data);
         }
 
     });

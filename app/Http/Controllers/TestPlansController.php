@@ -29,7 +29,9 @@ use Log;
 use Nestor\Http\Controllers\Controller;
 use Nestor\Repositories\TestPlansRepository;
 use Nestor\Repositories\TestCasesRepository;
+use Nestor\Repositories\NavigationTreeRepository;
 use Nestor\Util\NavigationTreeUtil;
+use Nestor\Entities\NavigationTree;
 use Parsedown;
 use Validator;
 
@@ -52,15 +54,22 @@ class TestPlansController extends Controller
      * @var TestCasesRepository $testCasesRepository
      */
     protected $testCasesRepository;
+
+    /**
+     *
+     * @var NavigationTreeRepository $navigationTreeRepository
+     */
+    protected $navigationTreeRepository;
     
     /**
      *
      * @param TestPlansRepository $testPlansRepository
      */
-    public function __construct(TestPlansRepository $testPlansRepository, TestCasesRepository $testCasesRepository)
+    public function __construct(TestPlansRepository $testPlansRepository, TestCasesRepository $testCasesRepository, NavigationTreeRepository $navigationTreeRepository)
     {
         $this->testPlansRepository = $testPlansRepository;
         $this->testCasesRepository = $testCasesRepository;
+        $this->navigationTreeRepository = $navigationTreeRepository;
     }
     
     /**
@@ -178,31 +187,51 @@ class TestPlansController extends Controller
         );
     }
 
+    private function _getTestCasesFrom($children, &$testcases)
+    {
+        foreach ($children as $child) {
+            $executionType = NavigationTreeUtil::getDescendantExecutionType($child->descendant);
+            if ($executionType == NavigationTree::TEST_CASE_TYPE) {
+                $nodeId = NavigationTreeUtil::getDescendantNodeId($child->descendant);
+                $testcases[$nodeId] = $this->testCasesRepository
+                ->with(['testCaseVersions'])
+                ->find($nodeId);
+            }
+            if (isset($child->children) && !empty($child->children)) {
+                $this->getTestCasesFrom($children, $testcases);
+            }
+        }
+    }
+
     public function storeTestCases(Request $request, $id)
     {
+        // find what we have in the database right now
         $testPlan = $this->testPlansRepository->with('testCases')->find($id);
-        $existingTestcaseVersions = $testPlan->testCases();
+        $existingTestcaseVersionsRelationship = $testPlan->testCases();
+        $existingTestcaseVersions = $existingTestcaseVersionsRelationship->get();
         
+        // find what the user selected
         $nodesSelected = array();
         foreach ($request->all() as $entry => $value) {
             if (strpos($entry, 'ft_') === 0 && strpos($entry, 'ft_1_active') !== 0) {
                 if (is_array($value)) {
                     foreach ($value as $tempValue) {
-                        $nodesSelected[] = NavigationTreeUtil::getDescendantNodeId($tempValue);
+                        $nodesSelected[] = $tempValue;
                     }
                 } else {
-                    $nodesSelected[] = NavigationTreeUtil::getDescendantNodeId($value);
+                    $nodesSelected[] = $value;
                 }
             }
         }
 
+        // get the test cases that the user selected, from the database
         $projectId = $testPlan['project_id'];
-        $testcases = $this->testCasesRepository
-            ->with(['testCaseVersions'])
-            ->scopeQuery(function ($query) use ($projectId) {
-                return $query->where('project_id', $projectId);
-            })
-            ->findWhereIn('id', $nodesSelected);
+        $testcases = array();
+        foreach ($nodesSelected as $node) {
+            $children = $this->navigationTreeRepository->children($node, 1);
+            
+            $this->_getTestCasesFrom($children, $testcases);
+        }
 
         // What to remove?
         $testcasesForRemoval = array();
@@ -214,7 +243,7 @@ class TestPlansController extends Controller
                 }
             }
             if (!$found) {
-                $testcasesForRemoval[] = $existing['test_case_id'];
+                $testcasesForRemoval[] = $existing['id'];
             }
         }
 
@@ -238,8 +267,12 @@ class TestPlansController extends Controller
             }
         }
 
-        $existingTestcaseVersions->detach($testcasesForRemoval);
-        $existingTestcaseVersions->attach($testcasesForAdding);
+        if (count($testcasesForRemoval) > 0) {
+            $existingTestcaseVersionsRelationship->detach($testcasesForRemoval);
+        }
+        if (count($testcasesForAdding) > 0) {
+            $existingTestcaseVersionsRelationship->attach($testcasesForAdding);
+        }
 
         return array(
             'test_plan' => $testPlan,
