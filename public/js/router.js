@@ -31,6 +31,9 @@ define([
     // This is the view displayed when you browse the navigation tree in the planning
     // view.
     'views/testplans/ViewTestPlanView',
+    // Executions views
+    'views/executions/ExecuteTestPlansView',
+    'views/executions/ExecutionsView'
 ], function(
     _,
     Backbone,
@@ -51,7 +54,9 @@ define([
     NewTestPlanView,
     TestPlanView,
     ConfirmDeleteTestPlanView,
-    ViewTestPlanView) {
+    ViewTestPlanView,
+    ExecuteTestPlansView,
+    ExecutionsView) {
 
     'use strict';
 
@@ -338,8 +343,8 @@ define([
             // Execution routes
             'execution': 'showExecuteTestPlans',
             'execution?*queryString': 'showExecuteTestPlans',
-            'testplans/:testPlanId/executions': 'showExecuteTestPlans',
-            'testplans/:testPlanId/executions?*queryString': 'showExecuteTestPlans',
+            'testplans/:testPlanId/executions': 'showExecutions',
+            'testplans/:testPlanId/executions?*queryString': 'showExecutions',
             'testplans/:testPlanId/executions/new': 'showAddExecution',
             'testplans/:testPlanId/executions/:executionId': 'showExecution',
             'testplans/:testPlanId/executions/:executionId/confirmDelete': 'showConfirmDeleteExecution',
@@ -351,6 +356,15 @@ define([
                 'Executions.showExecuteTestPlans': {
                     template: 'Execution',
                     parent: 'Base.defaultAction'
+                },
+                'Executions.showExecutions': {
+                    template: function(args) {
+                        var tpl = _.template('Executions for test plan <%= args[":testPlanId"] %>');
+                        return tpl({
+                            args: args
+                        });
+                    },
+                    parent: 'Executions.showExecuteTestPlans'
                 },
                 'Executions.showAddExecution': {
                     template: 'Add new Execution',
@@ -841,7 +855,7 @@ define([
         // --- executions router ---
         var executionsRouter = new ExecutionsRouter();
 
-        executionsRouter.on('route:showExecutions', function(queryString) {
+        executionsRouter.on('route:showExecuteTestPlans', function(queryString) {
             checkIfProjectIsSet();
             var id = app.session.get('project_id');
             var params = parseQueryString(queryString);
@@ -849,14 +863,33 @@ define([
             if (typeof(params.page) != "undefined") {
                 page = params.page;
             }
-            // if (!app.testPlansView) {
-            //     app.testPlansView = new TestPlansView();
-            // }
-            // app.testPlansView.setPage(page);
-            // app.testPlansView.setProjectId(id);
-            // app.showView(app.testPlansView, {
-            //     requiresAuth: true
-            // });
+            if (!app.executeTestPlansView) {
+                app.executeTestPlansView = new ExecuteTestPlansView();
+            }
+            app.executeTestPlansView.setPage(page);
+            app.executeTestPlansView.setProjectId(id);
+            app.showView(app.executeTestPlansView, {
+                requiresAuth: true
+            });
+        });
+
+        executionsRouter.on('route:showExecutions', function(testPlanId, queryString) {
+            checkIfProjectIsSet();
+            var id = app.session.get('project_id');
+            var params = parseQueryString(queryString);
+            var page = 1;
+            if (typeof(params.page) != "undefined") {
+                page = params.page;
+            }
+            if (!app.executionsView) {
+                app.executionsView = new ExecutionsView();
+            }
+            app.executionsView.setPage(page);
+            app.executionsView.setProjectId(id);
+            app.executionsView.setTestPlanId(testPlanId);
+            app.showView(app.executionsView, {
+                requiresAuth: true
+            });
         });
 
         executionsRouter.on('route:showAddExecution', function(testPlanId, queryString) {
