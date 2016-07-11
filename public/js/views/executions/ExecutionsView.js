@@ -3,35 +3,30 @@ define([
     'underscore',
     'backbone',
     'app',
-    'models/testplan/TestPlanModel',
-    'collections/testplan/TestPlansCollection',
-    'views/testplans/TestPlansListView',
+    'models/execution/ExecutionModel',
+    'collections/executions/ExecutionsCollection',
+    'views/executions/ExecutionsListView',
     'text!templates/executions/executionsTemplate.html'
-], function($, _, Backbone, app, TestPlanModel, TestPlansCollection, TestPlansListView, executionsTemplate) {
+], function($, _, Backbone, app, ExecutionModel, ExecutionsCollection, ExecutionsListView, executionsTemplate) {
 
     var ExecutionsView = Backbone.View.extend({
         el: $("#page"),
 
         initialize: function(options) {
-            _.bindAll(this, 'setPage', 'setProjectId', 'setTestPlanId', 'render');
+            _.bindAll(this, 'setPage', 'setTestPlanId', 'render');
             this.page = 1;
-            this.projectId = 0;
             this.testPlanId = 0;
             // Collections
-            this.testPlansCollection = new TestPlansCollection();
+            this.executionsCollection = new ExecutionsCollection();
             // Views
-            this.testplansListView = new TestPlansListView();
+            this.executionsListView = new ExecutionsListView();
             // For GC
             this.subviews = new Object();
-            this.subviews.testplansListView = this.testplansListView;
+            this.subviews.executionsListView = this.executionsListView;
         },
 
         setPage: function(page) {
             this.page = page;
-        },
-
-        setProjectId: function(projectId) {
-            this.projectId = projectId;
         },
 
         setTestPlanId: function(testPlanId) {
@@ -49,16 +44,16 @@ define([
             };
             var compiledTemplate = _.template(executionsTemplate, data);
             this.$el.html(compiledTemplate);
-            this.testPlansCollection.fetch({
+            this.executionsCollection.fetch({
                 data: {
                     page: self.page,
                     test_plan_id: self.testPlanId
                 },
                 success: function() {
-                    self.testplansListView.render(self.testPlansCollection);
+                    self.executionsListView.render(self.executionsCollection);
                 },
                 error: function() {
-                    throw new Error("Failed to fetch projects");
+                    throw new Error("Failed to fetch executions");
                 }
             });
         }
