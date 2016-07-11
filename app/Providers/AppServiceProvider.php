@@ -50,6 +50,8 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind('Nestor\Repositories\TestSuitesRepository', 'Nestor\Repositories\TestSuitesRepositoryEloquent');
         $this->app->bind('Nestor\Repositories\TestCasesRepository', 'Nestor\Repositories\TestCasesRepositoryEloquent');
         $this->app->bind('Nestor\Repositories\TestPlansRepository', 'Nestor\Repositories\TestPlansRepositoryEloquent');
+        $this->app->bind('Nestor\Repositories\TestRunsRepository', 'Nestor\Repositories\TestRunsRepositoryEloquent');
+        $this->app->bind('Nestor\Repositories\ExecutionsRepository', 'Nestor\Repositories\ExecutionsRepositoryEloquent');
     }
     
     /**
