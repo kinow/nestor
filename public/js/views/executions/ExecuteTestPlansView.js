@@ -45,6 +45,7 @@ define([
                     project_id: self.projectId
                 },
                 success: function() {
+                    console.log(self.testPlansCollection);
                     self.testplansListView.render(self.testPlansCollection);
                 },
                 error: function() {

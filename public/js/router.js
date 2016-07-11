@@ -885,7 +885,6 @@ define([
                 app.executionsView = new ExecutionsView();
             }
             app.executionsView.setPage(page);
-            app.executionsView.setProjectId(id);
             app.executionsView.setTestPlanId(testPlanId);
             app.showView(app.executionsView, {
                 requiresAuth: true
