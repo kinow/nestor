@@ -120,6 +120,9 @@ $api->version('v1', function ($api) {
     $api->put('testplans/{id}', 'Nestor\Http\Controllers\TestPlansController@update');
     $api->delete('testplans/{id}', 'Nestor\Http\Controllers\TestPlansController@destroy');
     $api->post('testplans/{id}/store', 'Nestor\Http\Controllers\TestPlansController@storeTestCases');
+
+    // test plans
+    $api->get('executions', 'Nestor\Http\Controllers\ExecutionsController@index');
 });
 
 // Display all SQL executed in Eloquent
