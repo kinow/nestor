@@ -4,10 +4,10 @@ define([
     'backbone',
     'app',
     'simplemde',
-    'collections/executions/ExecutionsCollection',
+    'collections/testruns/TestRunsCollection',
     'collections/testplan/TestPlansCollection',
-    'text!templates/executions/newExecutionTemplate.html'
-], function($, _, Backbone, app, SimpleMDE, ExecutionsCollection, TestPlansCollection, newExecutionTemplate) {
+    'text!templates/testruns/newTestRunTemplate.html'
+], function($, _, Backbone, app, SimpleMDE, TestRunsCollection, TestPlansCollection, newTestRunTemplate) {
 
     var NewExecutionView = Backbone.View.extend({
         el: $("#page"),
@@ -15,7 +15,7 @@ define([
         initialize: function() {
             _.bindAll(this, 'render', 'save', 'setTestPlanId');
             this.projectId = 0;
-            this.collection = new ExecutionsCollection();
+            this.collection = new TestRunsCollection();
             this.testPlansCollection = new TestPlansCollection();
         },
 
@@ -31,7 +31,7 @@ define([
             this.projectsCollection.fetch({
                 success: function(collection, response, options) {
                     var projects = collection;
-                    var compiledTemplate = _.template(newExecutionTemplate, {
+                    var compiledTemplate = _.template(newTestRunTemplate, {
                         projects: projects
                     });
                     self.$el.html(compiledTemplate);

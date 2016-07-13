@@ -893,14 +893,14 @@ define([
             });
         });
 
-        testRunsRouter.on('route:showAddExecution', function(testPlanId, queryString) {
+        testRunsRouter.on('route:showAddTestRun', function(testPlanId, queryString) {
             checkIfProjectIsSet();
             var params = parseQueryString(queryString);
-            if (!app.newExecutionView) {
-                app.newExecutionView = new NewExecutionView();
+            if (!app.newTestRunView) {
+                app.newTestRunView = new NewTestRunView();
             }
-            app.newExecutionView.setTestPlanId(testPlanId);
-            app.showView(app.newExecutionView, {
+            app.newTestRunView.setTestPlanId(testPlanId);
+            app.showView(app.newTestRunView, {
                 requiresAuth: true
             });
         });

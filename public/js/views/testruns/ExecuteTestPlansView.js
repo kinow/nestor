@@ -5,8 +5,8 @@ define([
     'app',
     'models/testplan/TestPlanModel',
     'collections/testplan/TestPlansCollection',
-    'views/executions/TestPlansListView',
-    'text!templates/executions/executeTestPlansTemplate.html'
+    'views/testruns/TestPlansListView',
+    'text!templates/testruns/executeTestPlansTemplate.html'
 ], function($, _, Backbone, app, TestPlanModel, TestPlansCollection, TestPlansListView, executeTestPlansTemplate) {
 
     var ExecuteTestPlansView = Backbone.View.extend({

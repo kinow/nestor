@@ -3,7 +3,7 @@ define([
     'jquery',
     'underscore',
     'backbone',
-    'text!templates/executions/executionsListTemplate.html'
+    'text!templates/testruns/testRunsListTemplate.html'
 ], function($, _, Backbone, executionsListTemplate) {
     var ExecutionsListView = Backbone.View.extend({
         el: $("#executions-list"),
