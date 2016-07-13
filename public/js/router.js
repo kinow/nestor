@@ -31,10 +31,10 @@ define([
     // This is the view displayed when you browse the navigation tree in the planning
     // view.
     'views/testplans/ViewTestPlanView',
-    // Executions views
-    'views/testruns/ExecuteTestPlansView',
-    'views/testruns/ExecutionsView',
-    'views/testruns/NewExecutionView'
+    // Test Runs views
+    'views/testruns/ExecuteTestRunsView',
+    'views/testruns/TestRunsView',
+    'views/testruns/NewTestRunView'
 ], function(
     _,
     Backbone,
@@ -56,9 +56,9 @@ define([
     TestPlanView,
     ConfirmDeleteTestPlanView,
     ViewTestPlanView,
-    ExecuteTestPlansView,
-    ExecutionsView,
-    NewExecutionView) {
+    ExecuteTestRunsView,
+    TestRunsView,
+    NewTestRunView) {
 
     'use strict';
 
@@ -854,10 +854,10 @@ define([
 
         // --- end test plans router ---
 
-        // --- executions router ---
-        var executionsRouter = new ExecutionsRouter();
+        // --- test runs router ---
+        var testRunsRouter = new TestRunsRouter();
 
-        executionsRouter.on('route:showExecuteTestPlans', function(queryString) {
+        testRunsRouter.on('route:showExecuteTestRuns', function(queryString) {
             checkIfProjectIsSet();
             var id = app.session.get('project_id');
             var params = parseQueryString(queryString);
@@ -865,17 +865,17 @@ define([
             if (typeof(params.page) != "undefined") {
                 page = params.page;
             }
-            if (!app.executeTestPlansView) {
-                app.executeTestPlansView = new ExecuteTestPlansView();
+            if (!app.executeTestRunsView) {
+                app.executeTestRunsView = new ExecuteTestRunsView();
             }
-            app.executeTestPlansView.setPage(page);
-            app.executeTestPlansView.setProjectId(id);
-            app.showView(app.executeTestPlansView, {
+            app.executeTestRunsView.setPage(page);
+            app.executeTestRunsView.setProjectId(id);
+            app.showView(app.executeTestRunsView, {
                 requiresAuth: true
             });
         });
 
-        executionsRouter.on('route:showExecutions', function(testPlanId, queryString) {
+        testRunsRouter.on('route:showTestRuns', function(testPlanId, queryString) {
             checkIfProjectIsSet();
             var id = app.session.get('project_id');
             var params = parseQueryString(queryString);
@@ -883,17 +883,17 @@ define([
             if (typeof(params.page) != "undefined") {
                 page = params.page;
             }
-            if (!app.executionsView) {
-                app.executionsView = new ExecutionsView();
+            if (!app.testRunsView) {
+                app.testRunsView = new TestRunsView();
             }
-            app.executionsView.setPage(page);
-            app.executionsView.setTestPlanId(testPlanId);
-            app.showView(app.executionsView, {
+            app.testRunsView.setPage(page);
+            app.testRunsView.setTestPlanId(testPlanId);
+            app.showView(app.testRunsView, {
                 requiresAuth: true
             });
         });
 
-        executionsRouter.on('route:showAddExecution', function(testPlanId, queryString) {
+        testRunsRouter.on('route:showAddExecution', function(testPlanId, queryString) {
             checkIfProjectIsSet();
             var params = parseQueryString(queryString);
             if (!app.newExecutionView) {
@@ -905,7 +905,7 @@ define([
             });
         });
 
-        executionsRouter.on('route:showExecution', function(testPlanId, executionId) {
+        testRunsRouter.on('route:showExecution', function(testPlanId, executionId) {
             checkIfProjectIsSet();
             var id = app.session.get('project_id');
             // if (!app.testPlanView) {
@@ -918,7 +918,7 @@ define([
             // });
         });
 
-        executionsRouter.on('route:showConfirmDeleteExecution', function(testPlanId, executionId) {
+        testRunsRouter.on('route:showConfirmDeleteExecution', function(testPlanId, executionId) {
             checkIfProjectIsSet();
             // if (!app.confirmDeleteTestPlanView) {
             //     app.confirmDeleteTestPlanView = new ConfirmDeleteTestPlanView();
@@ -931,7 +931,7 @@ define([
 
         // --- displayed as execution screen ---
 
-        executionsRouter.on('route:viewExecution', function(testPlanId, executionId) {
+        testRunsRouter.on('route:viewExecution', function(testPlanId, executionId) {
             checkIfProjectIsSet();
             var id = app.session.get('project_id');
             // if (!app.viewTestPlanView) {
@@ -952,7 +952,7 @@ define([
             // }
         });
 
-        // --- end executions router ---
+        // --- end test runs router ---
 
         navigation.appendRouter(baseRouter);
         navigation.appendRouter(authRouter);
@@ -960,7 +960,7 @@ define([
         navigation.appendRouter(testSuitesRouter);
         navigation.appendRouter(testCasesRouter);
         navigation.appendRouter(testPlansRouter);
-        navigation.appendRouter(executionsRouter);
+        navigation.appendRouter(testRunsRouter);
         navigation.mapRouters();
     };
 
