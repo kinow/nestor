@@ -48,7 +48,9 @@ define([
                                 logged_in: false
                             });
                             var project_id = request.getResponseHeader('X-NESTORQA-PROJECT-ID');
-                            app.session.updateSessionProject(parseInt(project_id));
+                            if (typeof app !== typeof undefined) {
+                                app.session.updateSessionProject(parseInt(project_id));
+                            }
                         }
 
                         if (callback && 'success' in callback) callback.success(data);
