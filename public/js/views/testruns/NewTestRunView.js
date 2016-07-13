@@ -32,7 +32,7 @@ define([
                 autosave: {
                     enabled: false
                 },
-                element: $('#testplan-description-input')[0],
+                element: $('#testrun-description-input')[0],
                 indentWithTabs: false,
                 spellChecker: false,
                 tabSize: 4
@@ -44,12 +44,10 @@ define([
         },
 
         save: function(event) {
-            event.preventDefault();
-            event.stopPropagation();
-
-            if (this.$("#new-testplan-form").parsley().validate()) {
+            var self = this;
+            if (this.$("#new-testrun-form").parsley().validate()) {
                 var testPlan = this.collection.create({
-                    name: this.$("#testplan-name-input").val(),
+                    name: this.$("#testrun-name-input").val(),
                     description: this.simplemde.value(),
                     project_id: this.projectId
                 }, {
@@ -57,8 +55,8 @@ define([
                     success: function(mod, res) {
                         var changedAttributes = testPlan.changedAttributes();
                         var testPlanId = changedAttributes.id;
-                        app.showAlert('Success!', 'New test plan ' + this.$("#testplan-name-input").val() + ' created!', 'success')
-                        Backbone.history.navigate("#/planning", {
+                        app.showAlert('Success!', 'New test run ' + this.$("#testrun-name-input").val() + ' created!', 'success')
+                        Backbone.history.navigate("#/execution/" + self.testPlanId + '/testruns/', {
                             trigger: false
                         });
                     },
