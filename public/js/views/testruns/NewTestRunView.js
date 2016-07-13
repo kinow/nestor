@@ -14,7 +14,7 @@ define([
         initialize: function(options) {
             _.bindAll(this, 'render', 'save', 'setTestPlanId');
             this.projectId = 0;
-            this.collection = new TestRunsCollection({ test_plan_id: options });
+            this.collection = new TestRunsCollection({ test_plan_id: options.test_plan_id });
         },
 
         events: {
@@ -46,17 +46,17 @@ define([
         save: function(event) {
             var self = this;
             if (this.$("#new-testrun-form").parsley().validate()) {
-                var testPlan = this.collection.create({
+                var testRun = this.collection.create({
                     name: this.$("#testrun-name-input").val(),
                     description: this.simplemde.value(),
-                    project_id: this.projectId
+                    test_plan_id: self.testPlanId
                 }, {
                     wait: true,
                     success: function(mod, res) {
-                        var changedAttributes = testPlan.changedAttributes();
-                        var testPlanId = changedAttributes.id;
+                        var changedAttributes = testRun.changedAttributes();
+                        var testRunId = changedAttributes.id;
                         app.showAlert('Success!', 'New test run ' + this.$("#testrun-name-input").val() + ' created!', 'success')
-                        Backbone.history.navigate("#/execution/" + self.testPlanId + '/testruns/', {
+                        Backbone.history.navigate("#/execution/" + self.testPlanId + '/testruns/' + testRunId, {
                             trigger: false
                         });
                     },

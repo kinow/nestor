@@ -7,7 +7,7 @@ define([
     var TestRunModel = BaseModel.extend({
 
         defaults: {
-            project_id: 0,
+            test_plan_id: 0,
             name: 'No execution name set',
             description: 'No description set',
             url: '#/404'
@@ -15,10 +15,6 @@ define([
 
         initialize: function(options) {
             _.bindAll(this, 'parse', 'url');
-        },
-
-        url: function() {
-            return 'api/testplans/' + this.testPlanId + '/testruns';
         },
 
         parse: function(obj) {

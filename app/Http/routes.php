@@ -123,6 +123,7 @@ $api->version('v1', function ($api) {
 
     // test runs
     $api->get('testplans/{testPlanId}/testruns', 'Nestor\Http\Controllers\TestRunsController@index');
+    $api->post('testplans/{testPlanId}/testruns', 'Nestor\Http\Controllers\TestRunsController@store');
 
     // executions
     $api->get('executions', 'Nestor\Http\Controllers\ExecutionsController@index');
