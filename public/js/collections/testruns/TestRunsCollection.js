@@ -10,7 +10,7 @@ define([
 
         initialize: function(options) {
             _.bindAll(this, 'url', 'parse');
-            this.testPlanId = options.testPlanId;
+            this.testPlanId = options.test_plan_id;
             this.perPage = 0;
             this.currentPage = 0;
             this.lastPage = 0;
@@ -21,7 +21,7 @@ define([
         },
 
         url: function() {
-            return 'api/testplans/' + this.testPlanId + '/executions';
+            return 'api/testplans/' + this.testPlanId + '/testruns';
         },
 
         fetchError: function(collection, response) {

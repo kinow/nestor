@@ -345,59 +345,59 @@ define([
             // Execution routes
             'execution': 'showExecuteTestPlans',
             'execution?*queryString': 'showExecuteTestPlans',
-            'testplans/:testPlanId/executions': 'showExecutions',
-            'testplans/:testPlanId/executions?*queryString': 'showExecutions',
-            'testplans/:testPlanId/executions/new': 'showAddExecution',
-            'testplans/:testPlanId/executions/:executionId': 'showExecution',
-            'testplans/:testPlanId/executions/:executionId/confirmDelete': 'showConfirmDeleteExecution',
-            'testplans/:testPlanId/executions/:executionId/view': 'viewExecution'
+            'testplans/:testPlanId/testruns': 'showTestRuns',
+            'testplans/:testPlanId/testruns?*queryString': 'showTestRuns',
+            'testplans/:testPlanId/testruns/new': 'showAddTestRun',
+            'testplans/:testPlanId/testruns/:testRunId': 'showTestRun',
+            'testplans/:testPlanId/testruns/:testRunId/confirmDelete': 'showConfirmDeleteTestRun',
+            'testplans/:testPlanId/testruns/:testRunId/view': 'viewExecution'
         },
         navigation: {
-            prefix: 'Executions',
+            prefix: 'TestRuns',
             pages: {
-                'Executions.showExecuteTestPlans': {
+                'TestRuns.showExecuteTestPlans': {
                     template: 'Execution',
                     parent: 'Base.defaultAction'
                 },
-                'Executions.showExecutions': {
+                'TestRuns.showTestRuns': {
                     template: function(args) {
-                        var tpl = _.template('Executions for test plan <%= args[":testPlanId"] %>');
+                        var tpl = _.template('Test Runs for test plan <%= args[":testPlanId"] %>');
                         return tpl({
                             args: args
                         });
                     },
-                    parent: 'Executions.showExecuteTestPlans'
+                    parent: 'TestRuns.showExecuteTestPlans'
                 },
-                'Executions.showAddExecution': {
-                    template: 'Add new Execution',
-                    parent: 'Executions.showExecuteTestPlans'
+                'TestRuns.showAddTestRun': {
+                    template: 'Add new Test Run',
+                    parent: 'TestRuns.showExecuteTestPlans'
                 },
-                'Executions.showExecution': {
+                'TestRuns.showTestRun': {
                     template: function(args) {
-                        var tpl = _.template('Edit Execution <%= args[":executionId"] %>');
+                        var tpl = _.template('Edit Test Run <%= args[":testRunId"] %>');
                         return tpl({
                             args: args
                         });
                     },
-                    parent: 'Executions.showExecuteTestPlans'
+                    parent: 'TestRuns.showExecuteTestPlans'
                 },
-                'Executions.showConfirmDeleteExecution': {
+                'TestRuns.showConfirmDeleteTestRun': {
                     template: function(args) {
-                        var tpl = _.template('Delete Execution <%= args[":executionId"] %>');
+                        var tpl = _.template('Delete Test Run <%= args[":testRunId"] %>');
                         return tpl({
                             args: args
                         });
                     },
-                    parent: 'Executions.showExecuteTestPlans'
+                    parent: 'TestRuns.showExecuteTestPlans'
                 },
-                'Executions.viewExecution': {
+                'TestRuns.viewTestRun': {
                     template: function(args) {
                         var tpl = _.template('Executing Test Plan <%= args["testPlanId"] %>');
                         return tpl({
                             args: args
                         });
                     },
-                    parent: 'Executions.showExecuteTestPlans'
+                    parent: 'TestRuns.showExecuteTestPlans'
                 }
             }
         }
@@ -884,7 +884,9 @@ define([
                 page = params.page;
             }
             if (!app.testRunsView) {
-                app.testRunsView = new TestRunsView();
+                app.testRunsView = new TestRunsView({
+                    test_plan_id: testPlanId
+                });
             }
             app.testRunsView.setPage(page);
             app.testRunsView.setTestPlanId(testPlanId);
@@ -905,7 +907,7 @@ define([
             });
         });
 
-        testRunsRouter.on('route:showExecution', function(testPlanId, executionId) {
+        testRunsRouter.on('route:showTestRun', function(testPlanId, testRunId) {
             checkIfProjectIsSet();
             var id = app.session.get('project_id');
             // if (!app.testPlanView) {
@@ -918,7 +920,7 @@ define([
             // });
         });
 
-        testRunsRouter.on('route:showConfirmDeleteExecution', function(testPlanId, executionId) {
+        testRunsRouter.on('route:showConfirmDeleteTestRun', function(testPlanId, testRunId) {
             checkIfProjectIsSet();
             // if (!app.confirmDeleteTestPlanView) {
             //     app.confirmDeleteTestPlanView = new ConfirmDeleteTestPlanView();
@@ -931,7 +933,7 @@ define([
 
         // --- displayed as execution screen ---
 
-        testRunsRouter.on('route:viewExecution', function(testPlanId, executionId) {
+        testRunsRouter.on('route:viewTestRun', function(testPlanId, testRunId) {
             checkIfProjectIsSet();
             var id = app.session.get('project_id');
             // if (!app.viewTestPlanView) {

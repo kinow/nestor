@@ -9,7 +9,7 @@ define([
     'text!templates/testruns/testRunsTemplate.html'
 ], function($, _, Backbone, app, TestRunModel, TestRunsCollection, TestRunsListView, testRunsTemplate) {
 
-    var ExecutionsView = Backbone.View.extend({
+    var TestRuns = Backbone.View.extend({
         el: $("#page"),
 
         initialize: function(options) {
@@ -17,7 +17,7 @@ define([
             this.page = 1;
             this.testPlanId = 0;
             // Collections
-            this.testRunsCollection = new TestRunsCollection();
+            this.testRunsCollection = new TestRunsCollection({ test_plan_id: options.test_plan_id });
             // Views
             this.testRunsListView = new TestRunsListView();
             // For GC
@@ -60,6 +60,6 @@ define([
 
     });
 
-    return ExecutionsView;
+    return TestRuns;
 
 });

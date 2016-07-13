@@ -1,20 +1,20 @@
-<% _.each(executions, function(execution){ %>
+<% _.each(testruns, function(testrun){ %>
 <div class='ui middle aligned item'>
   <div class="right floated content">
     <div class='ui stackable menu'>
-      <a href="#/testplans/<%= execution.get('test_plan_id') %>/view" class="item">Manage Test Cases</a>
-      <a href="#/testplans/<%= execution.get('test_plan_id') %>" class="item">Edit</a>
-      <a href="#/testplans/<%= execution.get('test_plan_id') %>/confirmDelete" class="item">Delete</a>
+      <a href="#/testplans/<%= testrun.get('test_plan_id') %>/view" class="item">Manage Test Cases</a>
+      <a href="#/testplans/<%= testrun.get('test_plan_id') %>" class="item">Edit</a>
+      <a href="#/testplans/<%= testrun.get('test_plan_id') %>/confirmDelete" class="item">Delete</a>
     </div>
   </div>
   <div class="left floated content">
     <div class='ui vertical segment'>
-      <%= execution.get("name") %>
+      <%= testrun.get("name") %>
     </div>
   </div>
 </div>
 <% }); %>
-<% if (executions.length > 0 && collection.lastPage > 1) { %>
+<% if (testruns.length > 0 && collection.lastPage > 1) { %>
 <div class="ui pagination menu">
 <% if (collection.currentPage > 1) { %>
   <a class="item" rel="prev" href="/#/planning?page=<%= (collection.currentPage - 1) %>"><i class="chevron left icon"></i> Left</a>
