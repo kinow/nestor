@@ -32,8 +32,9 @@ define([
     // view.
     'views/testplans/ViewTestPlanView',
     // Executions views
-    'views/executions/ExecuteTestPlansView',
-    'views/executions/ExecutionsView'
+    'views/testruns/ExecuteTestPlansView',
+    'views/testruns/ExecutionsView',
+    'views/testruns/NewExecutionView'
 ], function(
     _,
     Backbone,
@@ -56,7 +57,8 @@ define([
     ConfirmDeleteTestPlanView,
     ViewTestPlanView,
     ExecuteTestPlansView,
-    ExecutionsView) {
+    ExecutionsView,
+    NewExecutionView) {
 
     'use strict';
 
@@ -894,13 +896,13 @@ define([
         executionsRouter.on('route:showAddExecution', function(testPlanId, queryString) {
             checkIfProjectIsSet();
             var params = parseQueryString(queryString);
-            // if (!app.newTestPlanView) {
-            //     app.newTestPlanView = new NewTestPlanView();
-            // }
-            // app.newTestPlanView.setProjectId(app.session.get('project_id'));
-            // app.showView(app.newTestPlanView, {
-            //     requiresAuth: true
-            // });
+            if (!app.newExecutionView) {
+                app.newExecutionView = new NewExecutionView();
+            }
+            app.newExecutionView.setTestPlanId(testPlanId);
+            app.showView(app.newExecutionView, {
+                requiresAuth: true
+            });
         });
 
         executionsRouter.on('route:showExecution', function(testPlanId, executionId) {
