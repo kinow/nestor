@@ -9,7 +9,7 @@ define([
     'text!templates/testruns/newTestRunTemplate.html'
 ], function($, _, Backbone, app, SimpleMDE, TestRunsCollection, TestPlansCollection, newTestRunTemplate) {
 
-    var NewExecutionView = Backbone.View.extend({
+    var NewTestRunView = Backbone.View.extend({
         el: $("#page"),
 
         initialize: function() {
@@ -20,7 +20,7 @@ define([
         },
 
         events: {
-            'click #new-execution-btn': 'save'
+            'click #new-testrun-btn': 'save'
         },
 
         render: function() {
@@ -97,6 +97,6 @@ define([
 
     });
 
-    return NewExecutionView;
+    return NewTestRunView;
 
 });

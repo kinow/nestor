@@ -4,9 +4,9 @@ define([
     'underscore',
     'backbone',
     'text!templates/testruns/testRunsListTemplate.html'
-], function($, _, Backbone, testRunsListTemplate) {
+], function($, _, Backbone, executionsListTemplate) {
     var ExecutionsListView = Backbone.View.extend({
-        el: $("#testruns-list"),
+        el: $("#executions-list"),
 
         initialize: function() {
             _.bindAll(this, 'render');
@@ -14,12 +14,12 @@ define([
 
         render: function(collection) {
             var data = {
-                testruns: collection.models,
+                executions: collection.models,
                 collection: collection,
                 _: _
             };
-            var compiledTemplate = _.template(testRunsListTemplate, data);
-            $("#testruns-list").html(compiledTemplate);
+            var compiledTemplate = _.template(executionsListTemplate, data);
+            $("#executions-list").html(compiledTemplate);
         }
 
     });

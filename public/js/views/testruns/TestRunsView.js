@@ -3,11 +3,11 @@ define([
     'underscore',
     'backbone',
     'app',
-    'models/execution/ExecutionModel',
-    'collections/executions/ExecutionsCollection',
-    'views/executions/ExecutionsListView',
-    'text!templates/executions/executionsTemplate.html'
-], function($, _, Backbone, app, ExecutionModel, ExecutionsCollection, ExecutionsListView, executionsTemplate) {
+    'models/testrun/TestRunModel',
+    'collections/testruns/TestRunsCollection',
+    'views/testruns/TestRunsListView',
+    'text!templates/testruns/testRunsTemplate.html'
+], function($, _, Backbone, app, TestRunModel, TestRunsCollection, TestRunsListView, testRunsTemplate) {
 
     var ExecutionsView = Backbone.View.extend({
         el: $("#page"),
@@ -17,12 +17,12 @@ define([
             this.page = 1;
             this.testPlanId = 0;
             // Collections
-            this.executionsCollection = new ExecutionsCollection();
+            this.testRunsCollection = new TestRunsCollection();
             // Views
-            this.executionsListView = new ExecutionsListView();
+            this.testRunsListView = new TestRunsListView();
             // For GC
             this.subviews = new Object();
-            this.subviews.executionsListView = this.executionsListView;
+            this.subviews.testRunsListView = this.testRunsListView;
         },
 
         setPage: function(page) {
@@ -42,15 +42,15 @@ define([
                 test_plan_id: this.testPlanId,
                 _: _
             };
-            var compiledTemplate = _.template(executionsTemplate, data);
+            var compiledTemplate = _.template(testRunsTemplate, data);
             this.$el.html(compiledTemplate);
-            this.executionsCollection.fetch({
+            this.testRunsCollection.fetch({
                 data: {
                     page: self.page,
                     test_plan_id: self.testPlanId
                 },
                 success: function() {
-                    self.executionsListView.render(self.executionsCollection);
+                    self.testRunsListView.render(self.testRunsCollection);
                 },
                 error: function() {
                     throw new Error("Failed to fetch executions");

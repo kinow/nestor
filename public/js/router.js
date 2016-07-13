@@ -32,7 +32,7 @@ define([
     // view.
     'views/testplans/ViewTestPlanView',
     // Test Runs views
-    'views/testruns/ExecuteTestRunsView',
+    'views/testruns/ExecuteTestPlansView',
     'views/testruns/TestRunsView',
     'views/testruns/NewTestRunView'
 ], function(
@@ -56,7 +56,7 @@ define([
     TestPlanView,
     ConfirmDeleteTestPlanView,
     ViewTestPlanView,
-    ExecuteTestRunsView,
+    ExecuteTestPlansView,
     TestRunsView,
     NewTestRunView) {
 
@@ -866,7 +866,7 @@ define([
                 page = params.page;
             }
             if (!app.executeTestRunsView) {
-                app.executeTestRunsView = new ExecuteTestRunsView();
+                app.executeTestRunsView = new ExecuteTestPlansView();
             }
             app.executeTestRunsView.setPage(page);
             app.executeTestRunsView.setProjectId(id);

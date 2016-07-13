@@ -4,7 +4,9 @@ define([
     'models/core/BaseModel',
 ], function(_, Backbone, BaseModel) {
 
-    var TestRunModel = BaseModel.extend({
+    var ExecutionModel = BaseModel.extend({
+
+        urlRoot: '/api/executions',
 
         defaults: {
             project_id: 0,
@@ -14,11 +16,7 @@ define([
         },
 
         initialize: function(options) {
-            _.bindAll(this, 'parse', 'url');
-        },
-
-        url: function() {
-            return 'api/testplans/' + this.testPlanId + '/testruns';
+            _.bindAll(this, 'parse');
         },
 
         parse: function(obj) {
@@ -29,6 +27,6 @@ define([
 
     });
 
-    return TestRunModel;
+    return ExecutionModel;
 
 });
