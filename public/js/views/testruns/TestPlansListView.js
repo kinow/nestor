@@ -3,8 +3,8 @@ define([
     'jquery',
     'underscore',
     'backbone',
-    'text!templates/executions/testplansListTemplate.html'
-], function($, _, Backbone, testplansListTemplate) {
+    'text!templates/testruns/testPlansListTemplate.html'
+], function($, _, Backbone, testPlansListTemplate) {
     var TestPlansListView = Backbone.View.extend({
         el: $("#testplans-list"),
 
@@ -18,7 +18,7 @@ define([
                 collection: collection,
                 _: _
             };
-            var compiledTemplate = _.template(testplansListTemplate, data);
+            var compiledTemplate = _.template(testPlansListTemplate, data);
             $("#testplans-list").html(compiledTemplate);
         }
 

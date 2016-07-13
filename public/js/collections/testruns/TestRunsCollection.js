@@ -3,7 +3,7 @@ define([
     'underscore',
     'backbone',
     'app',
-    'models/execution/TestRunModel'
+    'models/testrun/TestRunModel'
 ], function($, _, Backbone, app, TestRunModel){
     var TestRunsCollection = Backbone.Collection.extend({
         model: TestRunModel,

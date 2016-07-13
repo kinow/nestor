@@ -340,7 +340,7 @@ define([
         }
     });
 
-    var ExecutionsRouter = Backbone.Router.extend({
+    var TestRunsRouter = Backbone.Router.extend({
         routes: {
             // Execution routes
             'execution': 'showExecuteTestPlans',
@@ -857,7 +857,7 @@ define([
         // --- test runs router ---
         var testRunsRouter = new TestRunsRouter();
 
-        testRunsRouter.on('route:showExecuteTestRuns', function(queryString) {
+        testRunsRouter.on('route:showExecuteTestPlans', function(queryString) {
             checkIfProjectIsSet();
             var id = app.session.get('project_id');
             var params = parseQueryString(queryString);
