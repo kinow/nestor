@@ -63,7 +63,7 @@ define([
                         self.set({ 'logged_in' : true });
                         self.set({ 'user_id': parseInt(res.id) });
                         var project_id = options.xhr.getResponseHeader('X-NESTORQA-PROJECT-ID');
-                        if (project_id != self.get('project_id')) {
+                        if (typeof project_id !== typeof undefined && project_id !== null && project_id != self.get('project_id')) {
                             self.set('project_id', project_id);
                             new ProjectsCollection().position(project_id, false);
                         }
