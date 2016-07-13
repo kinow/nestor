@@ -899,7 +899,7 @@ define([
             checkIfProjectIsSet();
             var params = parseQueryString(queryString);
             if (!app.newTestRunView) {
-                app.newTestRunView = new NewTestRunView();
+                app.newTestRunView = new NewTestRunView({ test_plan_id: testPlanId });
             }
             app.newTestRunView.setTestPlanId(testPlanId);
             app.showView(app.newTestRunView, {

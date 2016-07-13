@@ -5,18 +5,16 @@ define([
     'app',
     'simplemde',
     'collections/testruns/TestRunsCollection',
-    'collections/testplan/TestPlansCollection',
     'text!templates/testruns/newTestRunTemplate.html'
-], function($, _, Backbone, app, SimpleMDE, TestRunsCollection, TestPlansCollection, newTestRunTemplate) {
+], function($, _, Backbone, app, SimpleMDE, TestRunsCollection, newTestRunTemplate) {
 
     var NewTestRunView = Backbone.View.extend({
         el: $("#page"),
 
-        initialize: function() {
+        initialize: function(options) {
             _.bindAll(this, 'render', 'save', 'setTestPlanId');
             this.projectId = 0;
-            this.collection = new TestRunsCollection();
-            this.testPlansCollection = new TestPlansCollection();
+            this.collection = new TestRunsCollection({ test_plan_id: options });
         },
 
         events: {
@@ -27,30 +25,17 @@ define([
             $('.item').removeClass('active');
             $('.item a[href="#/execution"]').parent().addClass('active');
 
-            var self = this;
-            this.projectsCollection.fetch({
-                success: function(collection, response, options) {
-                    var projects = collection;
-                    var compiledTemplate = _.template(newTestRunTemplate, {
-                        projects: projects
-                    });
-                    self.$el.html(compiledTemplate);
-                    self.$el.html(newTestPlanTemplate);
-                    self.simplemde = new SimpleMDE({
-                        autoDownloadFontAwesome: true, 
-                        autofocus: false,
-                        autosave: {
-                            enabled: false
-                        },
-                        element: $('#testplan-description-input')[0],
-                        indentWithTabs: false,
-                        spellChecker: false,
-                        tabSize: 4
-                    });
+            this.$el.html(newTestRunTemplate);
+            this.simplemde = new SimpleMDE({
+                autoDownloadFontAwesome: true, 
+                autofocus: false,
+                autosave: {
+                    enabled: false
                 },
-                error: function(collection, response, options) {
-                    throw new Error('Failure to retrieve projects!');
-                }
+                element: $('#testplan-description-input')[0],
+                indentWithTabs: false,
+                spellChecker: false,
+                tabSize: 4
             });
         },
 
