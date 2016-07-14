@@ -6,19 +6,12 @@ define([
   var UserModel = Backbone.Model.extend({
 
   	defaults: {
-  		id: 0,
   		name: '',
       email: '',
       password: ''
   	},
-
-  	initialize: function (options) {
-      //_.bindAll(this);
-  	},
-
-    url: function() {
-      return '/api/users';
-    }
+  	
+  	url: '/api/users'
 
   });
 
