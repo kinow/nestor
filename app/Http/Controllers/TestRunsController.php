@@ -88,7 +88,7 @@ class TestRunsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($testPlanId, $id)
     {
         $testRun = $this->testRunsRepository->find($id);
         $testRun->formatted_description = Parsedown::instance()->text($testRun->description);
