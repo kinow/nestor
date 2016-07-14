@@ -34,7 +34,8 @@ define([
     // Test Runs views
     'views/testruns/ExecuteTestPlansView',
     'views/testruns/TestRunsView',
-    'views/testruns/NewTestRunView'
+    'views/testruns/NewTestRunView',
+    'views/testruns/TestRunView'
 ], function(
     _,
     Backbone,
@@ -58,7 +59,8 @@ define([
     ViewTestPlanView,
     ExecuteTestPlansView,
     TestRunsView,
-    NewTestRunView) {
+    NewTestRunView,
+    TestRunView) {
 
     'use strict';
 
@@ -909,15 +911,14 @@ define([
 
         testRunsRouter.on('route:showTestRun', function(testPlanId, testRunId) {
             checkIfProjectIsSet();
-            var id = app.session.get('project_id');
-            // if (!app.testPlanView) {
-            //     app.testPlanView = new TestPlanView();
-            // }
-            // app.testPlanView.testplanId = testPlanId;
-            // app.testPlanView.projectId = id;
-            // app.showView(app.testPlanView, {
-            //     requiresAuth: true
-            // });
+            if (!app.testRunView) {
+                app.testRunView = new TestRunView({ test_plan_id: testPlanId });
+            }
+            app.testRunView.testRunId = testRunId;
+            app.testRunView.testPlanId = testPlanId;
+            app.showView(app.testRunView, {
+                requiresAuth: true
+            });
         });
 
         testRunsRouter.on('route:showConfirmDeleteTestRun', function(testPlanId, testRunId) {

@@ -1,0 +1,24 @@
+<h1 class="ui top attached header"><%= testrun.get('name') %></h1>
+<div class="ui attached segment">
+  <div class='ui form' id="testrun-form" data-parsley-validate>
+    <div class="field">
+      <label>Name</label>
+      <input name="name" id="testrun-name-input" placeholder="Name" type="text" value="<%= testrun.get('name') %>" data-parsley-required="true" data-parsley-length="[1,255]" />
+    </div>
+    <div class="field">
+      <label>Description</label>
+      <textarea name="description" placeholder="Description" id="testrun-description-input" data-parsley-required="false" data-parsley-length="[1,1000]"><%= testrun.get('description') %></textarea>
+    </div>
+    <button class="positive ui left floated button" id="testrun-btn">
+      Okay
+    </button>
+    <a href="javascript: window.history.back();" class="ui left floated button">
+      Cancel
+    </a>
+    <a href="#/testplans/<%= testrun.get('tets_plan_id') %>/testruns/<%= testrun.get('id') %>/confirmDelete" class="negative ui right floated button">
+      Delete
+    </a>
+    <br class='clearfix' />
+    <br/> 
+  </div>
+</div>

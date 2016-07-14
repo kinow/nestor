@@ -90,7 +90,9 @@ class TestRunsController extends Controller
      */
     public function show($id)
     {
-        //
+        $testRun = $this->testRunsRepository->find($id);
+        $testRun->formatted_description = Parsedown::instance()->text($testRun->description);
+        return $testRun;
     }
 
 
