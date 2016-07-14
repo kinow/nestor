@@ -103,7 +103,7 @@ class TestRunsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit($testPlanId, $id)
     {
         //
     }
@@ -117,7 +117,7 @@ class TestRunsController extends Controller
      *
      * @return Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, $testPlanId, $id)
     {
         //
     }
@@ -130,7 +130,7 @@ class TestRunsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy($testPlanId, $id)
     {
         //
     }
