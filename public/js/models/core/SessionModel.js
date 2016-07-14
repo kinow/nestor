@@ -1,5 +1,3 @@
-// File: SessionMode.js
-
 define([
     'underscore',
     'backbone',
@@ -96,10 +94,6 @@ define([
         signup: function(opts, callback, args){
             this.postAuth(_.extend(opts, { method: 'signup' }), callback);
         }
-
-        // removeAccount: function(opts, callback, args){
-        //     this.postAuth(_.extend(opts, { method: 'remove_account' }), callback);
-        // }
 
     });
 
