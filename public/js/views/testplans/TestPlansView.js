@@ -48,7 +48,7 @@ define([
                     self.testplansListView.render(self.testPlansCollection);
                 },
                 error: function() {
-                    throw new Error("Failed to fetch projects");
+                    throw new Error("Failed to fetch test plans");
                 }
             });
         }
