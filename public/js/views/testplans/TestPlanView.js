@@ -86,7 +86,7 @@ define([
                         ) {
                             message = response.responseJSON.name[0];
                         }
-                        app.showAlert('Failed to add new Test Case', message, 'error');
+                        app.showAlert('Failed to add new Test Plan', message, 'error');
                     }
                 });
             } else {
