@@ -65,7 +65,7 @@ define([
                     ) {
                         message = response.responseJSON.name[0];
                     }
-                    app.showAlert('Failed to delete Project', message, 'error');
+                    app.showAlert('Failed to delete Test Case', message, 'error');
                     Backbone.history.navigate("#/specification", {
                         trigger: false
                     });
