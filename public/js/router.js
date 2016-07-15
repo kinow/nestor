@@ -372,7 +372,7 @@ define([
                 },
                 'TestRuns.showAddTestRun': {
                     template: 'Add new Test Run',
-                    parent: 'TestRuns.showExecuteTestPlans'
+                    parent: 'TestRuns.showTestRuns'
                 },
                 'TestRuns.showTestRun': {
                     template: function(args) {
@@ -381,7 +381,7 @@ define([
                             args: args
                         });
                     },
-                    parent: 'TestRuns.showExecuteTestPlans'
+                    parent: 'TestRuns.showTestRuns'
                 },
                 'TestRuns.showConfirmDeleteTestRun': {
                     template: function(args) {
@@ -390,7 +390,7 @@ define([
                             args: args
                         });
                     },
-                    parent: 'TestRuns.showExecuteTestPlans'
+                    parent: 'TestRuns.showTestRuns'
                 },
                 'TestRuns.viewTestRun': {
                     template: function(args) {
@@ -399,7 +399,7 @@ define([
                             args: args
                         });
                     },
-                    parent: 'TestRuns.showExecuteTestPlans'
+                    parent: 'TestRuns.showTestRuns'
                 }
             }
         }
