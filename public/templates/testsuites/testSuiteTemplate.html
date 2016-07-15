@@ -1,6 +1,6 @@
 <h1 class="ui top attached header"><%= testsuite.get('name') %></h1>
 <div class="ui attached segment">
-	<form class='ui form' id="testsuite-form" data-parsley-validate>
+	<div class='ui form' id="testsuite-form" data-parsley-validate>
 		  <div class="field">
 			<label>Name</label>
 			<input name="name" id="testsuite-name-input" placeholder="Name" type="text" value="<%= testsuite.get('name') %>" />
@@ -20,5 +20,5 @@
 		  </a>
 		  <br class='clearfix' />
 		  <br/>	
-	</form>
+	</div>
 </div>
