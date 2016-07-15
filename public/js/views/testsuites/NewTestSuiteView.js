@@ -41,8 +41,6 @@ define([
         },
 
         save: function(event) {
-            event.preventDefault();
-            event.stopPropagation();
             var self = this;
 
             if (this.$("#new-testsuite-form").parsley().validate()) {
