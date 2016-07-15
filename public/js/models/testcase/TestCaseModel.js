@@ -7,7 +7,6 @@ define([
     var TestCaseModel = BaseModel.extend({
 
         defaults: {
-            id: null,
             project_id: 0,
             test_suite_id: 0,
             execution_type_id: 0,
