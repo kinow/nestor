@@ -35,7 +35,8 @@ define([
     'views/testruns/ExecuteTestPlansView',
     'views/testruns/TestRunsView',
     'views/testruns/NewTestRunView',
-    'views/testruns/TestRunView'
+    'views/testruns/TestRunView',
+    'views/testruns/ConfirmDeleteTestRunView'
 ], function(
     _,
     Backbone,
@@ -60,7 +61,8 @@ define([
     ExecuteTestPlansView,
     TestRunsView,
     NewTestRunView,
-    TestRunView) {
+    TestRunView,
+    ConfirmDeleteTestRunView) {
 
     'use strict';
 
@@ -923,13 +925,14 @@ define([
 
         testRunsRouter.on('route:showConfirmDeleteTestRun', function(testPlanId, testRunId) {
             checkIfProjectIsSet();
-            // if (!app.confirmDeleteTestPlanView) {
-            //     app.confirmDeleteTestPlanView = new ConfirmDeleteTestPlanView();
-            // }
-            // app.confirmDeleteTestPlanView.model.set('id', testPlanId);
-            // app.showView(app.confirmDeleteTestPlanView, {
-            //     requiresAuth: true
-            // });
+            if (!app.confirmDeleteTestRunView) {
+                app.confirmDeleteTestRunView = new ConfirmDeleteTestRunView({ test_plan_id: testPlanId });
+            }
+            app.confirmDeleteTestRunView.setTestPlanId(testPlanId);
+            app.confirmDeleteTestRunView.model.set('id', testRunId);
+            app.showView(app.confirmDeleteTestRunView, {
+                requiresAuth: true
+            });
         });
 
         // --- displayed as execution screen ---
