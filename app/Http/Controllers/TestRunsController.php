@@ -119,7 +119,22 @@ class TestRunsController extends Controller
      */
     public function update(Request $request, $testPlanId, $id)
     {
-        //
+        Log::debug("Updating an existing test run");
+        $payload = $request->only('name', 'description');
+        $payload['test_plan_id'] = $testPlanId;
+        $validator = Validator::make($payload, [
+            'test_plan_id' => 'min:1|integer',
+            'name' => 'required|max:255',
+            'description' => 'max:1000'
+        ]);
+
+        if ($validator->fails()) {
+            Log::debug('Validation failed while updating test run: ' . $validator->errors());
+            $this->throwValidationException($request, $validator);
+        }
+
+        $entity = $this->testRunsRepository->update($payload, $id);
+        return $entity;
     }
 
 
