@@ -11,7 +11,7 @@ define([
     var TestCaseView = Backbone.View.extend({
 
         events: {
-            'submit form': 'save'
+            'click #new-testcase-btn': 'save'
         },
 
         initialize: function() {
@@ -65,9 +65,6 @@ define([
         },
 
         save: function(event) {
-            event.preventDefault();
-            event.stopPropagation();
-
             var self = this;
 
             if (this.$("#testcase-form").parsley().validate()) {
