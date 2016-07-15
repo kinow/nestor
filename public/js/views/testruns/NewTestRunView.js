@@ -53,10 +53,8 @@ define([
                     }, {
                         wait: true,
                         success: function(mod, res) {
-                            var changedAttributes = testRun.changedAttributes();
-                            var testRunId = changedAttributes.test_run.id;
                             app.showAlert('Success!', 'New test run ' + this.$("#testrun-name-input").val() + ' created!', 'success')
-                            Backbone.history.navigate("#/execution/" + self.testPlanId + '/testruns/' + testRunId, {
+                            Backbone.history.navigate("#/testplans/" + self.testPlanId + '/testruns', {
                                 trigger: false
                             });
                         },

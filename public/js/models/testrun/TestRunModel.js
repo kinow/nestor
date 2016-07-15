@@ -24,7 +24,12 @@ define([
         },
 
         url: function() {
-            return '/api/testplans/' + this.get('test_plan_id') + '/testruns/' + this.get('id');
+            var url = '/api/testplans/' + this.get('test_plan_id') + '/testruns';
+            var id = this.get('id');
+            if (id != null) {
+                url += '/' + id;
+            }
+            return url;
         }
 
     });
