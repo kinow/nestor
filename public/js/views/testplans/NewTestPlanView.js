@@ -59,9 +59,6 @@ define([
         },
 
         save: function(event) {
-            event.preventDefault();
-            event.stopPropagation();
-
             if (this.$("#new-testplan-form").parsley().validate()) {
                 var testPlan = this.collection.create({
                     name: this.$("#testplan-name-input").val(),
