@@ -32,8 +32,7 @@ define([
         },
 
         events: {
-            "click #logout-link": "onLogoutClick",
-            "click #remove-account-link": "onRemoveAccountClick"
+            "click #logout-link": "onLogoutClick"
         },
 
         onLoginStatusChange: function(evt) {
@@ -58,11 +57,6 @@ define([
             });
         },
 
-        onRemoveAccountClick: function(evt) {
-            evt.preventDefault();
-            //app.session.removeAccount({});
-        },
-
         onProjectPositioned: function(objects) {
             this.positionProjectComboboxView.title = objects[0]['name'];
             app.session.updateSessionProject(objects[0]);
@@ -82,7 +76,6 @@ define([
             // update the HTML element of this view
             this.$el.html(compiledTemplate);
 
-            //this.$('#position-project-combobox').empty();
             this.positionProjectComboboxView.render();
             this.positionProjectComboboxView.delegateEvents();
             this.$('#position-project-combobox').html(this.positionProjectComboboxView.el);
