@@ -11,7 +11,7 @@ define([
     var TestCaseView = Backbone.View.extend({
 
         events: {
-            'click #new-testcase-btn': 'save'
+            'click #testcase-btn': 'save'
         },
 
         initialize: function() {
