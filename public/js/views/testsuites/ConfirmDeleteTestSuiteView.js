@@ -41,9 +41,6 @@ define([
         },
 
         doDelete: function(event) {
-            event.preventDefault();
-            event.stopPropagation();
-
             var self = this;
             this.model.destroy({
                 wait: true,
