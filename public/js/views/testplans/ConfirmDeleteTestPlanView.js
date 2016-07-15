@@ -34,7 +34,6 @@ define([
                     self.$el.html(compiledTemplate);
                 },
                 error: function() {
-                    //throw new Error("Failed to fetch testplan");
                     app.showAlert('Failed to delete Test Plan', 'Error fetching Test Plan!', 'error');
                     Backbone.history.history.back();
                 }
