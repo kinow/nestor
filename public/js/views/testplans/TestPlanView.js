@@ -56,7 +56,7 @@ define([
                     });
                 },
                 error: function() {
-                    throw new Error("Failed to fetch projects");
+                    throw new Error("Failed to fetch Test Plan");
                 }
             });
             this.delegateEvents();
