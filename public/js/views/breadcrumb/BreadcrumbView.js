@@ -23,7 +23,6 @@ define([
         },
 
         render: function() {
-            //this.$el.html(homeTemplate);
             var self = this;
             self.$el.empty();
             this.collection.each(function(breadcrumb, i) {
