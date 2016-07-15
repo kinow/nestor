@@ -44,11 +44,12 @@ define([
         },
 
         doDelete: function(event) {
+            var self = this;
             this.model.destroy({
                 wait: true,
                 success: function(mod, res) {
                     app.showAlert('Success!', 'Test Run deleted!', 'success')
-                    Backbone.history.navigate("#/execution", { trigger: false });
+                    Backbone.history.navigate("#/testplans/" + self.model.get('test_plan_id') + '/testruns', { trigger: false });
                 },
                 error: function(model, response, options) {
                     var message = _.has(response, 'statusText') ? response.statusText : 'Unknown error!';

@@ -147,6 +147,8 @@ class TestRunsController extends Controller
      */
     public function destroy($testPlanId, $id)
     {
-        //
+        return array (
+            'Result' => $this->testRunsRepository->delete($id)
+        );
     }
 }
