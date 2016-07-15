@@ -34,7 +34,6 @@ define([
                     self.$el.html(compiledTemplate);
                 },
                 error: function() {
-                    //throw new Error("Failed to fetch project");
                     app.showAlert('Failed to delete Project', 'Error fetching project!', 'error');
                     Backbone.history.navigate("#/projects", { trigger: false });
                 }
