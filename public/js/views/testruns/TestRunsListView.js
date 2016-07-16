@@ -20,6 +20,11 @@ define([
             };
             var compiledTemplate = _.template(testRunsListTemplate, data);
             $("#testruns-list").html(compiledTemplate);
+            $('.tooltip')
+              .popup({
+                on    : 'hover'
+              })
+            ;
         }
 
     });

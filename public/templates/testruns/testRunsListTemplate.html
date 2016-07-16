@@ -8,7 +8,9 @@
     </div>
     <div class="four wide column middle aligned">
       <!-- execution bar -->
-      <span class='ui label'><%= testrun.get("name") %></span>
+      <div class='tooltip' data-content='90%' data-position='top center'>
+        <span class='ui label'><%= testrun.get("name") %></span>
+      </div>
       <!-- end execution bar -->
     </div>
     <div class="four wide column right aligned middle aligned">
