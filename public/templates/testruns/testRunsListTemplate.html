@@ -6,10 +6,12 @@
         <%= testrun.get("name") %>
       </div>
     </div>
-    <div class="four wide column middle aligned">
+    <div class="four wide column">
       <!-- execution bar -->
       <div class='tooltip' data-content='90%' data-position='top center'>
-        <span class='ui label'><%= testrun.get("name") %></span>
+        <div class="ui progress success progressbar">
+          <div class="bar"></div>
+        </div>
       </div>
       <!-- end execution bar -->
     </div>
