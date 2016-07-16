@@ -6,7 +6,7 @@
         <%= testrun.get("name") %>
       </div>
     </div>
-    <div class="four wide column">
+    <div class="three wide column">
       <!-- execution bar -->
       <div class='tooltip' data-content='90%' data-position='top center'>
         <div class="ui progress success progressbar">
@@ -15,11 +15,12 @@
       </div>
       <!-- end execution bar -->
     </div>
-    <div class="four wide column right aligned middle aligned">
+    <div class="five wide column right aligned middle aligned">
       <div class='ui basic buttons'>
         <a href="#/testplans/<%= testrun.get('test_plan_id') %>/testruns/<%= testrun.get('id') %>/execute" class="ui basic button">Execute</a>
         <a href="#/testplans/<%= testrun.get('test_plan_id') %>/testruns/<%= testrun.get('id') %>" class="ui button">Edit</a>
         <a href="#/testplans/<%= testrun.get('test_plan_id') %>/testruns/<%= testrun.get('id') %>/confirmDelete" class="ui button">Delete</a>
+        <a href="#/testplans/<%= testrun.get('test_plan_id') %>/testruns/<%= testrun.get('id') %>/download" class="ui button"><i class="download icon"></i></a>
       </div>
     </div>
   </div>
