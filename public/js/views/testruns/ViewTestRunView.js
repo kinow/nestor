@@ -88,7 +88,7 @@ define([
             // Views
             this.navigationTreeView = new NavigationTreeView({
                 draggable: false,
-                checkboxes: true,
+                checkboxes: false,
                 rootNodeUrl: '#/testplans/' + options.testPlanId + '/testruns/' + options.testRunId + '/execute',
                 nodeUrlPrefix: '#/testplans/' + options.testPlanId + '/testruns/' + options.testRunId,
                 collection: self.navigationTreeCollection
