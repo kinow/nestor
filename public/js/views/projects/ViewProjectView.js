@@ -80,13 +80,12 @@ define([
             this.navigationTreeCollection = new NavigationTreeCollection({
                 projectId: self.projectId
             });
-
             // Views
             this.navigationTreeView = new NavigationTreeView({
                 draggable: true,
                 checkboxes: false,
                 rootNodeUrl: '#/specification',
-                nodeUrlPrefix: '#/projects',
+                nodeUrlPrefix: '#/projects/' + self.projectId,
                 collection: self.navigationTreeCollection
             });
             this.viewNodeItemView = new ViewNodeItemView();
@@ -165,6 +164,7 @@ define([
             this.testCaseModel.set('project_id', projectId);
 
             this.navigationTreeView.projectId = projectId;
+            this.navigationTreeView.nodeUrlPrefix = '#/projects/' + projectId;
             this.navigationTreeCollection.projectId = projectId;
 
             if (this.projectId !== projectId/* || !$.trim($(this.navigationTreeView.el).html())*/) {
