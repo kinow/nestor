@@ -230,7 +230,6 @@ define([
                     this.$('#content-main').empty();
                     this.$('#content-main').append(self.viewNodeItemView.el);
                     self.viewNodeItemView.delegateEvents();
-                    console.log(project);
                     var tree = this.$('#navigation-tree').fancytree('getTree');
                     if (typeof tree !== typeof undefined && typeof tree.getNodeByKey !== typeof undefined) {
                         var node = tree.getNodeByKey("1-" + project.get('id'));
