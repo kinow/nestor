@@ -14,7 +14,7 @@ define([
     'models/testrun/TestRunModel',
     'collections/navigationtree/NavigationTreeCollection',
     'collections/testruns/TestRunsCollection',
-    'text!templates/testplans/viewTestPlanTemplate.html',
+    'text!templates/testruns/viewTestRunTemplate.html',
     'text!templates/projects/projectNodeItemTemplate.html',
     'text!templates/testsuites/testSuiteNodeItemTemplate.html',
     'text!templates/testcases/testCaseNodeItemTemplate.html'
@@ -34,7 +34,7 @@ define([
     TestRunModel,
     NavigationTreeCollection,
     TestRunsCollection,
-    viewTestPlanTemplate,
+    viewTestRunTemplate,
     projectNodeItemTemplate,
     testSuiteNodeItemTemplate,
     testCaseNodeItemTemplate) {
@@ -67,7 +67,7 @@ define([
 
             var self = this;
 
-            this.project = parseInt(options.projectId);
+            this.projectId = parseInt(options.projectId);
             this.testSuiteId = 0;
             this.testCaseId = 0;
             this.testPlanId = parseInt(options.testPlanId);
@@ -89,8 +89,8 @@ define([
             this.navigationTreeView = new NavigationTreeView({
                 draggable: false,
                 checkboxes: true,
-                rootNodeUrl: '#/testplans/' + options.testPlanId + '/view',
-                nodeUrlPrefix: '#/testplans',
+                rootNodeUrl: '#/testplans/' + options.testPlanId + '/testruns/' + options.testRunId + '/execute',
+                nodeUrlPrefix: '#/testplans/' + options.testPlanId + '/testruns/' + options.testRunId,
                 collection: self.navigationTreeCollection
             });
             this.viewNodeItemView = new ViewNodeItemView();
@@ -110,12 +110,12 @@ define([
         },
 
         cancelAndGoBack: function(evt) {
-            Backbone.history.navigate("#/planning", { trigger: false });
+            Backbone.history.navigate("#/execution", { trigger: false });
         },
 
         render: function() {
             var self = this;
-            $.when(this.testPlanModel.fetch(), this.navigationTreeCollection.fetch({ reset: true }))
+            $.when(this.testRunModel.fetch(), this.navigationTreeCollection.fetch({ reset: true }))
                 .done(function() {
                     self.render2();
                 })
@@ -124,9 +124,9 @@ define([
 
         render2: function() {
             $('.item').removeClass('active');
-            $('.item a[href="#/planning"]').parent().addClass('active');
+            $('.item a[href="#/execution"]').parent().addClass('active');
 
-            var compiledTemplate = _.template(viewTestPlanTemplate, {});
+            var compiledTemplate = _.template(viewTestRunTemplate, {});
             this.$el.html(compiledTemplate);
 
             this.$('#content-main').empty();

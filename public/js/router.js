@@ -398,7 +398,7 @@ define([
                 },
                 'TestRuns.viewTestRun': {
                     template: function(args) {
-                        var tpl = _.template('Executing Test Plan <%= args["testPlanId"] %>');
+                        var tpl = _.template('Execute Test Run <%= args[":testRunId"] %>');
                         return tpl({
                             args: args
                         });
