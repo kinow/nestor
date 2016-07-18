@@ -44,7 +44,7 @@ define([
         getNodeHref: function(node, parent, nodeUrlPrefix) {
             var url = nodeUrlPrefix + '/testsuites/';
             if (parseInt(node.node_type_id) === 2) {
-                url += node.node_id + '/view';
+                url += node.node_id + this.nodeUrlSuffix;
             } else {
                 url += parent.node_id + '/testcases/' + node.node_id + this.nodeUrlSuffix;
             }
