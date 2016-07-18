@@ -85,7 +85,7 @@ define([
                 draggable: false,
                 checkboxes: true,
                 rootNodeUrl: '#/testplans/' + options.testPlanId + '/view',
-                nodeUrlPrefix: '#/testplans',
+                nodeUrlPrefix: '#/testplans/' + options.testPlanId,
                 collection: self.navigationTreeCollection
             });
             this.viewNodeItemView = new ViewNodeItemView();

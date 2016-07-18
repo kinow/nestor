@@ -91,6 +91,7 @@ define([
                 checkboxes: false,
                 rootNodeUrl: '#/testplans/' + options.testPlanId + '/testruns/' + options.testRunId + '/execute',
                 nodeUrlPrefix: '#/testplans/' + options.testPlanId + '/testruns/' + options.testRunId,
+                nodeUrlSuffix: '/execute',
                 collection: self.navigationTreeCollection
             });
             this.viewNodeItemView = new ViewNodeItemView();

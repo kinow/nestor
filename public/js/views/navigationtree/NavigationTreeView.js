@@ -29,6 +29,11 @@ define([
             this.rootNodeUrl = options.rootNodeUrl;
             this.nodeUrlPrefix = options.nodeUrlPrefix;
 
+            this.nodeUrlSuffix = '/view';
+            if (typeof options !== typeof undefined && typeof options.nodeUrlSuffix !== typeof undefined) {
+                this.nodeUrlSuffix = options.nodeUrlSuffix;
+            }
+
             this.collection = options.collection;
         },
 
@@ -37,11 +42,11 @@ define([
         },
 
         getNodeHref: function(node, parent, nodeUrlPrefix) {
-            var url = nodeUrlPrefix + '/' + this.projectId + '/testsuites/';
+            var url = nodeUrlPrefix + '/testsuites/';
             if (parseInt(node.node_type_id) === 2) {
                 url += node.node_id + '/view';
             } else {
-                url += parent.node_id + '/testcases/' + node.node_id + '/view';
+                url += parent.node_id + '/testcases/' + node.node_id + this.nodeUrlSuffix;
             }
             return url;
         },
