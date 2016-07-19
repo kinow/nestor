@@ -213,7 +213,7 @@ define([
         displayProject: function() {
             this.displayLoading();
             $('.item').removeClass('active');
-            $('.item a[href="#/planning"]').parent().addClass('active');
+            $('.item a[href="#/execution"]').parent().addClass('active');
             var self = this;
             this.projectModel.fetch({
                 success: function(responseData) {
