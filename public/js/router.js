@@ -202,7 +202,9 @@ define([
             'projects/:projectId/testsuites/:testsuiteId': 'showTestSuite',
             'projects/:projectId/testsuites/:testsuiteId/confirmDelete': 'showConfirmDeleteTestSuite',
             // test plan
-            'testplans/:testPlanId/testsuites/:testsuiteId/view': 'viewPlanTestSuite'
+            'testplans/:testPlanId/testsuites/:testsuiteId/view': 'viewPlanTestSuite',
+            // test run
+            'testplans/:testPlanId/testruns/:testRunId/testsuites/:testSuiteId/execute': 'viewExecuteTestSuite'
         },
         navigation: {
             prefix: 'TestSuites',
@@ -238,6 +240,15 @@ define([
                     },
                     parent: 'TestPlans.showTestPlans'
                 },
+                'TestSuites.viewExecuteTestSuite': {
+                    template: function(args) {
+                        var tpl = _.template('Test Suite <%= args[":testSuiteId"] %>');
+                        return tpl({
+                            args: args
+                        });
+                    },
+                    parent: 'TestRuns.viewTestRun'
+                }
             }
         }
     });
@@ -654,6 +665,31 @@ define([
                 app.showView(app.viewTestPlanView, {
                     requiresAuth: true,
                     onSuccess: app.viewTestPlanView.displayTestSuite
+                });
+            }
+        });
+
+        testSuitesRouter.on('route:viewExecuteTestSuite', function(testPlanId, testRunId, testSuiteId) {
+            checkIfProjectIsSet();
+            var id = app.session.get('project_id');
+            if (!app.viewTestRunView) {
+                app.viewTestRunView = new ViewTestRunView({
+                    projectId: id,
+                    testPlanId: testPlanId,
+                    testRunId: testRunId
+                });
+            }
+
+            app.viewTestRunView.setProjectId(id);
+            app.viewTestRunView.setTestPlanId(testPlanId);
+            app.viewTestRunView.setTestRunId(testRunId);
+            app.viewTestRunView.setTestSuiteId(testSuiteId);
+            if (typeof app.currentView !== 'undefined' && app.currentView.cid == app.viewTestRunView.cid) {
+                app.viewTestRunView.displayTestSuite();
+            } else {
+                app.showView(app.viewTestRunView, {
+                    requiresAuth: true,
+                    onSuccess: app.viewTestRunView.displayTestSuite
                 });
             }
         });
