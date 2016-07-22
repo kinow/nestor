@@ -11,6 +11,7 @@ define([
     'models/testsuite/TestSuiteModel',
     'models/testcase/TestCaseModel',
     'models/testplan/TestPlanModel',
+    'models/testrun/ExecutionStatusModel',
     'models/testrun/TestRunModel',
     'collections/navigationtree/NavigationTreeCollection',
     'collections/testruns/TestRunsCollection',
@@ -32,6 +33,7 @@ define([
     TestCaseModel,
     TestPlanModel,
     TestRunModel,
+    ExecutionStatusModel,
     NavigationTreeCollection,
     TestRunsCollection,
     viewTestRunTemplate,
@@ -84,6 +86,7 @@ define([
             this.testPlanModel.set('id', this.testPlanId);
             this.testRunModel = new TestRunModel({ test_plan_id: this.testPlanId });
             this.testRunModel.set('id', this.testPlanId);
+            this.executionStatusModel = new ExecutionStatusModel();
 
             // Views
             this.navigationTreeView = new NavigationTreeView({
@@ -281,24 +284,31 @@ define([
             this.testCaseModel.set('project_id', this.projectId);
             this.testCaseModel.set('test_suite_id', this.testSuiteId);
             this.testCaseModel.set('id', this.testCaseId);
-            this.testCaseModel.fetch({
-                success: function(responseData) {
-                    var testcase = self.testCaseModel;
-                    var data = {
-                        testcase: testcase,
-                        _: _
-                    };
+            var self = this;
+            $.when(this.testCaseModel.fetch(), this.executionStatusModel.fetch())
+                .done(function(testCaseResponse, executionStatusesResponse) {
+                    console.log(testCaseResponse);
+                    console.lo(executionStatusesResponse);
+                })
+            ;
+            // this.testCaseModel.fetch({
+            //     success: function(responseData) {
+            //         var testcase = self.testCaseModel;
+            //         var data = {
+            //             testcase: testcase,
+            //             _: _
+            //         };
 
-                    var compiledTemplate = _.template(testCaseExecuteNodeItemTemplate, data);
-                    self.viewNodeItemView.$el.html(compiledTemplate);
-                    self.$('#content-main').empty();
-                    self.$('#content-main').append(self.viewNodeItemView.el);
-                    self.$('#navigation-tree').fancytree('getTree').getNodeByKey("3-" + testcase.get('id')).setActive();
-                },
-                error: function() {
-                    throw new Error("Failed to fetch test case");
-                }
-            });
+            //         var compiledTemplate = _.template(testCaseExecuteNodeItemTemplate, data);
+            //         self.viewNodeItemView.$el.html(compiledTemplate);
+            //         self.$('#content-main').empty();
+            //         self.$('#content-main').append(self.viewNodeItemView.el);
+            //         self.$('#navigation-tree').fancytree('getTree').getNodeByKey("3-" + testcase.get('id')).setActive();
+            //     },
+            //     error: function() {
+            //         throw new Error("Failed to fetch test case");
+            //     }
+            // });
         }
 
     });

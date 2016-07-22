@@ -25,12 +25,36 @@
 
   <%= testcase.get('version')['execution_type']['name'] %>
 
-  <div class="item">
-    <div class="ui divider"></div>
-    <div class="right floated content">
-      <a href="#/projects/<%= testcase.get('project_id') %>/testsuites/<%= testcase.get('test_suite_id') %>/testcases/<%= testcase.get('id') %>" class="ui button">Edit</a>
-      <a href="#/projects/<%= testcase.get('project_id') %>/testsuites/<%= testcase.get('test_suite_id') %>/testcases/<%= testcase.get('id') %>/confirmDelete" class="ui button">Delete</a>
-    </div>
+  <div class='ui form' id="execute-testcase-form" data-parsley-validate>
+    <h3 class='ui header'>Execution Status</h3>
+    <div class="field">
+      <label>Name</label>
+      <input name="name" id="testcase-name-input" placeholder="Name" type="text" value="" data-parsley-required="true" data-parsley-length="[1,255]">
+      </div>
+      <div class="field">
+      <label>Description</label>
+            <textarea name="description" placeholder="Description" id="testcase-description-input" data-parsley-required="false" data-parsley-length="[1,1000]"></textarea>
+      </div>
+          <div class="field">
+            <label>Prerequisite</label>
+            <textarea name="prerequisite" placeholder="Prerequisite" id="testcase-prerequisite-input" data-parsley-required="false" data-parsley-length="[1,1000]"></textarea>
+          </div>
+          <div class="field">
+            <label>Execution type</label>
+            <select name='executiontype_id' id='testcase-executiontype_id-input' data-parsley-required="true" data-parsley-min="1">
+            <% _.each(execution_statuses, function(execution_status) { %>
+                <option value='<%= execution_status.id %>'><%= execution_status.get('name') %></option>
+            <% }); %>
+            </select>
+          </div>
+      <button class="positive ui left floated button" id="new-testcase-btn">
+        Okay
+      </button>
+      <a href="javascript: window.history.back();" class="ui left floated button">
+        Cancel
+      </a>
+      <br class='clearfix' />
+      <br/> 
   </div>
 
 </div>
