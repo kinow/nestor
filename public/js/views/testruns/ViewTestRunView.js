@@ -12,39 +12,39 @@ define([
     'models/testcase/TestCaseModel',
     'models/testplan/TestPlanModel',
     'models/testrun/TestRunModel',
-    'models/core/ExecutionStatusModel',
+    'collections/core/ExecutionStatusesCollection',
     'collections/navigationtree/NavigationTreeCollection',
     'collections/testruns/TestRunsCollection',
     'text!templates/testruns/viewTestRunTemplate.html',
     'text!templates/projects/projectNodeItemTemplate.html',
     'text!templates/testsuites/testSuiteNodeItemTemplate.html',
     'text!templates/testcases/testCaseExecuteNodeItemTemplate.html'
-], function(
-    $,
-    _,
-    Backbone,
-    app,
-    NavigationTreeView,
-    ViewNodeItemView,
-    TestSuiteView,
-    TestCaseView,
-    ProjectModel,
-    TestSuiteModel,
-    TestCaseModel,
-    TestPlanModel,
-    TestRunModel,
-    ExecutionStatusModel,
-    NavigationTreeCollection,
-    TestRunsCollection,
-    viewTestRunTemplate,
-    projectNodeItemTemplate,
-    testSuiteNodeItemTemplate,
-    testCaseExecuteNodeItemTemplate) {
+    ], function(
+        $,
+        _,
+        Backbone,
+        app,
+        NavigationTreeView,
+        ViewNodeItemView,
+        TestSuiteView,
+        TestCaseView,
+        ProjectModel,
+        TestSuiteModel,
+        TestCaseModel,
+        TestPlanModel,
+        TestRunModel,
+        ExecutionStatusesCollection,
+        NavigationTreeCollection,
+        TestRunsCollection,
+        viewTestRunTemplate,
+        projectNodeItemTemplate,
+        testSuiteNodeItemTemplate,
+        testCaseExecuteNodeItemTemplate) {
 
     /**
      * Displays the navigation tree.
      */
-    var ViewTestRunView = Backbone.View.extend({
+     var ViewTestRunView = Backbone.View.extend({
         el: $("#page"),
 
         events: {
@@ -80,13 +80,13 @@ define([
                 projectId: self.projectId
             });
             this.testRunsCollection = new TestRunsCollection({ test_plan_id: this.testPlanId });
+            this.executionStatusCollection = new ExecutionStatusesCollection();
 
             // Models
             this.testPlanModel = new TestPlanModel();
             this.testPlanModel.set('id', this.testPlanId);
             this.testRunModel = new TestRunModel({ test_plan_id: this.testPlanId });
             this.testRunModel.set('id', this.testPlanId);
-            this.executionStatusModel = new ExecutionStatusModel();
 
             // Views
             this.navigationTreeView = new NavigationTreeView({
@@ -120,9 +120,9 @@ define([
         render: function() {
             var self = this;
             $.when(this.testRunModel.fetch(), this.navigationTreeCollection.fetch({ reset: true }))
-                .done(function() {
-                    self.render2();
-                })
+            .done(function() {
+                self.render2();
+            })
             ;
         },
 
@@ -213,7 +213,7 @@ define([
         /**
          * Display project node item on the right panel of the screen.
          */
-        displayProject: function() {
+         displayProject: function() {
             this.displayLoading();
             $('.item').removeClass('active');
             $('.item a[href="#/execution"]').parent().addClass('active');
@@ -254,7 +254,7 @@ define([
         /**
          * Display project node item on the right panel of the screen.
          */
-        displayTestSuite: function() {
+         displayTestSuite: function() {
             var self = this;
             this.testSuiteModel.set('id', this.testSuiteId);
             this.testSuiteModel.fetch({
@@ -279,40 +279,33 @@ define([
         /**
          * Display project node item on the right panel of the screen.
          */
-        displayTestCase: function() {
+         displayTestCase: function() {
             var self = this;
             this.testCaseModel.set('project_id', this.projectId);
             this.testCaseModel.set('test_suite_id', this.testSuiteId);
             this.testCaseModel.set('id', this.testCaseId);
             var self = this;
-            $.when(this.testCaseModel.fetch(), this.executionStatusModel.fetch())
+            $.when(this.testCaseModel.fetch(), this.executionStatusCollection.fetch())
                 .done(function(testCaseResponse, executionStatusesResponse) {
-                    console.log(testCaseResponse);
-                    console.log(executionStatusesResponse);
+                    var testcase = self.testCaseModel;
+                    var execution_statuses = self.executionStatusCollection.models;
+                    var data = {
+                        testcase: testcase,
+                        execution_statuses: execution_statuses,
+                        _: _
+                    };
+
+                    var compiledTemplate = _.template(testCaseExecuteNodeItemTemplate, data);
+                    self.viewNodeItemView.$el.html(compiledTemplate);
+                    self.$('#content-main').empty();
+                    self.$('#content-main').append(self.viewNodeItemView.el);
+                    self.$('#navigation-tree').fancytree('getTree').getNodeByKey("3-" + testcase.get('id')).setActive();
                 })
             ;
-            // this.testCaseModel.fetch({
-            //     success: function(responseData) {
-            //         var testcase = self.testCaseModel;
-            //         var data = {
-            //             testcase: testcase,
-            //             _: _
-            //         };
-
-            //         var compiledTemplate = _.template(testCaseExecuteNodeItemTemplate, data);
-            //         self.viewNodeItemView.$el.html(compiledTemplate);
-            //         self.$('#content-main').empty();
-            //         self.$('#content-main').append(self.viewNodeItemView.el);
-            //         self.$('#navigation-tree').fancytree('getTree').getNodeByKey("3-" + testcase.get('id')).setActive();
-            //     },
-            //     error: function() {
-            //         throw new Error("Failed to fetch test case");
-            //     }
-            // });
         }
 
     });
 
-    return ViewTestRunView;
+return ViewTestRunView;
 
 });
