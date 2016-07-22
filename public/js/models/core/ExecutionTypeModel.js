@@ -11,7 +11,7 @@ define([
             description: ''
         },
 
-        initialize: function(options) {
+        initialize: function() {
         },
 
         urlRoot: '/api/executiontypes'

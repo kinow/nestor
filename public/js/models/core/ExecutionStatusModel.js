@@ -14,7 +14,7 @@ define([
         initialize: function(options) {
         },
 
-        urlRoot: '/api/executionstatuses'
+        url: '/api/executionstatuses'
 
     });
 
