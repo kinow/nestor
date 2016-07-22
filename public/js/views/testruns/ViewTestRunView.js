@@ -17,7 +17,7 @@ define([
     'text!templates/testruns/viewTestRunTemplate.html',
     'text!templates/projects/projectNodeItemTemplate.html',
     'text!templates/testsuites/testSuiteNodeItemTemplate.html',
-    'text!templates/testcases/testCaseNodeItemTemplate.html'
+    'text!templates/testcases/testCaseExecuteNodeItemTemplate.html'
 ], function(
     $,
     _,
@@ -37,7 +37,7 @@ define([
     viewTestRunTemplate,
     projectNodeItemTemplate,
     testSuiteNodeItemTemplate,
-    testCaseNodeItemTemplate) {
+    testCaseExecuteNodeItemTemplate) {
 
     /**
      * Displays the navigation tree.
@@ -286,11 +286,10 @@ define([
                     var testcase = self.testCaseModel;
                     var data = {
                         testcase: testcase,
-                        _: _,
-                        editable: false
+                        _: _
                     };
 
-                    var compiledTemplate = _.template(testCaseNodeItemTemplate, data);
+                    var compiledTemplate = _.template(testCaseExecuteNodeItemTemplate, data);
                     self.viewNodeItemView.$el.html(compiledTemplate);
                     self.$('#content-main').empty();
                     self.$('#content-main').append(self.viewNodeItemView.el);

@@ -1,0 +1,23 @@
+<h1 class="ui top attached header"><%= testcase.get('version')['name'] %></h1>
+<div class="ui attached segment items">
+  <h5>Description</h5>
+
+  <%= testcase.get('formatted_description') %>
+
+  <h5>Prerequisites</h5>
+
+  <%= testcase.get('formatted_prerequisite') %>
+
+  <h5>Execution Type</h5>
+
+  <%= testcase.get('version')['execution_type']['name'] %>
+
+  <div class="item">
+    <div class="ui divider"></div>
+    <div class="right floated content">
+      <a href="#/projects/<%= testcase.get('project_id') %>/testsuites/<%= testcase.get('test_suite_id') %>/testcases/<%= testcase.get('id') %>" class="ui button">Edit</a>
+      <a href="#/projects/<%= testcase.get('project_id') %>/testsuites/<%= testcase.get('test_suite_id') %>/testcases/<%= testcase.get('id') %>/confirmDelete" class="ui button">Delete</a>
+    </div>
+  </div>
+
+</div>
