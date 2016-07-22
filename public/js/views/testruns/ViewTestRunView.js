@@ -288,7 +288,7 @@ define([
             $.when(this.testCaseModel.fetch(), this.executionStatusModel.fetch())
                 .done(function(testCaseResponse, executionStatusesResponse) {
                     console.log(testCaseResponse);
-                    console.lo(executionStatusesResponse);
+                    console.log(executionStatusesResponse);
                 })
             ;
             // this.testCaseModel.fetch({
