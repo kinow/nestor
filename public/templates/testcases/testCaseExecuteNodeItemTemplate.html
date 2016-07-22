@@ -1,5 +1,18 @@
 <h1 class="ui top attached header"><%= testcase.get('version')['name'] %></h1>
 <div class="ui attached segment items">
+  <div class='ui segment'>
+    <h3 class='ui header'>View execution history <a href=""><i class="angle double down icon"></i></a></h3>
+    <table class="ui celled table">
+      <thead>
+        <tr>
+          <th>Execution status</th>
+          <th>Notes</th>
+          <th>Date</th>
+        </tr>
+      </thead>
+    </table>
+  </div>
+
   <h5>Description</h5>
 
   <%= testcase.get('formatted_description') %>
