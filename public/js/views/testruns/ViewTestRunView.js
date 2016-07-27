@@ -284,7 +284,7 @@ define([
             this.testCaseModel.set('project_id', this.projectId);
             this.testCaseModel.set('test_suite_id', this.testSuiteId);
             this.testCaseModel.set('id', this.testCaseId);
-            this.testCaseModel.url = '/api/projects/' + this.projectId + '/testsuites/' + this.testSuiteId + '/testcases/' + this.testCaseId + '/executions';
+            this.testCaseModel.url = '/api/testplans/' + this.testPlanId + '/testruns/' + this.testRunId + '/testsuites/' + this.testSuiteId + '/testcases/' + this.testCaseId + '/executions';
             var self = this;
             $.when(this.testCaseModel.fetch(), this.executionStatusCollection.fetch())
                 .done(function(testCaseResponse, executionStatusesResponse) {
