@@ -151,7 +151,6 @@ class TestCasesRepositoryEloquent extends BaseRepository implements TestCasesRep
         $executionType = $version->executionType()->firstOrFail();
 
         //$labels = $labels->toArray();
-        //$testCase = $testCase->toArray();
         $version = $version->toArray();
         //$steps = $steps->toArray();
         $executionType = $executionType->toArray();
