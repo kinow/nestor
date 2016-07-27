@@ -130,6 +130,7 @@ $api->version('v1', function ($api) {
     $api->delete('testplans/{testPlanId}/testruns/{id}', 'Nestor\Http\Controllers\TestRunsController@destroy');
 
     // executions
+    $api->get('projects/{projectId}/testsuites/{testsuiteId}/testcases/{testcaseId}/executions', 'Nestor\Http\Controllers\ExecutionsController@showTestCase');
     $api->get('executions', 'Nestor\Http\Controllers\ExecutionsController@index');
 });
 

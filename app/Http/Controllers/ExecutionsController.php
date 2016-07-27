@@ -13,6 +13,7 @@ use Prettus\Validator\Exceptions\ValidatorException;
 
 use Nestor\Http\Requests;
 use Nestor\Repositories\ExecutionsRepository;
+use Nestor\Repositories\TestCasesRepository;
 use Nestor\Validators\ExecutionsValidator;
 
 class ExecutionsController extends Controller
@@ -23,11 +24,17 @@ class ExecutionsController extends Controller
      */
     protected $executionsRepository;
 
-    public function __construct(ExecutionsRepository $executionsRepository)
+    /**
+     *
+     * @var TestCasesRepository $testCasesRepository
+     */
+    protected $testCasesRepository;
+
+    public function __construct(ExecutionsRepository $executionsRepository, TestCasesRepository $testCasesRepository)
     {
         $this->executionsRepository = $executionsRepository;
+        $this->testCasesRepository = $testCasesRepository;
     }
-
 
     /**
      * Display a listing of the resource.
@@ -82,6 +89,14 @@ class ExecutionsController extends Controller
         //
     }
 
+
+    public function showTestCase($projectId, $testSuiteId, $id)
+    {
+        $testCase = $this->testCasesRepository->findTestCaseWithVersion($id);
+        $testCase['formatted_description'] = Parsedown::instance()->text($testCase['version']['description']);
+        $testCase['formatted_prerequisite'] = Parsedown::instance()->text($testCase['version']['prerequisite']);
+        return $testCase;
+    }
 
     /**
      * Show the form for editing the specified resource.
