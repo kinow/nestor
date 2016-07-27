@@ -44,7 +44,9 @@
                 name="testcase-executionstatus_id-input" 
                 value='<%= execution_status.id %>' 
                 type="radio" 
-                <% if (execution_status.id == 1) { %>
+                <% if ('last_execution' in testcase.get('version') && execution_status.id == testcase.get('version')['last_execution']['id']) { %>
+                checked="checked" 
+                <% } else if (execution_status.id == 1) { %>
                 checked="checked" 
                 <% } %>
                 data-parsley-required="true" 
