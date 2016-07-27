@@ -165,6 +165,50 @@ class TestCasesRepositoryEloquent extends BaseRepository implements TestCasesRep
 
     /**
      * {@inheritDoc}
+     */
+    public function findTestCaseWithVersionAndExecutions($id, $columns = array('*'))
+    {
+        $this->applyCriteria();
+        $this->applyScope();
+
+        // test case
+        $testCase = $this
+            ->model
+            ->findOrFail($id, $columns);
+        $this->resetModel();
+
+        // version
+        $version = $testCase->latestVersion();
+
+        // executions
+        $executions = $version->executions()->get();
+
+        // labels
+        //$labels = $version->labels()->get();
+
+        // steps
+        //$steps = $version->sortedSteps()->with(array('executionStatus'))->get();
+
+        // execution type
+        $executionType = $version->executionType()->firstOrFail();
+
+        //$labels = $labels->toArray();
+        $version = $version->toArray();
+        //$steps = $steps->toArray();
+        $executionType = $executionType->toArray();
+        $executions = $executions->toArray();
+
+        //$version['labels'] = $labels;
+        //$version['steps'] = $steps;
+        $version['execution_type'] = $executionType;
+        $version['executions'] = $executions;
+        $testCase->version = $version;
+
+        return $this->parserResult($testCase);
+    }
+
+    /**
+     * {@inheritDoc}
      * @see \Prettus\Repository\Eloquent\BaseRepository::delete()
      */
     public function delete($id)

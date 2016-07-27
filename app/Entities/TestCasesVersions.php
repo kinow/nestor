@@ -86,7 +86,7 @@ class TestCasesVersions extends Model implements Transformable
 
     public function executions()
     {
-        return $this->hasMany('Nestor\\Entities\\Executions', 'test_case_id');
+        return $this->hasMany('Nestor\\Entities\\Executions', 'test_case_version_id');
     }
 
     // public function assignee()
