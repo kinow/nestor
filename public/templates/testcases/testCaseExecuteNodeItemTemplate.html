@@ -44,6 +44,9 @@
                 name="testcase-executionstatus_id-input" 
                 value='<%= execution_status.id %>' 
                 type="radio" 
+                <% if (execution_status.id == 1) { %>
+                checked="checked" 
+                <% } %>
                 data-parsley-required="true" 
                 data-parsley-min="1">
                 <label><%= execution_status.get('name') %></label>
