@@ -49,7 +49,8 @@ define([
 
         events: {
             'click #save-testplan-btn': 'addTestCasesToTestPlan',
-            'click #cancel-testplan-btn': 'cancelAndGoBack'
+            'click #cancel-testplan-btn': 'cancelAndGoBack',
+            'click #execution-history-btn': 'toggleExecutionHistory'
         },
 
         initialize: function(options) {
@@ -65,7 +66,8 @@ define([
                 'displayProject',
                 'displayTestSuite',
                 'displayTestCase',
-                'cancelAndGoBack');
+                'cancelAndGoBack',
+                'toggleExecutionHistory');
 
             var self = this;
 
@@ -208,6 +210,10 @@ define([
         displayLoading: function() {
             this.$('#content-main').empty();
             this.$('#content-main').html('<div class="ui active dimmer"><div class="ui loader"></div></div>');
+        },
+
+        toggleExecutionHistory: function() {
+            this.$("$execution-history-panel").toggle();
         },
 
         /**

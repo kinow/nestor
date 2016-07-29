@@ -1,16 +1,18 @@
 <h1 class="ui top attached header"><%= testcase.get('version')['name'] %></h1>
 <div class="ui attached segment items">
   <div class='ui segment'>
-    <h3 class='ui header'>View execution history <a href=""><i class="angle double down icon"></i></a></h3>
-    <table class="ui celled table">
-      <thead>
-        <tr>
-          <th>Execution status</th>
-          <th>Notes</th>
-          <th>Date</th>
-        </tr>
-      </thead>
-    </table>
+    <h3 class='ui header'>View execution history <a id='execution-history-btn'><i class="angle double down icon"></i></a></h3>
+    <div class='ui disabled reveal' id='execution-history-panel'>
+      <table class="ui celled table">
+        <thead>
+          <tr>
+            <th>Execution status</th>
+            <th>Notes</th>
+            <th>Date</th>
+          </tr>
+        </thead>
+      </table>
+    </div>
   </div>
 
   <h5>Description</h5>
