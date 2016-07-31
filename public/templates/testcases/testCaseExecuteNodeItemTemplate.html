@@ -43,27 +43,26 @@
           <div class="field">
             <div class="ui radio checkbox">
               <input 
-                name="testcase-executionstatus_id-input" 
-                value='<%= execution_status.id %>' 
-                type="radio" 
-                <% if ('last_execution' in testcase.get('version') && execution_status.id == testcase.get('version')['last_execution']['id']) { %>
-                checked="checked" 
-                <% } else if (execution_status.id == 1) { %>
-                checked="checked" 
-                <% } %>
-                data-parsley-required="true" 
-                data-parsley-min="1">
-                <label><%= execution_status.get('name') %></label>
+              name="testcase-executionstatus_id-input" 
+              value='<%= execution_status.id %>' 
+              type="radio" 
+              <% if ('last_execution' in testcase.get('version') && execution_status.id == testcase.get('version')['last_execution']['id']) { %>
+              checked="checked" 
+              <% } else if (execution_status.id == 1) { %>
+              checked="checked" 
+              <% } %>
+              data-parsley-required="true" 
+              data-parsley-min="1">
+              <label><%= execution_status.get('name') %></label>
             </div>
           </div>
           <% }); %>
-      </div>
+        </div>
         <button class="positive ui left floated button" id="new-testcase-btn">
           Save
         </button>
         <br class='clearfix' />
         <br/> 
+      </div>
     </div>
   </div>
-
-</div>
