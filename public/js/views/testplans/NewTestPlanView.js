@@ -34,7 +34,6 @@ define([
                     var compiledTemplate = _.template(newTestPlanTemplate, {
                         projects: projects
                     });
-                    self.$el.html(compiledTemplate);
                     self.$el.html(newTestPlanTemplate);
                     self.simplemde = new SimpleMDE({
                         autoDownloadFontAwesome: true, 
