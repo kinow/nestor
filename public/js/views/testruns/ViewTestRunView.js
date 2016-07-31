@@ -50,7 +50,8 @@ define([
         events: {
             'click #save-testplan-btn': 'addTestCasesToTestPlan',
             'click #cancel-testplan-btn': 'cancelAndGoBack',
-            'click #execution-history-btn': 'toggleExecutionHistory'
+            'click #execution-history-btn': 'toggleExecutionHistory',
+            'click #execute-testcase-btn': 'executeTestCase'
         },
 
         initialize: function(options) {
@@ -67,7 +68,8 @@ define([
                 'displayTestSuite',
                 'displayTestCase',
                 'cancelAndGoBack',
-                'toggleExecutionHistory');
+                'toggleExecutionHistory',
+                'executeTestCase');
 
             var self = this;
 
@@ -309,6 +311,13 @@ define([
                     self.$('#navigation-tree').fancytree('getTree').getNodeByKey("3-" + testcase.get('id')).setActive();
                 })
             ;
+        },
+
+        /**
+         * Execute test case.
+         */
+        executeTestCase: function() {
+
         }
 
     });
