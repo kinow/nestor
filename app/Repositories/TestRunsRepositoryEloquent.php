@@ -33,4 +33,9 @@ class TestRunsRepositoryEloquent extends BaseRepository implements TestRunsRepos
     {
         $this->pushCriteria(app(RequestCriteria::class));
     }
+
+    public function create(array $payload)
+    {
+        return null;
+    }
 }

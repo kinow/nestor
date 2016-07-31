@@ -98,6 +98,24 @@ class ExecutionsController extends Controller
         return $testCase;
     }
 
+    public function executeTestCase($testPlanId, $testRunId, $testSuiteId, $id, Request $request)
+    {
+        Log::debug("Executing test case");
+        $payload = $request->only('notes', 'execution_statuses_id');
+        $validator = Validator::make($payload, [
+            'notes' => 'required|max:255',
+            'execution_statuses_id' => 'required|integer|min:1'
+        ]);
+        
+        if ($validator->fails()) {
+            $this->throwValidationException($request, $validator);
+        }
+        
+        $entity = $this->testRunsRepository->execute($payload);
+        
+        return $entity;
+    }
+
     /**
      * Show the form for editing the specified resource.
      *
