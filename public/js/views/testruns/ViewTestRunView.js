@@ -260,7 +260,7 @@ define([
         },
 
         /**
-         * Display project node item on the right panel of the screen.
+         * Display test suite node item on the right panel of the screen.
          */
          displayTestSuite: function() {
             var self = this;
@@ -285,7 +285,7 @@ define([
         },
 
         /**
-         * Display project node item on the right panel of the screen.
+         * Display test case node item on the right panel of the screen.
          */
          displayTestCase: function() {
             var self = this;
