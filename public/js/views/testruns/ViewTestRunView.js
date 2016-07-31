@@ -3,6 +3,7 @@ define([
     'underscore',
     'backbone',
     'app',
+    'simplemde',
     'views/navigationtree/NavigationTreeView',
     'views/projects/ViewNodeItemView',
     'views/testsuites/TestSuiteView',
@@ -24,6 +25,7 @@ define([
         _,
         Backbone,
         app,
+        SimpleMDE,
         NavigationTreeView,
         ViewNodeItemView,
         TestSuiteView,
@@ -140,6 +142,18 @@ define([
             this.$('#content-main').empty();
             this.updateNavigationTree();
             this.delegateEvents();
+
+            this.simplemde = new SimpleMDE({
+                autoDownloadFontAwesome: true, 
+                autofocus: false,
+                autosave: {
+                    enabled: false
+                },
+                element: $('#testcase-notes-input')[0],
+                indentWithTabs: false,
+                spellChecker: false,
+                tabSize: 4
+            });
         },
 
         updateNavigationTree: function(event) {
@@ -317,7 +331,35 @@ define([
          * Execute test case.
          */
         executeTestCase: function() {
-
+            var self = this;
+            if (this.$("#execute-testcase-form").parsley().validate()) {
+                var testRun = this.collection.create({
+                    notes: this.simplemde.value(),
+                    execution_statuses_id: this.$("#testcase-executionstatus_id-input").val()
+                }, {
+                    wait: true,
+                    success: function(mod, res) {
+                        app.showAlert('Success!', 'Test case ' + this.$("#testrun-name-input").val() + ' execution status updated!', 'success')
+                        Backbone.history.navigate("#/testplans/" + self.testPlanId + '/testruns' + self.testRunId + '/testsuites/' + self.testSuiteId + '/testcases/' + self.testCaseId + '/execute', {
+                            trigger: false
+                        });
+                    },
+                    error: function(model, response, options) {
+                        var message = _.has(response, 'statusText') ? response.statusText : 'Unknown error!';
+                        if (
+                            _.has(response, 'responseJSON') &&
+                            _.has(response.responseJSON, 'name') &&
+                            _.has(response.responseJSON.name, 'length') &&
+                            response.responseJSON.name.length > 0
+                            ) {
+                            message = response.responseJSON.name[0];
+                    }
+                    app.showAlert('Failed to execute Test Case', message, 'error');
+                }
+            });
+            } else {
+                if (typeof DEBUG != 'undefined' && DEBUG) console.log("Did not pass clientside validation");
+            }
         }
 
     });
