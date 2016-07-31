@@ -11,4 +11,5 @@ use Prettus\Repository\Contracts\RepositoryInterface;
 interface TestRunsRepository extends RepositoryInterface
 {
     //
+    public function create(array $payload);
 }
