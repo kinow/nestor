@@ -44,6 +44,7 @@
             <div class="ui radio checkbox">
               <input 
                 name="testcase-executionstatus_id-input" 
+                id='<%= execution_status.id %>' 
                 value='<%= execution_status.id %>' 
                 type="radio" 
                 <% if ('last_execution' in testcase.get('version') && execution_status.id == testcase.get('version')['last_execution']['id']) { %>
@@ -53,7 +54,7 @@
                 <% } %>
                 data-parsley-required="true" 
                 data-parsley-min="1">
-              <label><%= execution_status.get('name') %></label>
+              <label for='<%= execution_status.id %>'><%= execution_status.get('name') %></label>
             </div>
           </div>
           <% }); %>

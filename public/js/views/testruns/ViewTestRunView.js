@@ -335,18 +335,25 @@ define([
         executeTestCase: function() {
             var self = this;
             if (this.$("#execute-testcase-form").parsley().validate()) {
-                var testRun = this.testRunsCollection.create({
-                    notes: this.testCaseSimplemde.value(),
-                    execution_statuses_id: this.$("#testcase-executionstatus_id-input").val()
-                }, {
-                    wait: true,
-                    success: function(mod, res) {
+                var executionStatusesId = this.$("#testcase-executionstatus_id-input").val();
+                var notes = this.testCaseSimplemde.value();
+
+                var testRun = this.
+                    testRunModel.
+                    execute(
+                        {execution_statuses_id: executionStatusesId, notes: notes},
+                        self.testPlanId,
+                        self.testRunId,
+                        self.testSuiteId,
+                        self.testCaseId
+                    ).
+                    done(function(response) {
                         app.showAlert('Success!', 'Test case ' + this.$("#testrun-name-input").val() + ' execution status updated!', 'success')
                         Backbone.history.navigate("#/testplans/" + self.testPlanId + '/testruns' + self.testRunId + '/testsuites/' + self.testSuiteId + '/testcases/' + self.testCaseId + '/execute', {
                             trigger: false
                         });
-                    },
-                    error: function(model, response, options) {
+                    })
+                    .fail(function(response) {
                         var message = _.has(response, 'statusText') ? response.statusText : 'Unknown error!';
                         if (
                             _.has(response, 'responseJSON') &&
@@ -355,10 +362,10 @@ define([
                             response.responseJSON.name.length > 0
                             ) {
                             message = response.responseJSON.name[0];
-                    }
-                    app.showAlert('Failed to execute Test Case', message, 'error');
-                }
-            });
+                        }
+                        app.showAlert('Failed to execute Test Case', message, 'error');
+                    })
+                ;
             } else {
                 if (typeof DEBUG != 'undefined' && DEBUG) console.log("Did not pass clientside validation");
             }
