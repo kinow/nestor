@@ -106,6 +106,7 @@ define([
             this.viewNodeItemView = new ViewNodeItemView();
             this.testSuiteView = new TestSuiteView();
             this.testCaseView = new TestCaseView();
+            this.testCaseSimplemde = null;
 
             // Events
             Backbone.on('nestor:navigationtree:project_changed', this.updateNavigationTree);
@@ -142,18 +143,6 @@ define([
             this.$('#content-main').empty();
             this.updateNavigationTree();
             this.delegateEvents();
-
-            this.simplemde = new SimpleMDE({
-                autoDownloadFontAwesome: true, 
-                autofocus: false,
-                autosave: {
-                    enabled: false
-                },
-                element: $('#testcase-notes-input')[0],
-                indentWithTabs: false,
-                spellChecker: false,
-                tabSize: 4
-            });
         },
 
         updateNavigationTree: function(event) {
@@ -320,9 +309,22 @@ define([
 
                     var compiledTemplate = _.template(testCaseExecuteNodeItemTemplate, data);
                     self.viewNodeItemView.$el.html(compiledTemplate);
+
                     self.$('#content-main').empty();
                     self.$('#content-main').append(self.viewNodeItemView.el);
                     self.$('#navigation-tree').fancytree('getTree').getNodeByKey("3-" + testcase.get('id')).setActive();
+
+                    self.testCaseSimplemde = new SimpleMDE({
+                        autoDownloadFontAwesome: true, 
+                        autofocus: false,
+                        autosave: {
+                            enabled: false
+                        },
+                        element: $('#testcase-notes-input')[0],
+                        indentWithTabs: false,
+                        spellChecker: false,
+                        tabSize: 4
+                    });
                 })
             ;
         },
@@ -334,7 +336,7 @@ define([
             var self = this;
             if (this.$("#execute-testcase-form").parsley().validate()) {
                 var testRun = this.collection.create({
-                    notes: this.simplemde.value(),
+                    notes: this.testCaseSimplemde.value(),
                     execution_statuses_id: this.$("#testcase-executionstatus_id-input").val()
                 }, {
                     wait: true,
