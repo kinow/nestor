@@ -335,7 +335,7 @@ define([
         executeTestCase: function() {
             var self = this;
             if (this.$("#execute-testcase-form").parsley().validate()) {
-                var testRun = this.collection.create({
+                var testRun = this.testRunsCollection.create({
                     notes: this.testCaseSimplemde.value(),
                     execution_statuses_id: this.$("#testcase-executionstatus_id-input").val()
                 }, {
