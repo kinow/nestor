@@ -37,7 +37,7 @@ class ExecutionsRepositoryEloquent extends BaseRepository implements ExecutionsR
         $this->pushCriteria(app(RequestCriteria::class));
     }
 
-    public function execute($executionStatusesId, $notes, $testCaseVersionId)
+    public function execute($executionStatusesId, $notes, $testRunId, $testCaseVersionId)
     {
         Log::debug(sprintf('Executing test case %s', $testCaseId));
         DB::beginTransaction();
@@ -45,6 +45,7 @@ class ExecutionsRepositoryEloquent extends BaseRepository implements ExecutionsR
             Log::debug(sprintf('Creating a new execution for test case version %d with execution status %d', $testCaseVersionId, $executionStatusesId));
             
             $attributes = [
+                'test_run_id' => $testRunId,
                 'execution_status_id' => $executionStatusesId,
                 'notes' => $notes,
                 'test_case_version_id' => $testCaseVersionId
