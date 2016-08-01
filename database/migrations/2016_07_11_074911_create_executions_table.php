@@ -28,6 +28,7 @@ class CreateExecutionsTable extends Migration
             $table->foreign('execution_status_id')
                 ->references('id')
                 ->on('execution_statuses');
+            $table->string('notes', 1000)->nullable();
             $table->timestamps();
         });
     }

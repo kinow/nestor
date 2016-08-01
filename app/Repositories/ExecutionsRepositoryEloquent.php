@@ -45,9 +45,9 @@ class ExecutionsRepositoryEloquent extends BaseRepository implements ExecutionsR
             Log::debug(sprintf('Creating a new execution for test case version %d with execution status %d', $testCaseVersionId, $executionStatusesId));
             
             $attributes = [
-                'execution_statuses_id' => $executionStatusesId,
+                'execution_status_id' => $executionStatusesId,
                 'notes' => $notes,
-                'test_case_versions_id' => $testCaseVersionId
+                'test_case_version_id' => $testCaseVersionId
             ];
             $model = $this->model->newInstance($attributes);
 
