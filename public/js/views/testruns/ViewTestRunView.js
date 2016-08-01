@@ -335,7 +335,7 @@ define([
         executeTestCase: function() {
             var self = this;
             if (this.$("#execute-testcase-form").parsley().validate()) {
-                var executionStatusesId = this.$("#testcase-executionstatus_id-input").val();
+                var executionStatusesId = $('input[type=radio][name=testcase-executionstatus_id-input]:checked').attr('id');
                 var notes = this.testCaseSimplemde.value();
 
                 var testRun = this.

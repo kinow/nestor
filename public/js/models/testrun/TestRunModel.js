@@ -37,7 +37,6 @@ define([
             return $.ajax({
                 url: url,
                 data: payload,
-                contentType: 'application/json',
                 dataType: 'json',
                 type: 'POST',
                 beforeSend: function(xhr) {

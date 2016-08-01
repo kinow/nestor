@@ -98,16 +98,19 @@ class ExecutionsController extends Controller
         return $testCase;
     }
 
-    public function executeTestCase($testPlanId, $testRunId, $testSuiteId, $id, Request $request)
+    public function executeTestCase(Request $request, $testPlanId, $testRunId, $testsuiteId, $testcaseId)
     {
         Log::debug("Executing test case");
         $payload = $request->only('notes', 'execution_statuses_id');
+        Log::info($payload);
+        Log::info($testcaseId);
         $validator = Validator::make($payload, [
-            'notes' => 'required|max:255',
+            'notes' => 'max:255',
             'execution_statuses_id' => 'required|integer|min:1'
         ]);
         
         if ($validator->fails()) {
+            Log::debug("##### IIIIHHHHH ###");
             $this->throwValidationException($request, $validator);
         }
         
