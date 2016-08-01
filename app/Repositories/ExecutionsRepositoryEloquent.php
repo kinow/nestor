@@ -39,7 +39,7 @@ class ExecutionsRepositoryEloquent extends BaseRepository implements ExecutionsR
 
     public function execute($executionStatusesId, $notes, $testRunId, $testCaseVersionId)
     {
-        Log::debug(sprintf('Executing test case %s', $testCaseId));
+        Log::debug(sprintf('Executing test case version %s', $testCaseVersionId));
         DB::beginTransaction();
         try {
             Log::debug(sprintf('Creating a new execution for test case version %d with execution status %d', $testCaseVersionId, $executionStatusesId));
@@ -51,6 +51,7 @@ class ExecutionsRepositoryEloquent extends BaseRepository implements ExecutionsR
                 'test_case_version_id' => $testCaseVersionId
             ];
             $model = $this->model->newInstance($attributes);
+            $model->save();
 
             Log::debug('Committing transaction');
             DB::commit();
