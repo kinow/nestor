@@ -33,4 +33,9 @@ class ExecutionsRepositoryEloquent extends BaseRepository implements ExecutionsR
     {
         $this->pushCriteria(app(RequestCriteria::class));
     }
+
+    public function execute($executionStatusesId, $notes, $testCaseId)
+    {
+        
+    }
 }

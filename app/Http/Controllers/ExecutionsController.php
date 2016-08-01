@@ -114,7 +114,7 @@ class ExecutionsController extends Controller
             $this->throwValidationException($request, $validator);
         }
         
-        $entity = $this->testRunsRepository->execute($payload);
+        $entity = $this->executionsRepository->execute($payload['execution_statuses_id'], $payload['notes'], $testcaseId);
         
         return $entity;
     }
