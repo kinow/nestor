@@ -105,7 +105,7 @@ class ExecutionsController extends Controller
         Log::info($payload);
         Log::info($testcaseId);
         $validator = Validator::make($payload, [
-            'notes' => 'max:255',
+            'notes' => 'max:1000',
             'execution_statuses_id' => 'required|integer|min:1'
         ]);
         
