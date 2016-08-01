@@ -10,5 +10,5 @@ use Prettus\Repository\Contracts\RepositoryInterface;
  */
 interface ExecutionsRepository extends RepositoryInterface
 {
-    public function execute($executionStatusesId, $notes, $testCaseId);
+    public function execute($executionStatusesId, $notes, $testCaseVersionId);
 }
