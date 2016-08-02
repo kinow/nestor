@@ -2,7 +2,7 @@
 <div class="ui attached segment items">
   <div class='ui segment'>
     <h3 class='ui header'>View execution history <a id='execution-history-btn'><i class="angle double down icon"></i></a></h3>
-    <div class='ui disabled reveal' id='execution-history-panel' style="display: none;">
+    <div class='ui' id='execution-history-panel' style="display: none;">
       <table class="ui celled table">
         <thead>
           <tr>
@@ -11,6 +11,15 @@
             <th>Date</th>
           </tr>
         </thead>
+        <tbody>
+        <% _.each(testcase.get('version')['executions'], function(execution){ %>
+          <tr>
+            <td><%= execution.execution_status_id %></td>
+            <td><%= execution.notes %></td>
+            <td><%= execution['updated_at'] %></td>
+          </tr>
+        <% }); %>
+        </tbody>
       </table>
     </div>
   </div>
