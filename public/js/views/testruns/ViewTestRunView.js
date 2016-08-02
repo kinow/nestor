@@ -218,7 +218,7 @@ define([
         },
 
         toggleExecutionHistory: function() {
-            this.$("$execution-history-panel").toggle();
+            this.$("#execution-history-panel").toggle();
         },
 
         /**
