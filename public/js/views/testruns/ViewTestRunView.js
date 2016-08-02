@@ -345,7 +345,7 @@ define([
                         self.testPlanId,
                         self.testRunId,
                         self.testSuiteId,
-                        self.testCaseId
+                        self.testCaseModel.get('version')['id']
                     ).
                     done(function(response) {
                         app.showAlert('Success!', 'Test case ' + $("#testrun-name-input").val() + ' execution status updated!', 'success')
