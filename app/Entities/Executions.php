@@ -10,7 +10,7 @@ class Executions extends Model implements Transformable
 {
     use TransformableTrait;
 
-    protected $fillable = ['test_run_id', 'test_case_version_id', 'execution_status_id'];
+    protected $fillable = ['test_run_id', 'test_case_version_id', 'execution_status_id', 'notes'];
 
     /**
      * The database table used by the model.
