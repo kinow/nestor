@@ -14,7 +14,7 @@
         <tbody>
         <% _.each(testcase.get('version')['executions'], function(execution){ %>
           <tr>
-            <td><%= execution.execution_status_id %></td>
+            <td><%= execution.execution_status.name %></td>
             <td><%= execution.notes %></td>
             <td><%= execution.updated_at %></td>
           </tr>
