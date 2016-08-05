@@ -372,6 +372,6 @@ define([
 
     });
 
-return ViewTestRunView;
+    return ViewTestRunView;
 
 });
