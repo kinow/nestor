@@ -349,7 +349,7 @@ define([
                     done(function(response) {
                         app.showAlert('Success!', 'Test case ' + $("#testrun-name-input").val() + ' execution status updated!', 'success')
                         Backbone.history.navigate("#/testplans/" + self.testPlanId + '/testruns/' + self.testRunId + '/testsuites/' + self.testSuiteId + '/testcases/' + self.testCaseId + '/execute', {
-                            trigger: false
+                            trigger: true
                         });
                     })
                     .fail(function(response) {
