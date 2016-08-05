@@ -45,4 +45,49 @@ class TestRuns extends Model implements Transformable
     {
         return $this->belongsTo('Nestor\\Entities\\TestPlans', 'test_plan_id');
     }
+
+    public function executions()
+    {
+        return $this->hasMany('Nestor\\Entities\\Executions', 'test_run_id');
+    }
+
+    public function countTestCases()
+    {
+        return static::join('test_plans', 'test_plans.id', '=', 'test_runs.test_plan_id')
+            ->join('test_plans_test_cases', 'test_plans_test_cases.test_plan_id', '=', 'test_plans.id')
+            ->join('test_cases_versions', 'test_cases_versions.id', '=', 'test_plans_test_cases.test_case_version_id')
+            ->join('test_cases', 'test_cases.id', '=', 'test_cases_versions.test_case_id')
+            ->where('test_runs.id', '=', $this->id)
+            ->count('test_cases.id');
+    }
+
+    public function progress()
+    {
+        $percentage = 0;
+        $progress = array();
+        $total = $this->countTestCases();
+        $executions = Executions::select('executions.*')
+            ->where('executions.test_run_id', $this->id)
+            ->join('test_cases_versions', 'test_cases_versions.id', '=', 'executions.test_case_version_id')
+            ->join('test_cases', 'test_cases.id', '=', 'test_cases_versions.test_case_id')
+            ->groupBy('test_cases.id')->get();
+
+        $executionStatuses = ExecutionStatuses::all();
+        $executionStatusesCount = array();
+        foreach ($executionStatuses as $executionStatus) {
+            $executionStatusesCount[$executionStatus->id] = 0;
+        }
+        foreach ($executions as $execution) {
+            $executionStatusesCount[$execution->execution_status_id] += 1;
+        }
+        $executionStatusesCount[1] = count($executionStatusesCount) - $total;
+        foreach ($executionStatusesCount as $statusId => $count) {
+            $progress[$statusId] = $total ? ($count / $total) * 100 : 0;
+        }
+        $percentage = $total ? ($executions->count()/$total) * 100 : 0;
+        return array(
+            'percentage' => $percentage,
+            'progress' => $progress
+        );
+    }
 }

@@ -37,7 +37,7 @@ class TestRunsController extends Controller
     {
         Log::debug("Returning paginated test runs");
         $testPlanId = $request->input('test_plan_id', -1);
-        return $this->testRunsRepository->scopeQuery(function ($query) use ($testPlanId) {
+        return $this->testRunsRepository->with('progress')->scopeQuery(function ($query) use ($testPlanId) {
             return $query->where('test_plan_id', $testPlanId)->orderBy('name', 'ASC');
         })->paginate();
     }
