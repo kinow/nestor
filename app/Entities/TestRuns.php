@@ -41,6 +41,8 @@ class TestRuns extends Model implements Transformable
      */
     protected $table = 'test_runs';
 
+    protected $appends = ['progress'];
+
     public function testPlan()
     {
         return $this->belongsTo('Nestor\\Entities\\TestPlans', 'test_plan_id');
@@ -61,7 +63,7 @@ class TestRuns extends Model implements Transformable
             ->count('test_cases.id');
     }
 
-    public function progress()
+    public function getProgressAttribute()
     {
         $percentage = 0;
         $progress = array();
