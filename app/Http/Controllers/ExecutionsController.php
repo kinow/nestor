@@ -110,7 +110,6 @@ class ExecutionsController extends Controller
         ]);
         
         if ($validator->fails()) {
-            Log::debug("##### IIIIHHHHH ###");
             $this->throwValidationException($request, $validator);
         }
         
