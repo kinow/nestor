@@ -198,11 +198,17 @@ class TestCasesRepositoryEloquent extends BaseRepository implements TestCasesRep
         $executionType = $executionType->toArray();
         $executions = $executions->toArray();
 
+        if (isset($executions) && is_array($executions) && count($executions) > 0) {
+            $lastExecution = $executions[0];
+        }
+
         //$version['labels'] = $labels;
         //$version['steps'] = $steps;
         $version['execution_type'] = $executionType;
         $version['executions'] = $executions;
-        //$version['last_execution'] = new \stdClass();
+        if (isset($lastExecution)) {
+            $version['last_execution'] = $lastExecution;
+        }
         $testCase->version = $version;
 
         return $this->parserResult($testCase);

@@ -60,7 +60,7 @@
                 id='<%= execution_status.id %>' 
                 value='<%= execution_status.id %>' 
                 type="radio" 
-                <% if ('last_execution' in testcase.get('version') && execution_status.id == testcase.get('version')['last_execution']['id']) { %>
+                <% if ('last_execution' in testcase.get('version') && execution_status.id == testcase.get('version')['last_execution']['execution_status_id']) { %>
                 checked="checked" 
                 <% } else if (execution_status.id == 1) { %>
                 checked="checked" 
