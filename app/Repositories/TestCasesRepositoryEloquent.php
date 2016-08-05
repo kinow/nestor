@@ -181,7 +181,7 @@ class TestCasesRepositoryEloquent extends BaseRepository implements TestCasesRep
         $version = $testCase->latestVersion();
 
         // executions
-        $executions = $version->executions()->orderBy('created_at', 'DESC')->get();
+        $executions = $version->executions()->with('executionStatus')->orderBy('created_at', 'DESC')->get();
 
         // labels
         //$labels = $version->labels()->get();
