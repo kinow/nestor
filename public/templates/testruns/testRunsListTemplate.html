@@ -1,6 +1,6 @@
 <% _.each(testruns, function(testrun){ %>
 <div class='ui middle aligned item'>
-  <div class='ui grid'>
+  <div class='ui stackable grid'>
     <div class="eight wide column">
       <div class='ui vertical segment'>
         <%= testrun.get("name") %>
@@ -11,7 +11,9 @@
       <% _.each(testrun.get('progress')['progress'], function(progress) { %>
         <% 
           var progress_class = 'disabled';
-          if (progress['id'] === 2)
+          if (progress['id'] === 1)
+              progress_class = 'teal';
+          else if (progress['id'] === 2)
               progress_class = 'green';
           else if (progress['id'] === 3)
               progress_class = 'red';

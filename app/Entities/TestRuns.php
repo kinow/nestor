@@ -88,7 +88,7 @@ class TestRuns extends Model implements Transformable
         foreach ($executions as $execution) {
             $executionStatusesCount[$execution->execution_status_id]['value'] += 1;
         }
-        $executionStatusesCount[1]['value'] = count($executionStatusesCount) - $total;
+        $executionStatusesCount[1]['value'] = $total - count($executions);
         foreach ($executionStatusesCount as $statusId => $entry) {
             $count = $entry['value'];
             $value = $total ? ($count / $total) * 100 : 0;
