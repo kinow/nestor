@@ -7,13 +7,15 @@
       </div>
     </div>
     <div class="three wide column">
-      <!-- execution bar -->
-      <div class='tooltip' data-content='90%' data-position='top center'>
-        <div class="ui progress success progressbar">
+      <!-- execution bars -->
+      <% _.each(testrun.get('progress')['progress'], function(progress) { %>
+      <div class='tooltip' data-content='<%= testrun.get("progress")["percentage"] %>' data-position='top center'>
+        <div class="ui tiny progress success progressbar" id="progressbar-<%= testrun.get('id') %>">
           <div class="bar"></div>
         </div>
       </div>
-      <!-- end execution bar -->
+      <% }); %>
+      <!-- end execution bars -->
     </div>
     <div class="five wide column right aligned middle aligned">
       <div class='ui basic buttons'>

@@ -72,19 +72,27 @@ class TestRuns extends Model implements Transformable
             ->where('executions.test_run_id', $this->id)
             ->join('test_cases_versions', 'test_cases_versions.id', '=', 'executions.test_case_version_id')
             ->join('test_cases', 'test_cases.id', '=', 'test_cases_versions.test_case_id')
-            ->groupBy('test_cases.id')->get();
+            ->groupBy('test_cases.id')
+            ->get()
+        ;
 
         $executionStatuses = ExecutionStatuses::all();
         $executionStatusesCount = array();
         foreach ($executionStatuses as $executionStatus) {
-            $executionStatusesCount[$executionStatus->id] = 0;
+            $executionStatusesCount[$executionStatus->id] = [
+                'name' => $executionStatus->name,
+                'value' => 0
+            ];
         }
         foreach ($executions as $execution) {
-            $executionStatusesCount[$execution->execution_status_id] += 1;
+            $executionStatusesCount[$execution->execution_status_id]['value'] += 1;
         }
-        $executionStatusesCount[1] = count($executionStatusesCount) - $total;
-        foreach ($executionStatusesCount as $statusId => $count) {
-            $progress[$statusId] = $total ? ($count / $total) * 100 : 0;
+        $executionStatusesCount[1]['value'] = count($executionStatusesCount) - $total;
+        foreach ($executionStatusesCount as $statusId => $entry) {
+            $count = $entry['value'];
+            $value = $total ? ($count / $total) * 100 : 0;
+            $entry['value'] = $value;
+            $progress[$statusId] = $entry;
         }
         $percentage = $total ? ($executions->count()/$total) * 100 : 0;
         return array(

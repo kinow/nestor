@@ -26,10 +26,12 @@ define([
                 on    : 'hover'
               })
             ;
-            // display progress bars
-            $('.progressbar').progress({
-              percent: 50
-            });
+            // _.each(collection.models, function(testrun) {
+            //     // display progress bars
+            //     $('#progressbar-' + testrun.get('id')).progress({
+            //       percent: 10
+            //     });
+            // });
         }
 
     });
