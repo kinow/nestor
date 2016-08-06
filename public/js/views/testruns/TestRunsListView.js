@@ -29,7 +29,7 @@ define([
             _.each(collection.models, function(test_run) {
                 _.each(test_run.get('progress')['progress'], function(progress) {
                     // display progress bars
-                    $('#progressbar-' + progress['id']).progress({
+                    $('#progressbar-' + test_run.get('id') + '-' + progress['id']).progress({
                         autoSuccess: false,
                       label: 'percent',
                       text: {

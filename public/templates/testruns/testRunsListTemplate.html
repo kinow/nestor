@@ -18,7 +18,7 @@
           else if (progress['id'] === 4)
               progress_class = 'yellow';
          %>
-      <div class="ui small progress <%= progress_class %>" data-value="<%= parseInt(progress['value']) %>" data-total="100" id="progressbar-<%= progress['id'] %>">
+      <div class="ui small progress <%= progress_class %>" data-value="<%= parseInt(progress['value']) %>" data-total="100" id="progressbar-<%= testrun.get('id') %>-<%= progress['id'] %>">
         <div class="bar">
           <div class="progress"></div>
         </div>
