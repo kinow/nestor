@@ -9,15 +9,25 @@
     <div class="three wide column">
       <!-- execution bars -->
       <% _.each(testrun.get('progress')['progress'], function(progress) { %>
-      <div class='tooltip' data-content='<%= testrun.get("progress")["percentage"] %>' data-position='top center'>
-        <div class="ui tiny progress success progressbar" id="progressbar-<%= testrun.get('id') %>">
-          <div class="bar"></div>
+        <% 
+          var progress_class = 'disabled';
+          if (progress['id'] === 2)
+              progress_class = 'green';
+          else if (progress['id'] === 3)
+              progress_class = 'red';
+          else if (progress['id'] === 4)
+              progress_class = 'yellow';
+         %>
+      <div class="ui small progress <%= progress_class %>" data-value="<%= parseInt(progress['value']) %>" data-total="100" id="progressbar-<%= progress['id'] %>">
+        <div class="bar">
+          <div class="progress"></div>
         </div>
+        <div class="label"><%= progress['name'] %></div>
       </div>
       <% }); %>
       <!-- end execution bars -->
     </div>
-    <div class="five wide column right aligned middle aligned">
+    <div class="five wide column right aligned">
       <div class='ui basic buttons'>
         <a href="#/testplans/<%= testrun.get('test_plan_id') %>/testruns/<%= testrun.get('id') %>/execute" class="ui basic button">Execute</a>
         <a href="#/testplans/<%= testrun.get('test_plan_id') %>/testruns/<%= testrun.get('id') %>" class="ui button">Edit</a>

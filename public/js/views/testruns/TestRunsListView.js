@@ -26,12 +26,19 @@ define([
                 on    : 'hover'
               })
             ;
-            // _.each(collection.models, function(testrun) {
-            //     // display progress bars
-            //     $('#progressbar-' + testrun.get('id')).progress({
-            //       percent: 10
-            //     });
-            // });
+            _.each(collection.models, function(test_run) {
+                _.each(test_run.get('progress')['progress'], function(progress) {
+                    // display progress bars
+                    $('#progressbar-' + progress['id']).progress({
+                        autoSuccess: false,
+                      label: 'percent',
+                      text: {
+                        percent: '{value}%',
+                        success: true
+                      }
+                    });
+                });
+            });
         }
 
     });
