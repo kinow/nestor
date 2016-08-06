@@ -92,7 +92,7 @@ class ExecutionsController extends Controller
 
     public function showTestCase($testPlanId, $testRunId, $testSuiteId, $id)
     {
-        $testCase = $this->testCasesRepository->findTestCaseWithVersionAndExecutions($id);
+        $testCase = $this->testCasesRepository->findTestCaseWithVersionAndExecutions($id, $testRunId);
         $testCase['formatted_description'] = Parsedown::instance()->text($testCase['version']['description']);
         $testCase['formatted_prerequisite'] = Parsedown::instance()->text($testCase['version']['prerequisite']);
         return $testCase;

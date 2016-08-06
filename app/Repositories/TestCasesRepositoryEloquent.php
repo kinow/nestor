@@ -166,7 +166,7 @@ class TestCasesRepositoryEloquent extends BaseRepository implements TestCasesRep
     /**
      * {@inheritDoc}
      */
-    public function findTestCaseWithVersionAndExecutions($id, $columns = array('*'))
+    public function findTestCaseWithVersionAndExecutions($id, $testRunId, $columns = array('*'))
     {
         $this->applyCriteria();
         $this->applyScope();
@@ -181,7 +181,7 @@ class TestCasesRepositoryEloquent extends BaseRepository implements TestCasesRep
         $version = $testCase->latestVersion();
 
         // executions
-        $executions = $version->executions()->with('executionStatus')->orderBy('created_at', 'DESC')->get();
+        $executions = $version->executions()->where('test_run_id', $testRunId)->with('executionStatus')->orderBy('created_at', 'DESC')->get();
 
         // labels
         //$labels = $version->labels()->get();
