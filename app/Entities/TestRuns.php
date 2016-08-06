@@ -80,6 +80,7 @@ class TestRuns extends Model implements Transformable
         $executionStatusesCount = array();
         foreach ($executionStatuses as $executionStatus) {
             $executionStatusesCount[$executionStatus->id] = [
+                'id' => $executionStatus->id,
                 'name' => $executionStatus->name,
                 'value' => 0
             ];
