@@ -63,7 +63,14 @@ define([
                 },
                 success: function(data, textStatus, request) {
                     console.log('Positioned project ' + projectId);
-                    Backbone.trigger('project:position', [data.project, reload]);
+                    if (typeof undefined !== typeof data && typeof undefined !== typeof data['project']) {
+                        Backbone.trigger('project:position', [data.project, reload]);
+                    } else {
+                        // Got here because the data returned is empty, probably un-positioned the project
+                        Backbone.history.navigate("#/projects", {
+                            trigger: true
+                        });
+                    }
                 },
                 error: function(data, textStatus, request) {
                     if (typeof app !== typeof undefined)

@@ -14,11 +14,14 @@ define([
         initialize: function(options) {
             _.bindAll(this, 'onLoginStatusChange', 'render', 'onProjectPositioned', 'onProjectUpdated', 'onProjectRemoved');
 
+            // Collections
+            this.collection = options.collection;
+
             // Listen for session logged_in state changes and re-render
             app.session.on("change:logged_in", this.onLoginStatusChange);
 
-            options.collection.bind('change add reset', this.onProjectUpdated);
-            options.collection.bind('remove', this.onProjectRemoved);
+            this.collection.bind('change add reset', this.onProjectUpdated);
+            this.collection.bind('remove', this.onProjectRemoved);
 
             if (!this.positionProjectComboboxView) {
                 var projectId = app.session.get('project_id');
@@ -84,7 +87,7 @@ define([
                 currentProjectId = parseInt(currentProjectId);
                 if (currentProjectId === evt.get('id')) {
                     if (this.positionProjectComboboxView && this.positionProjectComboboxView.title !== evt.get('name'))
-                        this.positionProjectComboboxView.title = evt.get('name');
+                        this.collection.position(0, true);
                 }
             }
             this.render();
