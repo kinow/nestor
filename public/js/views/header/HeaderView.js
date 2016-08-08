@@ -12,12 +12,13 @@ define([
         el: $("#header"),
 
         initialize: function(options) {
-            _.bindAll(this, 'onLoginStatusChange', 'render', 'onProjectPositioned', 'onProjectCollectionChanged');
+            _.bindAll(this, 'onLoginStatusChange', 'render', 'onProjectPositioned', 'onProjectUpdated', 'onProjectRemoved');
 
             // Listen for session logged_in state changes and re-render
             app.session.on("change:logged_in", this.onLoginStatusChange);
 
-            options.collection.bind('change add remove reset', this.onProjectCollectionChanged);
+            options.collection.bind('change add reset', this.onProjectUpdated);
+            options.collection.bind('remove', this.onProjectRemoved);
 
             if (!this.positionProjectComboboxView) {
                 var projectId = app.session.get('project_id');
@@ -63,7 +64,9 @@ define([
             this.render();
         },
 
-        onProjectCollectionChanged: function(evt) {
+        onProjectUpdated: function(evt) {
+            if (typeof evt === typeof undefined)
+                return;
             var currentProjectId = app.session.get('project_id');
             if (typeof undefined !== typeof currentProjectId) {
                 currentProjectId = parseInt(currentProjectId);
@@ -73,6 +76,11 @@ define([
                 }
             }
             this.render();
+        },
+
+        onProjectRemoved: function(evt) {
+            console.log('Check if need to update');
+            console.log(evt);
         },
 
         render: function() {
