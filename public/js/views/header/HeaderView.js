@@ -79,8 +79,15 @@ define([
         },
 
         onProjectRemoved: function(evt) {
-            console.log('Check if need to update');
-            console.log(evt);
+            var currentProjectId = app.session.get('project_id');
+            if (typeof undefined !== typeof currentProjectId) {
+                currentProjectId = parseInt(currentProjectId);
+                if (currentProjectId === evt.get('id')) {
+                    if (this.positionProjectComboboxView && this.positionProjectComboboxView.title !== evt.get('name'))
+                        this.positionProjectComboboxView.title = evt.get('name');
+                }
+            }
+            this.render();
         },
 
         render: function() {

@@ -66,7 +66,10 @@ define([
                     Backbone.trigger('project:position', [data.project, reload]);
                 },
                 error: function(data, textStatus, request) {
-                    app.showAlert('Error positioning project', request, 'error');
+                    if (typeof app !== typeof undefined)
+                        app.showAlert('Error positioning project', request, 'error');
+                    else
+                        console.log(request);
                 }
             });
         }

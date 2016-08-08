@@ -168,9 +168,14 @@ class ProjectsController extends Controller
 
     public function position(Request $request, $projectId)
     {
-        $project = $this->projectsRepository->find($projectId);
-        $request->session()->put('project_id', $project->id);
-        $project->formatted_description = Parsedown::instance()->text($project->description);
-        return $project;
+        if ($projectId <= 0) {
+            $request->session()->remove('project_id');
+            return null; // TODO what should be returned here? true? false? nothing?
+        } else {
+            $project = $this->projectsRepository->find($projectId);
+            $request->session()->put('project_id', $project->id);
+            $project->formatted_description = Parsedown::instance()->text($project->description);
+            return $project;
+        }
     }
 }
