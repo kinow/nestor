@@ -75,10 +75,8 @@ define([
         },
 
         onProjectUpdated: function(evt) {
-            if (typeof evt === typeof undefined)
-                return;
             var currentProjectId = app.session.get('project_id');
-            if (typeof undefined !== typeof currentProjectId) {
+            if (typeof evt !== typeof undefined && typeof undefined !== typeof currentProjectId) {
                 currentProjectId = parseInt(currentProjectId);
                 if (currentProjectId === evt.get('id')) {
                     if (this.positionProjectComboboxView && this.positionProjectComboboxView.title !== evt.get('name'))
