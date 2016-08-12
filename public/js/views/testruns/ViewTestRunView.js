@@ -347,7 +347,7 @@ define([
                         self.testCaseModel.get('version')['id']
                     ).
                     done(function(response) {
-                        app.showAlert('Success!', 'Test case ' + $("#testrun-name-input").val() + ' execution status updated!', 'success')
+                        app.showAlert('Success!', 'Test case ' + self.testCaseModel.get('version')['name'] + ' executed !', 'success')
                         Backbone.history.navigate("#/testplans/" + self.testPlanId + '/testruns/' + self.testRunId + '/testsuites/' + self.testSuiteId + '/testcases/' + self.testCaseId + '/execute', {
                             trigger: true
                         });
