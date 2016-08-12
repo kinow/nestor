@@ -170,7 +170,7 @@ class ProjectsController extends Controller
     {
         if ($projectId <= 0) {
             $request->session()->remove('project_id');
-            return null; // TODO what should be returned here? true? false? nothing?
+            return []; // TODO what should be returned here? true? false? nothing?
         } else {
             $project = $this->projectsRepository->find($projectId);
             $request->session()->put('project_id', $project->id);

@@ -19,7 +19,7 @@ define([
         },
 
         parse: function(obj) {
-            if (typeof(obj.project) != 'undefined')
+            if (typeof(obj.project) !== typeof undefined)
                 return obj.project;
             return obj;
         }

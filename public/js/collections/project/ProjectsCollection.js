@@ -67,6 +67,7 @@ define([
                         Backbone.trigger('project:position', [data.project, reload]);
                     } else {
                         // Got here because the data returned is empty, probably un-positioned the project
+                        Backbone.trigger('project:position', []);
                         Backbone.history.navigate("#/projects", {
                             trigger: true
                         });

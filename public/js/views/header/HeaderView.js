@@ -62,8 +62,15 @@ define([
         },
 
         onProjectPositioned: function(objects) {
-            this.positionProjectComboboxView.title = objects[0]['name'];
-            app.session.updateSessionProject(objects[0]);
+            var title = 'Choose a Project';
+            var object = undefined;
+            if (typeof objects !== typeof undefined && objects.length > 0) {
+                title = objects[0]['name'];
+                object = objects[0];
+            }
+
+            this.positionProjectComboboxView.title = title;
+            app.session.updateSessionProject(object);
             this.render();
         },
 
@@ -86,7 +93,7 @@ define([
             if (typeof undefined !== typeof currentProjectId) {
                 currentProjectId = parseInt(currentProjectId);
                 if (currentProjectId === evt.get('id')) {
-                    if (this.positionProjectComboboxView && this.positionProjectComboboxView.title !== evt.get('name'))
+                    if (this.positionProjectComboboxView && this.positionProjectComboboxView.title === evt.get('name'))
                         this.collection.position(0, true);
                 }
             }

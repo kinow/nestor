@@ -15,7 +15,7 @@ define([
       	},
 
       	initialize: function (options) {
-            _.bindAll(this, 'onProjectPositioned', 'updateSessionUser', 'updateSessionProject', 'checkAuth', 'login', 'logout', 'signup');
+            _.bindAll(this, 'onProjectPositioned', 'updateSessionUser', 'projectRemoved', 'updateSessionProject', 'checkAuth', 'login', 'logout', 'signup');
 
             // Singleton user object
             // Access or listen on this throughout any module with app.session.user
@@ -26,7 +26,11 @@ define([
       	},
 
         onProjectPositioned: function(objects) {
-            this.set('project_id', objects[0].id);
+            if (typeof objects !== typeof Array || objects.length === 0) {
+                this.projectRemoved();
+            } else {
+                this.set('project_id', objects[0].id);
+            }
         },
 
         url: function() {
@@ -38,11 +42,20 @@ define([
             this.user.set(_.pick(userData, _.keys(this.user.defaults)));
         },
 
+        projectRemoved: function() {
+            this.unset('project_id');
+            this.unset('project');
+        },
+
         updateSessionProject: function(project) {
-            var projectId = parseInt(project.id);
-            if (projectId !== this.get('project_id')) {
-                this.set('project_id', project.id);
-                this.set('project', project);
+            if (typeof project === typeof undefined) {
+                this.projectRemoved();
+            } else {
+                var projectId = parseInt(project.id);
+                if (projectId !== this.get('project_id')) {
+                    this.set('project_id', project.id);
+                    this.set('project', project);
+                }
             }
         },
 

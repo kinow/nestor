@@ -47,7 +47,7 @@ define([
                 wait: true,
                 success: function(mod, res) {
                     app.showAlert('Success!', 'Project deleted!', 'success');
-                    Backbone.history.navigate("#/projects", { trigger: false });
+                    Backbone.history.navigate("#/projects", { trigger: true });
                 },
                 error: function(model, response, options) {
                     var message = _.has(response, 'statusText') ? response.statusText : 'Unknown error!';
