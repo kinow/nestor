@@ -4,6 +4,7 @@ define([
     'backbone',
     'app',
     'simplemde',
+    'parsley',
     'views/navigationtree/NavigationTreeView',
     'views/projects/ViewNodeItemView',
     'views/testsuites/TestSuiteView',
@@ -26,6 +27,7 @@ define([
         Backbone,
         app,
         SimpleMDE,
+        Parsley,
         NavigationTreeView,
         ViewNodeItemView,
         TestSuiteView,
@@ -296,6 +298,18 @@ define([
             this.testCaseModel.set('test_suite_id', this.testSuiteId);
             this.testCaseModel.set('id', this.testCaseId);
             this.testCaseModel.url = '/api/testplans/' + this.testPlanId + '/testruns/' + this.testRunId + '/testsuites/' + this.testSuiteId + '/testcases/' + this.testCaseId + '/executions';
+            
+            var invalidExecutionStatuseseIds = [1];
+
+            window.Parsley.addValidator('validexecutionstatusesid', {
+              validateString: function(value) {
+                return !invalidExecutionStatuseseIds.indexOf(value);
+              },
+              messages: {
+                en: 'Invalid Execution status'
+              }
+            });
+
             $.when(this.testCaseModel.fetch(), this.executionStatusCollection.fetch())
                 .done(function(testCaseResponse, executionStatusesResponse) {
                     var testcase = self.testCaseModel;
