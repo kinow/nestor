@@ -101,14 +101,20 @@ class ExecutionsController extends Controller
     public function executeTestCase(Request $request, $testPlanId, $testRunId, $testsuiteId, $testcaseId)
     {
         Log::debug("Executing test case");
+
+        // Users MUST NOT be allowed to set a test case execution to NOT RUN. It is
+        // that way by default. This comma separated list of this array contains the invalid values.
+        $illegalExecutionstatusesIds = join(',', [1]);
+        Log::debug(sprintf("Illegal characters: %s", $illegalExecutionstatusesIds));
+
         $payload = $request->only('notes', 'execution_statuses_id');
         $validator = Validator::make($payload, [
             'notes' => 'max:1000',
-            'execution_statuses_id' => 'required|integer|min:1'
+            'execution_statuses_id' => sprintf('required|integer|min:1|not_in:%s', $illegalExecutionstatusesIds)
         ]);
         
         if ($validator->fails()) {
-            $this->throwValidationException($request, $validator);
+            throw new \Dingo\Api\Exception\StoreResourceFailedException('Failed to execute test case', $validator->errors());
         }
         
         // FIXME: find the test case version ID
