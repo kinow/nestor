@@ -299,11 +299,12 @@ define([
             this.testCaseModel.set('id', this.testCaseId);
             this.testCaseModel.url = '/api/testplans/' + this.testPlanId + '/testruns/' + this.testRunId + '/testsuites/' + this.testSuiteId + '/testcases/' + this.testCaseId + '/executions';
             
+            // sorted array of execution statuses IDs
             var invalidExecutionStatuseseIds = [1];
 
             window.Parsley.addValidator('validexecutionstatusesid', {
               validateString: function(value) {
-                return !invalidExecutionStatuseseIds.indexOf(value);
+                return _.indexOf(invalidExecutionStatuseseIds, parseInt(value), /* sorted? binary search? */ true) < 0;
               },
               messages: {
                 en: 'Invalid Execution status'
