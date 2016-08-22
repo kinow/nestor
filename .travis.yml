@@ -4,6 +4,9 @@ php:
   - '7.0'
   - hhvm
 
+install:
+  - composer require satooshi/php-coveralls:~0.6@stable
+
 before_script:
   - cp .env.travis .env
   - touch database/database.sqlite
@@ -11,6 +14,10 @@ before_script:
   - composer install --no-interaction
   - php artisan migrate:install
   - php artisan migrate:refresh --seed
+  - mkdir -p build/logs
 
 script:
-- vendor/bin/phpunit
+  - vendor/bin/phpunit --coverage-clover build/logs/clover.xml
+
+after_success:
+  - sh -c 'if [ "$TRAVIS_PHP_VERSION" != "hhvm" ]; then php vendor/bin/coveralls -v; fi;'
