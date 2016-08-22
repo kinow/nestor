@@ -66,7 +66,7 @@ class UserControllerTest extends TestCase
 
         $dispatcher = $this->app->make('Dingo\Api\Dispatcher');
 
-        $this->setExpectedException('Dingo\Api\Exception\InternalHttpException');
+        $this->setExpectedException('\Dingo\Api\Exception\StoreResourceFailedException');
         $dispatcher->post('auth/signup', $payload);
     }
 
