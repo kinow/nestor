@@ -4,11 +4,12 @@ Nestor is a quality assurance, Open Source test management server.
 
 [![Build Status](https://travis-ci.org/nestor-qa/nestor.svg?branch=master)](https://travis-ci.org/nestor-qa/nestor) [![Coverage Status](https://coveralls.io/repos/github/nestor-qa/nestor/badge.svg?branch=master)](https://coveralls.io/github/nestor-qa/nestor?branch=master)
 
-### Features include
+### Features
 
-- Test projects
-- Test suites
-- Test cases
+- Manage test project
+- Specification with test project, test suites, and test cases
+- Test planning
+- Test execution
 
 ### Running in development mode
 
