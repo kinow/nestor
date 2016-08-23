@@ -18,6 +18,7 @@ Nestor is a quality assurance, Open Source test management server.
 - php artisan key:generate and copy the $KEY
 - vim .env
 
+```
   APP_KEY=$KEY
   API_STANDARDS_TREE=vnd
   API_SUBTYPE=nestorqa
@@ -26,5 +27,6 @@ Nestor is a quality assurance, Open Source test management server.
   API_NAME=Nestor-QA API
   API_CONDITIONAL_REQUEST=false
   API_STRICT=false
+```
 
 - php artisan serve and browse http://localhost:8000
