@@ -12,11 +12,11 @@ Nestor is a quality assurance, Open Source test management server.
 
 ### Running in development mode
 
-- git clone
+- `git clone`
 - install composer, php5 and php5-mcrypt
-- run composer install
-- php artisan key:generate and copy the $KEY
-- vim .env
+- run `composer install`
+- `php artisan key:generate` and copy the $KEY
+- `vim .env`
 
 ```
   APP_KEY=$KEY
@@ -29,4 +29,4 @@ Nestor is a quality assurance, Open Source test management server.
   API_STRICT=false
 ```
 
-- php artisan serve and browse http://localhost:8000
+- `php artisan serve` and browse [http://localhost:8000](http://localhost:8000)
