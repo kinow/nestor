@@ -80,7 +80,7 @@ class TestCasesVersions extends Model implements Transformable
     public function testplans()
     {
         return $this->belongsToMany('Nestor\\Entities\\TestPlans', 'test_plans_test_cases', 'test_case_version_id', 'test_plan_id')
-            ->withPivot('assignee')
+            //->withPivot('assignee')
             ->withTimestamps();
     }
 
