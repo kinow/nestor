@@ -262,4 +262,30 @@ class TestCasesRepositoryTest extends TestCase
         $testCaseVersionTestCase = $testCaseVersion->testcase()->first();
         $this->assertEquals($testCaseVersionTestCase->toArray(), $testCase->toArray());
     }
+
+    public function testTestCaseVersionRelationshipTestPlans()
+    {
+        $testCasePayload = [
+            'project_id' => $this->faker->numberBetween(1, 1000),
+            'test_suite_id' => $this->faker->numberBetween(1, 1000)
+        ];
+
+        $testCaseVersionPayload = [
+            'name' => $this->faker->uuid,
+            'description' => $this->faker->sentence(3),
+            'prerequisite' => $this->faker->sentence(5),
+            'version' => $this->faker->numberBetween(1, 10),
+            'execution_type_id' => $this->faker->numberBetween(1, 2),
+            'test_case_id' => $this->faker->numberBetween(1, 5)
+        ];
+
+        $testCaseRepository = app()->make(\Nestor\Repositories\TestCasesRepository::class);
+        $testCase = $testCaseRepository->createWithAncestor($testCasePayload, $testCaseVersionPayload, '1-1');
+
+        $this->assertTrue($testCase['id'] > 0);
+        
+        $testCaseVersion = $testCase->latestVersion();
+
+        $this->assertEquals([], $testCaseVersion->testplans()->get()->toArray());
+    }
 }
