@@ -17,10 +17,17 @@
         <whitelist processUncoveredFilesFromWhitelist="true">
             <directory suffix=".php">./app</directory>
             <exclude>
-                <directory>./app/Console/Commands/</directory>
+                <directory>./app/Console/</directory>
+                <directory>./app/Events/</directory>
                 <directory>./app/Exceptions/</directory>
+                <directory>./app/Jobs/</directory>
+                <directory>./app/Listeners/</directory>
+                <directory>./app/Policies/</directory>
+                <directory>./app/Providers/</directory>
                 <file>./app/Http/Middleware/Authenticate.php</file>
                 <file>./app/Http/Middleware/RedirectIfAuthenticated.php</file>
+                <file>./app/Http/Requests/Request.php</file>
+                <file>./app/Http/Kernel.php</file>
                 <file>./app/Http/routes.php</file>
             </exclude>
         </whitelist>
