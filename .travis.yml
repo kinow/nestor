@@ -5,7 +5,7 @@ php:
   - hhvm
 
 install:
-  - composer require satooshi/php-coveralls:~0.6@stable
+  - composer require satooshi/php-coveralls:~1.0.1@stable
 
 before_script:
   - cp .env.travis .env
