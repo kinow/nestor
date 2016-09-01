@@ -1,4 +1,16 @@
-# 2.18.1-0 / Unreleased
+# 2.19.1-0 / Unreleased
+
+# 2.19.0 / 2016-08-11
+  * [Added] #607 tree.enableUpdate() to temporarily disable rendering to improve 
+    performance on bulk updates
+  * [Added] modifier class `.fancytree-connectors` to be set on container<br>
+    Note: Experimental! Not required for skin-xp and not compatible with ext-table
+  * [Added] #623 ext-edit: `data.originalEvent` is now passed to `beforeClose`
+  * [Fixed] #604 Set `source` option does not update tree
+  * [Fixed] #609 node.load(true); doesn't maintain expanded
+  * [Fixed] #621 Cannot focus embedded input controls
+  * [Improved] #611 Keyboard navigation honors autoScroll option
+  * Extensions inherit main version number
 
 # 2.18.0 / 2016-05-02
   * [Added] #586 node.discardMarkup() (useful in  the `collapsed` event)

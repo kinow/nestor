@@ -28,10 +28,9 @@ require.config({
             'deps': [
                 'libs/jquery-ui/ui/core',
                 'libs/jquery-ui/ui/effect',
-                'libs/jquery-ui/ui/effect-blind',
                 'libs/jquery-ui/ui/widget',
-                'libs/jquery-ui/ui/draggable',
-                'libs/jquery-ui/ui/droppable'
+                'libs/jquery-ui/ui/widgets/draggable',
+                'libs/jquery-ui/ui/widgets/droppable'
             ],
             exports: 'fancytree'
         }
