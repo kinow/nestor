@@ -109,4 +109,76 @@ class ExecutionsRepositoryTest extends TestCase
         $this->assertEquals($execution->testCaseVersion()->first()->toArray(), $testCase->latestVersion()->toArray());
         $this->assertEquals(1, $execution->executionStatus()->first()['id']);
     }
+
+    public function testExecute()
+    {
+        $projectPayload = [
+            'name' => $this->faker->name,
+            'description' => $this->faker->sentence(3),
+            'created_by' => $this->faker->word,
+            'project_statuses_id' => $this->faker->numberBetween(1, 1000)
+        ];
+
+        $projectRepository = app()->make(\Nestor\Repositories\ProjectsRepository::class);
+        $project = $projectRepository->create($projectPayload);
+
+        $testPlanPayload = [
+            'project_id' => $project['id'],
+            'name' => $this->faker->sentence(2),
+            'description' => $this->faker->sentence(10)
+        ];
+
+        $testPlanRepository = app()->make(\Nestor\Repositories\TestPlansRepository::class);
+        $testPlan = $testPlanRepository->create($testPlanPayload);
+
+        $testRunPayload = [
+            'test_plan_id' => $testPlan['id'],
+            'name' => $this->faker->sentence(2),
+            'description' => $this->faker->sentence(10)
+        ];
+
+        $testRunRepository = app()->make(\Nestor\Repositories\TestRunsRepository::class);
+        $testRun = $testRunRepository->create($testRunPayload);
+
+        $testCasePayload = [
+            'project_id' => $this->faker->numberBetween(1, 1000),
+            'test_suite_id' => $this->faker->numberBetween(1, 1000)
+        ];
+
+        $testCaseVersionPayload = [
+            'name' => $this->faker->name,
+            'description' => $this->faker->sentence(3),
+            'prerequisite' => $this->faker->sentence(5),
+            'version' => 1,
+            'execution_type_id' => $this->faker->numberBetween(1, 5)
+        ];
+
+        $testCaseRepository = app()->make(\Nestor\Repositories\TestCasesRepository::class);
+        $testCase = $testCaseRepository->createWithAncestor($testCasePayload, $testCaseVersionPayload, '2-1');
+
+        $executionsPayload = [
+            'test_run_id' => $testRun['id'],
+            'test_case_version_id' => $testCase->latestVersion()['id'],
+            'execution_status_id' => 1,
+            'notes' => $this->faker->sentence(10)
+        ];
+
+        $executionsRepository = app()->make(\Nestor\Repositories\ExecutionsRepository::class);
+
+        $execution = $executionsRepository->execute(
+            $executionsPayload['execution_status_id'],
+            $executionsPayload['notes'],
+            $executionsPayload['test_run_id'],
+            $executionsPayload['test_case_version_id']
+        );
+
+        $this->assertTrue($execution['id'] > 0);
+        foreach ($executionsPayload as $key => $value) {
+            $this->assertEquals($executionsPayload[$key], $execution[$key]);
+        }
+
+        $this->assertEquals($execution->testRun()->first()->toArray(), $testRun->toArray());
+        $this->assertEquals($execution->testCaseVersion()->first()->toArray(), $testCase->latestVersion()->toArray());
+        $this->assertEquals(1, $execution->executionStatus()->first()['id']);
+    }
 }
