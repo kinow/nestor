@@ -14,7 +14,7 @@ define([
         },
 
         events: {
-            'click #login-btn': 'onLoginAttempt'
+            'submit': 'onLoginAttempt'
         },
 
         onLoginAttempt: function(event) {
