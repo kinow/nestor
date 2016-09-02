@@ -15,6 +15,7 @@ define([
     // Auth views
     'views/auth/SignUpView',
     'views/auth/SignInView',
+    'views/auth/UserProfileView',
     // Projects views
     'views/projects/ProjectsView',
     'views/projects/NewProjectView',
@@ -49,6 +50,7 @@ define([
     BreadcrumbView,
     SignUpView,
     SignInView,
+    UserProfileView,
     ProjectsView,
     NewProjectView,
     ProjectView,
@@ -126,7 +128,8 @@ define([
     var AuthRouter = Backbone.Router.extend({
         routes: {
             'signup': 'signUp',
-            'signin': 'signIn'
+            'signin': 'signIn',
+            'me': 'userProfile'
         },
         navigation: {
             prefix: 'Auth',
@@ -137,6 +140,10 @@ define([
                 },
                 'Auth.signIn': {
                     template: 'Sign In',
+                    parent: 'Base.defaultAction'
+                },
+                'Auth.userProfile': {
+                    template: 'User Profile',
                     parent: 'Base.defaultAction'
                 }
             }
@@ -479,6 +486,15 @@ define([
                 app.signInView = new SignInView();
             }
             app.showView(app.signInView);
+        });
+
+        authRouter.on('route:userProfile', function() {
+            if (!app.userProfileView) {
+                app.userProfileView = new UserProfileView();
+            }
+            app.showView(app.userProfileView, {
+                requiresAuth: true
+            });
         });
         // --- end auth router ---
 
