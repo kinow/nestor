@@ -29,10 +29,9 @@
       <% if(logged_in){ %>
       <div id="position-project-combobox"></div>
       <div class='ui simple dropdown item'>
-        <a href="#/profile"><i class="user icon"></i> <%= user['name'] %></a>
+        <a href="#/me"><i class="user icon"></i> <%= user['name'] %></a>
         <!--<i class="dropdown icon"></i>-->
         <div class="menu">
-          <a class="item" href="#/me">Profile</a>
           <a class="item" id="logout-link" href="#/signout">Sign Out</a>
         </div>
       </div>

@@ -48,7 +48,7 @@ define([
             $('.item').removeClass('active');
             $('a[href="#/me"]').addClass('active');
             var data = {
-                user: app.user,
+                user: app.session.user,
                 _: _
             };
             var compiledTemplate = _.template(userProfileTemplate, data);

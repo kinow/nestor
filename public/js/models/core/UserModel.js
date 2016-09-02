@@ -6,6 +6,7 @@ define([
   var UserModel = Backbone.Model.extend({
 
   	defaults: {
+        username: '',
   		name: '',
       email: '',
       password: ''

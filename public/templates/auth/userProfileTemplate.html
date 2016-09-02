@@ -10,28 +10,22 @@
         <div class="field">
           <div class="ui left icon input">
             <i class="user icon"></i>
-            <input type="text" name="username" id="profile-username-input" placeholder="User name" data-parsley-required="true">
+            <input type="text" name="username" id="profile-username-input" placeholder="User name" data-parsley-required="true" value="<%= user.get('username') %>">
           </div>
         </div>
         <div class="field">
           <div class="ui left icon input">
             <i class="pointing right icon"></i>
-            <input type="text" name="name" id="profile-name-input" placeholder="Full Name" data-parsley-required="true">
+            <input type="text" name="name" id="profile-name-input" placeholder="Full Name" data-parsley-required="true" value="<%= user.get('name') %>">
           </div>
         </div>
         <div class="field">
           <div class="ui left icon input">
             <i class="mail icon"></i>
-            <input type="email" name="email" id="profile-email-input" placeholder="E-mail address" data-parsley-required="true" data-parsley-type="email">
+            <input type="email" name="email" id="profile-email-input" placeholder="E-mail address" data-parsley-required="true" data-parsley-type="email" value="<%= user.get('email') %>">
           </div>
         </div>
-        <div class="field">
-          <div class="ui left icon input">
-            <i class="lock icon"></i>
-            <input type="password" name="password" id="profile-password-input" placeholder="Password" data-parsley-required="true" data-parsley-length="[6,50]">
-          </div>
-        </div>
-        <button class="ui fluid large submit button" id="profile-btn">Sign Up</button>
+        <button class="ui fluid large submit button" id="profile-btn">Save</button>
       </div>
     </form>
   </div>
