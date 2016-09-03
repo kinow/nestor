@@ -443,10 +443,9 @@ define([
         // Projects collection shared by HeaderView and NewProjectView
         // So when a new project is saved, the header is automatically updated
         var projectsCollection = new ProjectsCollection();
-
         // --- common views ---
         if (!app.headerView) {
-            app.headerView = new HeaderView({'collection': projectsCollection});
+            app.headerView = new HeaderView({'projectsCollection': projectsCollection});
             app.headerView.render();
             app.session.bind('reset', app.headerView.updateMenu);
         }

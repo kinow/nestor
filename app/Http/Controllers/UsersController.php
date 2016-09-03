@@ -189,7 +189,7 @@ class UsersController extends Controller
      */
     public function update(Request $request)
     {
-        Log::debug("Creating a user");
+        Log::debug("Updating a user");
         // Update password in another method
         $payload = $request->only('username', 'name', 'email');
         $user = Auth::user();

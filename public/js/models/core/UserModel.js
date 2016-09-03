@@ -6,13 +6,14 @@ define([
   var UserModel = Backbone.Model.extend({
 
     defaults: {
+      id: 0,
       username: '',
       name: '',
       email: '',
       password: ''
     },
       
-    url: '/api/users'
+    urlRoot: '/api/users'
 
   });
 

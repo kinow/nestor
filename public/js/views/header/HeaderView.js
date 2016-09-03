@@ -15,17 +15,17 @@ define([
             _.bindAll(this, 'onLoginStatusChange', 'render', 'onProjectPositioned', 'onProjectUpdated', 'onProjectRemoved');
 
             // Collections
-            this.collection = options.collection;
+            this.projectsCollection  = options.projectsCollection;
 
             // Listen for session logged_in state changes and re-render
             app.session.on("change:logged_in", this.onLoginStatusChange);
-
-            this.collection.bind('change add reset', this.onProjectUpdated);
-            this.collection.bind('remove', this.onProjectRemoved);
+            this.projectsCollection.bind('change add reset', this.onProjectUpdated);
+            this.projectsCollection.bind('remove', this.onProjectRemoved);
+            app.session.user.bind('change', this.render);
 
             if (!this.positionProjectComboboxView) {
                 var projectId = app.session.get('project_id');
-                this.positionProjectComboboxView = new PositionProjectComboboxView({'project_id': projectId, 'collection': options.collection});
+                this.positionProjectComboboxView = new PositionProjectComboboxView({'project_id': projectId, 'collection': this.projectsCollection});
             }
 
             // For GC

@@ -3,17 +3,14 @@ define([
     'underscore',
     'backbone',
     'app',
-    'collections/core/UserCollection',
     'text!templates/auth/userProfileTemplate.html'
-], function($, _, Backbone, app, UserCollection, userProfileTemplate) {
+], function($, _, Backbone, app, userProfileTemplate) {
 
     var UserProfileView = Backbone.View.extend({
         el: $("#page"),
 
         initialize: function() {
             _.bindAll(this, 'onUpdateProfile', 'render');
-            // Collections
-            this.userCollection = new UserCollection();
         },
 
         events: {
@@ -25,7 +22,6 @@ define([
             if (this.$("#profile-form").parsley().validate()) {
                 // get user in the session
                 var user = app.session.user;
-                // update values
 
                 user.save({
                     username: this.$("#profile-username-input").val(),
