@@ -49,27 +49,7 @@ class TestSuitesController extends Controller
     {
         $this->testSuitesRepository = $testSuitesRepository;
     }
-    
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        //
-    }
-    
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-    
+
     /**
      * Store a newly created resource in storage.
      *
@@ -120,18 +100,7 @@ class TestSuitesController extends Controller
         $testSuite->formatted_description = Parsedown::instance()->text($testSuite->description);
         return $testSuite;
     }
-    
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param int $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-    
+
     /**
      * Update the specified resource in storage.
      *

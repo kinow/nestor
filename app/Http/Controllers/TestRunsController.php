@@ -42,18 +42,6 @@ class TestRunsController extends Controller
         })->paginate();
     }
 
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-
     /**
      * Store a newly created resource in storage.
      *
@@ -94,20 +82,6 @@ class TestRunsController extends Controller
         $testRun->formatted_description = Parsedown::instance()->text($testRun->description);
         return $testRun;
     }
-
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int $id
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($testPlanId, $id)
-    {
-        //
-    }
-
 
     /**
      * Update the specified resource in storage.

@@ -47,26 +47,6 @@ class TestCasesController extends Controller
     }
 
     /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
      * Store a newly created resource in storage.
      *
      * @param \Illuminate\Http\Request $request
@@ -120,17 +100,6 @@ class TestCasesController extends Controller
         $testCase['formatted_description'] = Parsedown::instance()->text($testCase['version']['description']);
         $testCase['formatted_prerequisite'] = Parsedown::instance()->text($testCase['version']['prerequisite']);
         return $testCase;
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
     }
 
     /**

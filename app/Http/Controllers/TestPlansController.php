@@ -88,17 +88,7 @@ class TestPlansController extends Controller
             return $query->where('project_id', $projectId)->orderBy('name', 'ASC');
         })->paginate();
     }
-    
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        // TODO: throw not implemented
-    }
-    
+
     /**
      * Store a newly created resource in storage.
      *
@@ -136,18 +126,7 @@ class TestPlansController extends Controller
         $testPlan->formatted_description = Parsedown::instance()->text($testPlan->description);
         return $testPlan;
     }
-    
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param int $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-    
+
     /**
      * Update the specified resource in storage.
      *
