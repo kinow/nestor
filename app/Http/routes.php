@@ -84,6 +84,7 @@ $api->version('v1', function ($api) {
     // core
     $api->get('executiontypes', 'Nestor\Http\Controllers\ExecutionTypesController@index');
     $api->get('executionstatuses', 'Nestor\Http\Controllers\ExecutionStatusesController@index');
+    $api->post('users', 'Nestor\Http\Controllers\UsersController@update');
     
     // projects
     $api->get('projects', 'Nestor\Http\Controllers\ProjectsController@index');

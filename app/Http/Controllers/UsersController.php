@@ -180,4 +180,35 @@ class UsersController extends Controller
         }
         return null;
     }
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param \Illuminate\Http\Request $request
+     * @return \Illuminate\Http\Response
+     */
+    public function update(Request $request)
+    {
+        Log::debug("Creating a user");
+        // Update password in another method
+        $payload = $request->only('username', 'name', 'email');
+        $user = Auth::user();
+        $userId = $user['id'];
+        $validator = Validator::make($payload, [
+            'username' => 'required|max:50|unique:users,'.$userId,
+            'name' => 'required|max:255',
+            'email' => 'required|email|max:255'
+        ]);
+        
+        if ($validator->fails()) {
+            Log::debug('Validation errors: ' . $validator->errors());
+            throw new \Dingo\Api\Exception\StoreResourceFailedException('Could not update user.', $validator->errors());
+        }
+        
+        $payload['username'] = strtolower($payload['username']);
+
+        $entity = $this->usersRepository->update($payload, $userId);
+        
+        return response()->json($entity);
+    }
 }
