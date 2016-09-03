@@ -3,39 +3,45 @@ define([
     'underscore',
     'backbone',
     'app',
+    'collections/core/UserCollection',
     'text!templates/auth/userProfileTemplate.html'
-], function($, _, Backbone, app, userProfileTemplate) {
+], function($, _, Backbone, app, UserCollection, userProfileTemplate) {
 
     var UserProfileView = Backbone.View.extend({
         el: $("#page"),
 
         initialize: function() {
             _.bindAll(this, 'onUpdateProfile', 'render');
+            // Collections
+            this.userCollection = new UserCollection();
         },
 
         events: {
-            'click #profile-btn': 'onUpdateProfile'
+            'submit': 'onUpdateProfile'
         },
 
         onUpdateProfile: function(event) {
             if (event) event.preventDefault();
             if (this.$("#profile-form").parsley().validate()) {
-                app.session.signup({
-                    username: this.$("#signup-username-input").val(),
-                    name: this.$("#signup-name-input").val(),
-                    email: this.$("#signup-email-input").val(),
-                    password: this.$("#signup-password-input").val()
+                // get user in the session
+                var user = app.session.user;
+                // update values
+
+                user.save({
+                    username: this.$("#profile-username-input").val(),
+                    name: this.$("#profile-name-input").val(),
+                    email: this.$("#profile-email-input").val(),
                 }, {
                     success: function(mod, res) {
                         if (typeof DEBUG != 'undefined' && DEBUG) console.log("SUCCESS", mod, res);
-                        app.showAlert('Welcome!', 'You have been signed up and automatically logged in!', 'success')
-                        Backbone.history.navigate("#/projects", {
+                        app.showAlert('Success', 'Profile updated!', 'success')
+                        Backbone.history.navigate("#/me", {
                             trigger: true
                         });
                     },
                     error: function(err) {
                         if (typeof DEBUG != 'undefined' && DEBUG) console.log("ERROR", err);
-                        app.showAlert('Sign Up error', err, 'error');
+                        app.showAlert('Error updating profile', err, 'error');
                     }
                 });
             } else {
