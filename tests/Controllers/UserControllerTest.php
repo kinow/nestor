@@ -229,4 +229,42 @@ class UserControllerTest extends TestCase
         $response = $dispatcher->post('auth/login', $loginPayload);
         $this->assertTrue($response['id'] > 0);
     }
+
+    public function testUpdateUserProfile()
+    {
+        $payload = [
+            'username' => $this->faker->uuid,
+            'name' => $this->faker->name,
+            'email' => $this->faker->email,
+            'password' => $this->faker->md5
+        ];
+
+        $dispatcher = $this->app->make('Dingo\Api\Dispatcher');
+
+        $response = $dispatcher->post('auth/signup', $payload);
+
+        $this->assertEquals($payload['username'], $response['username']);
+        $this->assertEquals($payload['name'], $response['name']);
+        $this->assertEquals($payload['email'], $response['email']);
+        $this->assertTrue($response['id'] > 0);
+        $this->assertTrue(isset($response['created_at']));
+        $this->assertTrue(isset($response['updated_at']));
+        $this->assertFalse(isset($response['password']));
+
+        $updatedPayload = [
+            'username' => $this->faker->uuid,
+            'name' => $this->faker->name,
+            'email' => $this->faker->email
+        ];
+
+        $response = $dispatcher->put('users/' . $response['id'], $updatedPayload);
+
+        $this->assertEquals($updatedPayload['username'], $response['username']);
+        $this->assertEquals($updatedPayload['name'], $response['name']);
+        $this->assertEquals($updatedPayload['email'], $response['email']);
+        $this->assertTrue($response['id'] > 0);
+        $this->assertTrue(isset($response['created_at']));
+        $this->assertTrue(isset($response['updated_at']));
+        $this->assertFalse(isset($response['password']));
+    }
 }
