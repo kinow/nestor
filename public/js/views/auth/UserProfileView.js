@@ -18,7 +18,10 @@ define([
         },
 
         onUpdateProfile: function(event) {
-            if (event) event.preventDefault();
+            if (event) {
+                event.preventDefault();
+                event.stopImmediatePropagation();
+            }
             if (this.$("#profile-form").parsley().validate()) {
                 // get user in the session
                 var user = app.session.user;
@@ -32,7 +35,7 @@ define([
                         if (typeof DEBUG != 'undefined' && DEBUG) console.log("SUCCESS", mod, res);
                         app.showAlert('Success', 'Profile updated!', 'success')
                         Backbone.history.navigate("#/me", {
-                            trigger: true
+                            trigger: false
                         });
                     },
                     error: function(err) {
