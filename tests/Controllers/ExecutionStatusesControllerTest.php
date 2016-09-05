@@ -25,9 +25,6 @@
 namespace Controllers;
 
 use \TestCase;
-use Nestor\Entities\User;
-use Nestor\Repositories\UsersRepository;
-use Nestor\Http\Controllers\UsersController;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class ExecutionStatusesControllerTest extends TestCase
