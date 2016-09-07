@@ -1,0 +1,46 @@
+  <div class="ui inverted vertical footer segment">
+    <div class="ui center aligned container">
+      <div class="ui stackable inverted divided grid">
+        <div class="three wide column">
+          <h4 class="ui inverted header">{{ site.title }}</h4>
+          <div class="ui inverted link list">
+            <a href="#" class="item">Specification</a>
+            <a href="#" class="item">Planning</a>
+            <a href="#" class="item">Execution</a>
+            <a href="#" class="item">Reporting</a>
+          </div>
+        </div>
+        <div class="three wide column">
+          <h4 class="ui inverted header">What is Nestor-QA?</h4>
+          <div class="ui inverted link list">
+            {{ site.description }}
+          </div>
+        </div>
+        <div class="three wide column">
+          <h4 class="ui inverted header">External Links</h4>
+          <div class="ui inverted link list">
+            {% if site.github_username %}
+            <li>
+              {% include icon-github.html username=site.github_username %}
+            </li>
+            {% endif %}
+
+            {% if site.twitter_username %}
+            <li>
+              {% include icon-twitter.html username=site.twitter_username %}
+            </li>
+            {% endif %}
+          </div>
+        </div>
+        <div class="seven wide column">
+          <h4 class="ui inverted header">Gentileza gera gentileza</h4>
+          <p>Help us by buying swags, spreading the word or donating time, servers or money</p>
+        </div>
+      </div>
+      <div class="ui inverted section divider"></div>
+      <div class="ui horizontal inverted small divided link list">
+        <a class="item" href="#">Site Map</a>
+        <a class="item" href="#">Contact Us</a>
+      </div>
+    </div>
+  </div>

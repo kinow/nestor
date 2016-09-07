@@ -1,0 +1,36 @@
+  <div class="ui fixed inverted menu">
+    <div class="ui container">
+      <p class="header item">
+        {{ site.title }}
+      </p>
+      <a href="{{ "/" | prepend: site.baseurl }}" class="item">Home</a>
+      <div class="ui simple dropdown item">
+        Documentation <i class="dropdown icon"></i>
+        <div class="menu">
+          <a class="item" href="{{ "/getting-started" | prepend: site.baseurl }}">Getting Started</a>
+          <a class="item" href="{{ "/documentation/installation" | prepend: site.baseurl }}">Installation</a>
+          <div class="divider"></div>
+          <div class="item">
+            <i class="dropdown icon"></i>
+            For Developers
+            <div class="menu">
+              <a class="item" href="{{ "/documentation/for-developers/api-installation" | prepend: site.baseurl }}">API Installation</a>
+              <a class="item" href="{{ "/documentation/for-developers/database-model" | prepend: site.baseurl }}">Database Model</a>
+              <a class="item" href="{{ "/documentation/for-developers/oss-licenses" | prepend: site.baseurl }}">OSS Licenses</a>
+              <div class="divider"></div>
+              <div class="item">
+                <i class="dropdown icon"></i>
+                JavaScript
+                <div class="menu">
+                  <a class="item" href="{{ "/documentation/for-developers/javascript/backbone-events" | prepend: site.baseurl }}">Backbone.JS events</a>
+                  <a class="item" href="{{ "/documentation/for-developers/javascript/common-console-errors" | prepend: site.baseurl }}">Common console errors</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <a class="item" href="{{ "/blog" | prepend: site.baseurl }}">Blog</a>
+      <a class="right floated item" href="https://github.com/nestor-qa/"><span></span>GitHub</a>
+    </div>
+  </div>
