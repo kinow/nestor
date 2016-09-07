@@ -1,8 +1,9 @@
 ---
 layout: page
 title: API Installation
-format: markdown
 ---
+
+
 FORMAT: 1A
 
 # Nestor-QA RESTful API

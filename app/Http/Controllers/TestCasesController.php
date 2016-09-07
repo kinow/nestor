@@ -33,6 +33,11 @@ use Nestor\Entities\NavigationTree;
 use Nestor\Http\Controllers\Controller;
 use Nestor\Repositories\TestCasesRepository;
 
+/**
+ * Project resource representation.
+ *
+ * @Resource("TestCases", uri="projects/{projectId}/testsuites/{testsuiteId}/testcases")
+ */
 class TestCasesController extends Controller
 {
 
