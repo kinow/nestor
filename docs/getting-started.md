@@ -23,20 +23,26 @@ Test specification involves managing test suites and test cases. A project can c
 several test suites. A test suite, by its turn, can contain other test suites, or test cases.
 A test case is a leaf, and has no children nodes.
 
+![specification screenshot]({{ "/assets/images/docs/getting-started/nestor_specification.png" | prepend: site.baseurl }} "Test Specification")
+
 There are two types of test cases, manual and automated test cases. Its icon varies in the
 navigation tree.
 
-![specification screenshot]({{ "/assets/images/docs/getting-started/nestor_specification.png" | prepend: site.baseurl }} "Test Specification")
+![test cases screenshot]({{ "/assets/images/docs/getting-started/nestor_testcase.png" | prepend: site.baseurl }} "Test Cases")
 
 ## Planning
 
 Once you have created a project, and worked on the test specification, you will need
 to start planning how your tests will be executed.
 
+![planning screenshot]({{ "/assets/images/docs/getting-started/nestor_planning.png" | prepend: site.baseurl }} "Planning")
+
+
 This step includes choosing resources for your tests, prerequisites, what to test and what
 not to test.
 
-![planning screenshot]({{ "/assets/images/docs/getting-started/nestor_planning.png" | prepend: site.baseurl }} "Planning")
+![adding test cases screenshot]({{ "/assets/images/docs/getting-started/nestor_managing_testcases.png" | prepend: site.baseurl }} "Managing Test Cases")
+
 
 ## Execution
 
