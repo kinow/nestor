@@ -4,7 +4,7 @@ title: Getting Started
 permalink: /getting-started/
 ---
 
-With Nestor-QA you will be able to
+With Nestor QA you will be able to
 
 * Manage test projects
 * Work on the specification of test suites and test cases
