@@ -27,3 +27,14 @@ There are two types of test cases, manual and automated test cases. Its icon var
 navigation tree.
 
 ![specification screenshot]({{ "/assets/images/docs/getting-started/nestor_specification.png" | prepend: site.baseurl }} "Test Specification")
+
+## Planning
+
+Once you have created a project, and worked on the test specification, you will need
+to start planning how your tests will be executed.
+
+This step includes choosing resources for your tests, prerequisites, what to test and what
+not to test.
+
+![planning screenshot]({{ "/assets/images/docs/getting-started/nestor_planning.png" | prepend: site.baseurl }} "Planning")
+
