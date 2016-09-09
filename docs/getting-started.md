@@ -38,3 +38,15 @@ not to test.
 
 ![planning screenshot]({{ "/assets/images/docs/getting-started/nestor_planning.png" | prepend: site.baseurl }} "Planning")
 
+## Execution
+
+Test plans can generate one or many test runs. Each test run contains a complete copy of
+the test cases assigned to the test plan.
+
+The execution is simply assigning execution status like *PASSED* or *FAILED* to test cases.
+
+![execution screenshot]({{ "/assets/images/docs/getting-started/nestor_execution.png" | prepend: site.baseurl }} "Test Execution")
+
+You can view the overall status of each test run. This way you can easily compare its execution progress.
+
+![test runs screenshot]({{ "/assets/images/docs/getting-started/nestor_executing.png" | prepend: site.baseurl }} "Test Runs")
