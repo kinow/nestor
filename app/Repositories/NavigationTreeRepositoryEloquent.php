@@ -53,8 +53,8 @@ class NavigationTreeRepositoryEloquent implements NavigationTreeRepository
             ->groupBy('a.ancestor')->groupBy('a.descendant')->groupBy('a.length')
             ->orderBy('a.display_name')
             ->get();
-        $navigationTreeNodes = array();
-        Eloquent::unguard();
+//        $navigationTreeNodes = array();
+//        Eloquent::unguard();
 //         foreach ($children as $child) {
 //             $navigationTreeNodes[] = new Node(get_object_vars($child));
 //         }
