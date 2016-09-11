@@ -101,4 +101,9 @@ class NavigationTree extends Model implements Transformable
     {
         return sprintf("%s-%s", $nodeType, $nodeId);
     }
+
+    public function getAttributesAttribute($value)
+    {
+        return is_null($value) ? "{}" : $value;
+    }
 }
