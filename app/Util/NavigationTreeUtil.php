@@ -112,7 +112,7 @@ class NavigationTreeUtil
     private static function createTreeFromVertex($vertex)
     {
         $node = $vertex->data;
-        $node->children = array ();
+        $node->children = array();
         foreach ($vertex->getEdgesOut() as $edge) {
             $childVertex = $edge->getVertexEnd();
             $node->children[] = $childVertex->data;
