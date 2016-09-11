@@ -63,7 +63,7 @@ class NavigationTreeUtil
         $node = $vertices[$root]->data;
         $tree[] = $node;
         // Here $vertices gets its data element modified. The data element will get a children object, with all the
-        // childreno nodes of the root vertex.
+        // children nodes of the root vertex.
         static::createTreeFromVertex($vertices[$root]);
         return $tree;
     }
