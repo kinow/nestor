@@ -45,21 +45,15 @@ class NavigationTreeRepositoryEloquent implements NavigationTreeRepository
     public function children($ancestor, $length = 1)
     {
         Log::info(sprintf('Retrieving children for %s, length %d', $ancestor, $length));
-        $children = DB::table('navigation_tree AS a')
-            ->select(DB::raw("a.*"))
-            ->leftJoin('navigation_tree AS b', 'a.ancestor', '=', 'b.descendant')
+
+        return NavigationTree::query()
+            ->select('navigation_tree.*')
+            ->leftJoin('navigation_tree AS b', 'navigation_tree.ancestor', '=', 'b.descendant')
             ->where('b.ancestor', '=', "$ancestor")
-            ->where('a.length', '<=', $length)
-            ->groupBy('a.ancestor')->groupBy('a.descendant')->groupBy('a.length')
-            ->orderBy('a.display_name')
+            ->where('navigation_tree.length', '<=', $length)
+            ->groupBy('navigation_tree.ancestor')->groupBy('navigation_tree.descendant')->groupBy('navigation_tree.length')
+            ->orderBy('navigation_tree.display_name')
             ->get();
-//        $navigationTreeNodes = array();
-//        Eloquent::unguard();
-//         foreach ($children as $child) {
-//             $navigationTreeNodes[] = new Node(get_object_vars($child));
-//         }
-        //return new Nodes($navigationTreeNodes);
-        return $children;
     }
     
     /**

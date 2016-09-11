@@ -58,7 +58,7 @@ class NavigationTreeController extends Controller
         $defaultLength = 1;
         $length = $request->get('length', $defaultLength);
         
-        $nodes = $this->navigationTreeRepository->children($id, $length);
+        $nodes = $this->navigationTreeRepository->children($id, $length)->toArray();
         $tree = NavigationTreeUtil::createNavigationTree($nodes, $id);
         return $tree;
     }
