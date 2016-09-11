@@ -54,14 +54,14 @@ class NavigationTreeUtil
      */
     public static function createNavigationTree($nodes, $root)
     {
-        list ( $graph, $vertices ) = static::createGraph($nodes);
+        list($graph, $vertices) = static::createGraph($nodes);
         // Do a breadth first search to construct the desired set of vertices
         $rootVertex = new BreadthFirst($vertices [$root]);
         $bfsVertices = $rootVertex->getVertices();
         // $tree is the result object. Some of its elements are modified by other function, by reference.
-        $tree = array ();
+        $tree = array();
         $node = $vertices [$root]->data;
-        $tree [] = $node;
+        $tree[] = $node;
         // Here $vertices gets its data element modified. The data element will get a children object, with all the
         // childreno nodes of the root vertex.
         static::createTreeFromVertex($vertices [$root]);
