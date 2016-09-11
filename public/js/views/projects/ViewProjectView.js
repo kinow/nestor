@@ -114,7 +114,6 @@ define([
 
         render: function(options) {
             var self = this;
-            console.log('fetching...');
             $.when(this.navigationTreeCollection.fetch({ reset: true }))
                 .done(function() {
                     self.render2();
