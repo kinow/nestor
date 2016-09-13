@@ -134,11 +134,13 @@ class TestCasesController extends Controller
         $ancestorNodeId = NavigationTree::testsuiteId($testsuiteId);
         Log::debug("Ancestor ID: " . $ancestorNodeId);
 
+        // FIXME: this probably was copy and paste accident!
         $testcaseVersionAttributes['version'] = 1;
 
         try {
             $entity = $this->testCasesRepository->updateWithAncestor($testcaseVersionAttributes, $ancestorNodeId);
         } catch (\Exception $e) {
+            Log::error("Error removing test case: " . $e->getMessage(), ['projectId' => $projectId, 'testSuiteId' => $testSuiteId, 'id' => $id]);
             throw new \Dingo\Api\Exception\StoreResourceFailedException($e->getMessage(), $e);
         }
         return $entity;
