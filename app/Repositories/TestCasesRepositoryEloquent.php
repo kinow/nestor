@@ -229,16 +229,16 @@ class TestCasesRepositoryEloquent extends BaseRepository implements TestCasesRep
 
         DB::beginTransaction();
     
-        $model = $this->with('executions')->find($id);
-        if (isset($model['executions']) && count($model['executions']) > 0) {
-            throw new Exception('You cannot remove a test case after is has been executed!');
-        }
-        $originalModel = clone $model;
-    
-        $this->skipPresenter($_skipPresenter);
-        $this->resetModel();
-    
         try {
+            $model = $this->with('executions')->find($id);
+            if (isset($model['executions']) && count($model['executions']) > 0) {
+                throw new Exception('You cannot remove a test case after it has been executed!');
+            }
+            $originalModel = clone $model;
+        
+            $this->skipPresenter($_skipPresenter);
+            $this->resetModel();
+
             $deleted = $model->delete();
     
             if (!$deleted) {
@@ -271,6 +271,9 @@ class TestCasesRepositoryEloquent extends BaseRepository implements TestCasesRep
         
         try {
             $testcase = $this->findTestCaseWithVersion($testcaseVersionAttributes['test_cases_id']);
+            if (isset($testcase['executions']) && count($testcase['executions']) > 0) {
+                throw new Exception('You cannot edit a test case after it has been executed!');
+            }
             Log::debug(sprintf("Updating test case %d", $testcaseVersionAttributes['test_cases_id']));
             $version = $testcase['version'];
             $newVersion = intval($version['version']) + 1;
