@@ -27,6 +27,7 @@ namespace Nestor\Http\Controllers;
 use Illuminate\Http\Request;
 use Nestor\Http\Controllers\Controller;
 use Nestor\Repositories\NavigationTreeRepository;
+use Nestor\Repositories\ProjectsRepository;
 use Nestor\Util\NavigationTreeUtil;
 
 class NavigationTreeController extends Controller
@@ -36,13 +37,20 @@ class NavigationTreeController extends Controller
      * @var NavigationTreeRepository $navigationTreeRepository
      */
     protected $navigationTreeRepository;
-    
+
+    /**
+     * @var ProjectsRepository $projectsRepository
+     */
+    protected $projectsRepository;
+
     /**
      * @param NavigationTreeRepository $navigationTreeRepository
+     * @param ProjectsRepository $projectsRepository
      */
-    public function __construct(NavigationTreeRepository $navigationTreeRepository)
+    public function __construct(NavigationTreeRepository $navigationTreeRepository, ProjectsRepository $projectsRepository)
     {
         $this->navigationTreeRepository = $navigationTreeRepository;
+        $this->projectsRepository = $projectsRepository;
     }
     
     /**
@@ -55,9 +63,14 @@ class NavigationTreeController extends Controller
     {
         $defaultLength = 1;
         $length = $request->get('length', $defaultLength);
-        
+        // FIXME: validate the default length parameter
+
+        $projectId = $request->session()->get('project_id');
+        // FIXME: validate the project ID
+
         $nodes = $this->navigationTreeRepository->children($id, $length)->toArray();
-        $tree = NavigationTreeUtil::createNavigationTree($nodes, $id);
+        $executedTestCaseVersionIds = $this->projectsRepository->getExecutedTestCaseVersionIds($projectId)->toArray();
+        $tree = NavigationTreeUtil::createNavigationTree($nodes, $id, $executedTestCaseVersionIds);
         return $tree;
     }
 
