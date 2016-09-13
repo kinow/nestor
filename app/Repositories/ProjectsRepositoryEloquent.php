@@ -201,12 +201,11 @@ class ProjectsRepositoryEloquent extends BaseRepository implements ProjectsRepos
     public function getExecutedTestCaseVersionIds($projectId)
     {
         return $this->model
-            ->select('executions.id')
             ->join('test_plans', 'projects.id', '=', 'test_plans.project_id')
             ->join('test_runs', 'test_plans.id', '=', 'test_runs.test_plan_id')
             ->join('executions', 'test_runs.id', '=', 'executions.test_run_id')
             ->where('projects.id', '=', $projectId)
-            ->get()
+            ->pluck('executions.id')
         ;
     }
 }
