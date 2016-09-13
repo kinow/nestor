@@ -32,5 +32,13 @@ use Prettus\Repository\Contracts\RepositoryInterface;
  */
 interface ProjectsRepository extends RepositoryInterface
 {
-    //
+
+    /**
+     * Return an array with the test cases versions IDs that have been executed in a
+     * certain project.
+     * @param integer $projectId project ID
+     * @return array with the TestCaseVersions that have been executed. i.e. return all
+     * test cases versions that have at least one occurrence in the executions table.
+     */
+    public function getExecutedTestCaseVersionIds($projectId);
 }
