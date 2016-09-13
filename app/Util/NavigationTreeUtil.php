@@ -51,11 +51,12 @@ class NavigationTreeUtil
      *
      * @param Array $nodes
      * @param string $root
+     * @param Array $executed
      * @return Array
      */
-    public static function createNavigationTree($nodes, $root)
+    public static function createNavigationTree($nodes, $root, $executed)
     {
-        list($graph, $vertices) = static::createGraph($nodes);
+        list($graph, $vertices) = static::createGraph($nodes, $executed);
         // Do a breadth first search to construct the desired set of vertices
         $rootVertex = new BreadthFirst($vertices[$root]);
         $bfsVertices = $rootVertex->getVertices();
@@ -73,14 +74,20 @@ class NavigationTreeUtil
      * Create a graph with the given nodes.
      *
      * @param Array $nodes
+     * @param Array $executed
      */
-    private static function createGraph($nodes)
+    private static function createGraph($nodes, $executed)
     {
         $graph = new Graph();
         $vertices = array ();
         // first add all the nodes of the graph/tree
         foreach ($nodes as $node) {
             $node = (object) $node;
+            if (in_array($node->node_id, $executed)) {
+                $attributes = json_decode($node->attributes);
+                $attributes->locked = true;
+                $node->attributes = json_encode($attributes);
+            }
             if ($node->length ==0) {
                 $vertex = $graph->createVertex($node->descendant, /* returnDuplicate */ true);
                 $vertex->data = $node;
