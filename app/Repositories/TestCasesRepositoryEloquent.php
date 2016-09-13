@@ -226,14 +226,17 @@ class TestCasesRepositoryEloquent extends BaseRepository implements TestCasesRep
     
         $_skipPresenter = $this->skipPresenter;
         $this->skipPresenter(true);
+
+        DB::beginTransaction();
     
-        $model = $this->find($id);
+        $model = $this->with('executions')->find($id);
+        if (isset($model['executions']) && count($model['executions']) > 0) {
+            throw new Exception('You cannot remove a test case after is has been executed!');
+        }
         $originalModel = clone $model;
     
         $this->skipPresenter($_skipPresenter);
         $this->resetModel();
-    
-        DB::beginTransaction();
     
         try {
             $deleted = $model->delete();
