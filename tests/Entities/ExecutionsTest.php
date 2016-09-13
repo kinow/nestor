@@ -38,7 +38,7 @@ class ExecutionsTest extends TestCase
 
     public function testClassAttributes()
     {
-        $fillable = ['test_run_id', 'test_case_version_id', 'execution_status_id', 'notes'];
+        $fillable = ['test_run_id', 'test_cases_versions_id', 'execution_status_id', 'notes'];
         $hidden = [];
 
         $executions = new Executions();

@@ -69,24 +69,24 @@ class TestCasesVersions extends Model implements Transformable
     // public function sortedSteps()
     // {
     //     return TestCaseVersion::
-    //         hasMany('Nestor\\Entities\\TestCaseStepVersion', 'test_case_version_id', 'id');
+    //         hasMany('Nestor\\Entities\\TestCaseStepVersion', 'test_cases_versions_id', 'id');
     // }
 
     // public function labels()
     // {
-    //     return $this->belongsToMany('Nestor\\Entities\\Label', 'test_case_versions_labels', 'test_case_version_id')->withTimestamps();
+    //     return $this->belongsToMany('Nestor\\Entities\\Label', 'test_case_versions_labels', 'test_cases_versions_id')->withTimestamps();
     // }
 
     public function testplans()
     {
-        return $this->belongsToMany('Nestor\\Entities\\TestPlans', 'test_plans_test_cases', 'test_case_version_id', 'test_plan_id')
+        return $this->belongsToMany('Nestor\\Entities\\TestPlans', 'test_plans_test_cases', 'test_cases_versions_id', 'test_plan_id')
             //->withPivot('assignee')
             ->withTimestamps();
     }
 
     public function executions()
     {
-        return $this->hasMany('Nestor\\Entities\\Executions', 'test_case_version_id');
+        return $this->hasMany('Nestor\\Entities\\Executions', 'test_cases_versions_id');
     }
 
     // public function assignee()

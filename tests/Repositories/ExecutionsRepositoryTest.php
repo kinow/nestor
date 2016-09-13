@@ -92,7 +92,7 @@ class ExecutionsRepositoryTest extends TestCase
 
         $executionsPayload = [
             'test_run_id' => $testRun['id'],
-            'test_case_version_id' => $testCase->latestVersion()['id'],
+            'test_cases_versions_id' => $testCase->latestVersion()['id'],
             'execution_status_id' => 1,
             'notes' => $this->faker->sentence(10)
         ];
@@ -158,7 +158,7 @@ class ExecutionsRepositoryTest extends TestCase
 
         $executionsPayload = [
             'test_run_id' => $testRun['id'],
-            'test_case_version_id' => $testCase->latestVersion()['id'],
+            'test_cases_versions_id' => $testCase->latestVersion()['id'],
             'execution_status_id' => 1,
             'notes' => $this->faker->sentence(10)
         ];
@@ -169,7 +169,7 @@ class ExecutionsRepositoryTest extends TestCase
             $executionsPayload['execution_status_id'],
             $executionsPayload['notes'],
             $executionsPayload['test_run_id'],
-            $executionsPayload['test_case_version_id']
+            $executionsPayload['test_cases_versions_id']
         );
 
         $this->assertTrue($execution['id'] > 0);

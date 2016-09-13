@@ -18,8 +18,8 @@ class CreateTestCaseStepVersionsTable extends Migration
             $table->integer('order');
             $table->string('description', 1000);
             $table->string('expected_result', 1000);
-            $table->integer('test_case_version_id');
-            $table->foreign('test_case_version_id')
+            $table->integer('test_cases_versions_id');
+            $table->foreign('test_cases_versions_id')
                 ->references('id')
                 ->on('test_case_versions')
                 ->onDelete('cascade');

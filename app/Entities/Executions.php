@@ -10,7 +10,7 @@ class Executions extends Model implements Transformable
 {
     use TransformableTrait;
 
-    protected $fillable = ['test_run_id', 'test_case_version_id', 'execution_status_id', 'notes'];
+    protected $fillable = ['test_run_id', 'test_cases_versions_id', 'execution_status_id', 'notes'];
 
     /**
      * The database table used by the model.
@@ -26,7 +26,7 @@ class Executions extends Model implements Transformable
 
     public function testCaseVersion()
     {
-        return $this->belongsTo('Nestor\\Entities\\TestCasesVersions', 'test_case_version_id');
+        return $this->belongsTo('Nestor\\Entities\\TestCasesVersions', 'test_cases_versions_id');
     }
 
     public function executionStatus()

@@ -49,7 +49,7 @@ class TestPlans extends Model implements Transformable
     public function testCases()
     {
         return $this
-            ->belongsToMany('Nestor\\Entities\\TestCasesVersions', 'test_plans_test_cases', 'test_plan_id', 'test_case_version_id')
+            ->belongsToMany('Nestor\\Entities\\TestCasesVersions', 'test_plans_test_cases', 'test_plan_id', 'test_cases_versions_id')
             ->orderBy('version', 'desc')
             ->with('executionType')
             ->withTimestamps()
@@ -67,7 +67,7 @@ class TestPlans extends Model implements Transformable
 // select tc.*, tcv.version 
 // from test_cases tc 
 // inner join test_case_versions tcv on tc.id = tcv.test_cases_id 
-// inner join test_plans_test_cases tptc on tptc.test_case_version_id = tcv.id 
+// inner join test_plans_test_cases tptc on tptc.test_cases_versions_id = tcv.id 
 // where tptc.test_plan_id = :test_plan_id 
 // group by tc.id 
 // EOF;
@@ -87,7 +87,7 @@ class TestPlans extends Model implements Transformable
     //  $testcases = TestCase2::
     //      select('test_cases.*')
     //      ->join('test_case_versions', 'test_case_versions.test_cases_id', '=', 'test_cases.id')
-    //      ->join('test_plans_test_cases', 'test_plans_test_cases.test_case_version_id', '=', 'test_case_versions.id')
+    //      ->join('test_plans_test_cases', 'test_plans_test_cases.test_cases_versions_id', '=', 'test_case_versions.id')
     //      ->where('test_plans_test_cases.test_plan_id', '=', $this->id)
     //      ->groupBy('test_cases.id');
 
@@ -109,7 +109,7 @@ class TestPlans extends Model implements Transformable
     // {
     //  $testcases = TestCaseVersion::
     //      select('test_case_versions.*')
-    //      ->join('test_plans_test_cases', 'test_plans_test_cases.test_case_version_id', '=', 'test_case_versions.id')
+    //      ->join('test_plans_test_cases', 'test_plans_test_cases.test_cases_versions_id', '=', 'test_case_versions.id')
     //      ->where('test_plans_test_cases.test_plan_id', '=', $this->id)
     //      ->groupBy('test_case_versions.test_cases_id');
 
@@ -119,7 +119,7 @@ class TestPlans extends Model implements Transformable
     // FIXME: same as testcases() ?
     // public function testcaseVersions()
     // {
-    //  return $this->belongsToMany('TestCaseVersion', 'test_plans_test_cases', 'test_plan_id', 'test_case_version_id')
+    //  return $this->belongsToMany('TestCaseVersion', 'test_plans_test_cases', 'test_plan_id', 'test_cases_versions_id')
     //      ->withPivot('assignee')
     //      ->withTimestamps();
     // }

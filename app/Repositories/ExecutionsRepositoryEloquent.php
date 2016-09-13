@@ -48,7 +48,7 @@ class ExecutionsRepositoryEloquent extends BaseRepository implements ExecutionsR
                 'test_run_id' => $testRunId,
                 'execution_status_id' => $executionStatusesId,
                 'notes' => $notes,
-                'test_case_version_id' => $testCaseVersionId
+                'test_cases_versions_id' => $testCaseVersionId
             ];
             $model = $this->model->newInstance($attributes);
             $model->save();

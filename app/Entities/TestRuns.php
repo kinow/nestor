@@ -57,7 +57,7 @@ class TestRuns extends Model implements Transformable
     {
         return static::join('test_plans', 'test_plans.id', '=', 'test_runs.test_plan_id')
             ->join('test_plans_test_cases', 'test_plans_test_cases.test_plan_id', '=', 'test_plans.id')
-            ->join('test_cases_versions', 'test_cases_versions.id', '=', 'test_plans_test_cases.test_case_version_id')
+            ->join('test_cases_versions', 'test_cases_versions.id', '=', 'test_plans_test_cases.test_cases_versions_id')
             ->join('test_cases', 'test_cases.id', '=', 'test_cases_versions.test_cases_id')
             ->where('test_runs.id', '=', $this->id)
             ->count('test_cases.id');
@@ -70,7 +70,7 @@ class TestRuns extends Model implements Transformable
         $total = $this->countTestCases();
         $executions = Executions::select('executions.*')
             ->where('executions.test_run_id', $this->id)
-            ->join('test_cases_versions', 'test_cases_versions.id', '=', 'executions.test_case_version_id')
+            ->join('test_cases_versions', 'test_cases_versions.id', '=', 'executions.test_cases_versions_id')
             ->join('test_cases', 'test_cases.id', '=', 'test_cases_versions.test_cases_id')
             ->groupBy('test_cases.id')
             ->get()

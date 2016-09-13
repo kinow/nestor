@@ -91,6 +91,6 @@ class TestCases extends Model implements Transformable
 
     // public function steps()
     // {
-    //     return $this->hasManyThrough('Nestor\\Model\\TestCaseStepVersion', 'Nestor\\Model\\TestCaseVersion', 'test_cases_id', 'test_case_version_id');
+    //     return $this->hasManyThrough('Nestor\\Model\\TestCaseStepVersion', 'Nestor\\Model\\TestCaseVersion', 'test_cases_id', 'test_cases_versions_id');
     // }
 }

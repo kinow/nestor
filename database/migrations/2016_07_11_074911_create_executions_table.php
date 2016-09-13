@@ -19,8 +19,8 @@ class CreateExecutionsTable extends Migration
                 ->references('id')
                 ->on('test_runs')
                 ->onDelete('cascade');
-            $table->integer('test_case_version_id');
-            $table->foreign('test_case_version_id')
+            $table->integer('test_cases_versions_id');
+            $table->foreign('test_cases_versions_id')
                 ->references('id')
                 ->on('test_cases_versions')
                 ->onDelete('cascade');
