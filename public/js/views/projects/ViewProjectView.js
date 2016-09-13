@@ -364,9 +364,11 @@ define([
             this.testCaseModel.fetch({
                 success: function(responseData) {
                     var testcase = self.testCaseModel;
+                    var editable = typeof undefined === testcase.get('executions') || testcase.get('executions').length == 0;
                     var data = {
                         testcase: testcase,
-                        _: _
+                        _: _,
+                        editable: editable
                     };
 
                     var compiledTemplate = _.template(testCaseNodeItemTemplate, data);
