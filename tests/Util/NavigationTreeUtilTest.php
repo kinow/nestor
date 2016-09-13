@@ -56,7 +56,7 @@ class NavigationTreeUtilTest extends TestCase
         $nodes[] = $nodeA2NodeAB;
         $nodes[] = $nodeAB2NodeABA;
 
-        $navigationTree = NavigationTreeUtil::createNavigationTree($nodes, $root);
+        $navigationTree = NavigationTreeUtil::createNavigationTree($nodes, $root, []);
         $this->assertEquals(2, count($navigationTree[0]->children));
     }
 
@@ -133,6 +133,7 @@ class NavigationTreeUtilTest extends TestCase
         $node->descendant = $descendant;
         $node->children = $children;
         $node->length = $length;
+        $node->node_id = $this->faker->numberBetween(1, 20);
         return $node;
     }
 
