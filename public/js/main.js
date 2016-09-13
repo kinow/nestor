@@ -1,8 +1,10 @@
 // Filename: main.js
 require.config({
     urlArgs: "bust=" + (new Date()).getTime(),
+    baseUrl: "js",
     paths: {
         jquery: 'libs/jquery/dist/jquery.min',
+        jqueryui: 'libs/jquery-ui/jquery-ui.min',
         underscore: 'libs/underscore-amd/underscore-min',
         backbone: 'libs/backbone-amd/backbone-min',
         templates: '../templates',
@@ -11,7 +13,27 @@ require.config({
         semanticui: 'libs/semantic/dist/semantic.min',
         simplemde: 'libs/simplemde/dist/simplemde.min',
         // navigation tree and dependencies
-        fancytree: 'libs/jquery.fancytree/dist/jquery.fancytree-all.min'
+        fancytree: 'libs/jquery.fancytree/dist/jquery.fancytree-all.min',
+        'jquery-ui/menu': 'libs/jquery-ui/ui/widgets/menu'
+    },
+
+    packages: [
+        {
+            name: 'uicontextmenu',
+            location: 'libs/ui-contextmenu/',
+            main: 'jquery.ui-contextmenu.min'
+        }
+    ],
+
+    map: {
+        'jquery-ui/menu': {
+            'keycode': 'libs/jquery-ui/ui/keycode',
+            'position': 'libs/jquery-ui/ui/position',
+            'safe-active-element': 'libs/jquery-ui/ui/safe-active-element',
+            'unique-id': 'libs/jquery-ui/ui/unique-id',
+            'version': 'libs/jquery-ui/ui/version',
+            'widget': 'libs/jquery-ui/ui/widget'
+        }
     },
 
     shim: {
@@ -23,9 +45,17 @@ require.config({
             "deps": ["jquery"],
             exports: 'semanticui'
         },
+        'jqueryui': {
+            'deps': [
+                'jquery'
+            ],
+            exports: 'jqueryui'
+        },
         'fancytree': {
             //'deps': ['jqueryuicore', 'jqueryuieffects'],
             'deps': [
+                'jquery',
+                'jqueryui',
                 'libs/jquery-ui/ui/core',
                 'libs/jquery-ui/ui/effect',
                 'libs/jquery-ui/ui/widget',

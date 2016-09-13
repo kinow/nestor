@@ -9,6 +9,7 @@
     "parsleyjs": "~2.4.4",
     "simplemde": "1.11.x",
     "lato": "^0.3.0",
-    "jquery.fancytree": "fancytree#^2.18.0"
+    "jquery.fancytree": "fancytree#^2.18.0",
+    "ui-contextmenu": "mar10/jquery-ui-contextmenu#84fb56c6760d1ebd8be3785cd6ff5b67c5c41453"
   }
 }

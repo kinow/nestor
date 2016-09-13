@@ -1,11 +1,12 @@
 define([
     'jquery',
     'fancytree',
+    'uicontextmenu',
     'underscore',
     'backbone',
     'app',
     'views/navigationtree/NavigationTreeView'
-], function($, fancytree, _, Backbone, app, NavigationTreeView) {
+], function($, fancytree, uicontextmenu, _, Backbone, app, NavigationTreeView) {
 
     var NavigationTreeView = Backbone.View.extend({
 
@@ -290,6 +291,9 @@ define([
             if (typeof rootNode.sortChildren !== typeof undefined) {
                 rootNode.sortChildren(self.sortCmp, true);
             }
+
+            // context menu
+            console.log(el.contextmenu);
 
             this.delegateEvents();
         }

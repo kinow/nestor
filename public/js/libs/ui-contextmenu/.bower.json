@@ -1,0 +1,56 @@
+{
+  "name": "ui-contextmenu",
+  "description": "Turn a jQuery UI Menu widget into a contextmenu.",
+  "main": [
+    "jquery.ui-contextmenu.js"
+  ],
+  "moduleType": "globals",
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "/bin",
+    "/demo",
+    "/lib",
+    "/test",
+    "bower.json",
+    "ui-contextmenu.jquery.json",
+    "Gruntfile.coffee"
+  ],
+  "keywords": [
+    "context-menu",
+    "contextmenu",
+    "delegate",
+    "jquery-plugin",
+    "jquery-ui-menu",
+    "menu",
+    "navigation",
+    "popup",
+    "right-click",
+    "right-click-menu"
+  ],
+  "authors": [
+    {
+      "name": "Martin Wendt",
+      "homepage": "http://careers.stackoverflow.com/martin-wendt"
+    }
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mar10/jquery-ui-contextmenu"
+  },
+  "dependencies": {
+    "jquery": ">=1.7",
+    "jquery-ui": ">=1.9"
+  },
+  "devDependencies": {},
+  "homepage": "https://github.com/mar10/jquery-ui-contextmenu",
+  "_release": "84fb56c676",
+  "_resolution": {
+    "type": "commit",
+    "commit": "84fb56c6760d1ebd8be3785cd6ff5b67c5c41453"
+  },
+  "_source": "git://github.com/mar10/jquery-ui-contextmenu.git",
+  "_target": "84fb56c6760d1ebd8be3785cd6ff5b67c5c41453",
+  "_originalSource": "mar10/jquery-ui-contextmenu",
+  "_direct": true
+}
