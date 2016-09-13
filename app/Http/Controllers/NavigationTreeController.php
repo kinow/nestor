@@ -33,13 +33,11 @@ class NavigationTreeController extends Controller
 {
     
     /**
-     *
      * @var NavigationTreeRepository $navigationTreeRepository
      */
     protected $navigationTreeRepository;
     
     /**
-     *
      * @param NavigationTreeRepository $navigationTreeRepository
      */
     public function __construct(NavigationTreeRepository $navigationTreeRepository)
