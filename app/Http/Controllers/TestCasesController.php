@@ -119,9 +119,9 @@ class TestCasesController extends Controller
     public function update(Request $request, $projectId, $testsuiteId, $id)
     {
         Log::debug("Updating an existing test case");
-        $testcaseVersionAttributes = $request->only('test_case_id', 'execution_type_id', 'name', 'prerequisite', 'description');
+        $testcaseVersionAttributes = $request->only('test_cases_id', 'execution_type_id', 'name', 'prerequisite', 'description');
         $testcaseVersionAttributesValidator = Validator::make($testcaseVersionAttributes, [
-            'test_case_id' => 'required|integer|min:1',
+            'test_cases_id' => 'required|integer|min:1',
             'execution_type_id' => 'required|integer|min:1',
             'name' => 'required|min:1|max:255',
             'prerequisite' => 'max:1000',

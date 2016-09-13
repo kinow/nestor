@@ -364,6 +364,7 @@ define([
             this.testCaseModel.fetch({
                 success: function(responseData) {
                     var testcase = self.testCaseModel;
+                    console.log(testcase);
                     var data = {
                         testcase: testcase,
                         _: _
@@ -396,7 +397,7 @@ define([
                         success: function() {
                             self.testCaseView.render({
                                 model: self.testCaseModel,
-                                test_case_id: self.testCaseId,
+                                test_cases_id: self.testCaseId,
                                 project_id: self.projectId,
                                 test_suite_id: self.testSuiteId,
                                 execution_types: self.executionTypesCollection.models

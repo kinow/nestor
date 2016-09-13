@@ -106,7 +106,7 @@ class TestCasesRepositoryEloquent extends BaseRepository implements TestCasesRep
 
             $testcaseId = $testcase->id;
 
-            $testcaseVersionAttributes['test_case_id'] = $testcaseId;
+            $testcaseVersionAttributes['test_cases_id'] = $testcaseId;
             $testcaseVersion = new TestCasesVersions(collect($testcaseVersionAttributes)->toArray());
             $testcaseVersion->save();
 
@@ -135,6 +135,7 @@ class TestCasesRepositoryEloquent extends BaseRepository implements TestCasesRep
         // test case
         $testCase = $this
             ->model
+            ->with('executions')
             ->findOrFail($id, $columns);
         $this->resetModel();
 
@@ -266,8 +267,8 @@ class TestCasesRepositoryEloquent extends BaseRepository implements TestCasesRep
         DB::beginTransaction();
         
         try {
-            $testcase = $this->findTestCaseWithVersion($testcaseVersionAttributes['test_case_id']);
-            Log::debug(sprintf("Updating test case %d", $testcaseVersionAttributes['test_case_id']));
+            $testcase = $this->findTestCaseWithVersion($testcaseVersionAttributes['test_cases_id']);
+            Log::debug(sprintf("Updating test case %d", $testcaseVersionAttributes['test_cases_id']));
             $version = $testcase['version'];
             $newVersion = intval($version['version']) + 1;
             Log::debug(sprintf("Creating a new version %d", $newVersion));
@@ -277,8 +278,8 @@ class TestCasesRepositoryEloquent extends BaseRepository implements TestCasesRep
 
             $testcase->version = $testcaseVersion->toArray();
 
-            $testCaseNodeId = NavigationTree::testCaseId($testcaseVersionAttributes['test_case_id']);
-            $this->navigationTreeRepository->update($testCaseNodeId, $testCaseNodeId, $testcaseVersionAttributes['test_case_id'], NavigationTree::TEST_CASE_TYPE, $testcaseVersion->name, json_encode(array('execution_type_id' => $testcaseVersion->execution_type_id)));
+            $testCaseNodeId = NavigationTree::testCaseId($testcaseVersionAttributes['test_cases_id']);
+            $this->navigationTreeRepository->update($testCaseNodeId, $testCaseNodeId, $testcaseVersionAttributes['test_cases_id'], NavigationTree::TEST_CASE_TYPE, $testcaseVersion->name, json_encode(array('execution_type_id' => $testcaseVersion->execution_type_id)));
             
             DB::commit();
             event(new RepositoryEntityCreated($this, $testcase));

@@ -38,7 +38,7 @@ class TestCasesVersionsTest extends TestCase
 
     public function testClassAttributes()
     {
-        $fillable = ['version', 'test_case_id', 'execution_type_id', 'name', 'prerequisite', 'description'];
+        $fillable = ['version', 'test_cases_id', 'execution_type_id', 'name', 'prerequisite', 'description'];
         $hidden = [];
 
         $testCasesVersions = new TestCasesVersions();

@@ -61,7 +61,7 @@ class TestCasesRepositoryTest extends TestCase
             'prerequisite' => $this->faker->sentence(5),
             'version' => $this->faker->numberBetween(1, 10),
             'execution_type_id' => $this->faker->numberBetween(1, 5),
-            'test_case_id' => $this->faker->numberBetween(1, 5)
+            'test_cases_id' => $this->faker->numberBetween(1, 5)
         ];
 
         $testCaseRepository = app()->make(\Nestor\Repositories\TestCasesRepository::class);
@@ -94,7 +94,7 @@ class TestCasesRepositoryTest extends TestCase
         $this->assertTrue($testCase['id'] > 0);
         
         $testCaseVersionPayload['name'] = 'Updated name';
-        $testCaseVersionPayload['test_case_id'] = $testCase['id'];
+        $testCaseVersionPayload['test_cases_id'] = $testCase['id'];
         $testCaseUpdated = $testCaseRepository->updateWithAncestor($testCaseVersionPayload, $testCase['id']);
 
         foreach ($testCasePayload as $key => $value) {
@@ -125,7 +125,7 @@ class TestCasesRepositoryTest extends TestCase
             'prerequisite' => $this->faker->sentence(5),
             'version' => $this->faker->numberBetween(1, 10),
             'execution_type_id' => $this->faker->numberBetween(1, 2),
-            'test_case_id' => $this->faker->numberBetween(1, 5)
+            'test_cases_id' => $this->faker->numberBetween(1, 5)
         ];
 
         $testCaseRepository = app()->make(\Nestor\Repositories\TestCasesRepository::class);
@@ -161,7 +161,7 @@ class TestCasesRepositoryTest extends TestCase
             'prerequisite' => $this->faker->sentence(5),
             'version' => $this->faker->numberBetween(1, 10),
             'execution_type_id' => $this->faker->numberBetween(1, 2),
-            'test_case_id' => $this->faker->numberBetween(1, 5)
+            'test_cases_id' => $this->faker->numberBetween(1, 5)
         ];
 
         $testCaseRepository = app()->make(\Nestor\Repositories\TestCasesRepository::class);
@@ -197,7 +197,7 @@ class TestCasesRepositoryTest extends TestCase
             'prerequisite' => $this->faker->sentence(5),
             'version' => $this->faker->numberBetween(1, 10),
             'execution_type_id' => $this->faker->numberBetween(1, 2),
-            'test_case_id' => $this->faker->numberBetween(1, 5)
+            'test_cases_id' => $this->faker->numberBetween(1, 5)
         ];
 
         $testCaseRepository = app()->make(\Nestor\Repositories\TestCasesRepository::class);
@@ -223,7 +223,7 @@ class TestCasesRepositoryTest extends TestCase
             'prerequisite' => $this->faker->sentence(5),
             'version' => $this->faker->numberBetween(1, 10),
             'execution_type_id' => $this->faker->numberBetween(1, 2),
-            'test_case_id' => $this->faker->numberBetween(1, 5)
+            'test_cases_id' => $this->faker->numberBetween(1, 5)
         ];
 
         $testCaseRepository = app()->make(\Nestor\Repositories\TestCasesRepository::class);
@@ -249,7 +249,7 @@ class TestCasesRepositoryTest extends TestCase
             'prerequisite' => $this->faker->sentence(5),
             'version' => $this->faker->numberBetween(1, 10),
             'execution_type_id' => $this->faker->numberBetween(1, 2),
-            'test_case_id' => $this->faker->numberBetween(1, 5)
+            'test_cases_id' => $this->faker->numberBetween(1, 5)
         ];
 
         $testCaseRepository = app()->make(\Nestor\Repositories\TestCasesRepository::class);
@@ -276,7 +276,7 @@ class TestCasesRepositoryTest extends TestCase
             'prerequisite' => $this->faker->sentence(5),
             'version' => $this->faker->numberBetween(1, 10),
             'execution_type_id' => $this->faker->numberBetween(1, 2),
-            'test_case_id' => $this->faker->numberBetween(1, 5)
+            'test_cases_id' => $this->faker->numberBetween(1, 5)
         ];
 
         $testCaseRepository = app()->make(\Nestor\Repositories\TestCasesRepository::class);
@@ -302,7 +302,7 @@ class TestCasesRepositoryTest extends TestCase
             'prerequisite' => $this->faker->sentence(5),
             'version' => $this->faker->numberBetween(1, 10),
             'execution_type_id' => $this->faker->numberBetween(1, 2),
-            'test_case_id' => $this->faker->numberBetween(1, 5)
+            'test_cases_id' => $this->faker->numberBetween(1, 5)
         ];
 
         $testCaseRepository = app()->make(\Nestor\Repositories\TestCasesRepository::class);

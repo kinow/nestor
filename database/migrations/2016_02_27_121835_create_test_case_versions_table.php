@@ -15,8 +15,8 @@ class CreateTestCaseVersionsTable extends Migration
         Schema::create('test_cases_versions', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('version');
-            $table->integer('test_case_id');
-            $table->foreign('test_case_id')
+            $table->integer('test_cases_id');
+            $table->foreign('test_cases_id')
                 ->references('id')
                 ->on('test_cases')
                 ->onDelete('cascade');
@@ -29,7 +29,7 @@ class CreateTestCaseVersionsTable extends Migration
             $table->string('prerequisite', 1000)->nullable();
             $table->string('description', 1000)->nullable();
             $table->timestamps();
-            $table->unique(array('version', 'test_case_id'));
+            $table->unique(array('version', 'test_cases_id'));
         });
     }
 

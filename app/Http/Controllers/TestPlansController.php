@@ -217,7 +217,7 @@ class TestPlansController extends Controller
         foreach ($existingTestcaseVersions as $existing) {
             $found = false;
             foreach ($testcases as $testcase) {
-                if ($existing['test_case_id'] == $testcase['id']) {
+                if ($existing['test_cases_id'] == $testcase['id']) {
                     $found = true;
                 }
             }
@@ -231,7 +231,7 @@ class TestPlansController extends Controller
         foreach ($testcases as $testcase) {
             $found = false;
             foreach ($existingTestcaseVersions as $existing) {
-                if ($existing['test_case_id'] == $testcase['id']) {
+                if ($existing['test_cases_id'] == $testcase['id']) {
                     $found = true;
                 }
             }

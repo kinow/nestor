@@ -273,6 +273,7 @@ define([
             this.testCaseModel.fetch({
                 success: function(responseData) {
                     var testcase = self.testCaseModel;
+                    console.log(testcase);
                     var data = {
                         testcase: testcase,
                         _: _,

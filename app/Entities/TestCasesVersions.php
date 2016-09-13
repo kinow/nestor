@@ -32,7 +32,7 @@ class TestCasesVersions extends Model implements Transformable
 {
     use TransformableTrait;
 
-    protected $fillable = ['version', 'test_case_id', 'execution_type_id', 'name', 'prerequisite', 'description'];
+    protected $fillable = ['version', 'test_cases_id', 'execution_type_id', 'name', 'prerequisite', 'description'];
 
     /**
      * The database table used by the model.
@@ -53,7 +53,7 @@ class TestCasesVersions extends Model implements Transformable
 
     public function testcase()
     {
-        return $this->belongsTo('Nestor\\Entities\\TestCases', 'test_case_id');
+        return $this->belongsTo('Nestor\\Entities\\TestCases', 'test_cases_id');
     }
 
     public function executionType()

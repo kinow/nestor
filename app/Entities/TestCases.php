@@ -67,12 +67,12 @@ class TestCases extends Model implements Transformable
 
     public function testCaseVersions()
     {
-        return $this->hasMany('Nestor\\Entities\\TestCasesVersions', 'test_case_id');
+        return $this->hasMany('Nestor\\Entities\\TestCasesVersions', 'test_cases_id');
     }
 
     public function latestVersion()
     {
-        return $this->hasMany('Nestor\\Entities\\TestCasesVersions', 'test_case_id')
+        return $this->hasMany('Nestor\\Entities\\TestCasesVersions', 'test_cases_id')
             ->orderBy('version', 'desc')
             ->take(1)
             ->firstOrFail() // FIXME: redundant take1?
@@ -84,8 +84,13 @@ class TestCases extends Model implements Transformable
         return $this->version;
     }
 
+    public function executions()
+    {
+        return $this->hasManyThrough('Nestor\\Entities\\Executions', 'Nestor\\Entities\\TestCasesVersions');
+    }
+
     // public function steps()
     // {
-    //     return $this->hasManyThrough('Nestor\\Model\\TestCaseStepVersion', 'Nestor\\Model\\TestCaseVersion', 'test_case_id', 'test_case_version_id');
+    //     return $this->hasManyThrough('Nestor\\Model\\TestCaseStepVersion', 'Nestor\\Model\\TestCaseVersion', 'test_cases_id', 'test_case_version_id');
     // }
 }

@@ -18,7 +18,7 @@ define([
             _.bindAll(this, 'render', 'save');
             this.project_id    = 0;
             this.test_suite_id = 0;
-            this.test_case_id  = 0;
+            this.test_cases_id  = 0;
         },
 
         render: function(options) {
@@ -29,12 +29,12 @@ define([
             var executionTypes = options.execution_types;
             this.projectId   = options.project_id;
             this.testSuiteId = options.test_suite_id;
-            this.testCaseId  = options.test_case_id;
+            this.testCaseId  = options.test_cases_id;
             var data = {
                 testcase: this.model,
                 projectId: options.project_id,
                 testSuiteId: options.test_suite_id,
-                testCaseId: options.test_case_id,
+                testCaseId: options.test_cases_id,
                 execution_types: executionTypes,
                 _: _
             }
@@ -74,7 +74,7 @@ define([
                     prerequisite: this.prerequisite_simplemde.value(),
                     execution_type_id: this.$("#testcase-executiontype_id-input").val(),
                     test_suite_id: this.testSuiteId,
-                    test_case_id: this.testCaseId,
+                    test_cases_id: this.testCaseId,
                     project_id: this.projectId,
                     created_by: app.session.user_id
                 }, {

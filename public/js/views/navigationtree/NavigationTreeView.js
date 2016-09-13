@@ -87,7 +87,7 @@ define([
             // Only test cases can be selected... in the database at least.
             if (parent.node_type_id == 3) {
                 for (entry in selected) {
-                    if (selected[entry]['test_case_id'] == parent.node_id) {
+                    if (selected[entry]['test_cases_id'] == parent.node_id) {
                         parent.selected = true;
                         parent.preselected = true;
                     }

@@ -206,7 +206,7 @@ class ProjectsRepositoryEloquent extends BaseRepository implements ProjectsRepos
             ->join('executions', 'test_runs.id', '=', 'executions.test_run_id')
             ->join('test_cases_versions', 'executions.test_case_version_id', '=', 'test_cases_versions.id')
             ->where('projects.id', '=', $projectId)
-            ->pluck('test_cases_versions.test_case_id')
+            ->pluck('test_cases_versions.test_cases_id')
         ;
     }
 }
