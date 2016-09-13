@@ -136,7 +136,11 @@ class TestCasesController extends Controller
 
         $testcaseVersionAttributes['version'] = 1;
 
-        $entity = $this->testCasesRepository->updateWithAncestor($testcaseVersionAttributes, $ancestorNodeId);
+        try {
+            $entity = $this->testCasesRepository->updateWithAncestor($testcaseVersionAttributes, $ancestorNodeId);
+        } catch (\Exception $e) {
+            throw new \Dingo\Api\Exception\StoreResourceFailedException($e->getMessage(), $e);
+        }
         return $entity;
     }
 
@@ -150,8 +154,13 @@ class TestCasesController extends Controller
      */
     public function destroy($projectId, $testSuiteId, $id)
     {
-        return array (
-            'Result' => $this->testCasesRepository->delete($id)
-        );
+        try {
+            return array (
+                'Result' => $this->testCasesRepository->delete($id)
+            );
+        } catch (\Exception $e) {
+            Log::error("Error removing test case: " . $e->getMessage(), ['projectId' => $projectId, 'testSuiteId' => $testSuiteId, 'id' => $id]);
+            throw new \Dingo\Api\Exception\StoreResourceFailedException($e->getMessage(), $e);
+        }
     }
 }
