@@ -168,6 +168,6 @@ class ProjectsRepositoryTest extends TestCase
 
         $ids = $projectRepository->getExecutedTestCaseVersionIds($project['id'])->toArray();
 
-        $this->assertEquals([$execution['id']], $ids);
+        $this->assertEquals([$testCase['id']], $ids);
     }
 }
