@@ -308,7 +308,29 @@ define([
                     }
                 ],
                 select: function(event, ui) {
-                    alert("select " + ui.cmd + " on " + ui.target.text());
+                    var nodeId = ui.target[0].parentNode.parentNode.id;
+                    var underscoreIndex = nodeId.indexOf('_');
+                    if (underscoreIndex > 0) {
+                        var length = nodeId.length;
+                        var key = nodeId.substring(underscoreIndex+1, length);
+                        var node = el.fancytree('getNodeByKey', key);
+                        var href = node.data.href;
+                        console.log(node);
+                        if (ui.cmd == 'edit') {
+                            var editHref = href.substring(0, href.length - 5);
+                            Backbone.history.navigate(editHref, {
+                                trigger: false
+                            });
+                        } else if (ui.cmd == 'delete') {
+                            var editHref = href.substring(0, href.length - 5);
+                            var deleteHref = editHref + '/confirmDelete';
+                            Backbone.history.navigate(deleteHref, {
+                                trigger: false
+                            });
+                        } else {
+                            console.log('Command ' + ui.cmd + ' not recognized!');
+                        }
+                    }
                 }
             });
 
