@@ -54,7 +54,7 @@ define([
 
         getNodeIcon: function(node) {
             if (node != null) {
-                if (typeof node.attributes !== typeof undefined && node.attributes !== null) {
+                if (typeof node.attributes !== typeof undefined && node.attributes !== '{}') {
                     var attributes = JSON.parse(node.attributes);
                     if (typeof attributes.execution_type_id !== typeof undefined) {
                         if (parseInt(attributes.execution_type_id) === 2) {
