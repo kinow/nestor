@@ -38,7 +38,6 @@ use Nestor\Model\Nodes;
  */
 class NavigationTreeUtil
 {
-    // FIXME: probably this can be replaced by a Trait?
     /**
      * Hidden constructor.
      */
