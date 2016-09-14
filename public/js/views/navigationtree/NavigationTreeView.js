@@ -11,7 +11,7 @@ define([
     var NavigationTreeView = Backbone.View.extend({
 
         initialize: function(options) {
-            _.bindAll(this, 'render', 'convertToTree', 'sortCmp', 'getNodeHref', 'getNodeIcon');
+            _.bindAll(this, 'render', 'convertToTree', 'sortCmp', 'getNodeHref', 'getNodeIcon', 'isNodeLocked');
 
             this.projectId = 0;
 
@@ -52,24 +52,35 @@ define([
             return url;
         },
 
-        getNodeIcon: function(node) {
-            if (node != null) {
-                if (typeof node.attributes !== typeof undefined && node.attributes !== '{}') {
-                    var attributes = JSON.parse(node.attributes);
-                    if (typeof attributes.execution_type_id !== typeof undefined) {
-                        if (parseInt(attributes.execution_type_id) === 2) {
-                            return '/icons/robot-icon.png';
-                        }
+        getNodeIcon: function(node, attributes) {
+            if (typeof attributes !== typeof undefined && attributes !== '{}') {
+                if (typeof attributes.execution_type_id !== typeof undefined) {
+                    if (parseInt(attributes.execution_type_id) === 2) {
+                        return '/icons/robot-icon.png';
                     }
                 }
             }
+            // FIXME: yuck, let's return a simple type per function...
             return true;
+        },
+
+        isNodeLocked: function(node, attributes) {
+            if (typeof attributes !== typeof undefined && attributes !== '{}') {
+                if (typeof attributes.locked !== typeof undefined) {
+                    if (attributes.locked === true) {
+                        return true;
+                    }
+                }
+            }
+            return false;
         },
 
         convertToTree: function(parent, children, nodeUrlPrefix, selected) {
             for (idx in children) {
                 var child = children[idx];
                 var folder = parseInt(child.node_type_id) === 3 ? false : true;
+                var attributes = JSON.parse(child.attributes);
+                var isLocked = this.isNodeLocked(child, attributes);
                 var node = {
                     title: child.display_name,
                     key: child.descendant,
@@ -78,8 +89,10 @@ define([
                     children: [],
                     node_id: child.node_id,
                     node_type_id: child.node_type_id,
+                    locked: isLocked,
+                    extraClasses: isLocked ? '' : 'editable',
                     href: this.getNodeHref(child, parent, nodeUrlPrefix),
-                    icon: this.getNodeIcon(child)
+                    icon: this.getNodeIcon(child, attributes)
                 };
                 parent.children.push(node);
                 this.convertToTree(node, child.children, nodeUrlPrefix,selected);
@@ -294,7 +307,7 @@ define([
 
             // context menu
             el.contextmenu({
-                delegate: ".fancytree-node",
+                delegate: ".editable",
                 menu: [
                     {
                         title: "Edit", 
