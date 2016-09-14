@@ -309,6 +309,7 @@ define([
                 ],
                 select: function(event, ui) {
                     var nodeId = ui.target[0].parentNode.parentNode.id;
+                    // fancy tree HTML elements have the key as ft_$KEY
                     var underscoreIndex = nodeId.indexOf('_');
                     if (underscoreIndex > 0) {
                         var length = nodeId.length;
