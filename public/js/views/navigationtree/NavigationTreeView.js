@@ -296,14 +296,21 @@ define([
             el.contextmenu({
                 delegate: ".fancytree-node",
                 menu: [
-                    {title: "Copy", cmd: "copy", uiIcon: "ui-icon-copy"},
-                    ],
+                    {
+                        title: "Edit", 
+                        cmd: "edit", 
+                        uiIcon: "ui-icon-pencil"
+                    },
+                    {
+                        title: "Delete",
+                        cmd: "delete",
+                        uiIcon: "ui-icon-trash"
+                    }
+                ],
                 select: function(event, ui) {
                     alert("select " + ui.cmd + " on " + ui.target.text());
                 }
             });
-
-            console.log(el.contextmenu);
 
             this.delegateEvents();
         }
