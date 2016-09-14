@@ -315,7 +315,6 @@ define([
                         var key = nodeId.substring(underscoreIndex+1, length);
                         var node = el.fancytree('getNodeByKey', key);
                         var href = node.data.href;
-                        console.log(node);
                         if (ui.cmd == 'edit') {
                             var editHref = href.substring(0, href.length - 5);
                             Backbone.history.navigate(editHref, {
