@@ -1,0 +1,33 @@
+<div id="repository">
+    {% assign latest_release = site.github.releases | first %}
+    {% assign pubdate = latest_release.published_at %}
+    <p>
+    <a class="button" href="{{ site.github.releases_url }}/latest">
+        DOWNLOAD {{latest_release.name}}<br />
+        <small>Released <time datetime="{{ pubdate }}">{{ pubdate }}</time></small>
+    </a>
+    </p>
+    <p><a class="button" href="https://github.com/nestor-qa/nestor">Clone Nestor on GitHub</a></p>
+    <p>
+    <div id="milestone-container" style="padding-bottom:20px; margin-bottom:40px">
+        <div style="float:left; width:75%">
+            <a id="milestone-url" href="{{site.github.repository_url}}/milestones">
+                <span id="milestone-version">retrieving repository data...</span>
+            </a>
+            <div id="progress-bar">
+                <span id="progress-bar-inner"></span>
+            </div>
+        </div>
+        <div id="progress">0%</div>
+    </div>
+    </p>
+    {% for release in site.github.releases limit: 4 %}
+    <p><a href="{{ site.github.releases_url }}/tag/{{ release.tag_name }}">
+        {{ release.name }}</a>,
+        {% include time.html date=release.published_at %}
+    </p>
+    <small>
+        {{ release.body | truncatewords: 15 }}
+    </small>
+    {% endfor %}
+</div>

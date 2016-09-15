@@ -1,0 +1,32 @@
+<script type="text/javascript">
+  window.onload = function () {
+    var request = new XMLHttpRequest();
+    request.open("GET", "https://api.github.com/repos/nestor-qa/nestor/milestones", true);
+    request.onload = function () {
+      if (this.status >= 200 && this.status < 400) {
+        var data = JSON.parse(this.response);
+                var nr_data = data[1];
+                for (i = 0; i < data.length; i++ ) {
+                    if (data[i].title == "next%20release") {
+                        nr_data = data[i];
+                    }
+                }
+        var openIssues = nr_data.open_issues;
+        var closedIssues = nr_data.closed_issues;
+        var workProgress = closedIssues * 100 / (openIssues + closedIssues);
+        var milestoneVersion = document.getElementById("milestone-version");
+        var milestoneURL = document.getElementById("milestone-url");
+        milestoneVersion.innerHTML = nr_data.title;
+        milestoneURL.setAttribute('href', nr_data.html_url.replace('s/next%20release', '/'+nr_data.number));
+        var progressBarInner = document.getElementById("progress-bar-inner");
+        progressBarInner.style.width = workProgress + "%";
+        var progress = document.getElementById("progress");
+        progress.innerHTML = Math.floor(workProgress) + "%";
+        var milestoneContainer = document.getElementById("milestone-container");
+        milestoneContainer.style.opacity = "1";
+        milestoneContainer.style.transition = ".7s ease-in";
+      }
+    };
+    request.send();
+  };
+</script>

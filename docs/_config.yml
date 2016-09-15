@@ -17,3 +17,7 @@ github_username:  nestor-qa
 
 # Build settings
 markdown: kramdown
+
+# releases
+repository: nestor-qa/nestor
+gems: ['jekyll-github-metadata']
