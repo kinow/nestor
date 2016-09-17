@@ -32,7 +32,7 @@ navigation tree.
 
 ## Planning
 
-Once you have created a project, and worked on the test specification, you will need
+After you created an initial project added test suites and test cases in specification section, you will need
 to start planning how your tests will be executed.
 
 ![planning screenshot]({{ "/assets/images/docs/getting-started/nestor_planning.png" | prepend: site.baseurl }} "Planning")
