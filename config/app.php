@@ -173,6 +173,11 @@ return [
         Dingo\Api\Provider\LaravelServiceProvider::class,
 
         /*
+         * Security, permissions, roles...
+         */
+        Spatie\Permission\PermissionServiceProvider::class,
+
+        /*
          * Application Service Providers...
          */
         Nestor\Providers\AppServiceProvider::class,
