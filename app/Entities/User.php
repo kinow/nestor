@@ -37,9 +37,10 @@ use Zizaco\Entrust\Traits\EntrustUserTrait;
 
 class User extends Model implements AuthenticatableContract, AuthorizableContract, CanResetPasswordContract, Transformable
 {
-    use Authenticatable, Authorizable, CanResetPassword;
-    use TransformableTrait;
-    use EntrustUserTrait;
+    use EntrustUserTrait, Authenticatable, Authorizable, CanResetPassword, TransformableTrait {
+        Authorizable::can insteadof EntrustUserTrait;
+        EntrustUserTrait::can as hasPermission;
+    }
     
     /**
      * The database table used by the model.
