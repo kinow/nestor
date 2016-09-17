@@ -33,11 +33,13 @@ use Illuminate\Contracts\Auth\Access\Authorizable as AuthorizableContract;
 use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
 use Prettus\Repository\Contracts\Transformable;
 use Prettus\Repository\Traits\TransformableTrait;
+use Zizaco\Entrust\Traits\EntrustUserTrait;
 
 class User extends Model implements AuthenticatableContract, AuthorizableContract, CanResetPasswordContract, Transformable
 {
     use Authenticatable, Authorizable, CanResetPassword;
     use TransformableTrait;
+    use EntrustUserTrait;
     
     /**
      * The database table used by the model.
