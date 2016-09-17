@@ -305,47 +305,49 @@ define([
                 rootNode.sortChildren(self.sortCmp, true);
             }
 
-            // context menu
-            el.contextmenu({
-                delegate: ".editable",
-                menu: [
-                    {
-                        title: "Edit", 
-                        cmd: "edit", 
-                        uiIcon: "ui-icon-pencil"
-                    },
-                    {
-                        title: "Delete",
-                        cmd: "delete",
-                        uiIcon: "ui-icon-trash"
-                    }
-                ],
-                select: function(event, ui) {
-                    var nodeId = ui.target[0].parentNode.parentNode.id;
-                    // fancy tree HTML elements have the key as ft_$KEY
-                    var underscoreIndex = nodeId.indexOf('_');
-                    if (underscoreIndex > 0) {
-                        var length = nodeId.length;
-                        var key = nodeId.substring(underscoreIndex+1, length);
-                        var node = el.fancytree('getNodeByKey', key);
-                        var href = node.data.href;
-                        if (ui.cmd == 'edit') {
-                            var editHref = href.substring(0, href.length - 5);
-                            Backbone.history.navigate(editHref, {
-                                trigger: false
-                            });
-                        } else if (ui.cmd == 'delete') {
-                            var editHref = href.substring(0, href.length - 5);
-                            var deleteHref = editHref + '/confirmDelete';
-                            Backbone.history.navigate(deleteHref, {
-                                trigger: false
-                            });
-                        } else {
-                            console.log('Command ' + ui.cmd + ' not recognized!');
+            // context menu enabled only when the draggable mode is enabled as well
+            if (self.draggable) {
+                el.contextmenu({
+                    delegate: ".editable",
+                    menu: [
+                        {
+                            title: "Edit", 
+                            cmd: "edit", 
+                            uiIcon: "ui-icon-pencil"
+                        },
+                        {
+                            title: "Delete",
+                            cmd: "delete",
+                            uiIcon: "ui-icon-trash"
+                        }
+                    ],
+                    select: function(event, ui) {
+                        var nodeId = ui.target[0].parentNode.parentNode.id;
+                        // fancy tree HTML elements have the key as ft_$KEY
+                        var underscoreIndex = nodeId.indexOf('_');
+                        if (underscoreIndex > 0) {
+                            var length = nodeId.length;
+                            var key = nodeId.substring(underscoreIndex+1, length);
+                            var node = el.fancytree('getNodeByKey', key);
+                            var href = node.data.href;
+                            if (ui.cmd == 'edit') {
+                                var editHref = href.substring(0, href.length - 5);
+                                Backbone.history.navigate(editHref, {
+                                    trigger: false
+                                });
+                            } else if (ui.cmd == 'delete') {
+                                var editHref = href.substring(0, href.length - 5);
+                                var deleteHref = editHref + '/confirmDelete';
+                                Backbone.history.navigate(deleteHref, {
+                                    trigger: false
+                                });
+                            } else {
+                                console.log('Command ' + ui.cmd + ' not recognized!');
+                            }
                         }
                     }
-                }
-            });
+                });
+            }
 
             this.delegateEvents();
         }
