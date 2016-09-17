@@ -13,7 +13,8 @@
         "erusev/parsedown": "^1.6",
         "clue/graph": "^0.9.0",
         "graphp/algorithms": "^0.8.1",
-        "satooshi/php-coveralls": "~1.0.1@stable"
+        "satooshi/php-coveralls": "~1.0.1@stable",
+        "zizaco/entrust": "5.2.x-dev"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",

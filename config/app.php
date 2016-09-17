@@ -173,6 +173,11 @@ return [
         Dingo\Api\Provider\LaravelServiceProvider::class,
 
         /*
+         * Security, permissions, roles...
+         */
+        Zizaco\Entrust\EntrustServiceProvider::class,
+
+        /*
          * Application Service Providers...
          */
         Nestor\Providers\AppServiceProvider::class,
@@ -230,6 +235,7 @@ return [
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
 
+        'Entrust' => Zizaco\Entrust\EntrustFacade::class,
     ],
 
 ];
