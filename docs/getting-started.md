@@ -25,7 +25,7 @@ A test case is a leaf, and has no children nodes.
 
 ![specification screenshot]({{ "/assets/images/docs/getting-started/nestor_specification.png" | prepend: site.baseurl }} "Test Specification")
 
-There are two types of test cases, manual and automated test cases. Its icon varies in the
+There are two types of test cases, manual and automated. Its icon varies in the
 navigation tree.
 
 ![test cases screenshot]({{ "/assets/images/docs/getting-started/nestor_testcase.png" | prepend: site.baseurl }} "Test Cases")
