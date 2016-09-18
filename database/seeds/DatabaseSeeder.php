@@ -69,14 +69,14 @@ class DatabaseSeeder extends Seeder
         
         NavigationTreeNodeTypes::create(array (
                 'id' => 2,
-                'name' => 'Test Case',
-                'description' => 'Test Case node' 
+                'name' => 'Test Suite',
+                'description' => 'Test Suite node' 
         ));
         
         NavigationTreeNodeTypes::create(array (
                 'id' => 3,
-                'name' => 'Test Suite',
-                'description' => 'Test Suite node' 
+                'name' => 'Test Case',
+                'description' => 'Test Case node' 
         ));
         
         // execution_statuses
