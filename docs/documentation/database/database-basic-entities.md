@@ -4,8 +4,6 @@ title: Database Basic Entities
 description: Basic Entities required in order to have a working system
 ---
 
-## Database Basic Entities
-
 This page describes the basic entities required in order to have a working system. These are created by default during the system installation, and also for running tests. They are not part of the database migrations, but of the database seeding process.
 
 With the current stable version, the default values created are the following.
