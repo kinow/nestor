@@ -32,13 +32,13 @@ class DatabaseSeeder extends Seeder
         ProjectStatuses::create(array (
                 'id' => 1,
                 'name' => 'New',
-                'description' => 'New Status' 
+                'description' => 'New Status'
         ));
         
         ProjectStatuses::create(array (
                 'id' => 2,
                 'name' => 'Closed',
-                'description' => 'Closed Status' 
+                'description' => 'Closed Status'
         ));
         
         // execution_types
@@ -48,13 +48,13 @@ class DatabaseSeeder extends Seeder
         ExecutionTypes::create(array (
                 'id' => 1,
                 'name' => 'Manual',
-                'description' => 'Manual test' 
+                'description' => 'Manual test'
         ));
         
         ExecutionTypes::create(array (
                 'id' => 2,
                 'name' => 'Automated',
-                'description' => 'Automated test' 
+                'description' => 'Automated test'
         ));
         
         // navigation_tree_node_types
@@ -64,19 +64,19 @@ class DatabaseSeeder extends Seeder
         NavigationTreeNodeTypes::create(array (
                 'id' => 1,
                 'name' => 'Project',
-                'description' => 'Project node' 
+                'description' => 'Project node'
         ));
         
         NavigationTreeNodeTypes::create(array (
                 'id' => 2,
                 'name' => 'Test Suite',
-                'description' => 'Test Suite node' 
+                'description' => 'Test Suite node'
         ));
         
         NavigationTreeNodeTypes::create(array (
                 'id' => 3,
                 'name' => 'Test Case',
-                'description' => 'Test Case node' 
+                'description' => 'Test Case node'
         ));
         
         // execution_statuses
@@ -86,29 +86,28 @@ class DatabaseSeeder extends Seeder
         ExecutionStatuses::create(array (
                 'id' => 1,
                 'name' => 'Not Run',
-                'description' => 'A test case not run yet' 
+                'description' => 'A test case not run yet'
         ));
         
         ExecutionStatuses::create(array (
                 'id' => 2,
                 'name' => 'Passed',
-                'description' => 'A test case that passed' 
+                'description' => 'A test case that passed'
         ));
         
         ExecutionStatuses::create(array (
                 'id' => 3,
                 'name' => 'Failed',
-                'description' => 'A test case that failed' 
+                'description' => 'A test case that failed'
         ));
         
         ExecutionStatuses::create(array (
                 'id' => 4,
                 'name' => 'Blocked',
-                'description' => 'A test case that is blocked' 
+                'description' => 'A test case that is blocked'
         ));
         
-        if (App::environment('dev', 'test', 'local'))
-        {
+        if (App::environment('dev', 'test', 'local')) {
             Log::info("Seeding DEVELOPMENT data");
             $this->call(SampleDatabaseSeeder::class);
         }
