@@ -30,3 +30,11 @@ With the current stable version, the default values created are the following.
 * 2 &mdash; Passed
 * 3 &mdash; Failed
 * 4 &mdash; Blocked
+
+### Roles
+
+* admin
+* guest
+* tester
+* test_designer
+* lead
