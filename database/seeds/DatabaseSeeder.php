@@ -7,6 +7,7 @@ use Nestor\Entities\ExecutionStatuses;
 use Nestor\Entities\ExecutionTypes;
 use Nestor\Entities\NavigationTreeNodeTypes;
 use Nestor\Entities\ProjectStatuses;
+use Nestor\Entities\Role;
 
 /**
  * Main database seeder.
@@ -106,7 +107,39 @@ class DatabaseSeeder extends Seeder
                 'name' => 'Blocked',
                 'description' => 'A test case that is blocked'
         ));
+
+        // roles
+
+        Role::create([
+            'name' => 'admin',
+            'display_name' => 'Administrator',
+            'description' => 'Has full system permissions'
+        ]);
+
+        Role::create([
+            'name' => 'guest',
+            'display_name' => 'Guest',
+            'description' => 'Has limited access to main page and reports'
+        ]);
+
+        Role::create([
+            'name' => 'tester',
+            'display_name' => 'Tester',
+            'description' => 'Can create Test Runs and Execute them'
+        ]);
         
+        Role::create([
+            'name' => 'test_designer',
+            'display_name' => 'Test Designer',
+            'description' => 'Tester + has access to Specification and Planning'
+        ]);
+
+        Role::create([
+            'name' => 'lead',
+            'display_name' => 'Lead',
+            'description' => 'Tester + can assign Test Cases to other Users'
+        ]);
+
         if (App::environment('dev', 'test', 'local')) {
             Log::info("Seeding DEVELOPMENT data");
             $this->call(SampleDatabaseSeeder::class);
