@@ -209,4 +209,9 @@ class ProjectsRepositoryEloquent extends BaseRepository implements ProjectsRepos
             ->pluck('test_cases_versions.test_cases_id')
         ;
     }
+
+    public function createSimpleProjectReport($projectId)
+    {
+        return null;
+    }
 }

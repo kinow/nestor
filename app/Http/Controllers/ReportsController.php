@@ -74,6 +74,6 @@ class ReportsController extends Controller
             $this->throwValidationException($request, $validator);
         }
         $report = $this->projectsRepository->createSimpleProjectReport($projectId);
-        return response()->json($response);
+        return response()->json($report);
     }
 }

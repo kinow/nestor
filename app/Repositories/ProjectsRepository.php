@@ -41,4 +41,12 @@ interface ProjectsRepository extends RepositoryInterface
      * test cases versions that have at least one occurrence in the executions table.
      */
     public function getExecutedTestCaseVersionIds($projectId);
+
+    /**
+     * Create simple project report.
+     *
+     * @param int $projectId
+     * @return mixed Array
+     */
+    public function createSimpleProjectReport($projectId);
 }
