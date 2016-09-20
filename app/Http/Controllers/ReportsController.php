@@ -76,4 +76,26 @@ class ReportsController extends Controller
         $report = $this->projectsRepository->createSimpleProjectReport($projectId);
         return response()->json($report);
     }
+
+    /**
+     * Test Plan testing report: first user selects a test plan, then he gets
+     * the latest execution status for each test case in the test plan.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int $testPlanId
+     * @return \Illuminate\Http\Response
+     */
+    public function simpleTestPlanReport(Request $request, $testPlanId)
+    {
+        $payload = ['testPlanId' => $testPlanId];
+        $validator = Validator::make($payload, [
+            'testPlanId' => 'required|integer|min:1'
+        ]);
+        
+        if ($validator->fails()) {
+            $this->throwValidationException($request, $validator);
+        }
+        $report = $this->testPlansRepository->createSimpleTestPlanReport($testPlanId);
+        return response()->json($report);
+    }
 }
