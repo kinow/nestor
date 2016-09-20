@@ -134,6 +134,9 @@ $api->version('v1', function ($api) {
     $api->get('testplans/{testPlanId}/testruns/{testRunId}/testsuites/{testsuiteId}/testcases/{testcaseId}/executions', 'Nestor\Http\Controllers\ExecutionsController@showTestCase');
     $api->post('testplans/{testPlanId}/testruns/{testRunId}/testsuites/{testsuiteId}/testcases/{testcaseId}/executions', 'Nestor\Http\Controllers\ExecutionsController@executeTestCase');
     $api->get('executions', 'Nestor\Http\Controllers\ExecutionsController@index');
+
+    // reports
+    $api->get('reports/simpleprojectreport/projects/{projectId}', 'Nestor\Http\Controllers\ReportsController@simpleProjectReport');
 });
 
 // Display all SQL executed in Eloquent

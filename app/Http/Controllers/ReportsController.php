@@ -24,11 +24,11 @@
 
 namespace Nestor\Http\Controllers;
 
-use \Auth;
 use \Validator;
-use \Log;
 
 use Illuminate\Http\Request;
+
+use Dingo\Api\Routing\Helpers as DingoApiHelpers;
 
 use Nestor\Http\Controllers\Controller;
 use Nestor\Repositories\ProjectsRepository;
@@ -36,6 +36,8 @@ use Nestor\Repositories\TestPlansRepository;
 
 class ReportsController extends Controller
 {
+    use DingoApiHelpers;
+
     /**
      * @var ProjectsRepository
      */
@@ -50,5 +52,28 @@ class ReportsController extends Controller
     {
         $this->projectsRepository = $projectsRepository;
         $this->testPlansRepository = $testPlansRepository;
+    }
+
+    /**
+     * Project simple report: list number of test plans, number of test suites,
+     * number of test cases, number of test runs, number of test cases executed,
+     * % of each execution statuses.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int $projectId
+     * @return \Illuminate\Http\Response
+     */
+    public function simpleProjectReport(Request $request, $projectId)
+    {
+        $payload = ['projectId' => $projectId];
+        $validator = Validator::make($payload, [
+            'projectId' => 'required|integer|min:1'
+        ]);
+        
+        if ($validator->fails()) {
+            $this->throwValidationException($request, $validator);
+        }
+        $report = $this->projectsRepository->createSimpleProjectReport($projectId);
+        return response()->json($response);
     }
 }
