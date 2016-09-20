@@ -38,7 +38,9 @@ define([
     'views/testruns/NewTestRunView',
     'views/testruns/TestRunView',
     'views/testruns/ConfirmDeleteTestRunView',
-    'views/testruns/ViewTestRunView'
+    'views/testruns/ViewTestRunView',
+    // Reporting views
+    'views/reporting/ReportingView'
 ], function(
     _,
     Backbone,
@@ -66,7 +68,8 @@ define([
     NewTestRunView,
     TestRunView,
     ConfirmDeleteTestRunView,
-    ViewTestRunView) {
+    ViewTestRunView,
+    ReportingView) {
 
     'use strict';
 
@@ -433,6 +436,22 @@ define([
                         });
                     },
                     parent: 'TestRuns.showTestRuns'
+                }
+            }
+        }
+    });
+
+    var ReportingRouter = Backbone.Router.extend({
+        routes: {
+            // Reporting routes
+            'reporting': 'showReporting'
+        },
+        navigation: {
+            prefix: 'Reporting',
+            pages: {
+                'Reporting.showReporting': {
+                    template: 'Reporting',
+                    parent: 'Base.defaultAction'
                 }
             }
         }
@@ -1052,6 +1071,24 @@ define([
 
         // --- end test runs router ---
 
+        // --- reporting router ---
+
+        var reportingRouter = new ReportingRouter();
+
+        reportingRouter.on('route:showReporting', function() {
+            checkIfProjectIsSet();
+            var id = app.session.get('project_id');
+            if (!app.reportingView) {
+                app.reportingView = new ReportingView();
+            }
+            app.reportingView.setProjectId(id);
+            app.showView(app.reportingView, {
+                requiresAuth: true
+            });
+        });
+
+        // --- end reporting router ---
+
         navigation.appendRouter(baseRouter);
         navigation.appendRouter(authRouter);
         navigation.appendRouter(projectsRouter);
@@ -1059,6 +1096,7 @@ define([
         navigation.appendRouter(testCasesRouter);
         navigation.appendRouter(testPlansRouter);
         navigation.appendRouter(testRunsRouter);
+        navigation.appendRouter(reportingRouter);
         navigation.mapRouters();
     };
 
@@ -1073,7 +1111,8 @@ define([
         ProjectsRouter: ProjectsRouter,
         TestSuitesRouter: TestSuitesRouter,
         TestCasesRouter: TestCasesRouter,
-        TestPlansRouter: TestPlansRouter
+        TestPlansRouter: TestPlansRouter,
+        ReportingRouter: ReportingRouter
     };
 
     return AppRouter;
