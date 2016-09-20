@@ -7,8 +7,7 @@ define([
     var BaseModel = Backbone.Model.extend({
 
         initialize: function(options) {
-            this.bindAll(this, 'postAuth');
-            this.set('url', '#/projects/' + options.id + '/view');
+            _.bindAll(this, 'postAuth');
         },
 
         /*
