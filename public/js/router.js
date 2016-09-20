@@ -40,7 +40,8 @@ define([
     'views/testruns/ConfirmDeleteTestRunView',
     'views/testruns/ViewTestRunView',
     // Reporting views
-    'views/reporting/ReportingView'
+    'views/reporting/ReportingView',
+    'views/reporting/SimpleProjectReportView'
 ], function(
     _,
     Backbone,
@@ -69,7 +70,8 @@ define([
     TestRunView,
     ConfirmDeleteTestRunView,
     ViewTestRunView,
-    ReportingView) {
+    ReportingView,
+    SimpleProjectReportView) {
 
     'use strict';
 
@@ -444,7 +446,8 @@ define([
     var ReportingRouter = Backbone.Router.extend({
         routes: {
             // Reporting routes
-            'reporting': 'showReporting'
+            'reporting': 'showReporting',
+            'reporting/simpleprojectreport': 'showSimpleProjectReport'
         },
         navigation: {
             prefix: 'Reporting',
@@ -452,6 +455,10 @@ define([
                 'Reporting.showReporting': {
                     template: 'Reporting',
                     parent: 'Base.defaultAction'
+                },
+                'Reporting.showSimpleProjectReport': {
+                    template: 'Simple Project Report',
+                    parent: 'Reporting.showReporting'
                 }
             }
         }
@@ -1083,6 +1090,18 @@ define([
             }
             app.reportingView.setProjectId(id);
             app.showView(app.reportingView, {
+                requiresAuth: true
+            });
+        });
+
+        reportingRouter.on('route:showSimpleProjectReport', function() {
+            checkIfProjectIsSet();
+            var id = app.session.get('project_id');
+            if (!app.simpleProjectReportView) {
+                app.simpleProjectReportView = new SimpleProjectReportView();
+            }
+            app.simpleProjectReportView.setProjectId(id);
+            app.showView(app.simpleProjectReportView, {
                 requiresAuth: true
             });
         });
