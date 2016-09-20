@@ -30,9 +30,14 @@ use Illuminate\Container\Container as Application;
 use Log;
 use Nestor\Entities\NavigationTree;
 use Nestor\Entities\Projects;
-use Nestor\Repositories\NavigationTreeRepository;
+use Nestor\Entities\ExecutionStatuses;
 use Prettus\Repository\Criteria\RequestCriteria;
 use Prettus\Repository\Eloquent\BaseRepository;
+use Nestor\Repositories\NavigationTreeRepository;
+use Nestor\Repositories\TestPlansRepository;
+use Nestor\Repositories\TestSuitesRepository;
+use Nestor\Repositories\TestCasesRepository;
+use Nestor\Repositories\TestRunsRepository;
 use Prettus\Repository\Events\RepositoryEntityCreated;
 use Prettus\Repository\Events\RepositoryEntityDeleted;
 use Prettus\Repository\Events\RepositoryEntityUpdated;
@@ -50,16 +55,55 @@ class ProjectsRepositoryEloquent extends BaseRepository implements ProjectsRepos
      * @var NavigationTreeRepository $navigationTreeRepository
      */
     protected $navigationTreeRepository;
+
+    /**
+     *
+     * @var TestPlansRepository $testPlansRepository
+     */
+    protected $testPlansRepository;
+
+    /**
+     *
+     * @var TestSuitesRepository $testSuitesRepository
+     */
+    protected $testSuitesRepository;
+
+    /**
+     *
+     * @var TestCasesRepository $testCasesRepository
+     */
+    protected $testCasesRepository;
     
+    /**
+     *
+     * @var TestRunsRepository $testRunsRepository
+     */
+    protected $testRunsRepository;
+
+    /**
+     *
+     * @var ExecutionsRepository $executionsRepository
+     */
+    protected $executionsRepository;
+
     /**
      *
      * @param Application $app
      * @param NavigationTreeRepository $navigationTreeRepository
+     * @param TestPlansRepository $testPlansRepository
+     * @param TestCasesRepository $testCasesRepository
+     * @param TestRunsRepository $testRunsRepository
+     * @param ExecutionsRepository $executionsRepository
      */
-    public function __construct(Application $app, NavigationTreeRepository $navigationTreeRepository)
+    public function __construct(Application $app, NavigationTreeRepository $navigationTreeRepository, TestPlansRepository $testPlansRepository, TestSuitesRepository $testSuitesRepository, TestCasesRepository $testCasesRepository, TestRunsRepository $testRunsRepository, ExecutionsRepository $executionsRepository)
     {
         parent::__construct($app);
         $this->navigationTreeRepository = $navigationTreeRepository;
+        $this->testPlansRepository = $testPlansRepository;
+        $this->testSuitesRepository = $testSuitesRepository;
+        $this->testCasesRepository = $testCasesRepository;
+        $this->testRunsRepository = $testRunsRepository;
+        $this->executionsRepository = $executionsRepository;
     }
     
     /**
@@ -212,6 +256,61 @@ class ProjectsRepositoryEloquent extends BaseRepository implements ProjectsRepos
 
     public function createSimpleProjectReport($projectId)
     {
-        return null;
+        $numberOfTestPlans = $this->testPlansRepository->scopeQuery(function ($query) use ($projectId) {
+            return $query->where('project_id', $projectId);
+        })->all()->count();
+
+        $numberOfTestSuites = $this->testSuitesRepository->scopeQuery(function ($query) use ($projectId) {
+            return $query->where('project_id', $projectId);
+        })->all()->count();
+
+        $numberOfTestCases = $this->testCasesRepository->scopeQuery(function ($query) use ($projectId) {
+            return $query
+                ->join('test_suites', 'test_cases.test_suite_id', '=', 'test_suites.id')
+                ->where('test_suites.project_id', $projectId)
+            ;
+        })->all()->count();
+
+        $numberOfTestRuns = $this->testRunsRepository->scopeQuery(function ($query) use ($projectId) {
+            return $query
+                ->join('test_plans', 'test_runs.test_plan_id', '=', 'test_plans.id')
+                ->where('test_plans.project_id', $projectId)
+            ;
+        })->all()->count();
+
+        $executions = $this->executionsRepository->scopeQuery(function ($query) use ($projectId) {
+            return $query
+                ->join('test_runs', 'executions.test_run_id', '=', 'test_runs.id')
+                ->join('test_plans', 'test_runs.test_plan_id', '=', 'test_plans.id')
+                ->where('test_plans.project_id', $projectId)
+            ;
+        })->all();
+
+        $numberOfExecutions = $executions->count();
+
+        $executionsSummary = [];
+
+        foreach ($executions as $execution) {
+            $executionStatusId = $execution['execution_status_id'];
+            if (!array_key_exists($executionStatusId, $executionsSummary)) {
+                $executionsSummary[$executionStatusId] = 1;
+            } else {
+                $executionsSummary[$executionStatusId] = $executionsSummary[$executionStatusId] + 1;
+            }
+        }
+
+        // for Not Run test cases
+        $testCasesTimesExecutions = $numberOfTestCases * $numberOfTestRuns;
+        $numberOfTestCasesNotRun  = $testCasesTimesExecutions - $numberOfExecutions;
+        $executionsSummary[ExecutionStatuses::EXECUTION_STATUS_NOT_RUN] = $numberOfTestCasesNotRun;
+
+        return [
+            'test_plans_count' => $numberOfTestPlans,
+            'test_suites_count' => $numberOfTestSuites,
+            'test_cases_count' => $numberOfTestCases,
+            'test_runs_count' => $numberOfTestRuns,
+            'executions_count' => $numberOfExecutions,
+            'executions_summary' => $executionsSummary
+        ];
     }
 }
