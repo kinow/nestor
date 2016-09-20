@@ -33,4 +33,9 @@ class ExecutionStatuses extends Model implements Transformable
     use TransformableTrait;
 
     protected $fillable = [];
+
+    const EXECUTION_STATUS_NOT_RUN = 1;
+    const EXECUTION_STATUS_PASSED  = 2;
+    const EXECUTION_STATUS_FAILED  = 3;
+    const EXECUTION_STATUS_BLOCKED = 4;
 }
