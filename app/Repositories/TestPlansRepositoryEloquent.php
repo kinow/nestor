@@ -24,9 +24,12 @@
 
 namespace Nestor\Repositories;
 
+use Illuminate\Container\Container as Application;
+
 use Prettus\Repository\Eloquent\BaseRepository;
 use Prettus\Repository\Criteria\RequestCriteria;
 use Nestor\Repositories\TestPlansRepository;
+use Nestor\Repositories\TestCasesRepository;
 use Nestor\Entities\TestPlans;
 use Nestor\Validators\TestPlansValidator;
 
@@ -36,6 +39,23 @@ use Nestor\Validators\TestPlansValidator;
  */
 class TestPlansRepositoryEloquent extends BaseRepository implements TestPlansRepository
 {
+
+    /**
+     *
+     * @var TestCasesRepository $testCasesRepository
+     */
+    protected $testCasesRepository;
+
+    /**
+     *
+     * @param Application $app
+     * @param TestCasesRepository $testCasesRepository
+     */
+    public function __construct(Application $app, TestCasesRepository $testCasesRepository)
+    {
+        parent::__construct($app);
+        $this->testCasesRepository = $testCasesRepository;
+    }
 
     /**
      * Specify Model class name
@@ -53,5 +73,41 @@ class TestPlansRepositoryEloquent extends BaseRepository implements TestPlansRep
     public function boot()
     {
         $this->pushCriteria(app(RequestCriteria::class));
+    }
+
+    /**
+     * Create simple test plan report.
+     *
+     * @param int $testPlanId
+     * @return mixed Array
+     */
+    public function createSimpleTestPlanReport($testPlanId)
+    {
+        $testCasesSummary = $this->testCasesRepository->scopeQuery(function ($query) use ($testPlanId) {
+            return $query
+                ->select('test_cases_versions.*')
+                ->join('test_cases_versions', 'test_cases.id', '=', 'test_cases_versions.test_cases_id')
+                ->join('test_plans_test_cases', 'test_cases_versions.id', '=', 'test_plans_test_cases.test_cases_versions_id')
+                ->join('test_plans', 'test_plans_test_cases.test_plan_id', '=', 'test_plans.id')
+                ->where('test_plans.id', $testPlanId)
+            ;
+        })->with('executions')->all();
+
+        $testCasesSummaryArray = $testCasesSummary->toArray();
+
+        foreach ($testCasesSummaryArray as &$entry) {
+            $executions = $entry['executions'];
+            if (isset($executions) && !empty($executions)) {
+                usort($executions, function ($a, $b) {
+                    return $a['id'] < $b['id'];
+                });
+                unset($entry['executions']);
+                $entry['latest_execution'] = $executions[0];
+            }
+        }
+
+        return [
+            'test_cases' => $testCasesSummaryArray
+        ];
     }
 }

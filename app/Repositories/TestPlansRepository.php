@@ -32,5 +32,11 @@ use Prettus\Repository\Contracts\RepositoryInterface;
  */
 interface TestPlansRepository extends RepositoryInterface
 {
-    //
+    /**
+     * Create simple test plan report.
+     *
+     * @param int $testPlanId
+     * @return mixed Array
+     */
+    public function createSimpleTestPlanReport($testPlanId);
 }
