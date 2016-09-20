@@ -29,7 +29,7 @@ define([
             if (typeof objects !== typeof Array || objects.length === 0) {
                 this.projectRemoved();
             } else {
-                this.set('project_id', objects[0].id);
+                this.set('project_id', parseInt(objects[0].id));
             }
         },
 
@@ -53,7 +53,7 @@ define([
             } else {
                 var projectId = parseInt(project.id);
                 if (projectId !== this.get('project_id')) {
-                    this.set('project_id', project.id);
+                    this.set('project_id', parseInt(project.id));
                     this.set('project', project);
                 }
             }
@@ -75,7 +75,7 @@ define([
                         self.set({ 'user_id': parseInt(res.id) });
                         var project_id = options.xhr.getResponseHeader('X-NESTORQA-PROJECT-ID');
                         if (typeof project_id !== typeof undefined && project_id !== null && project_id != self.get('project_id')) {
-                            self.set('project_id', project_id);
+                            self.set('project_id', parseInt(project_id));
                             new ProjectsCollection().position(project_id, false);
                         }
                         if('success' in callback) callback.success(mod, res, options);
