@@ -14,7 +14,8 @@ require.config({
         simplemde: 'libs/simplemde/dist/simplemde.min',
         // navigation tree and dependencies
         fancytree: 'libs/jquery.fancytree/dist/jquery.fancytree-all.min',
-        'jquery-ui/menu': 'libs/jquery-ui/ui/widgets/menu'
+        'jquery-ui/menu': 'libs/jquery-ui/ui/widgets/menu',
+        highcharts: 'libs/highcharts/highcharts'
     },
 
     packages: [
@@ -63,6 +64,10 @@ require.config({
                 'libs/jquery-ui/ui/widgets/droppable'
             ],
             exports: 'fancytree'
+        },
+        highcharts: {
+            exports: "Highcharts",
+            deps: ["jquery"]
         }
     }
 });
