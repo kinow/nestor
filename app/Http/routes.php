@@ -137,6 +137,7 @@ $api->version('v1', function ($api) {
 
     // reports
     $api->get('reports/simpleprojectreport/projects/{projectId}', 'Nestor\Http\Controllers\ReportsController@simpleProjectReport');
+    $api->get('reports/simpletestplanreport/testplans/{testPlanId}', 'Nestor\Http\Controllers\ReportsController@simpleTestPlanReport');
 });
 
 // Display all SQL executed in Eloquent
