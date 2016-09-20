@@ -1084,11 +1084,9 @@ define([
 
         reportingRouter.on('route:showReporting', function() {
             checkIfProjectIsSet();
-            var id = app.session.get('project_id');
             if (!app.reportingView) {
                 app.reportingView = new ReportingView();
             }
-            app.reportingView.setProjectId(id);
             app.showView(app.reportingView, {
                 requiresAuth: true
             });

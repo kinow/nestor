@@ -9,8 +9,7 @@ define([
         el: $("#page"),
 
         initialize: function(options) {
-            _.bindAll(this, 'render', 'setProjectId');
-            this.projectId = 0;
+            _.bindAll(this, 'render');
             this.subviews = new Object();
         },
 
@@ -20,10 +19,6 @@ define([
             var self = this;
 
             this.$el.html(reportingTemplate);
-        },
-
-        setProjectId: function(projectId) {
-            this.projectId = projectId;
         }
 
     });
