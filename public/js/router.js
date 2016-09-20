@@ -1096,7 +1096,9 @@ define([
             checkIfProjectIsSet();
             var id = app.session.get('project_id');
             if (!app.simpleProjectReportView) {
-                app.simpleProjectReportView = new SimpleProjectReportView();
+                app.simpleProjectReportView = new SimpleProjectReportView({
+                    projectId: id
+                });
             }
             app.simpleProjectReportView.setProjectId(id);
             app.showView(app.simpleProjectReportView, {

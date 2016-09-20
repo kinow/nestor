@@ -1,0 +1,27 @@
+<h1 class="ui top attached header">Simple Project Report</h1>
+<div class="ui attached segment">
+  <p>
+    Project <%= project_id %>
+  </p>
+  <div class="ui middle aligned" id='simple-project-report'>
+    <table class="ui celled padded table">
+      <thead>
+        <tr>
+          <th>Number of Test Suites</th>
+          <th>Number of Test Cases</th>
+          <th>Number of Test Plans</th>
+          <th>Number of Test Runs</th>
+          <th>Number of Executions</th>
+        </tr></thead>
+      <tbody>
+        <tr>
+          <td><%= report['test_suites_count'] %></td>
+          <td><%= report['test_cases_count'] %></td>
+          <td><%= report['test_plans_count'] %></td>
+          <td><%= report['test_runs_count'] %></td>
+          <td><%= report['executions_count'] %></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
