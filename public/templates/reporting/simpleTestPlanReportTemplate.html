@@ -3,17 +3,23 @@
   <p>
     Test Plan <%= test_plan_id %>
   </p>
-  <div class="ui list" id='simple-project-report'>
+  <div class="ui middle aligned divided list" id='simple-project-report'>
   <% _.each(report.test_cases, function(test_case){ %>
-    <div class="item">
-      <%= test_case['name'] %>
-      <% if (test_case['latest_execution']['execution_status_id'] == 2) { %>
-      <i class="smile icon"></i>
-      <% } else if (test_case['latest_execution']['execution_status_id'] == 3) { %>
-      <i class="frown icon"></i>
-      <% } else if (test_case['latest_execution']['execution_status_id'] == 4) { %>
-      <i class="meh icon"></i>
-      <% } %>
+    <div class='ui middle aligned item'>
+      <div class="right floated content">
+        <% if (test_case['latest_execution']['execution_status_id'] == 2) { %>
+        <a class="ui green label">PASSED</a>
+        <% } else if (test_case['latest_execution']['execution_status_id'] == 3) { %>
+        <a class="ui red label">FAILED</a>
+        <% } else if (test_case['latest_execution']['execution_status_id'] == 4) { %>
+        <a class="ui yellow label">BLOCKED</a>
+        <% } %>
+      </div>
+      <div class="left floated content">
+        <div class='ui vertical segment'>
+          <%= test_case['name'] %>
+        </div>
+      </div>
     </div>
   <% }); %>
   </div>
