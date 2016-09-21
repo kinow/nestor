@@ -4,8 +4,8 @@ define([
     'backbone',
     'collections/testplan/TestPlansCollection',
     'views/reporting/SimpleTestPlanListReportListView',
-    'text!templates/reporting/simpleTestPlanReportTemplate.html'
-], function($, _, Backbone, TestPlansCollection, SimpleTestPlanListReportListView, simpleTestPlanReportTemplate) {
+    'text!templates/reporting/simpleTestPlanListReportTemplate.html'
+], function($, _, Backbone, TestPlansCollection, SimpleTestPlanListReportListView, simpleTestPlanListReportTemplate) {
 
     var SimpleTestPlanListReportView = Backbone.View.extend({
         el: $("#page"),
@@ -27,7 +27,7 @@ define([
             $('.item').removeClass('active');
             var self = this;
 
-            this.$el.html(simpleTestPlanReportTemplate);
+            this.$el.html(simpleTestPlanListReportTemplate);
             this.testPlansCollection.fetch({
                 data: {
                     page: self.page,

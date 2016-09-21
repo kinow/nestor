@@ -42,7 +42,8 @@ define([
     // Reporting views
     'views/reporting/ReportingView',
     'views/reporting/SimpleProjectReportView',
-    'views/reporting/SimpleTestPlanListReportView'
+    'views/reporting/SimpleTestPlanListReportView',
+    'views/reporting/SimpleTestPlanReportView'
 ], function(
     _,
     Backbone,
@@ -73,7 +74,8 @@ define([
     ViewTestRunView,
     ReportingView,
     SimpleProjectReportView,
-    SimpleTestPlanListReportView) {
+    SimpleTestPlanListReportView,
+    SimpleTestPlanReportView) {
 
     'use strict';
 
@@ -450,7 +452,8 @@ define([
             // Reporting routes
             'reporting': 'showReporting',
             'reporting/simpleprojectreport': 'showSimpleProjectReport',
-            'reporting/simpletestplanreport': 'showSimpleTestPlanReport'
+            'reporting/simpletestplanreport': 'showSimpleTestPlanReportListTestPlans',
+            'reporting/simpletestplanreport/:testPlanId': 'showSimpleTestPlanReport'
         },
         navigation: {
             prefix: 'Reporting',
@@ -463,9 +466,18 @@ define([
                     template: 'Simple Project Report',
                     parent: 'Reporting.showReporting'
                 },
-                'Reporting.showSimpleTestPlanReport': {
-                    template: 'Simple Test Plan Report',
+                'Reporting.showSimpleTestPlanReportListTestPlans': {
+                    template: 'Choose Test Plan',
                     parent: 'Reporting.showReporting'
+                },
+                'Reporting.showSimpleTestPlanReport': {
+                    template: function(args) {
+                        var tpl = _.template('Simple Test Plan Report <%= args[":testPlanId"] %>');
+                        return tpl({
+                            args: args
+                        });
+                    },
+                    parent: 'Reporting.showSimpleTestPlanReportListTestPlans'
                 }
             }
         }
@@ -1113,7 +1125,7 @@ define([
             });
         });
 
-        reportingRouter.on('route:showSimpleTestPlanReport', function() {
+        reportingRouter.on('route:showSimpleTestPlanReportListTestPlans', function() {
             checkIfProjectIsSet();
             var id = app.session.get('project_id');
             if (!app.simpleTestPlanListReportView) {
@@ -1123,6 +1135,19 @@ define([
             }
             app.simpleTestPlanListReportView.setProjectId(id);
             app.showView(app.simpleTestPlanListReportView, {
+                requiresAuth: true
+            });
+        });
+
+        reportingRouter.on('route:showSimpleTestPlanReport', function(testPlanId) {
+            checkIfProjectIsSet();
+            if (!app.simpleTestPlanReportView) {
+                app.simpleTestPlanReportView = new SimpleTestPlanReportView({
+                    testPlanId: testPlanId
+                });
+            }
+            app.simpleTestPlanReportView.setTestPlanId(testPlanId);
+            app.showView(app.simpleTestPlanReportView, {
                 requiresAuth: true
             });
         });

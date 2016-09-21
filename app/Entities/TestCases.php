@@ -89,6 +89,11 @@ class TestCases extends Model implements Transformable
         return $this->hasManyThrough('Nestor\\Entities\\Executions', 'Nestor\\Entities\\TestCasesVersions');
     }
 
+    public function executionType()
+    {
+        return $this->hasManyThrough('Nestor\\Entities\\ExecutionTypes', 'Nestor\\Entities\\TestCasesVersions', 'execution_type_id', 'id');
+    }
+
     // public function steps()
     // {
     //     return $this->hasManyThrough('Nestor\\Model\\TestCaseStepVersion', 'Nestor\\Model\\TestCaseVersion', 'test_cases_id', 'test_cases_versions_id');

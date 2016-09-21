@@ -1,7 +1,20 @@
 <h1 class="ui top attached header">Simple Test Plan Report</h1>
 <div class="ui attached segment">
   <p>
-    Choose one of the project test plans.
+    Test Plan <%= test_plan_id %>
   </p>
-  <div class="ui middle aligned divided list" id='testplans-list'></div>
+  <div class="ui list" id='simple-project-report'>
+  <% _.each(report.test_cases, function(test_case){ %>
+    <div class="item">
+      <%= test_case['name'] %>
+      <% if (test_case['latest_execution']['execution_status_id'] == 2) { %>
+      <i class="smile icon"></i>
+      <% } else if (test_case['latest_execution']['execution_status_id'] == 3) { %>
+      <i class="frown icon"></i>
+      <% } else if (test_case['latest_execution']['execution_status_id'] == 4) { %>
+      <i class="meh icon"></i>
+      <% } %>
+    </div>
+  <% }); %>
+  </div>
 </div>
