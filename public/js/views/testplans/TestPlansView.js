@@ -3,11 +3,10 @@ define([
     'underscore',
     'backbone',
     'app',
-    'models/testplan/TestPlanModel',
     'collections/testplan/TestPlansCollection',
     'views/testplans/TestPlansListView',
     'text!templates/testplans/testplansTemplate.html'
-], function($, _, Backbone, app, TestPlanModel, TestPlansCollection, TestPlansListView, testplansTemplate) {
+], function($, _, Backbone, app, TestPlansCollection, TestPlansListView, testplansTemplate) {
 
     var TestPlansView = Backbone.View.extend({
         el: $("#page"),
