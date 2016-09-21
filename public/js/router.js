@@ -41,7 +41,8 @@ define([
     'views/testruns/ViewTestRunView',
     // Reporting views
     'views/reporting/ReportingView',
-    'views/reporting/SimpleProjectReportView'
+    'views/reporting/SimpleProjectReportView',
+    'views/reporting/SimpleTestPlanListReportView'
 ], function(
     _,
     Backbone,
@@ -71,7 +72,8 @@ define([
     ConfirmDeleteTestRunView,
     ViewTestRunView,
     ReportingView,
-    SimpleProjectReportView) {
+    SimpleProjectReportView,
+    SimpleTestPlanListReportView) {
 
     'use strict';
 
@@ -447,7 +449,8 @@ define([
         routes: {
             // Reporting routes
             'reporting': 'showReporting',
-            'reporting/simpleprojectreport': 'showSimpleProjectReport'
+            'reporting/simpleprojectreport': 'showSimpleProjectReport',
+            'reporting/simpletestplanreport': 'showSimpleTestPlanReport'
         },
         navigation: {
             prefix: 'Reporting',
@@ -458,6 +461,10 @@ define([
                 },
                 'Reporting.showSimpleProjectReport': {
                     template: 'Simple Project Report',
+                    parent: 'Reporting.showReporting'
+                },
+                'Reporting.showSimpleTestPlanReport': {
+                    template: 'Simple Test Plan Report',
                     parent: 'Reporting.showReporting'
                 }
             }
@@ -1102,6 +1109,20 @@ define([
             }
             app.simpleProjectReportView.setProjectId(id);
             app.showView(app.simpleProjectReportView, {
+                requiresAuth: true
+            });
+        });
+
+        reportingRouter.on('route:showSimpleTestPlanReport', function() {
+            checkIfProjectIsSet();
+            var id = app.session.get('project_id');
+            if (!app.simpleTestPlanListReportView) {
+                app.simpleTestPlanListReportView = new SimpleTestPlanListReportView({
+                    projectId: id
+                });
+            }
+            app.simpleTestPlanListReportView.setProjectId(id);
+            app.showView(app.simpleTestPlanListReportView, {
                 requiresAuth: true
             });
         });
