@@ -110,6 +110,18 @@ class SampleDatabaseSeeder extends Seeder
                 'created_by' => $user->id,
                 'project_id' => $projectB->id
         ), $parentProjectNodeId);
+
+        // 20 projects for pagination only
+        {
+            for ($i = 0; $i < 20; $i++) {
+                $projectB = $this->projectsRepository->create(array (
+                    'name' => 'Project ' . $i,
+                    'description' => "# Project " . $i,
+                    'created_by' => $user->id,
+                    'project_statuses_id' => ProjectStatuses::STATUS_NEW
+                ));
+            }
+        }
         
         Model::reguard();
     }
