@@ -92,7 +92,7 @@ define([
                 currentProjectId = parseInt(currentProjectId);
                 if (currentProjectId === evt.get('id')) {
                     if (this.positionProjectComboboxView && this.positionProjectComboboxView.title === evt.get('name'))
-                        this.collection.position(0, true);
+                        this.projectsCollection.position(0, true);
                 }
             }
             this.render();

@@ -1,6 +1,7 @@
         <input name="project_id" type="hidden">
         <div class="default text"><%= title %></div>
         <div class="menu">
+<!--
           <div class="header">
             <i class="tags icon"></i>
             Filter by name
@@ -9,21 +10,24 @@
             <i class="search icon"></i>
             <input placeholder="Search projects..." type="text">
           </div>
-          <div class="divider"></div>
-          <% _.each(projects, function(project) { %>
-          <div class="item position-project-item" data-value="<%= project.get('id') %>"><%= project.get('name') %></div>
-          <% }); %>
           <% if (projects.length > 0 && collection.lastPage > 1) { %>
           <div class="divider"></div>
+-->
           <div class='item'>
-            <button class="ui small left labeled icon button">
+            <button class="ui small left labeled icon button" id='position-project-previous'>
               <i class="left arrow icon"></i>
               Previous
             </button>
-            <button class="ui small right labeled icon button">
+            <button class="ui small right labeled icon button" id='position-project-next'>
               <i class="right arrow icon"></i>
               Next
             </button>
           </div>
           <% } %>
+          <div class="divider"></div>
+          <div id='position-project-list'>
+          <% _.each(projects, function(project) { %>
+            <div class="item position-project-item" data-value="<%= project.get('id') %>"><%= project.get('name') %></div>
+          <% }); %>
+          </div>
         </div>

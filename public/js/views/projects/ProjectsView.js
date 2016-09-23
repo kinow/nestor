@@ -34,8 +34,10 @@ define([
 
             this.$el.html(projectsTemplate);
             
-            this.projectsCollection.setPage(this.page);
             this.projectsCollection.fetch({
+                data: {
+                    page: this.page
+                },
                 success: function() {
                     self.projectsListView.render(self.projectsCollection);
                 },

@@ -147,7 +147,8 @@ define([
         },
 
         onProjectPositioned: function(objects) {
-            this.setProjectId(objects[0].id);
+            if (objects.length > 0)
+                this.setProjectId(objects[0].id);
         },
 
         setProjectId: function(id) {

@@ -9,7 +9,7 @@ define([
         model: ProjectModel,
         
         initialize: function(options){
-            _.bindAll(this, 'setPage', 'url', 'fetch', 'parse', 'position');
+            _.bindAll(this, 'url', 'fetch', 'parse', 'position');
             this.page = 0;
             this.perPage = 0;
             this.currentPage = 0;
@@ -20,13 +20,8 @@ define([
             this.to = 0;
         },
 
-        // FIXME: remove, and remove URL. Use data {}
-        setPage: function(page) {
-            this.page = page;
-        },
-
         url: function() {
-            return 'api/projects/?page=' + this.page;
+            return 'api/projects/';
         },
 
         fetchError: function(collection, response) {
