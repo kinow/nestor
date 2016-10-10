@@ -173,11 +173,6 @@ return [
         Dingo\Api\Provider\LaravelServiceProvider::class,
 
         /*
-         * Security, permissions, roles...
-         */
-        Zizaco\Entrust\EntrustServiceProvider::class,
-
-        /*
          * Application Service Providers...
          */
         Nestor\Providers\AppServiceProvider::class,
@@ -189,6 +184,11 @@ return [
          * Repositories
          */
         Prettus\Repository\Providers\RepositoryServiceProvider::class,
+
+        /*
+         * Permissions
+         */
+        Spatie\Permission\PermissionServiceProvider::class,
     ],
 
     /*
@@ -234,8 +234,6 @@ return [
         'URL' => Illuminate\Support\Facades\URL::class,
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
-
-        'Entrust' => Zizaco\Entrust\EntrustFacade::class,
     ],
 
 ];
