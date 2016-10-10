@@ -14,7 +14,8 @@
         "clue/graph": "^0.9.0",
         "graphp/algorithms": "^0.8.1",
         "satooshi/php-coveralls": "~1.0.1@stable",
-        "zizaco/entrust": "5.2.x-dev"
+        "zizaco/entrust": "5.2.x-dev",
+        "spatie/laravel-permission": "^1.5"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",
