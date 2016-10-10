@@ -7,7 +7,9 @@ use Nestor\Entities\ExecutionStatuses;
 use Nestor\Entities\ExecutionTypes;
 use Nestor\Entities\NavigationTreeNodeTypes;
 use Nestor\Entities\ProjectStatuses;
-use Nestor\Entities\Role;
+
+use Spatie\Permission\Models\Role;
+use Spatie\Permission\Models\Permission;
 
 /**
  * Main database seeder.
@@ -110,34 +112,29 @@ class DatabaseSeeder extends Seeder
 
         // roles
 
+        // Administrator: Has full system permissions
         Role::create([
-            'name' => 'admin',
-            'display_name' => 'Administrator',
-            'description' => 'Has full system permissions'
+            'name' => 'admin'
         ]);
 
+        // Guest: Has limited access to main page and reports
         Role::create([
-            'name' => 'guest',
-            'display_name' => 'Guest',
-            'description' => 'Has limited access to main page and reports'
+            'name' => 'guest'
         ]);
 
+        // Tester: Can create Test Runs and Execute them
         Role::create([
-            'name' => 'tester',
-            'display_name' => 'Tester',
-            'description' => 'Can create Test Runs and Execute them'
-        ]);
-        
-        Role::create([
-            'name' => 'test_designer',
-            'display_name' => 'Test Designer',
-            'description' => 'Tester + has access to Specification and Planning'
+            'name' => 'tester'
         ]);
 
+        // Test Designer: Tester + has access to Specification and Planning
         Role::create([
-            'name' => 'lead',
-            'display_name' => 'Lead',
-            'description' => 'Tester + can assign Test Cases to other Users'
+            'name' => 'test_designer'
+        ]);
+
+        // Lead: Tester + can assign Test Cases to other Users
+        Role::create([
+            'name' => 'lead'
         ]);
 
         if (App::environment('dev', 'test', 'local')) {
