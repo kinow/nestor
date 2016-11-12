@@ -141,7 +141,7 @@ class UserControllerTest extends TestCase
             'password' => $payload['password']
         ];
 
-        $this->setExpectedException('Dingo\Api\Exception\InternalHttpException');
+        $this->setExpectedException('Illuminate\Validation\ValidationException');
         $dispatcher->post('auth/login', $loginPayload);
     }
 

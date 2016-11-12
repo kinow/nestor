@@ -28,6 +28,7 @@ use DateTime;
 use DB;
 use Eloquent;
 use Log;
+use Exception;
 use Nestor\Entities\NavigationTree;
 
 /**

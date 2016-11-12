@@ -132,33 +132,29 @@ class UsersController extends Controller
             'username' => 'required|max:50',
             'password' => 'required|min:6'
         ]);
-        
         if ($validator->fails()) {
+            Log::error($validator->errors()->all());
             $this->throwValidationException($request, $validator);
         }
         
         // If the class is using the ThrottlesLogins trait, we can automatically throttle
         // the login attempts for this application. We'll key this by the username and
         // the IP address of the client making these requests into this application.
-        $throttles = $this->isUsingThrottlesLoginsTrait();
-        
-        if ($throttles && $this->hasTooManyLoginAttempts($request)) {
-            return response()->json($this->sendLockoutResponse($request));
+        if ($this->hasTooManyLoginAttempts($request)) {
+            Log::error('Too many login attempts for user!');
+            $this->fireLockoutEvent($request);
+
+            return $this->sendLockoutResponse($request);
         }
-        
-        $credentials = $this->getCredentials($request);
-        
-        $authenticated = Auth::attempt($credentials, $request->has('remember'));
-        if ($authenticated) {
-            return response()->json($this->handleUserWasAuthenticated($request, $throttles));
+
+        if ($this->attemptLogin($request)) {
+            return $this->sendLoginResponse($request);
         }
-        
+
         // If the login attempt was unsuccessful we will increment the number of attempts
         // to login and redirect the user back to the login form. Of course, when this
         // user surpasses their maximum number of attempts they will get locked out.
-        if ($throttles) {
-            $this->incrementLoginAttempts($request);
-        }
+        $this->incrementLoginAttempts($request);
         
         $user = Auth::user();
         if ($user) {
@@ -210,5 +206,15 @@ class UsersController extends Controller
         $entity = $this->usersRepository->update($payload, $userId);
         
         return response()->json($entity);
+    }
+
+    /**
+     * Get the login username to be used by the controller.
+     *
+     * @return string
+     */
+    public function username()
+    {
+        return 'username';
     }
 }
