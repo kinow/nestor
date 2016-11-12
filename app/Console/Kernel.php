@@ -14,6 +14,7 @@ class Kernel extends ConsoleKernel
      */
     protected $commands = [
         \Nestor\Console\Commands\Inspire::class,
+        \Nestor\Console\Commands\GenerateApiDocs::class,
     ];
 
     /**
