@@ -197,7 +197,7 @@ class NavigationTreeRepositoryEloquent implements NavigationTreeRepository
     {
         $node = $this->find($descendant, $descendant);
         if ($this->containsChildrenWithName($ancestor, $node['display_name'])) {
-            throw new Exception(sprintf('Duplicate node name %s', $node['display_name']));
+            throw new Exception(sprintf('Duplicate node name "%s", with ancestor "%s"', $node['display_name'], $ancestor));
         }
         DB::beginTransaction();
         try {
