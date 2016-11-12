@@ -43,7 +43,7 @@ class GenerateApiDocs extends Command
             '--name' => "Nestor-QA RESTful API", '--use-version' => "v1", '--output-file' => "./docs/documentation/api/api.md"
         ]);
 
-        if (1 !== $exitCode) {
+        if (0 !== $exitCode) {
             return $exitCode;
         }
 
