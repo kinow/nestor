@@ -172,7 +172,7 @@ class UsersController extends Controller
     protected function authenticated(Request $request, \Nestor\Entities\User $user)
     {
         if ($user) {
-            return $user;
+            return $user->toArray();
         }
         return null;
     }

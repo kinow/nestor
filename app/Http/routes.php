@@ -71,7 +71,7 @@ app('Dingo\Api\Exception\Handler')->register(function (Illuminate\Http\Exception
 
 $api = app('Dingo\Api\Routing\Router');
 
-$api->version('v1', function ($api) {
+$api->version('v1', ['middleware' => 'web'], function ($api) {
     // auth
     $api->get('auth/', 'Nestor\Http\Controllers\UsersController@doCheckLogin');
     $api->post('auth/signup', 'Nestor\Http\Controllers\UsersController@doSignUp');
