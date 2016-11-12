@@ -237,7 +237,8 @@ class NavigationTreeRepositoryEloquent implements NavigationTreeRepository
             ->where('b.display_name', $name)
             ->groupBy('a.ancestor')->groupBy('a.descendant')->groupBy('a.length')
             ->orderBy('a.ancestor')
-            ->get();
-        return ($children && !empty($children));
+            ->get()
+            ->count();
+        return $children > 0;
     }
 }
