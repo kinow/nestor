@@ -191,26 +191,6 @@ class NavigationTreeRepositoryEloquent implements NavigationTreeRepository
     /**
      *
      * {@inheritDoc}
-     * @see \Nestor\Repositories\NavigationTreeRepository::containsChildrenWithName()
-     */
-    public function containsChildrenWithName($ancestor, $name)
-    {
-        Log::info(sprintf('Retrieving children for %s, length %d', $ancestor, 1));
-        $children = DB::table('navigation_tree AS a')
-            ->select(DB::raw("b.*"))
-            ->leftJoin('navigation_tree AS b', 'a.ancestor', '=', 'b.descendant')
-            ->where('b.ancestor', '=', $ancestor)
-            ->where('b.length', '<=', 1)
-            ->where('b.display_name', $name)
-            ->groupBy('a.ancestor')->groupBy('a.descendant')->groupBy('a.length')
-            ->orderBy('a.ancestor')
-            ->get();
-        return ($children && !empty($children));
-    }
-    
-    /**
-     *
-     * {@inheritDoc}
      * @see \Nestor\Repositories\NavigationTreeRepository::move()
      */
     public function move($descendant, $ancestor)
@@ -239,5 +219,25 @@ class NavigationTreeRepositoryEloquent implements NavigationTreeRepository
             Log::error($e);
             throw $e;
         }
+    }
+
+    /**
+     *
+     * {@inheritDoc}
+     * @see \Nestor\Repositories\NavigationTreeRepository::containsChildrenWithName()
+     */
+    public function containsChildrenWithName($ancestor, $name)
+    {
+        Log::info(sprintf('Retrieving children for %s, length %d', $ancestor, 1));
+        $children = DB::table('navigation_tree AS a')
+            ->select(DB::raw("b.*"))
+            ->leftJoin('navigation_tree AS b', 'a.ancestor', '=', 'b.descendant')
+            ->where('b.ancestor', '=', $ancestor)
+            ->where('b.length', '<=', 1)
+            ->where('b.display_name', $name)
+            ->groupBy('a.ancestor')->groupBy('a.descendant')->groupBy('a.length')
+            ->orderBy('a.ancestor')
+            ->get();
+        return ($children && !empty($children));
     }
 }
