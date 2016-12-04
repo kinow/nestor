@@ -1,7 +1,7 @@
-----
+---
 layout: page
 title: API Installation
-----
+---
 
 
 FORMAT: 1A
