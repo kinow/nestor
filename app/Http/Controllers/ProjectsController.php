@@ -62,7 +62,7 @@ class ProjectsController extends Controller
      * @Request("")
      * @Response(200, body={"total":2,"per_page":15,"current_page":1,"last_page":1,"next_page_url":null,"prev_page_url":null,"from":1,"to":15,"data": {{"id":1,"project_statuses_id":"1","name":"Project A","description":"# Project A\n\nThis is the **project A**","created_by":"1","created_at":"2016-11-12 12:00:56","updated_at":"2016-11-12 12:00:56"},{"id":2,"project_statuses_id":"1","name":"Project B","description":"# Project B\n\nThis is the **project B**","created_by":"1","created_at":"2016-11-12 12:00:56","updated_at":"2016-11-12 12:00:56"}}})
      *
-     * return array
+     * @return \Illuminate\Http\Response
      */
     public function index()
     {
