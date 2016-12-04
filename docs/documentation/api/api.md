@@ -1,6 +1,6 @@
 ---
 layout: page
-title: API Installation
+title: Nestor-QA RESTful API
 ---
 
 
