@@ -35,7 +35,7 @@ Project resource representation.
                     {
                         "id": 1,
                         "project_statuses_id": "1",
-                        "name": "Project A",
+                        "name": "project-a",
                         "description": "# Project A\n\nThis is the **project A**",
                         "created_by": "1",
                         "created_at": "2016-11-12 12:00:56",
@@ -44,13 +44,36 @@ Project resource representation.
                     {
                         "id": 2,
                         "project_statuses_id": "1",
-                        "name": "Project B",
+                        "name": "project-b",
                         "description": "# Project B\n\nThis is the **project B**",
                         "created_by": "1",
                         "created_at": "2016-11-12 12:00:56",
                         "updated_at": "2016-11-12 12:00:56"
                     }
                 ]
+            }
+
+## Store a newly created resource in storage. [POST /projects]
+
+
++ Request (application/x-www-form-urlencoded)
+    + Body
+
+            name=project-a&description=%23%20Project%20A%5Cn%5CnThis%20is%20the%20**project%20A**&project_statuses_id=1&created_by=1
+
++ Response 200 (application/json)
+    + Body
+
+            {
+                "project": {
+                    "name": "project-a",
+                    "description": "# Project A\n\nThis is the **project A**",
+                    "project_statuses_id": 1,
+                    "created_by": 1,
+                    "updated_at": "2016-12-04 06:27:41",
+                    "created_at": "2016-12-04 06:27:41",
+                    "id": 23
+                }
             }
 
 # Test Plans [/testplans]

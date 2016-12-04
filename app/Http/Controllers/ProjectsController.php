@@ -55,12 +55,12 @@ class ProjectsController extends Controller
     }
     
     /**
-     * Show all projects.
+     * Get the paginated list of projects.
      *
      * @Get("/{?page}")
      * @Versions({"v1"})
      * @Request("")
-     * @Response(200, body={"total":2,"per_page":15,"current_page":1,"last_page":1,"next_page_url":null,"prev_page_url":null,"from":1,"to":15,"data": {{"id":1,"project_statuses_id":"1","name":"Project A","description":"# Project A\n\nThis is the **project A**","created_by":"1","created_at":"2016-11-12 12:00:56","updated_at":"2016-11-12 12:00:56"},{"id":2,"project_statuses_id":"1","name":"Project B","description":"# Project B\n\nThis is the **project B**","created_by":"1","created_at":"2016-11-12 12:00:56","updated_at":"2016-11-12 12:00:56"}}})
+     * @Response(200, body={"total":2,"per_page":15,"current_page":1,"last_page":1,"next_page_url":null,"prev_page_url":null,"from":1,"to":15,"data": {{"id":1,"project_statuses_id":"1","name":"project-a","description":"# Project A\n\nThis is the **project A**","created_by":"1","created_at":"2016-11-12 12:00:56","updated_at":"2016-11-12 12:00:56"},{"id":2,"project_statuses_id":"1","name":"project-b","description":"# Project B\n\nThis is the **project B**","created_by":"1","created_at":"2016-11-12 12:00:56","updated_at":"2016-11-12 12:00:56"}}})
      *
      * @return \Illuminate\Http\Response
      */
@@ -73,7 +73,12 @@ class ProjectsController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Create a new project.
+     *
+     * @Post("/")
+     * @Versions({"v1"})
+     * @Request("name=project-a&description=%23%20Project%20A%5Cn%5CnThis%20is%20the%20**project%20A**&project_statuses_id=1&created_by=1", contentType="application/x-www-form-urlencoded")
+     * @Response(200, body={"project":{"name":"project-a","description":"# Project A\n\nThis is the **project A**","project_statuses_id":1,"created_by":1,"updated_at":"2016-12-04 06:27:41","created_at":"2016-12-04 06:27:41","id":23}})
      *
      * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
