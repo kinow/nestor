@@ -50,7 +50,7 @@ class GenerateApiDocs extends Command
         $args = [];
         array_push($args, 'sed');
         array_push($args, '-i');
-        array_push($args, '1i"---\nlayout: page\ntitle: API Installation\n---\n\n"');
+        array_push($args, '1i"---\nlayout: page\ntitle: Nestor-QA RESTful API\n---\n\n"');
         array_push($args, "./docs/documentation/api/api.md");
 
         $command = implode(' ', $args);
