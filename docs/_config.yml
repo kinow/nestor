@@ -11,7 +11,7 @@ email:
 description: > # this means to ignore newlines until "baseurl:"
   Nestor-QA is an Open Source test management software
 baseurl: "" # the subpath of your site, e.g. /blog
-url: "http://nestor-qa.org" # the base hostname & protocol for your site
+url: "http://nestor-qa.github.io/" # the base hostname & protocol for your site
 twitter_username: qanestor
 github_username:  nestor-qa
 
